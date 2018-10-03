@@ -1,7 +1,7 @@
 Coding with Chrome - Debugging
 ===============================
 
-This document covers debugging informations and technique's for the
+This document covers debugging information and technique's for the
 Coding with Chrome editor.
 
 General options
@@ -33,7 +33,7 @@ npm run debug
 
 ### Sync latest files and dependencies
 
-In some cases you need to update the dependencies to the latest version to
+In some cases, you need to update the dependencies to the latest version to
 get everything working. This can be done with the following command:
 
 ```bash
@@ -53,7 +53,7 @@ Live debugging
 ---------------
 
 The following methods will help you to debug certain functions or parts without
-the need to recompile the hole source code.
+the need to recompile the whole source code.
 
 ### Using dist/chrome_os/js/debug.js
 
@@ -63,7 +63,7 @@ change function without the need of recompile everything.
 Just overwrite your function in the `dist/chrome_os/js/debug.js` file and reload
 the application to see your change in action.
 
-In some cases it could be that you need to insert the hole object definition
+In some cases, it could be that you need to insert the whole object definition
 here and not only parts of it.
 
 Original definition:
@@ -92,7 +92,7 @@ recompile the code.**
 Instead of overwriting definitions in the `dist/chrome_os/js/debug.js` file you
 could directly replace them in the `dist/chrome_os/js/cwc_ui.js` file.
 
-Please keep in mind that this file contains optimized code, so its not really
+Please keep in mind that this file contains optimized code, so it's not really
 readable but this will also avoid to re-compile the code to test something.
 
 Original `dist/chrome_os/js/cwc_ui.js`:
