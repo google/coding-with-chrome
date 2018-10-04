@@ -184,7 +184,7 @@ goog.addDependency('../../../../src/ui/gapi/account.js', ['cwc.ui.gapi.Account']
 goog.addDependency('../../../../src/ui/gapi/gclassroom/gclassroom.js', ['cwc.ui.gapi.Classroom'], ['cwc.config.GDrive', 'cwc.soy.GClassroom', 'cwc.ui.Helper', 'cwc.utils.Events', 'goog.dom.dataset', 'goog.events.EventType'], false);
 goog.addDependency('../../../../src/ui/gapi/gcloud/gcloud.js', ['cwc.ui.gapi.Cloud'], ['cwc.soy.GCloud', 'cwc.utils.Helper', 'goog.dom', 'goog.dom.forms', 'goog.events', 'goog.events.EventType'], false);
 goog.addDependency('../../../../src/ui/gapi/gdrive/gdrive.js', ['cwc.ui.gapi.Drive'], ['cwc.config.GDrive', 'cwc.soy.GDrive', 'cwc.ui.Helper', 'cwc.utils.Events', 'goog.dom.dataset', 'goog.events.EventType'], false);
-goog.addDependency('../../../../src/ui/gapi/handler.js', ['cwc.ui.gapi.Handler'], ['cwc.ui.gapi.Account', 'cwc.ui.gapi.Classroom', 'cwc.ui.gapi.Cloud', 'cwc.ui.gapi.Drive'], false);
+goog.addDependency('../../../../src/ui/gapi/handler.js', ['cwc.ui.gapi.Handler'], ['cwc.ui.gapi.Account', 'cwc.ui.gapi.Classroom', 'cwc.ui.gapi.Cloud', 'cwc.ui.gapi.Drive', 'cwc.utils.Logger'], false);
 goog.addDependency('../../../../src/ui/gui/gui.js', ['cwc.ui.Gui'], ['cwc.soy.ui.Gui', 'cwc.utils.Helper', 'cwc.utils.Logger', 'goog.dom', 'goog.dom.fullscreen', 'goog.events', 'goog.events.EventType', 'goog.soy'], false);
 goog.addDependency('../../../../src/ui/help/help.js', ['cwc.ui.Help'], ['cwc.soy.Help'], false);
 goog.addDependency('../../../../src/ui/helper.js', ['cwc.ui.Helper'], ['goog.dom', 'goog.dom.TagName', 'goog.style'], false);
@@ -253,6 +253,14 @@ goog.addDependency('../../../../test/genfiles/soy/src/blocks/sphero/sprk_plus/to
 goog.addDependency('../../../../test/genfiles/soy/src/mode/boards/raspberry_pi/advanced/layout.soy.js', ['cwc.soy.mode.raspberryPi.advanced'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/mode/default/layout.soy.js', ['cwc.soy.mode.default.Layout'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/mode/default/panel/monitor.soy.js', ['cwc.soy.mode.default.Monitor'], ['goog.asserts', 'soy', 'soydata'], false);
+goog.addDependency('../../../../test/genfiles/soy/src/mode/lego/ev3/panel/control/control.soy.js', ['cwc.soy.mode.ev3.Control'], ['goog.asserts', 'soy', 'soydata'], false);
+goog.addDependency('../../../../test/genfiles/soy/src/mode/lego/ev3/panel/monitor/monitor.soy.js', ['cwc.soy.mode.ev3.Monitor'], ['goog.asserts', 'soy', 'soydata'], false);
+goog.addDependency('../../../../test/genfiles/soy/src/mode/lego/wedo2/panel/monitor/monitor.soy.js', ['cwc.soy.mode.lego.weDo2.Monitor'], ['cwc.soy.mode.default.Monitor', 'goog.asserts', 'soy', 'soydata'], false);
+goog.addDependency('../../../../test/genfiles/soy/src/mode/makeblock/mbot/panel/control/control.soy.js', ['cwc.soy.mode.makeblock.mBot.Control'], ['goog.asserts', 'soy', 'soydata'], false);
+goog.addDependency('../../../../test/genfiles/soy/src/mode/makeblock/mbot/panel/monitor/monitor.soy.js', ['cwc.soy.mode.makeblock.mBot.Monitor'], ['goog.asserts', 'soy', 'soydata'], false);
+goog.addDependency('../../../../test/genfiles/soy/src/mode/makeblock/mbot_ranger/panel/control/control.soy.js', ['cwc.soy.mode.makeblock.mBotRanger.Control'], ['goog.asserts', 'soy', 'soydata'], false);
+goog.addDependency('../../../../test/genfiles/soy/src/mode/makeblock/mbot_ranger/panel/monitor/monitor.soy.js', ['cwc.soy.mode.makeblock.mBotRanger.Monitor'], ['goog.asserts', 'soy', 'soydata'], false);
+goog.addDependency('../../../../test/genfiles/soy/src/mode/raspberry_pi/advanced/layout.soy.js', ['cwc.soy.mode.raspberryPi.advanced'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/mode/robot/lego/ev3/panel/control/control.soy.js', ['cwc.soy.mode.ev3.Control'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/mode/robot/lego/ev3/panel/monitor/monitor.soy.js', ['cwc.soy.mode.ev3.Monitor'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/mode/robot/lego/wedo2/panel/monitor/monitor.soy.js', ['cwc.soy.mode.lego.weDo2.Monitor'], ['cwc.soy.mode.default.Monitor', 'goog.asserts', 'soy', 'soydata'], false);
@@ -267,6 +275,13 @@ goog.addDependency('../../../../test/genfiles/soy/src/mode/robot/sphero/sphero2/
 goog.addDependency('../../../../test/genfiles/soy/src/mode/robot/sphero/sprk_plus/panel/calibration/calibration.soy.js', ['cwc.soy.mode.sphero.sprkPlus.Calibration'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/mode/robot/sphero/sprk_plus/panel/control/control.soy.js', ['cwc.soy.mode.sphero.sprkPlus.Control'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/mode/robot/sphero/sprk_plus/panel/monitor/monitor.soy.js', ['cwc.soy.mode.sphero.sprkPlus.Monitor'], ['cwc.soy.mode.default.Monitor', 'goog.asserts', 'soy', 'soydata'], false);
+goog.addDependency('../../../../test/genfiles/soy/src/mode/sphero/monitor.soy.js', ['cwc.soy.mode.sphero.Monitor'], ['goog.asserts', 'soy', 'soydata'], false);
+goog.addDependency('../../../../test/genfiles/soy/src/mode/sphero/sphero2/panel/calibration/calibration.soy.js', ['cwc.soy.mode.sphero.sphero2.Calibration'], ['goog.asserts', 'soy', 'soydata'], false);
+goog.addDependency('../../../../test/genfiles/soy/src/mode/sphero/sphero2/panel/control/control.soy.js', ['cwc.soy.mode.sphero.sphero2.Control'], ['goog.asserts', 'soy', 'soydata'], false);
+goog.addDependency('../../../../test/genfiles/soy/src/mode/sphero/sphero2/panel/monitor/monitor.soy.js', ['cwc.soy.mode.sphero.sphero2.Monitor'], ['soy', 'soydata'], false);
+goog.addDependency('../../../../test/genfiles/soy/src/mode/sphero/sprk_plus/panel/calibration/calibration.soy.js', ['cwc.soy.mode.sphero.sprkPlus.Calibration'], ['goog.asserts', 'soy', 'soydata'], false);
+goog.addDependency('../../../../test/genfiles/soy/src/mode/sphero/sprk_plus/panel/control/control.soy.js', ['cwc.soy.mode.sphero.sprkPlus.Control'], ['goog.asserts', 'soy', 'soydata'], false);
+goog.addDependency('../../../../test/genfiles/soy/src/mode/sphero/sprk_plus/panel/monitor/monitor.soy.js', ['cwc.soy.mode.sphero.sprkPlus.Monitor'], ['cwc.soy.mode.default.Monitor', 'goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/renderer/renderer.soy.js', ['cwc.soy.Renderer'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/ui/blockly/blockly.soy.js', ['cwc.soy.ui.Blockly'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/ui/blockly/toolbar/blockly_toolbar.soy.js', ['cwc.soy.ui.BlocklyToolbar'], ['cwc.soy.ui.Template', 'goog.asserts', 'soy', 'soydata'], false);

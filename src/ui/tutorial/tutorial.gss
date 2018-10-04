@@ -130,7 +130,7 @@
 
 .{$prefix}tutorial-step-media-item {
   display: block;
-  height: 144px;
+  max-height: 144px;
   width: auto;
 }
 
@@ -138,7 +138,7 @@
   background-color: #949394;
   padding-bottom: 56.25%;
   position: relative;
-  width: 144px;
+  max-width: 144px;
 }
 
 .{$prefix}tutorial-step-media-item-video i {

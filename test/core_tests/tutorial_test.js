@@ -246,19 +246,25 @@ describe('Tutorial', function() {
     expect(step.textContent.trim()).toEqual(textStepDescription);
   });
 
-  it('getValidateFunction', async function() {
-    let validate1 = function() {
-      return {
-        'solved': true,
-        'message': 'validate_message_1',
-      };
-    }.toString();
-    let validate2 = function() {
-      return {
-        'solved': true,
-        'message': 'validate_message_2',
-      };
-    }.toString();
+  it('getValidate', async function() {
+    let validate1 = {
+      'type': cwc.ui.TutorialValidator.Type.FUNCTION,
+      'value': function() {
+        return {
+          'solved': true,
+          'message': 'validate_message_1',
+        };
+      }.toString(),
+    };
+    let validate2 = {
+      'type': cwc.ui.TutorialValidator.Type.FUNCTION,
+      'value': function() {
+        return {
+           'solved': true,
+          'message': 'validate_message_2',
+         };
+      }.toString(),
+    };
     let tutorialTemplate = getTutorialTemplate(3);
     tutorialTemplate['steps'][0]['validate'] = validate1;
     tutorialTemplate['steps'][1]['validate'] = validate2;
@@ -266,15 +272,15 @@ describe('Tutorial', function() {
     let tutorial = builder.getHelper().getInstance('tutorial');
 
     // Check the first step
-    expect(tutorial.getValidateFunction()).toEqual(validate1);
+    expect(tutorial.getValidate()).toEqual(validate1);
 
     // Advance to the next step and check that
     clickStepButton('continue', 0);
-    expect(tutorial.getValidateFunction()).toEqual(validate2);
+    expect(tutorial.getValidate()).toEqual(validate2);
 
     // Advance to the 3rd step and check that
     clickStepButton('continue', 1);
-    expect(tutorial.getValidateFunction()).toBeNull();
+    expect(tutorial.getValidate()).toBeNull();
   });
 
   it('setMessage', async function() {

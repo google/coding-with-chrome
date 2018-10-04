@@ -29,6 +29,15 @@ goog.require('goog.events');
 
 
 /**
+ * @enum {string}
+ * @export
+ */
+cwc.ui.TutorialValidator.Type = {
+  FUNCTION: 'function',
+  MATCH_TEXT_OUTPUT: 'match_text_output',
+};
+
+/**
  * @param {!cwc.utils.Helper} helper
  * @constructor
  * @struct
@@ -54,7 +63,7 @@ cwc.ui.TutorialValidator = function(helper) {
   this.webviewSupport_ = this.helper.checkChromeFeature('webview');
 
   /** @private {cwc.ui.Tutorial} */
-  this.tutorial = helper.getInstance('tutorial');
+  this.tutorial_ = helper.getInstance('tutorial');
 
   /** @private {Element} */
   this.sandbox_ = null;
@@ -63,26 +72,25 @@ cwc.ui.TutorialValidator = function(helper) {
   this.running_ = false;
 };
 
-
 /**
  * Creates a validator webview/iframe with the same code as the preview and
  * runs validation code in it.
  */
 cwc.ui.TutorialValidator.prototype.start = function() {
-  if (!this.tutorial.getValidateFunction()) {
-    this.log_.info('No validation function, not running validation');
+  this.events_.clear();
+
+  if (!this.getValidate_()) {
+    this.log_.info('No validate, not starting validation');
     return;
   }
 
-  this.log_.info('Starting validation');
-
-  this.events_.clear();
   if (!this.sandbox_) {
     if (this.webviewSupport_) {
       this.sandbox_ = document.createElement('webview');
     } else {
       this.sandbox_ = document.createElement('iframe');
     }
+    goog.dom.appendChild(document.body, this.sandbox_);
   }
   this.events_.listen(this.sandbox_,
     this.webviewSupport_ ? 'contentload' : 'onload',
@@ -101,13 +109,85 @@ cwc.ui.TutorialValidator.prototype.start = function() {
     return;
   }
 
-  goog.dom.appendChild(document.body, this.sandbox_);
   this.sandbox_['src'] = contentUrl;
 };
 
 /**
+ * @return {string|null}
+ * @private
+ */
+cwc.ui.TutorialValidator.prototype.getValidate_ = function() {
+  let validate = this.tutorial_.getValidate();
+  if (!validate) {
+    this.log_.info('No validation function, not running validation');
+    return null;
+  }
+
+  if (!(typeof validate === 'object')) {
+    this.log_.warn('Invalid validate. Expecting object, got', validate);
+    return null;
+  }
+  if (!('value' in validate)) {
+    this.log_.warn('Invalid validate, missing key \'value\'', validate);
+    return null;
+  }
+  if (!('type' in validate)) {
+    this.log_.warn('Invalid validate, missing key \'type\'', validate);
+    return null;
+  }
+
+  return validate;
+};
+
+/**
+ * @param {string} textMatch
+ * @param {string} message
+ * @private
+ */
+cwc.ui.TutorialValidator.prototype.validateByMatchTextOutput_ =
+  function(textMatch, message) {
+  this.log_.info('Starting validation by text match');
+
+  let code = `(function() { return document.body.innerText; })();`;
+  try {
+    this.sandbox_.executeScript({code: code}, (results) => {
+      let textOutput = '';
+      if (results && results.length >= 1) {
+        textOutput = results[0];
+      } else {
+        this.log_.info('No results, text output is empty');
+      }
+      this.matchTextOutput_(textOutput, textMatch, message);
+    });
+  } catch (e) {
+    this.log_.error('Failed to inject', code, ' into ', this.sandbox_, ': ', e);
+  }
+};
+
+/**
+ * @param {string} textOutput
+ * @param {string} textMatch
+ * @param {string} message
+ * @private
+ */
+cwc.ui.TutorialValidator.prototype.matchTextOutput_ = function(textOutput,
+  textMatch, message) {
+  this.log_.info('Got text content', textOutput);
+  let result = {
+    'solved': false,
+  };
+  if (this.normalizeText(textMatch) === this.normalizeText(textOutput)) {
+    result = {
+      'solved': true,
+      'message': message,
+    };
+  }
+  this.processValidateResults_(result);
+};
+
+/**
  * Callback for validate.
- * @param {!object} result
+ * @param {object} result
  * @private
  */
 cwc.ui.TutorialValidator.prototype.processValidateResults_ = function(result) {
@@ -117,11 +197,11 @@ cwc.ui.TutorialValidator.prototype.processValidateResults_ = function(result) {
     return;
   }
   if ('message' in result && result['message']) {
-    this.tutorial.setMessage(result['message']);
-    this.tutorial.solved('solved' in result && result['solved']);
+    this.tutorial_.setMessage(result['message']);
+    this.tutorial_.solved('solved' in result && result['solved']);
   } else {
-    this.tutorial.setMessage('');
-    this.tutorial.solved(false);
+    this.tutorial_.setMessage('');
+    this.tutorial_.solved(false);
   }
 };
 
@@ -144,16 +224,17 @@ cwc.ui.TutorialValidator.prototype.injectCode_ = function(code, expect,
         if (!results || results.length < 1 || results[0] !== expect) {
           this.log_.error('Injected code', code, ' returned ', results,
             'Expecting', expect);
-        resolve(false);
-      }
-      resolve(true);
-     });
-     setTimeout(() => {
-      if (this.running()) {
-        this.log_.warn('Killing validation script after', timeout, 'seconds.');
-        this.stop();
-      }
-     }, timeout);
+          resolve(false);
+        }
+        resolve(true);
+      });
+      setTimeout(() => {
+        if (this.running()) {
+          this.log_.warn('Killing validation script after', timeout,
+            'seconds.');
+          this.stop();
+        }
+      }, timeout);
     } catch (e) {
       this.log_.error('Failed to inject', code, ' into ', this.sandbox_, ': ',
         e);
@@ -164,23 +245,45 @@ cwc.ui.TutorialValidator.prototype.injectCode_ = function(code, expect,
 
 
 /**
- * Injects the current step's validation function into the validator.
- * iframe/webview
+ * Calls the appropriate function to run validatior code in sandbox
+ * webview/iframe
  * @private
  */
-cwc.ui.TutorialValidator.prototype.handleValidatorLoaded_ = async function() {
+cwc.ui.TutorialValidator.prototype.handleValidatorLoaded_ = function() {
   if (!this.running()) {
     return;
   }
 
-  let validate = this.tutorial.getValidateFunction();
+  let validate = this.getValidate_();
   if (!validate) {
     return;
   }
 
+  switch (validate['type']) {
+    case cwc.ui.TutorialValidator.Type.FUNCTION:
+      this.validateByFunction_(validate['value']);
+      break;
+    case cwc.ui.TutorialValidator.Type.MATCH_TEXT_OUTPUT:
+      this.validateByMatchTextOutput_(validate['value'],
+        'message' in validate && typeof validate['message'] == 'string' ?
+          validate['message'] : 'Great Job!');
+      break;
+    default:
+      this.log_.warn('Unknown validator type ', validate['type']);
+      return;
+  }
+};
+
+/**
+ * Listens for validator messages and calls the validator function.
+ * This code is injected into the iframe/webview.
+ * @param {string} func
+ * @private
+ */
+cwc.ui.TutorialValidator.prototype.validateByFunction_ = async function(func) {
   // Inject the validation function
-  let setCwCValidate = `function() { 
-    window.top['cwc-validate-script'] = (${validate});
+  let setCwCValidate = `function() {
+    window.top['cwc-validate-script'] = (${func});
       return true;
     }`;
   if (!(await this.injectCode_(setCwCValidate, true))) {
@@ -192,9 +295,8 @@ cwc.ui.TutorialValidator.prototype.handleValidatorLoaded_ = async function() {
     return;
   }
 
-  this.runValidator_();
+  this.callValidator_();
 };
-
 
 /**
  * Listens for validator messages and calls the validator function.
@@ -236,7 +338,7 @@ cwc.ui.TutorialValidator.prototype.validationListener_ = function() {
  * Calls the validation function with the current editor code.
  * @private
  */
-cwc.ui.TutorialValidator.prototype.runValidator_ = function() {
+cwc.ui.TutorialValidator.prototype.callValidator_ = function() {
   let editorInstance = this.helper.getInstance('editor');
   // TODO: support multiple editor views
   let editorContent = editorInstance.getEditorContent(
@@ -297,7 +399,6 @@ cwc.ui.TutorialValidator.prototype.running = function() {
   return this.running_;
 };
 
-
 /**
  * Stops validation and cleans up events and sandbox.
  */
@@ -308,4 +409,15 @@ cwc.ui.TutorialValidator.prototype.stop = function() {
     this.sandbox_['src'] = 'about:blank';
   }
   this.running_ = false;
+};
+
+/**
+ * @param {!string} text
+ * @return {!string}
+ */
+cwc.ui.TutorialValidator.prototype.normalizeText = function(text) {
+  return text.toLowerCase()
+    .trim()
+    .replace(/\s+/, ' ')
+    .replace(/[^A-Za-z0-9 ]/g, '');
 };
