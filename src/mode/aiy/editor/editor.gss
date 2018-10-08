@@ -22,13 +22,10 @@
   height: 100%;
 }
 
-#{$prefix}aiy-container .editor-toolbar {
-  padding-bottom: 15px;
-}
-
 #{$prefix}aiy-toolbar {
   display: flex !important;
   min-height: 34px;
+  padding-bottom: 15px;
 }
 
 #{$prefix}aiy-toolbar > .mdl-layout__header-row {
