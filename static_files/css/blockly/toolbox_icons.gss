@@ -63,10 +63,12 @@
   content: 'functions';
 }
 
+.blocklyTreeRowItem_steuerung::before,
 .blocklyTreeRowItem_control::before {
   content: 'low_priority';
 }
 
+.blocklyTreeRowItem_anzeige::before,
 .blocklyTreeRowItem_display::before {
   content: 'desktop_windows';
 }
@@ -155,6 +157,7 @@
   content: 'brush';
 }
 
+.blocklyTreeRowItem_blocks_robot__events::before,
 .blocklyTreeRowItem_events::before {
   content: 'input';
 }
@@ -171,6 +174,7 @@
   content: 'developer_board';
 }
 
+.blocklyTreeRowItem_blocks_robot__movements::before,
 .blocklyTreeRowItem_movements::before {
   content: 'open_with';
 }
@@ -187,6 +191,7 @@
   content: 'directions_car';
 }
 
+.blocklyTreeRowItem_blocks_robot__lights::before,
 .blocklyTreeRowItem_lights::before {
   content: 'lightbulb_outline';
 }

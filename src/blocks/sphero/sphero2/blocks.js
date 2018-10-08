@@ -198,17 +198,3 @@ Blockly.Blocks['sphero_sphero2_collision'] = {
     this.setTooltip(i18t('Detect collision.'));
   },
 };
-
-
-/**
- * Deprecated: Alias for former blocks for compatibility reasons.
- */
-Blockly.Blocks['sphero_start'] = Blockly.Blocks['sphero_sphero2_start'];
-Blockly.Blocks['sphero_roll'] = Blockly.Blocks['sphero_sphero2_roll'];
-Blockly.Blocks['sphero_roll_step'] = Blockly.Blocks['sphero_sphero2_roll_step'];
-Blockly.Blocks['sphero_roll_time'] = Blockly.Blocks['sphero_sphero2_roll_time'];
-Blockly.Blocks['sphero_heading'] = Blockly.Blocks['sphero_sphero2_heading'];
-Blockly.Blocks['sphero_rgb'] = Blockly.Blocks['sphero_sphero2_rgb'];
-Blockly.Blocks['sphero_backlight'] = Blockly.Blocks['sphero_sphero2_backlight'];
-Blockly.Blocks['sphero_stop'] = Blockly.Blocks['sphero_sphero2_stop'];
-Blockly.Blocks['sphero_collision'] = Blockly.Blocks['sphero_sphero2_collision'];

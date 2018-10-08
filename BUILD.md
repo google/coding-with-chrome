@@ -9,7 +9,7 @@ What you need to build the Coding with Chrome App
 In order to build the Coding with Chrome App, you only need to have Node.js/npm,
 git and Open JDK / Java JRE installed on your system.
 
-Each build is cross platform compatible. Which mean if you build the
+Each build is cross-platform compatible. Which mean if you build the
 Coding with Chrome App on Windows you could use the generated code
 `genfiles/chrome_app` folder in other platforms like Mac OS X as well.
 
@@ -62,7 +62,7 @@ cd coding-with-chrome
 
 ### Init / update submodules
 
-In some cases you need to init and update the submodules manually by:
+In some cases, you need to init and update the submodules manually by:
 
 ```bash
 git submodule init

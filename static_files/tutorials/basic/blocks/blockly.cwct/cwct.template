@@ -40,7 +40,10 @@
                 "___TEMPLATE___:binary:data": "eng/step1/blockly_circle.png"
               }
             ],
-            "___TEMPLATE___:validate": "eng/step1/validate.js"
+            "validate": {
+							"type": "function",
+							"___TEMPLATE___:value": "eng/step1/validate.js"
+						}
           },
           {
             "title": "Fill it with blue",
@@ -48,7 +51,10 @@
               "___TEMPLATE___:text": "eng/step2/text.html",
               "mime_type": "text/html"
             },
-            "___TEMPLATE___:validate": "eng/step2/validate.js"
+            "validate": {
+							"type": "function",
+            	"___TEMPLATE___:value": "eng/step2/validate.js"
+						}
           },
           {
             "title": "Give it a green border",
@@ -56,7 +62,10 @@
               "___TEMPLATE___:text": "eng/step3/text.md",
               "mime_type": "text/markdown"
             },
-            "___TEMPLATE___:validate": "eng/step3/validate.js"
+            "validate": {
+							"type": "function",
+            	"___TEMPLATE___:value": "eng/step3/validate.js"
+						}
           }
         ]
       }

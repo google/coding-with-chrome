@@ -12,7 +12,7 @@ using this document.
 Build the core files
 ---------------------
 
-In order to build the actual app you need first to build all core files.
+In order to build the actual app, you need first to build all core files.
 This step is normally needed only once and after an update of the core files.
 This could be done with the following command:
 
@@ -40,7 +40,7 @@ npm run publish:nw_app-mac
 ```
 
 The build version will be compiled in the `/dist/binary/osx64` directory,
-together with all required packages and files.
+together with all the required packages and files.
 
 ### Launch the app
 

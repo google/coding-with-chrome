@@ -20,11 +20,12 @@
  */
 goog.provide('cwc.mode.Modder');
 
-goog.require('cwc.utils.mime.Type');
 goog.require('cwc.mode.Config');
+goog.require('cwc.mode.Service');
 goog.require('cwc.mode.Type');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.Logger');
+goog.require('cwc.utils.mime.Type');
 
 goog.require('goog.events.EventTarget');
 
@@ -76,6 +77,7 @@ cwc.mode.Modder.prototype.loadMode = function(mode) {
 /**
  * @param {cwc.mode.Type} mode
  * @return {!Promise}
+ * @export
  */
 cwc.mode.Modder.prototype.setMode = function(mode) {
   let modeConfig = cwc.mode.Config.get(mode);
@@ -164,6 +166,23 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     consoleInstance.showConsole(false);
   }
 
+  // Set menubar buttons based on used services.
+  let menuBarInstance = this.helper.getInstance('menuBar');
+  if (menuBarInstance) {
+    let services = modeConfig.services;
+    if (services && services.length > 0) {
+    let service = cwc.mode.Service;
+      menuBarInstance.showBluetooth(services.includes(service.BLUETOOTH));
+      menuBarInstance.showBluetoothWeb(
+        services.includes(service.BLUETOOTH_WEB));
+      menuBarInstance.showGamepad(services.includes(service.GAMEPAD));
+      menuBarInstance.showUsb(services.includes(service.USB));
+      menuBarInstance.showServices(true);
+    } else {
+      menuBarInstance.showServices(false);
+    }
+  }
+
   // Set status bar defaults.
   let statusInstance = this.helper.getInstance('statusBar');
   if (statusInstance) {
@@ -187,6 +206,7 @@ cwc.mode.Modder.prototype.setFilename = function(filename) {
 
 /**
  * @param {cwc.mode.Type=} mode
+ * @export
  */
 cwc.mode.Modder.prototype.postMode = function(mode = this.mode) {
   this.log_.info('Post handling for', mode);
@@ -285,6 +305,7 @@ cwc.mode.Modder.prototype.addBlocklyView = function(name, content) {
  * @param {string=} content
  * @param {cwc.ui.EditorType=} type
  * @param {cwc.ui.EditorHint=} hints
+ * @export
  */
 cwc.mode.Modder.prototype.addEditorView = function(name, content, type, hints) {
   let editorInstance = this.helper.getInstance('editor');
@@ -296,6 +317,7 @@ cwc.mode.Modder.prototype.addEditorView = function(name, content, type, hints) {
 
 /**
  * @param {string} name
+ * @export
  */
 cwc.mode.Modder.prototype.setEditorView = function(name) {
   let editorInstance = this.helper.getInstance('editor');

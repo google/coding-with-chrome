@@ -27,7 +27,7 @@ Locales['deu']['WELCOME_SCREEN'] = {
   'BEGINNER_TEXT': 'Lerne mit visuellen Blöcken zu Programmieren. Erstelle Schritt für Schritt ein Programm mit dem setzten, ziehen und ändern von Blöcken.',
   'BEGINNER_ACTION': 'Verwende den Anfänger Modus',
   'ADVANCED': 'Fortgeschrittener',
-  'ADVANCED_TEXT': ' Verwerden Sie eine höhere Programmiersprache wie JavaScript oder Python, um deinen Code zu schreiben.',
+  'ADVANCED_TEXT': ' Verwenden eine höhere Programmiersprache wie JavaScript oder Python, um deinen Code zu schreiben.',
   'ADVANCED_ACTION': 'Verwende den Fortgeschrittener Modus',
   'SHOW_ON_STARTUP': 'Start Bildschirm anzeigen',
   'SHOW_ON_STARTUP_NOTE': 'Dies kann du jederzeit im “Einstellungsmenü” wieder ändern.',

@@ -76,6 +76,7 @@
   {@param id: int}
   {@param images: list<string>}
   {@param isLastStep: bool}
+  {@param hasCode: bool}
   {@param number: number}
   {@param online: bool}
   {@param prefix: string}
@@ -83,8 +84,8 @@
   {@param videos: list<string>}
   {@param youtube_videos: list<string>}
 
-  <li id="{$prefix}{$id}" class="{$prefix}container js-project-step">
-    <div class="{$prefix}header js-project-step-header">
+  <li id="{$prefix}{$id}" class="{$prefix}container {$prefix}step">
+    <div class="{$prefix}header">
       <div class="{$prefix}number">
         <span class="{$prefix}number-text">{$number}</span>
         <span class="{$prefix}number-check">
@@ -98,13 +99,13 @@
       <div class="{$prefix}description">{$description}</div>
       <div class="{$prefix}media">
         {foreach $image in $images}
-          <button type="button" class="{$prefix}media-expand js-project-step-media-expand" title="Expand image" data-media-type="image">
-            <img data-src="{$image}" alt="" class="{$prefix}media-item js-project-step-image">
+          <button type="button" class="{$prefix}media-expand {$prefix}media-expand" title="Expand image" data-media-type="image">
+            <img data-src="{$image}" alt="" class="{$prefix}media-item {$prefix}image">
             <i class="material-icons">fullscreen</i>
           </button>
         {/foreach}
         {foreach $video in $videos}
-          <button type="button" class="{$prefix}media-expand {$prefix}media-expand js-project-step-media-expand" title="Expand video" data-media-type="video" data-video-url="{$video}">
+          <button type="button" class="{$prefix}media-expand {$prefix}media-expand {$prefix}media-expand" title="Expand video" data-media-type="video" data-video-url="{$video}">
             <div class="{$prefix}media-item-video">
               <i class="material-icons">play_circle_outline</i>
             </div>
@@ -112,7 +113,7 @@
         {/foreach}
         {if $online}
           {foreach $video in $youtube_videos}
-            <button type="button" class="{$prefix}media-expand {$prefix}media-expand js-project-step-media-expand" title="Expand video" data-media-type="youtube" data-youtube-id="{$video}">
+            <button type="button" class="{$prefix}media-expand {$prefix}media-expand {$prefix}media-expand" title="Expand video" data-media-type="youtube" data-youtube-id="{$video}">
               <div class="{$prefix}media-item-video">
                 <i class="material-icons">play_circle_outline</i>
               </div>
@@ -120,11 +121,16 @@
           {/foreach}
         {/if}
       </div>
-      {if not $isLastStep}
         <div class="{$prefix}actions">
-          <button type="button" class="mdl-button mdl-js-button mdl-button--colored mdl-button--raised js-project-step-continue">Continue</button>
+          {if $hasCode}
+            <button type="button" class="mdl-button mdl-js-button mdl-button--colored mdl-button--raised {$prefix}load-code">
+              <i class='material-icons'>chevron_left</i><label>Load Example Code</label>
+            </button>
+          {/if}
+          {if not $isLastStep}
+            <button type="button" class="mdl-button mdl-js-button mdl-button--colored mdl-button--raised {$prefix}continue">Continue</button>
+          {/if}
         </div>
-      {/if}
     </div>
   </li>
 {/template}

@@ -14,50 +14,6 @@
  * limitations under the License.
  */
 
-#{$prefix}select-screen-link-normal-mode #blocklyExampleDiv,
-#{$prefix}select-screen-link-advanced-mode .CodeMirror {
-  height: 185px;
-  width: 100%;
-}
-
-#{$prefix}select-screen-version {
-  background: #00f;
-  color: #fff;
-  left: -22px;
-  line-height: 25px;
-  position: fixed;
-  text-align: center;
-  bottom: 8px;
-  transform: rotate(45deg);
-  width: 90px;
-  opacity: 0.5;
-}
-
-#{$prefix}select-screen-debug {
-  background: #f00;
-  color: #fff;
-  left: -55px;
-  line-height: 25px;
-  position: fixed;
-  text-align: center;
-  bottom: 25px;
-  transform: rotate(45deg);
-  width: 190px;
-  opacity: 0.5;
-}
-
-#{$prefix}select-screen-experimental {
-  background: #f00;
-  color: #fff;
-  left: -50px;
-  line-height: 25px;
-  position: fixed;
-  text-align: center;
-  top: 90px;
-  transform: rotate(-45deg);
-  width: 220px;
-  opacity: 0.8;
-}
 
 #{$prefix}select-screen-body {
   min-height: 100%;
@@ -110,39 +66,6 @@
 #{$prefix}select-screen-sub-note {
   margin: auto;
   width: 650px;
-}
-
-
-/**
- * Welcome screen
- */
-
-#{$prefix}select-screen-welcome .mdl-card {
-  margin: 10px;
-}
-
-#{$prefix}select-screen-welcome .mdl-card__supporting-text {
-  flex: 1;
-}
-
-#{$prefix}select-screen-welcome .mdl-button {
-  width: 95%;
-}
-
-@media screen and (min-width: 1366px) {
-  #{$prefix}select-screen-welcome .mdl-grid {
-    width: 70%;
-  }
-}
-
-#{$prefix}select-screen-welcome .mdl-grid > .mdl-card:hover {
-  box-shadow: 0 4px 5px 0 rgba(0,0,0,.34),
-              0 1px 10px 0 rgba(0,0,0,.32),
-              0 2px 4px -1px rgba(0,0,0,.22);
-}
-
-#{$prefix}select-screen-welcome .mdl-grid > .mdl-card > p {
-  margin: auto;
 }
 
 

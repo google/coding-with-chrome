@@ -29,6 +29,10 @@ goog.provide('cwc.framework.Python3');
 cwc.framework.Python3 = function() {
   /** @type {string} */
   this.name = 'Python 3.x Framework';
+
+  /** @type {boolean} */
+  this.indexedDBSupport = window.indexedDB && window.location &&
+    window.location.protocol !== 'data:';
 };
 
 
@@ -36,5 +40,7 @@ cwc.framework.Python3 = function() {
  * @export
  */
 cwc.framework.Python3.prototype.run = function() {
-  brython();
+  brython({
+    'indexedDB': this.indexedDBSupport,
+  });
 };

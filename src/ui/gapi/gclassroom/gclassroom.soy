@@ -1,0 +1,98 @@
+/**
+ * @fileoverview GClassroom gui for Coding in Chrome editor.
+ *
+ * @license Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author efuquen@google.com (Edwin Fuquen)
+ */
+
+{namespace cwc.soy.GClassroom autoescape="strict"}
+
+
+/**
+ * Google Classroom template.
+ */
+{template .gClassroomTemplate}
+  {@param prefix: string}
+
+  <div id="{$prefix}body">
+    <div id="{$prefix}content">
+      <div id="{$prefix}course_list"></div>
+      <div id="{$prefix}course_work_list"></div>
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Google Classroom course list template.
+ */
+{template .gClassroomCourseListTemplate}
+  {@param prefix: string}
+  {@param courses: ?}
+  <div>
+    <h5>Select Course:</h5>
+    <ul class="mdl-list">
+      {foreach $course in $courses}
+      <li class="mdl-list__item {$prefix}course" data-course-id="{$course['id']}">
+        <span class="mdl-list__item-primary-content">
+          {$course['descriptionHeading']}
+        </span>
+      </li>
+      {/foreach}
+    </ul>
+  </div>
+{/template}
+
+
+/**
+ * Google Classroom course list template.
+ */
+{template .gClassroomCourseWorkListTemplate}
+  {@param prefix: string}
+  {@param courseWorks: ?}
+  <div>
+    <h5>Select Course Work:</h5>
+    <ul class="mdl-list">
+      {foreach $course_work in $courseWorks}
+      <li class="mdl-list__item {$prefix}course_work" data-course-work-id="{$course_work['id']}">
+        <span class="mdl-list__item-primary-content {$prefix}course_work_title">
+         <i class="material-icons mdl-list__item-icon">expand_more</i>
+         {$course_work['title']}
+        </span>
+        <div id="{$prefix}student_submission_{$course_work['id']}"></div>
+      </li>
+      {/foreach}
+    </ul>
+  </div>
+{/template}
+
+
+/**
+ * Student submission list template.
+ */
+{template .gClassroomStudentSubmissionListTemplate}
+  {@param prefix: string}
+  {@param submissions: ?}
+  <ul class="mdl-list">
+      {foreach $submission in $submissions}
+      <li class="mdl-list__item {$prefix}student_submission" data-student-submission-id="{$submission['id']}">
+          <span class="mdl-list__item-primary-content">
+          {$submission['name']}
+          </span>
+      </li>
+      {/foreach}
+  </ul>
+{/template}

@@ -101,7 +101,7 @@ preparations to execute the user generated code.
 
 ### Runner
 
-The runner is used if a hardware communication between the user generated code
+The runner is used if a hardware communication between the user-generated code
 and the serial, Bluetooth or USB interface is needed.
 The code will be executed in the sandbox as well, but will have limited access
 to the internal apis over the runner framekwork / runner api.

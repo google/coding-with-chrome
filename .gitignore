@@ -6,6 +6,7 @@
 .project
 .settings
 .vscode
+.idea
 OWNERS
 Thumbs.db
 coverage

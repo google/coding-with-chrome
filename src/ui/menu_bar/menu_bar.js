@@ -19,21 +19,19 @@
  */
 goog.provide('cwc.ui.MenuBar');
 
-goog.require('cwc.lib.protocol.bluetoothChrome.Events');
 goog.require('cwc.soy.MenuBar');
+goog.require('cwc.ui.MenuBarBluetooth');
+goog.require('cwc.ui.MenuBarBluetoothWeb');
+goog.require('cwc.ui.MenuBarGamepad');
+goog.require('cwc.ui.MenuBarUsb');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Events');
-goog.require('cwc.utils.Gamepad.Events');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.dom');
 goog.require('goog.dom.fullscreen');
 goog.require('goog.soy');
 
-
-goog.scope(function() {
-const BluetoothEvents =
-  goog.module.get('cwc.lib.protocol.bluetoothChrome.Events');
 
 /**
  * @param {!cwc.utils.Helper} helper
@@ -51,6 +49,18 @@ cwc.ui.MenuBar = function(helper) {
   /** @type {string} */
   this.prefix = this.helper.getPrefix('menu-bar');
 
+  /** @type {!cwc.ui.MenuBarBluetooth} */
+  this.menuBarBluetooth = new cwc.ui.MenuBarBluetooth(this.helper);
+
+  /** @type {!cwc.ui.MenuBarBluetoothWeb} */
+  this.menuBarBluetoothWeb = new cwc.ui.MenuBarBluetoothWeb(this.helper);
+
+  /** @type {!cwc.ui.MenuBarGamepad} */
+  this.menuBarGamepad = new cwc.ui.MenuBarGamepad(this.helper);
+
+  /** @type {!cwc.ui.MenuBarUsb} */
+  this.menuBarUsb = new cwc.ui.MenuBarUsb(this.helper);
+
   /** @type {Element} */
   this.node = null;
 
@@ -61,46 +71,13 @@ cwc.ui.MenuBar = function(helper) {
   this.nodeAccountLogout = null;
 
   /** @type {Element} */
-  this.nodeBluetooth = null;
-
-  /** @type {Element} */
-  this.nodeBluetoothConnected = null;
-
-  /** @type {Element} */
-  this.nodeBluetoothDisabled = null;
-
-  /** @type {Element} */
-  this.nodeSerial = null;
-
-  /** @type {Element} */
-  this.nodeSerialConnected = null;
-
-  /** @type {Element} */
-  this.nodeSerialDisabled = null;
-
-  /** @type {Element} */
-  this.nodeGamepad = null;
-
-  /** @type {Element} */
-  this.nodeGamepadConnected = null;
-
-  /** @type {Element} */
   this.nodeMaximizeButton = null;
 
   /** @type {Element} */
   this.nodeRestoreButton = null;
 
-  /** @type {boolean|undefined} */
-  this.bluetooth = undefined;
-
-  /** @type {boolean|undefined} */
-  this.bluetoothConnectStatus = undefined;
-
-  /** @type {boolean|undefined} */
-  this.serial = undefined;
-
-  /** @type {boolean|undefined} */
-  this.serialConnectStatus = undefined;
+  /** @type {Element} */
+  this.nodeServices = null;
 
   /** @private {boolean} */
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
@@ -156,97 +133,11 @@ cwc.ui.MenuBar.prototype.decorateApiButton = function() {
 
 
 cwc.ui.MenuBar.prototype.decorateHardwareButton = function() {
-  let dialogInstance = this.helper.getInstance('dialog');
-
-  // Bluetooth body
-  goog.style.setElementShown(
-    goog.dom.getElement(this.prefix + 'bluetooth-body'),
-    this.helper.checkChromeFeature('bluetooth'));
-
-  // Bluetooth enabled
-  this.nodeBluetooth = goog.dom.getElement(this.prefix + 'bluetooth');
-  this.events_.listen(this.nodeBluetooth, goog.events.EventType.CLICK,
-    function() {
-      let connectScreenInstance = this.helper.getInstance('connectScreen');
-      connectScreenInstance.showBluetoothDevices();
-    });
-
-  // Bluetooth connected
-  this.nodeBluetoothConnected = goog.dom.getElement(
-    this.prefix + 'bluetooth-connected');
-  this.events_.listen(this.nodeBluetoothConnected, goog.events.EventType.CLICK,
-    function() {
-      let connectScreenInstance = this.helper.getInstance('connectScreen');
-      connectScreenInstance.showBluetoothDevices();
-    });
-
-  // Bluetooth disabled
-  this.nodeBluetoothDisabled = goog.dom.getElement(
-    this.prefix + 'bluetooth-disabled');
-  this.events_.listen(this.nodeBluetoothDisabled, goog.events.EventType.CLICK,
-    this.checkBluetoothState_);
-
-  // Serial body
-  goog.style.setElementShown(goog.dom.getElement(this.prefix + 'serial-body'),
-    this.helper.checkChromeFeature('serial'));
-
-  // Serial enabled
-  this.nodeSerial = goog.dom.getElement(this.prefix + 'serial');
-  this.events_.listen(this.nodeSerial, goog.events.EventType.CLICK, function() {
-    let connectScreenInstance = this.helper.getInstance('connectScreen');
-    connectScreenInstance.showSerialDevices();
-  });
-
-  // Serial connected
-  this.nodeSerialConnected = goog.dom.getElement(
-    this.prefix + 'serial-connected');
-  this.events_.listen(this.nodeSerialConnected, goog.events.EventType.CLICK,
-    function() {
-      let connectScreenInstance = this.helper.getInstance('connectScreen');
-      connectScreenInstance.showSerialDevices();
-    });
-
-  // Serial disabled
-  this.nodeSerialDisabled = goog.dom.getElement(
-    this.prefix + 'serial-disabled');
-
-  if (this.helper.checkChromeFeature('serial')) {
-    this.setSerialEnabled(true);
-  }
-
-  // Gamepad
-  goog.style.setElementShown(goog.dom.getElement(this.prefix + 'gamepad-body'),
-    this.helper.checkBrowserFeature('Gamepad'));
-  let gamepadInstance = this.helper.getInstance('gamepad');
-  this.nodeGamepad = goog.dom.getElement(this.prefix + 'gamepad');
-  this.events_.listen(
-    this.nodeGamepad, goog.events.EventType.CLICK, () => {
-      dialogInstance.showAlert('Enable Gamepad support',
-        'Please turn on the Gamepad and press any of the buttons.');
-    });
-  this.events_.listen(gamepadInstance.getEventTarget(),
-    /** @type {string} */ (cwc.utils.Gamepad.Events.Type.CONNECTED), () => {
-      dialogInstance.close('Enable Gamepad support');
-      this.setGamepad(true);
-    });
-  this.events_.listen(gamepadInstance.getEventTarget(),
-    /** @type {string} */ (cwc.utils.Gamepad.Events.Type.DISCONNECTED), () => {
-      this.setGamepad(false);
-    });
-  this.nodeGamepadConnected = goog.dom.getElement(
-    this.prefix + 'gamepad-connected');
-  this.setGamepad(false);
-
-  // Event Handling
-  let bluetoothInstance = this.helper.getInstance('bluetoothChrome');
-  if (bluetoothInstance) {
-    this.events_.listen(bluetoothInstance.getEventTarget(),
-      BluetoothEvents.Type.ADAPTER_STATE_CHANGE,
-      this.handleBluetoothAdapterChange_);
-    this.events_.listen(bluetoothInstance.getEventTarget(),
-      BluetoothEvents.Type.DEVICE_STATE_CHANGE,
-      this.handleBluetoothDeviceChange_);
-  }
+  this.nodeServices = goog.dom.getElement(this.prefix + 'services-body');
+  this.menuBarBluetooth.decorate();
+  this.menuBarBluetoothWeb.decorate();
+  this.menuBarGamepad.decorate();
+  this.menuBarUsb.decorate();
 };
 
 
@@ -318,6 +209,66 @@ cwc.ui.MenuBar.prototype.decorateGuiButton = function() {
 
 
 /**
+ * @param {boolean} visible
+ */
+cwc.ui.MenuBar.prototype.showServices = function(visible) {
+  if (this.nodeServices) {
+    goog.style.setElementShown(this.nodeServices, visible);
+  }
+};
+
+
+/**
+ * @param {boolean} visible
+ */
+cwc.ui.MenuBar.prototype.showBluetooth = function(visible) {
+  if (this.menuBarBluetooth) {
+    this.menuBarBluetooth.show(visible);
+  }
+};
+
+
+/**
+ * @param {boolean} visible
+ */
+cwc.ui.MenuBar.prototype.showBluetoothWeb = function(visible) {
+  if (this.menuBarBluetoothWeb) {
+    this.menuBarBluetoothWeb.show(visible);
+  }
+};
+
+
+/**
+ * @param {boolean} visible
+ */
+cwc.ui.MenuBar.prototype.showGamepad = function(visible) {
+  if (this.menuBarGamepad) {
+    this.menuBarGamepad.show(visible);
+  }
+};
+
+
+/**
+ * @param {boolean} visible
+ */
+cwc.ui.MenuBar.prototype.showUsb = function(visible) {
+  if (this.menuBarUsb) {
+    this.menuBarUsb.show(visible);
+  }
+};
+
+
+/**
+ * @param {Function} func
+ */
+cwc.ui.MenuBar.prototype.setBluetoothWebHandler = function(func) {
+  if (this.menuBarBluetoothWeb && func) {
+    this.menuBarBluetoothWeb.setClickHandler(func);
+  }
+};
+
+
+/**
  * Changes the language.
  */
 cwc.ui.MenuBar.prototype.changeLanguage = function() {
@@ -339,7 +290,7 @@ cwc.ui.MenuBar.prototype.setAuthenticated = function(auth) {
  * Logs in into Google Account for gDrive integration.
  */
 cwc.ui.MenuBar.prototype.loginAccount = function() {
-  this.helper.getInstance('account').authenticate();
+  this.helper.getInstance('gapi').authenticate();
 };
 
 
@@ -347,7 +298,7 @@ cwc.ui.MenuBar.prototype.loginAccount = function() {
  * Logs out of current Google Account.
  */
 cwc.ui.MenuBar.prototype.logoutAccount = function() {
-  this.helper.getInstance('account').deauthenticate();
+  this.helper.getInstance('gapi').deauthenticate();
 };
 
 
@@ -394,97 +345,10 @@ cwc.ui.MenuBar.prototype.setFullscreen = function(fullscreen) {
 
 
 /**
- * @param {Event=} opt_event
- * @private
- */
-cwc.ui.MenuBar.prototype.checkBluetoothState_ = function(opt_event) {
-  this.helper.showInfo('Checking bluetooth state ...');
-  let bluetoothInstance = this.helper.getInstance('bluetoothChrome');
-  if (bluetoothInstance) {
-    bluetoothInstance.updateAdapterState();
-  }
-};
-
-
-/**
- * @param {boolean} enabled
- */
-cwc.ui.MenuBar.prototype.setSerialEnabled = function(enabled) {
-  if (this.helper.checkChromeFeature('serial')) {
-    if (this.serial != enabled) {
-      this.log_.info('Set Serial to', enabled ? 'enabled' : 'disabled');
-    }
-    goog.style.setElementShown(this.nodeSerial, enabled);
-    goog.style.setElementShown(this.nodeSerialConnected, false);
-    goog.style.setElementShown(this.nodeSerialDisabled, !enabled);
-  }
-  this.serial = enabled;
-};
-
-
-/**
- * @param {boolean} connected
- */
-cwc.ui.MenuBar.prototype.setSerialConnected = function(connected) {
-  if (this.helper.checkChromeFeature('serial') && this.serial) {
-    if (this.serialConnectStatus != connected) {
-      this.log_.info('Set Serial status to',
-        connected ? 'connected' : 'disconnected');
-    }
-    goog.style.setElementShown(this.nodeSerial, !connected);
-    goog.style.setElementShown(this.nodeSerialConnected, connected);
-    goog.style.setElementShown(this.nodeSerialDisabled, false);
-  } else {
-    this.setSerialEnabled(false);
-  }
-  this.serialConnectStatus = connected;
-};
-
-
-/**
- * @param {boolean} connected
- */
-cwc.ui.MenuBar.prototype.setGamepad = function(connected) {
-  goog.style.setElementShown(this.nodeGamepad, !connected);
-  goog.style.setElementShown(this.nodeGamepadConnected, connected);
-};
-
-
-/**
  * @param {string} language
  */
 cwc.ui.MenuBar.prototype.setLanguage = function(language) {
   goog.dom.getElement(this.prefix + 'badge-language').dataset.badge = language;
-};
-
-
-/**
- * @param {?} e
- * @private
- */
-cwc.ui.MenuBar.prototype.handleBluetoothAdapterChange_ = function(e) {
-  if (this.bluetooth === e.data.enabled) {
-    return;
-  }
-  goog.style.setElementShown(this.nodeBluetooth, e.data.enabled);
-  goog.style.setElementShown(this.nodeBluetoothConnected, false);
-  goog.style.setElementShown(this.nodeBluetoothDisabled, !e.data.enabled);
-  this.bluetooth = e.data.enabled;
-};
-
-
-/**
- * @param {?} e
- * @private
- */
-cwc.ui.MenuBar.prototype.handleBluetoothDeviceChange_ = function(e) {
-  if (this.bluetoothConnectStatus === e.data.connected) {
-    return;
-  }
-  goog.style.setElementShown(this.nodeBluetooth, !e.data.connected);
-  goog.style.setElementShown(this.nodeBluetoothConnected, e.data.connected);
-  goog.style.setElementShown(this.nodeBluetoothDisabled, false);
-  this.bluetoothConnectStatus = e.data.connected;
 };
 
 
@@ -495,4 +359,3 @@ cwc.ui.MenuBar.prototype.handleBluetoothDeviceChange_ = function(e) {
 cwc.ui.MenuBar.prototype.cleanUp_ = function() {
   this.events_.clear();
 };
-});

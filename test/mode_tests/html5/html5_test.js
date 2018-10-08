@@ -24,5 +24,6 @@ describe('[Mode HTML5]', function() {
   describe('Prepare Mode', function() {
     loadTemplateFile('html5/blank.html', it);
     loadExampleFile('html5/form.html', it);
+    loadExampleFile('graphic/AnimatedCube.cwc', it);
   });
 });

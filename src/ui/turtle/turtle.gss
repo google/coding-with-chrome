@@ -38,6 +38,7 @@
   height: 100%;
 }
 
+#{$prefix}turtle-content iframe,
 #{$prefix}turtle-content webview {
   display: flex;
   height: 100%;

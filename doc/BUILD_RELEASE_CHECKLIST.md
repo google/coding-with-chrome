@@ -4,23 +4,23 @@ Coding with Chrome - Release checklist
 <img src="../static_files/images/cwc_logo.png" align="right">
 
 These following actions needs to be performed before each release.
-This makes sure that an release is not breaking any major function.
+This makes sure that a release is not breaking any major function.
 
 Automated Tests
 ----------------
 
-Most of the general errors are catched by the automated tests.
+Most of the general errors are caught by the automated tests.
 But it's not possible to have an 100% test coverage, so these tests will not
 catch all race conditions.
 
-- [ ] Run "npm run test" and check if any test fail
+- [ ] Run "npm run test" and check if any test fails
 
 - [ ] Check <https://travis-ci.org/google/coding-with-chrome>
 
 - [ ] Check <https://codeclimate.com/github/google/coding-with-chrome>
 
 - [ ] Check coverage report under /coverage. The overall status should be
-  at least 55%, if less additional tests needs to be added.
+  at least 55%, if less additional tests need to be added.
 
 UI Tests
 ---------
@@ -80,3 +80,13 @@ npm run publish:chrome_app
 
 Use the generated **dist/chrome_app.zip** file for the upload to the
 Chrome Store or to share over other ways.
+
+### Binary (experimental)
+
+```bash
+npm run build:nw_app
+npm run publish:nw_app
+```
+
+Use the generated **dist/binary/*/*** folders to create an zip archive for
+the upload to GitHub or to share over other ways.

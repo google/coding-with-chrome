@@ -240,6 +240,7 @@ cwc.ui.Sidebar.prototype.enableTour = function(enabled) {
   this.enableButton('tour', enabled);
 };
 
+
 /**
  * @param {boolean} enabled
  */

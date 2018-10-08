@@ -24,6 +24,8 @@ describe('[Mode Javascript - Advanced]', function() {
   describe('Prepare Mode', function() {
     loadTemplateFile('javascript/blank.js', it);
     loadExampleFile('javascript/raw/countdown.js', it);
+    loadExampleFile('javascript/script/CircleAnimation.cwc', it);
+    loadExampleFile('javascript/script/TriangleAnimation.cwc', it);
     loadTutorialFile('javascript/script/svg.cwct', it);
   });
 });

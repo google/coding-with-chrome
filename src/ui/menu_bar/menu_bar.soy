@@ -74,52 +74,74 @@
       {/call}
     </div>
 
-    <div id="{$prefix}bluetooth-body">
-      {call .button_ data="all"}
-        {param id: 'bluetooth' /}
-        {param icon: 'bluetooth' /}
-        {param title: 'Connect Bluetooth device...' /}
-      {/call}
-      {call .button_ data="all"}
-        {param id: 'bluetooth-connected' /}
-        {param icon: 'bluetooth_connected' /}
-        {param title: 'Disconnect Bluetooth device...' /}
-      {/call}
-      {call .button_ data="all"}
-        {param id: 'bluetooth-disabled' /}
-        {param icon: 'bluetooth_disabled' /}
-        {param title: 'Bluetooth is disabled!' /}
-      {/call}
-    </div>
+    <div id="{$prefix}services-body">
 
-    <div id="{$prefix}serial-body">
-      {call .button_ data="all"}
-        {param id: 'serial' /}
-        {param icon: 'usb' /}
-        {param title: 'Connect serial device...' /}
-      {/call}
-      <button id="{$prefix}serial-connected" class="mdl-button mdl-js-button mdl-button--icon mdl-button--accent">
-        <i class="material-icons">usb</i>
-      </button>
-      <button id="{$prefix}serial-disabled"
-              class="mdl-button mdl-js-button mdl-button--icon" 
-              title="{msg desc=""}Serial is disabled!{/msg}"
-              disabled>
-        <i class="material-icons">usb</i>
-      </button>
-    </div>
+      <div id="{$prefix}bluetooth-body">
+        {call .button_ data="all"}
+          {param id: 'bluetooth-connect' /}
+          {param icon: 'bluetooth' /}
+          {param title: 'Connect Bluetooth device...' /}
+        {/call}
+        {call .button_ data="all"}
+          {param id: 'bluetooth-connected' /}
+          {param icon: 'bluetooth_connected' /}
+          {param title: 'Disconnect Bluetooth device...' /}
+        {/call}
+        {call .button_ data="all"}
+          {param id: 'bluetooth-disabled' /}
+          {param icon: 'bluetooth_disabled' /}
+          {param title: 'Bluetooth is disabled!' /}
+        {/call}
+      </div>
 
-    <div id="{$prefix}gamepad-body">
-      {call .button_ data="all"}
-        {param id: 'gamepad' /}
-        {param icon: 'videogame_asset' /}
-        {param title: 'Enable Gamepad support' /}
-      {/call}
-      {call .button_ data="all"}
-        {param id: 'gamepad-connected' /}
-        {param icon: 'videogame_asset' /}
-        {param title: 'Gamepad' /}
-      {/call}
+      <div id="{$prefix}bluetooth-web-body">
+        {call .button_ data="all"}
+          {param id: 'bluetooth-web-connect' /}
+          {param icon: 'bluetooth' /}
+          {param title: 'Connect Bluetooth Web device...' /}
+        {/call}
+        {call .button_ data="all"}
+          {param id: 'bluetooth-web-connected' /}
+          {param icon: 'bluetooth_connected' /}
+          {param title: 'Disconnect Bluetooth Web device...' /}
+        {/call}
+        {call .button_ data="all"}
+          {param id: 'bluetooth-web-disabled' /}
+          {param icon: 'bluetooth_disabled' /}
+          {param title: 'Bluetooth Web is disabled!' /}
+        {/call}
+      </div>
+
+      <div id="{$prefix}serial-body">
+        {call .button_ data="all"}
+          {param id: 'serial' /}
+          {param icon: 'usb' /}
+          {param title: 'Connect serial device...' /}
+        {/call}
+        <button id="{$prefix}serial-connected" class="mdl-button mdl-js-button mdl-button--icon mdl-button--accent">
+          <i class="material-icons">usb</i>
+        </button>
+        <button id="{$prefix}serial-disabled"
+                class="mdl-button mdl-js-button mdl-button--icon" 
+                title="{msg desc=""}Serial is disabled!{/msg}"
+                disabled>
+          <i class="material-icons">usb</i>
+        </button>
+      </div>
+
+      <div id="{$prefix}gamepad-body">
+        {call .button_ data="all"}
+          {param id: 'gamepad' /}
+          {param icon: 'videogame_asset' /}
+          {param title: 'Enable Gamepad support' /}
+        {/call}
+        {call .button_ data="all"}
+          {param id: 'gamepad-connected' /}
+          {param icon: 'videogame_asset' /}
+          {param title: 'Gamepad' /}
+        {/call}
+      </div>
+
     </div>
 
   </div>
