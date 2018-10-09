@@ -142,8 +142,13 @@ cwc.protocol.aiy.Api.prototype.send_ = function(data) {
 cwc.protocol.aiy.Api.prototype.sendRun = function(code, args) {
   this.send_(JSON.stringify({
     'type': 'run',
-    'code': code,
-    'args': args,
+    'files': {
+      'main.py': code,
+    },
+    'args': ['/usr/bin/env', 'python3', 'main.py', ...args],
+    'env': {
+      'PYTHONUNBUFFERED': '1',
+    },
   }));
 };
 
