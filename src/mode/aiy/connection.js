@@ -74,20 +74,6 @@ cwc.mode.aiy.Connection.prototype.isConnected = function() {
 
 
 /**
- * Tried to connects to the AIY device.
- * @return {Promise}
- * @export
- */
-cwc.mode.aiy.Connection.prototype.tryConnect = async function() {
-  try {
-    return await this.connectInteractive();
-  } catch (error) {
-    // Cancellation is ignored
-  }
-};
-
-
-/**
  * Connects to the AIY if not connected and sends a message.
  * @param {!string} data
  * @return {!Promise}
@@ -117,6 +103,13 @@ cwc.mode.aiy.Connection.DEFAULT_HOSTNAME = 'raspberrypi.local';
 
 
 /**
+ * IP address used by AIY when connected via USB.
+ * @const
+ */
+cwc.mode.aiy.Connection.USB_HOST = '192.168.11.2';
+
+
+/**
  * Prompts the user for the hostname and then tries to connect to it.
  * @param {string} host
  * @return {Promise}
@@ -134,9 +127,7 @@ cwc.mode.aiy.Connection.prototype.connectInteractive = async function(host) {
       host
     );
     try {
-      const url = this.buildSocketUrl(host);
-      await this.api_.connect(url);
-      this.database_.put('host', host);
+      this.connect(host);
     } catch (error) {
       await this.dialog_.showAlert(
         'Error connecting to AIY',
@@ -147,6 +138,28 @@ cwc.mode.aiy.Connection.prototype.connectInteractive = async function(host) {
   } catch (error) {
     throw new Error('Cancelled');
   }
+};
+
+
+/**
+ * Tries to connect to the given host.
+ * @param {string} host
+ * @export
+ */
+cwc.mode.aiy.Connection.prototype.connect = async function(host) {
+  const url = this.buildSocketUrl(host);
+  await this.api_.connect(url);
+  this.database_.put('host', host);
+};
+
+
+/**
+ * Tries to connect to the AIY via USB.
+ * @return {Promise}
+ * @export
+ */
+cwc.mode.aiy.Connection.prototype.connectUSB = function() {
+  return this.connect(cwc.mode.aiy.Connection.USB_HOST);
 };
 
 

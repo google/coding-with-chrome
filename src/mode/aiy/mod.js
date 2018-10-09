@@ -68,7 +68,7 @@ cwc.mode.aiy.Mod.prototype.decorate = function() {
   this.toolbar.decorate();
   this.decorateTerminal();
   this.connection.init();
-  this.connection.tryConnect();
+  this.tryConnect();
   this.initEvents();
 
   this.toolbar.on('run', this.run.bind(this));
@@ -143,6 +143,20 @@ cwc.mode.aiy.Mod.prototype.disconnect = function() {
  */
 cwc.mode.aiy.Mod.prototype.terminate = function() {
   this.connection.sendTerminate();
+};
+
+
+/**
+ * Handles the disconnect event.
+ * @param {Event} opt_event
+ * @private
+ */
+cwc.mode.aiy.Mod.prototype.tryConnect = function(opt_event) {
+  try {
+    this.connection.connectUSB();
+  } catch (error) {
+    // USB is not connected - proceed without connection
+  }
 };
 
 
