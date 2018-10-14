@@ -3,9 +3,9 @@
   "content": {
     "__python__": {
       "name": "__python__",
-      "type": "text/python3",
-      "size": 0,
-      "content": "",
+      "type": "text/x-python",
+      "size": 25,
+      "content": "print('Hello from AIY!')\n",
       "version": 1
     }
   },

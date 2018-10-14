@@ -140,6 +140,7 @@ cwc.protocol.aiy.Api.prototype.send_ = function(data) {
  * @export
  */
 cwc.protocol.aiy.Api.prototype.sendRun = function(code, args) {
+  args = args || [];
   this.send_(JSON.stringify({
     'type': 'run',
     'files': {

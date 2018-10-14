@@ -117,7 +117,7 @@ cwc.mode.aiy.Mod.prototype.decorateTerminal = async function() {
 cwc.mode.aiy.Mod.prototype.run = async function() {
   const editorInstance = this.editor.editor;
   let pythonCode = editorInstance.getEditorContent(
-    cwc.ui.EditorContent.DEFAULT);
+    cwc.ui.EditorContent.PYTHON);
   try {
     await this.connection.connectAndSendRun(pythonCode);
     this.terminal.writemetaln('<process starting>');

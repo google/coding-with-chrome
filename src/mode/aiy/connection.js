@@ -127,7 +127,7 @@ cwc.mode.aiy.Connection.prototype.connectInteractive = async function(host) {
       host
     );
     try {
-      this.connect(host);
+      await this.connect(host);
     } catch (error) {
       await this.dialog_.showAlert(
         'Error connecting to AIY',
