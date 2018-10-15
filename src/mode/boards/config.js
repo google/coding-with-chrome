@@ -22,7 +22,8 @@ goog.provide('cwc.mode.boards.Config');
 goog.require('cwc.mode.Mod');
 goog.require('cwc.mode.Service');
 goog.require('cwc.mode.Type');
-goog.require('cwc.mode.raspberryPi.advanced.Mod');
+goog.require('cwc.mode.aiy.Mod');
+// goog.require('cwc.mode.raspberryPi.advanced.Mod');
 goog.require('cwc.utils.mime.Type');
 
 
@@ -33,14 +34,26 @@ cwc.mode.boards.Config = {};
 
 
 /**
+ * AIY mode.
+ */
+cwc.mode.boards.Config[cwc.mode.Type.AIY] = new cwc.mode.Mod({
+  authors: ['Filip Stanis'],
+  mime_types: [cwc.utils.mime.Type.CWC.type],
+  mod: cwc.mode.aiy.Mod,
+  name: 'AIY',
+  template: 'aiy/blank.cwc',
+});
+
+
+/**
  * Raspberry Pi mode.
  * @deprecated Disabled because needs re-implementation and used less than 0.1%.
  */
-cwc.mode.boards.Config[cwc.mode.Type.RASPBERRY_PI] = new cwc.mode.Mod({
-  authors: ['Markus Bordihn'],
-  icon: 'mode_edit',
-  mime_types: [cwc.utils.mime.Type.CWC.type],
-  mod: cwc.mode.raspberryPi.advanced.Mod,
-  name: 'Raspberry Pi',
-  template: 'raspberry_pi/blank.cwc',
-});
+// cwc.mode.boards.Config[cwc.mode.Type.RASPBERRY_PI] = new cwc.mode.Mod({
+//   authors: ['Markus Bordihn'],
+//   icon: 'mode_edit',
+//   mime_types: [cwc.utils.mime.Type.CWC.type],
+//   mod: cwc.mode.raspberryPi.advanced.Mod,
+//   name: 'Raspberry Pi',
+//   template: 'raspberry_pi/blank.cwc',
+// });

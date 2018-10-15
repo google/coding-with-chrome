@@ -55,4 +55,5 @@ cwc.mode.aiy.Editor.prototype.decorate = function() {
   this.helper.setInstance('editor', this.editor, true);
   this.editor.decorate(this.node);
   this.editor.showMode(false);
+  this.editor.showExpandButton(false);
 };

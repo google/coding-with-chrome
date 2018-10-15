@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.mode.ConfigData');
 
+goog.require('cwc.mode.boards.Config');
 goog.require('cwc.mode.games.Config');
 goog.require('cwc.mode.markup.Config');
 goog.require('cwc.mode.programming.Config');
@@ -30,6 +31,7 @@ goog.require('cwc.mode.robot.Config');
  * enum {Object}
  */
 cwc.mode.ConfigData = Object.assign({},
+  cwc.mode.boards.Config,
   cwc.mode.games.Config,
   cwc.mode.markup.Config,
   cwc.mode.programming.Config,

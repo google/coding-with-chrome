@@ -25,6 +25,7 @@ goog.require('cwc.utils.Logger');
 
 goog.require('goog.dom.classlist');
 
+
 /**
  * Class represents the console the UI.
  * @param {!cwc.utils.Helper} helper
@@ -34,13 +35,13 @@ goog.require('goog.dom.classlist');
  */
 cwc.mode.aiy.Terminal = function(helper) {
   /** @type {string} */
-  this.name = 'Terminal';
+  this.name = 'AIY Terminal';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = this.helper.getPrefix('terminal');
+  this.prefix = this.helper.getPrefix('aiy-terminal');
 
   /** @type {Element} */
   this.node = null;

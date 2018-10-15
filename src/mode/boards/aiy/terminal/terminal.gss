@@ -15,7 +15,7 @@
  */
 
 
-#{$prefix}terminal-body {
+#{$prefix}aiy-terminal-body {
   background: #eee;
   display: flex;
   flex-direction: column;
@@ -23,7 +23,7 @@
   width: 100%;
 }
 
-#{$prefix}terminal-content {
+#{$prefix}aiy-terminal-content {
   background: #111;
   color: lime;
   letter-spacing: 0.5px;
@@ -31,35 +31,36 @@
   flex: 1;
   font-family: "Consolas","Courier new","Courier",monospace;
   overflow-y: scroll;
+  -webkit-user-select: all;
 }
 
-#{$prefix}terminal-content .error {
+#{$prefix}aiy-terminal-content .error {
   color: red;
 }
 
-#{$prefix}terminal-content .meta {
+#{$prefix}aiy-terminal-content .meta {
   font-style: italic;
 }
 
-#{$prefix}terminal-toolbar {
+#{$prefix}aiy-terminal-toolbar {
   height: 24px;
   border-top: 1px solid #e5e5e5;
   border-bottom: 1px solid #ebebeb;
   padding: 1px 5px;
 }
 
-#{$prefix}terminal-toolbar .material-icons {
+#{$prefix}aiy-terminal-toolbar .material-icons {
   color: #2B78FE;
   vertical-align: middle;
 }
 
-#{$prefix}terminal-clear {
+#{$prefix}aiy-terminal-clear {
   float: right;
   height: 22px;
   width: 22px;
   min-width: 22px;
 }
 
-#{$prefix}terminal-clear .material-icons {
+#{$prefix}aiy-terminal-clear .material-icons {
   font-size: 20px;
 }

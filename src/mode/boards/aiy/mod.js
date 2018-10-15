@@ -31,6 +31,7 @@ goog.require('cwc.ui.EditorContent');
 goog.require('cwc.utils.Dialog');
 goog.require('cwc.utils.Events');
 
+
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -108,6 +109,7 @@ cwc.mode.aiy.Mod.prototype.initEvents = function() {
 cwc.mode.aiy.Mod.prototype.decorateTerminal = async function() {
   this.helper.setInstance('terminal', this.terminal, true);
   await this.terminal.decorate();
+  this.terminal.write('Waiting for connection ...');
 };
 
 

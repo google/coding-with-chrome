@@ -26,7 +26,7 @@ goog.provide('cwc.mode.raspberryPi.Monitor');
  */
 cwc.mode.raspberryPi.Monitor = function(helper) {
   /** @type {string} */
-  this.name = 'Sphero Monitor';
+  this.name = 'raspberryPi Monitor';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
