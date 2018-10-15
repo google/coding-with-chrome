@@ -39,9 +39,6 @@ goog.addDependency('../../../../src/frameworks/sphero/sprk_plus/sprk_plus.js', [
 goog.addDependency('../../../../src/frameworks/turtle/turtle.js', ['cwc.framework.Turtle'], [], false);
 goog.addDependency('../../../../src/messenger/events.js', ['cwc.MessengerEvents'], ['cwc.utils.EventData'], false);
 goog.addDependency('../../../../src/messenger/messenger.js', ['cwc.Messenger'], ['cwc.MessengerEvents', 'cwc.utils.Events', 'cwc.utils.Logger', 'goog.events.EventTarget'], false);
-<<<<<<< HEAD
-goog.addDependency('../../../../src/mode/boards/config.js', ['cwc.mode.boards.Config'], ['cwc.mode.Mod', 'cwc.mode.Service', 'cwc.mode.Type', 'cwc.mode.raspberryPi.advanced.Mod', 'cwc.utils.mime.Type'], false);
-=======
 goog.addDependency('../../../../src/mode/boards/aiy/connection.js', ['cwc.mode.aiy.Connection'], ['cwc.protocol.aiy.Api', 'cwc.protocol.mDNS.Api', 'cwc.utils.Database', 'cwc.utils.Dialog', 'cwc.utils.Events'], false);
 goog.addDependency('../../../../src/mode/boards/aiy/editor/editor.js', ['cwc.mode.aiy.Editor'], ['cwc.ui.Editor', 'cwc.ui.Helper'], false);
 goog.addDependency('../../../../src/mode/boards/aiy/layout.js', ['cwc.mode.aiy.Layout'], ['cwc.soy.mode.aiy.Editor', 'cwc.utils.Helper'], false);
@@ -49,7 +46,6 @@ goog.addDependency('../../../../src/mode/boards/aiy/mod.js', ['cwc.mode.aiy.Mod'
 goog.addDependency('../../../../src/mode/boards/aiy/terminal/terminal.js', ['cwc.mode.aiy.Terminal'], ['cwc.soy.mode.aiy.Terminal', 'cwc.utils.Events', 'cwc.utils.Logger', 'goog.dom.classlist'], false);
 goog.addDependency('../../../../src/mode/boards/aiy/toolbar.js', ['cwc.mode.aiy.Toolbar'], ['cwc.soy.ui.EditorToolbar', 'cwc.ui.Helper', 'cwc.utils.mime.Type', 'goog.dom.classlist', 'goog.ui.MenuItem'], false);
 goog.addDependency('../../../../src/mode/boards/config.js', ['cwc.mode.boards.Config'], ['cwc.mode.Mod', 'cwc.mode.Service', 'cwc.mode.Type', 'cwc.mode.aiy.Mod', 'cwc.utils.mime.Type'], false);
->>>>>>> 35b6a1a... Moved aiy mode and fixed smaller issues.
 goog.addDependency('../../../../src/mode/boards/raspberry_pi/advanced/editor.js', ['cwc.mode.raspberryPi.advanced.Editor'], ['cwc.ui.Editor', 'cwc.ui.Helper', 'cwc.utils.Helper'], false);
 goog.addDependency('../../../../src/mode/boards/raspberry_pi/advanced/layout.js', ['cwc.mode.raspberryPi.advanced.Layout'], ['cwc.soy.mode.raspberryPi.advanced'], false);
 goog.addDependency('../../../../src/mode/boards/raspberry_pi/advanced/mod.js', ['cwc.mode.raspberryPi.advanced.Mod'], ['cwc.mode.raspberryPi.Connection', 'cwc.mode.raspberryPi.Monitor', 'cwc.mode.raspberryPi.Runner', 'cwc.mode.raspberryPi.advanced.Editor', 'cwc.mode.raspberryPi.advanced.Layout', 'cwc.renderer.external.RaspberryPi'], false);
@@ -65,11 +61,7 @@ goog.addDependency('../../../../src/mode/markup/html5/mod.js', ['cwc.mode.html5.
 goog.addDependency('../../../../src/mode/modder.js', ['cwc.mode.Modder'], ['cwc.mode.Config', 'cwc.mode.Service', 'cwc.mode.Type', 'cwc.utils.Helper', 'cwc.utils.Logger', 'cwc.utils.mime.Type', 'goog.events.EventTarget'], false);
 goog.addDependency('../../../../src/mode/mode.js', ['cwc.mode.Mod'], [], false);
 goog.addDependency('../../../../src/mode/mode_config.js', ['cwc.mode.Config'], ['cwc.mode.ConfigData'], false);
-<<<<<<< HEAD
-goog.addDependency('../../../../src/mode/mode_config_data.js', ['cwc.mode.ConfigData'], ['cwc.mode.games.Config', 'cwc.mode.markup.Config', 'cwc.mode.programming.Config', 'cwc.mode.raw.Config', 'cwc.mode.robot.Config'], false);
-=======
 goog.addDependency('../../../../src/mode/mode_config_data.js', ['cwc.mode.ConfigData'], ['cwc.mode.boards.Config', 'cwc.mode.games.Config', 'cwc.mode.markup.Config', 'cwc.mode.programming.Config', 'cwc.mode.raw.Config', 'cwc.mode.robot.Config'], false);
->>>>>>> 35b6a1a... Moved aiy mode and fixed smaller issues.
 goog.addDependency('../../../../src/mode/mode_service.js', ['cwc.mode.Service'], [], false);
 goog.addDependency('../../../../src/mode/mode_type.js', ['cwc.mode.Type'], [], false);
 goog.addDependency('../../../../src/mode/programming/basic/hints.js', ['cwc.mode.basic.Hints'], [], false);
@@ -129,6 +121,8 @@ goog.addDependency('../../../../src/mode/robot/sphero/sprk_plus/panel/control/co
 goog.addDependency('../../../../src/mode/robot/sphero/sprk_plus/panel/monitor/monitor.js', ['cwc.mode.sphero.sprkPlus.Monitor'], ['cwc.lib.protocol.sphero.sprkPlus.Events', 'cwc.soy.mode.sphero.sprkPlus.Monitor', 'cwc.utils.Events', 'cwc.utils.Helper', 'goog.events', 'goog.events.EventType'], false);
 goog.addDependency('../../../../src/mode/robot/sphero/sprk_plus/simulation/command.js', ['cwc.mode.sphero.sprkPlus.SimulationCommand'], ['cwc.utils.Events'], false);
 goog.addDependency('../../../../src/mode/robot/sphero/sprk_plus/simulation/simulation.js', ['cwc.mode.sphero.sprkPlus.Simulation'], ['cwc.MessengerEvents', 'cwc.mode.sphero.sprkPlus.SimulationCommand', 'cwc.ui.Turtle', 'cwc.utils.Events'], false);
+goog.addDependency('../../../../src/protocol/boards/aiy/api.js', ['cwc.protocol.aiy.Api'], ['goog.events', 'goog.events.EventTarget'], false);
+goog.addDependency('../../../../src/protocol/boards/aiy/events.js', ['cwc.protocol.aiy.Events'], ['cwc.utils.EventData'], false);
 goog.addDependency('../../../../src/protocol/boards/arduino/api.js', ['cwc.protocol.arduino.Api'], ['goog.events', 'goog.events.EventTarget'], false);
 goog.addDependency('../../../../src/protocol/boards/rasberry_pi/api.js', ['cwc.protocol.raspberryPi.Api'], ['cwc.protocol.raspberryPi.Events', 'goog.events', 'goog.events.EventTarget'], false);
 goog.addDependency('../../../../src/protocol/boards/rasberry_pi/events.js', ['cwc.protocol.raspberryPi.Events'], ['cwc.utils.EventData'], false);
@@ -269,14 +263,6 @@ goog.addDependency('../../../../test/genfiles/soy/src/mode/boards/aiy/terminal/t
 goog.addDependency('../../../../test/genfiles/soy/src/mode/boards/raspberry_pi/advanced/layout.soy.js', ['cwc.soy.mode.raspberryPi.advanced'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/mode/default/layout.soy.js', ['cwc.soy.mode.default.Layout'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/mode/default/panel/monitor.soy.js', ['cwc.soy.mode.default.Monitor'], ['goog.asserts', 'soy', 'soydata'], false);
-goog.addDependency('../../../../test/genfiles/soy/src/mode/lego/ev3/panel/control/control.soy.js', ['cwc.soy.mode.ev3.Control'], ['goog.asserts', 'soy', 'soydata'], false);
-goog.addDependency('../../../../test/genfiles/soy/src/mode/lego/ev3/panel/monitor/monitor.soy.js', ['cwc.soy.mode.ev3.Monitor'], ['goog.asserts', 'soy', 'soydata'], false);
-goog.addDependency('../../../../test/genfiles/soy/src/mode/lego/wedo2/panel/monitor/monitor.soy.js', ['cwc.soy.mode.lego.weDo2.Monitor'], ['cwc.soy.mode.default.Monitor', 'goog.asserts', 'soy', 'soydata'], false);
-goog.addDependency('../../../../test/genfiles/soy/src/mode/makeblock/mbot/panel/control/control.soy.js', ['cwc.soy.mode.makeblock.mBot.Control'], ['goog.asserts', 'soy', 'soydata'], false);
-goog.addDependency('../../../../test/genfiles/soy/src/mode/makeblock/mbot/panel/monitor/monitor.soy.js', ['cwc.soy.mode.makeblock.mBot.Monitor'], ['goog.asserts', 'soy', 'soydata'], false);
-goog.addDependency('../../../../test/genfiles/soy/src/mode/makeblock/mbot_ranger/panel/control/control.soy.js', ['cwc.soy.mode.makeblock.mBotRanger.Control'], ['goog.asserts', 'soy', 'soydata'], false);
-goog.addDependency('../../../../test/genfiles/soy/src/mode/makeblock/mbot_ranger/panel/monitor/monitor.soy.js', ['cwc.soy.mode.makeblock.mBotRanger.Monitor'], ['goog.asserts', 'soy', 'soydata'], false);
-goog.addDependency('../../../../test/genfiles/soy/src/mode/raspberry_pi/advanced/layout.soy.js', ['cwc.soy.mode.raspberryPi.advanced'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/mode/robot/lego/ev3/panel/control/control.soy.js', ['cwc.soy.mode.ev3.Control'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/mode/robot/lego/ev3/panel/monitor/monitor.soy.js', ['cwc.soy.mode.ev3.Monitor'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/mode/robot/lego/wedo2/panel/monitor/monitor.soy.js', ['cwc.soy.mode.lego.weDo2.Monitor'], ['cwc.soy.mode.default.Monitor', 'goog.asserts', 'soy', 'soydata'], false);
@@ -291,13 +277,6 @@ goog.addDependency('../../../../test/genfiles/soy/src/mode/robot/sphero/sphero2/
 goog.addDependency('../../../../test/genfiles/soy/src/mode/robot/sphero/sprk_plus/panel/calibration/calibration.soy.js', ['cwc.soy.mode.sphero.sprkPlus.Calibration'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/mode/robot/sphero/sprk_plus/panel/control/control.soy.js', ['cwc.soy.mode.sphero.sprkPlus.Control'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/mode/robot/sphero/sprk_plus/panel/monitor/monitor.soy.js', ['cwc.soy.mode.sphero.sprkPlus.Monitor'], ['cwc.soy.mode.default.Monitor', 'goog.asserts', 'soy', 'soydata'], false);
-goog.addDependency('../../../../test/genfiles/soy/src/mode/sphero/monitor.soy.js', ['cwc.soy.mode.sphero.Monitor'], ['goog.asserts', 'soy', 'soydata'], false);
-goog.addDependency('../../../../test/genfiles/soy/src/mode/sphero/sphero2/panel/calibration/calibration.soy.js', ['cwc.soy.mode.sphero.sphero2.Calibration'], ['goog.asserts', 'soy', 'soydata'], false);
-goog.addDependency('../../../../test/genfiles/soy/src/mode/sphero/sphero2/panel/control/control.soy.js', ['cwc.soy.mode.sphero.sphero2.Control'], ['goog.asserts', 'soy', 'soydata'], false);
-goog.addDependency('../../../../test/genfiles/soy/src/mode/sphero/sphero2/panel/monitor/monitor.soy.js', ['cwc.soy.mode.sphero.sphero2.Monitor'], ['soy', 'soydata'], false);
-goog.addDependency('../../../../test/genfiles/soy/src/mode/sphero/sprk_plus/panel/calibration/calibration.soy.js', ['cwc.soy.mode.sphero.sprkPlus.Calibration'], ['goog.asserts', 'soy', 'soydata'], false);
-goog.addDependency('../../../../test/genfiles/soy/src/mode/sphero/sprk_plus/panel/control/control.soy.js', ['cwc.soy.mode.sphero.sprkPlus.Control'], ['goog.asserts', 'soy', 'soydata'], false);
-goog.addDependency('../../../../test/genfiles/soy/src/mode/sphero/sprk_plus/panel/monitor/monitor.soy.js', ['cwc.soy.mode.sphero.sprkPlus.Monitor'], ['cwc.soy.mode.default.Monitor', 'goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/renderer/renderer.soy.js', ['cwc.soy.Renderer'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/ui/blockly/blockly.soy.js', ['cwc.soy.ui.Blockly'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/ui/blockly/toolbar/blockly_toolbar.soy.js', ['cwc.soy.ui.BlocklyToolbar'], ['cwc.soy.ui.Template', 'goog.asserts', 'soy', 'soydata'], false);
@@ -312,9 +291,6 @@ goog.addDependency('../../../../test/genfiles/soy/src/ui/editor/toolbar/editor_t
 goog.addDependency('../../../../test/genfiles/soy/src/ui/gapi/gclassroom/gclassroom.soy.js', ['cwc.soy.GClassroom'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/ui/gapi/gcloud/gcloud.soy.js', ['cwc.soy.GCloud'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/ui/gapi/gdrive/gdrive.soy.js', ['cwc.soy.GDrive'], ['goog.asserts', 'soy', 'soydata'], false);
-goog.addDependency('../../../../test/genfiles/soy/src/ui/gclassroom/gclassroom.soy.js', ['cwc.soy.GClassroom'], ['goog.asserts', 'soy', 'soydata'], false);
-goog.addDependency('../../../../test/genfiles/soy/src/ui/gcloud/gcloud.soy.js', ['cwc.soy.GCloud'], ['goog.asserts', 'soy', 'soydata'], false);
-goog.addDependency('../../../../test/genfiles/soy/src/ui/gdrive/gdrive.soy.js', ['cwc.soy.GDrive'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/ui/gui/gui.soy.js', ['cwc.soy.ui.Gui'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/ui/help/help.soy.js', ['cwc.soy.Help'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/ui/infobar/infobar.soy.js', ['cwc.soy.ui.Infobar'], ['goog.asserts', 'soy', 'soydata'], false);

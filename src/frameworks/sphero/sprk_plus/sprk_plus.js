@@ -54,6 +54,12 @@ cwc.framework.sphero.SprkPlus = function() {
     velocity: function() {},
   };
 
+  /** @private {number} */
+  this.heading_ = 0;
+
+  /** @private {boolean} */
+  this.state_ = undefined;
+
   /** @private {!cwc.framework.Messenger} */
   this.messenger_ = new cwc.framework.Messenger()
     .setListenerScope(this)
@@ -136,10 +142,25 @@ cwc.framework.sphero.SprkPlus.prototype.setMotionTimeout = function(timeout,
  */
 cwc.framework.sphero.SprkPlus.prototype.roll = function(speed, heading, state,
     delay) {
+  this.heading_ = heading;
+  this.state_ = state;
   this.messenger_.send('roll', {
     'speed': speed,
     'heading': heading,
     'state': state}, delay);
+};
+
+
+/**
+ * @param {number=} speed 0-255
+ * @param {number=} delay in msec
+ * @export
+ */
+cwc.framework.sphero.SprkPlus.prototype.speed = function(speed, delay = 500) {
+  this.messenger_.send('roll', {
+    'speed': speed,
+    'heading': this.heading_,
+    'state': this.state_}, delay);
 };
 
 

@@ -41,9 +41,9 @@ cwc.fileHandler.FileExporter = function(helper) {
  * Exports rendered content as html file.
  */
 cwc.fileHandler.FileExporter.prototype.exportHtmlFile = function() {
-  let fileInstance = this.helper.getInstance('file', true);
-  let fileSaverInstance = this.helper.getInstance('fileSaver', true);
-  let rendererInstance = this.helper.getInstance('renderer', true);
+  let fileInstance = this.helper.getInstance('file');
+  let fileSaverInstance = this.helper.getInstance('fileSaver');
+  let rendererInstance = this.helper.getInstance('renderer');
   console.info('Prepare export as HTML file');
   fileSaverInstance.selectFileToSave(
       fileInstance.getFileTitle() + '.html',
@@ -55,12 +55,11 @@ cwc.fileHandler.FileExporter.prototype.exportHtmlFile = function() {
  * Exports rendered content into GoogleCloud.
  */
 cwc.fileHandler.FileExporter.prototype.exportHtmlToGoogleCloud = function() {
-  let fileInstance = this.helper.getInstance('file', true);
-  let gCloudInstance = this.helper.getInstance('gcloud', true);
-  let rendererInstance = this.helper.getInstance('renderer', true);
+  let fileInstance = this.helper.getInstance('file');
+  let gapiInstance = this.helper.getInstance('gapi');
+  let rendererInstance = this.helper.getInstance('renderer');
   console.info('Prepare export as HTML file to Google Cloud');
-  gCloudInstance.publishDialog(
+  gapiInstance.getCloud().publishDialog(
     fileInstance.getFileTitle() + '.html',
-    rendererInstance.getRenderedContent(),
-    'text/html');
+    rendererInstance.getRenderedContent());
 };

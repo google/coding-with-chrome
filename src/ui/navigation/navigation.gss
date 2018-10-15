@@ -31,6 +31,14 @@
   padding: 0;
 }
 
+#{$prefix}navigation-items > .link_button {
+  position: relative;
+}
+
+#{$prefix}navigation-items > .link_button > .icon_auto {
+  top: 15px;
+}
+
 #{$prefix}navigation-footer_right .icon_24px{
   padding-left: 10px;
 }

@@ -383,6 +383,9 @@ cwc.utils.Helper.prototype.getAppVersion = function() {
   if (manifest) {
     return manifest['version'];
   }
+  if (typeof cwc.config.Version !== 'undefined') {
+    return cwc.config.Version;
+  }
   return String(new Date().getTime());
 };
 

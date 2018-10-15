@@ -75,9 +75,10 @@ cwc.ui.gapi.Cloud = function(helper) {
  * Displays a Google Cloud publish dialog.
  * @param {string} name
  * @param {string} content
- * @param {string} type
+ * @param {string=} type
  */
-cwc.ui.gapi.Cloud.prototype.publishDialog = function(name, content, type) {
+cwc.ui.gapi.Cloud.prototype.publishDialog = function(name, content,
+    type = 'text/html') {
   let gapiInstance = this.helper.getInstance('gapi');
   this.filename = name;
   this.fileContent = content;
