@@ -78,8 +78,10 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'Material Design',
   resources: [
-    'third_party/material-design-lite/material.min.js',
     'third_party/material-design-lite/material.min.css',
+    'third_party/material-design-lite/material.min.css.map',
+    'third_party/material-design-lite/material.min.js',
+    'third_party/material-design-lite/material.min.js.map',
   ],
   out: 'genfiles/third_party/external/material-design-lite/',
 });

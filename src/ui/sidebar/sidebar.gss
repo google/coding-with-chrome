@@ -19,7 +19,7 @@
   background-color: #fafafa;
   border-left: 1px solid rgba(0,0,0,0.12);
   float: right;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
   min-width: 46px;
 }
