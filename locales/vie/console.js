@@ -1,5 +1,5 @@
 /**
- * @fileoverview Supported languages for translations.
+ * @fileoverview Translation file for the Console (vietnamese).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -15,21 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author Stephanie.Bordihn@gmail.com (Stephanie Bordihn)
+ * @author me@duyet.net (Duyet Le)
  */
-window['Locales'] = window['Locales'] || {};
-
-
-/**
- * @final
- * @export
- */
-/* eslint-disable max-len */
-Locales['supportedLanguages'] = [
-  'deu',
-  'eng',
-  'fra',
-  'hin',
-  'jpn',
-  'vie',
-];
+Locales['vie']['CONSOLE'] = {
+  'BUTTON_TOOLTIP': 'Hiện/Ẩn Console',
+  'CLEAR': 'Xóa console (CTRL + L)',
+  'COMMAND_PLACEHOLDER': 'Nhập câu lệnh ở đây',
+};

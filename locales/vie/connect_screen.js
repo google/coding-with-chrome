@@ -1,5 +1,5 @@
 /**
- * @fileoverview Supported languages for translations.
+ * @fileoverview Translation file for the Connect screen (vietnamese).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -15,21 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author Stephanie.Bordihn@gmail.com (Stephanie Bordihn)
- */
-window['Locales'] = window['Locales'] || {};
-
-
-/**
- * @final
- * @export
+ * @author me@duyet.net (Duyet Le)
  */
 /* eslint-disable max-len */
-Locales['supportedLanguages'] = [
-  'deu',
-  'eng',
-  'fra',
-  'hin',
-  'jpn',
-  'vie',
-];
+Locales['vie']['CONNECT_SCREEN'] = {
+  'TURN_ON_NOTE': 'Vui lòng chắc chắn thiết bị sau đã được sạc và đang bật:',
+  'CONNECT_NOTE': 'Vui lòng chắc chắn thiết bị bluetooth sau đã được sạc và đang bật.',
+  'SEARCH_FOR': 'Tìm kiếm cho',
+  'SEARCH_FOR_DEVICE': 'Tìm thiết bị Bluetooth ...',
+};
