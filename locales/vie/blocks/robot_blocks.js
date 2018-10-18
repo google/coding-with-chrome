@@ -18,7 +18,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 /* eslint-disable max-len */
-Locales['eng']['BLOCKS_ROBOT'] = {
+Locales['vie']['BLOCKS_ROBOT'] = {
   'EVENTS': 'Events',
   'HEADING': 'heading',
   'LIGHTS': 'Lights',

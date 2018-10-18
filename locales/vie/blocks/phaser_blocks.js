@@ -18,7 +18,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 /* eslint-disable max-len */
-Locales['eng']['BLOCKS_PHASER'] = {
+Locales['vie']['BLOCKS_PHASER'] = {
   'AUDIO': 'Audio',
   'AUDIO_ADD_BGM': 'as background sound',
   'AUDIO_PAUSE': 'pause audio',

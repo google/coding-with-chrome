@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-Locales['eng']['BLOCKS'] = {
+Locales['vie']['BLOCKS'] = {
   'ALL': 'all',
   'AND': 'and',
   'AS': 'as',
