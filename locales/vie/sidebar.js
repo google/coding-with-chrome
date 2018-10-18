@@ -1,5 +1,5 @@
 /**
- * @fileoverview Supported languages for translations.
+ * @fileoverview Translation file for the sidebar (vietnamese).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -15,21 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author Stephanie.Bordihn@gmail.com (Stephanie Bordihn)
+ * @author me@duyet.net (Duyet Le)
  */
-window['Locales'] = window['Locales'] || {};
-
-
-/**
- * @final
- * @export
- */
-/* eslint-disable max-len */
-Locales['supportedLanguages'] = [
-  'deu',
-  'eng',
-  'fra',
-  'hin',
-  'jpn',
-  'vie',
-];
+Locales['vie']['SIDEBAR'] = {
+  'FILE_DESCRIPTION': 'Hiển thị mô tả file',
+  'LIBRARY': 'Mở file thư viện',
+  'MEDIA': 'Upload và chèn media',
+  'TOUR': 'Bắt đầu/khởi động lại tour',
+  'TUTORIAL': 'Bắt đầu/khởi động lại hướng dẫn',
+};

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Supported languages for translations.
+ * @fileoverview Translation file for the Setting screen (vietnamese).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -15,21 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author Stephanie.Bordihn@gmail.com (Stephanie Bordihn)
- */
-window['Locales'] = window['Locales'] || {};
-
-
-/**
- * @final
- * @export
+ * @author me@duyet.net (Duyet Le)
  */
 /* eslint-disable max-len */
-Locales['supportedLanguages'] = [
-  'deu',
-  'eng',
-  'fra',
-  'hin',
-  'jpn',
-  'vie',
-];
+Locales['vie']['SETTING_SCREEN'] = {
+  'CLOSE': 'Đóng cài đặt',
+  'EDITOR': 'Editor',
+  'GENERAL': 'Chung',
+  'MISC': 'Misc',
+  'MODULES': 'Modules',
+  'NOTE_RESTART': 'Bạn cần khởi động lại ứng dụng sau khi bật/tắt các tùy chọn.',
+  'SECTIONS': 'Sections',
+  'TITLE': 'Cài đặt',
+};

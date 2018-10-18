@@ -190,3 +190,24 @@ closureBuilder.build({
   },
   out: 'genfiles/core/js/locales/fra.js',
 });
+
+/**
+ * VIE Translation.
+ */
+closureBuilder.build({
+  name: 'Locales.vie',
+  srcs: glob([
+    'locales/_vie.js',
+    'locales/vie/**/*.js',
+  ]),
+  externs: [
+    'build/externs/locales.js',
+  ],
+  compress: true,
+  options: {
+    closure: {
+      rewrite_polyfills: false,
+    },
+  },
+  out: 'genfiles/core/js/locales/vie.js',
+});

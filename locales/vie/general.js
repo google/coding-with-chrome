@@ -1,5 +1,5 @@
 /**
- * @fileoverview Supported languages for translations.
+ * @fileoverview General Translation file (vietnamese).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -15,21 +15,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author Stephanie.Bordihn@gmail.com (Stephanie Bordihn)
+ * @author me@duyet.net (Duyet Le)
  */
-window['Locales'] = window['Locales'] || {};
-
-
-/**
- * @final
- * @export
- */
-/* eslint-disable max-len */
-Locales['supportedLanguages'] = [
-  'deu',
-  'eng',
-  'fra',
-  'hin',
-  'jpn',
-  'vie',
-];
+Locales['vie']['GENERAL'] = {
+  'ABOUT': 'Giới thiệu',
+  'BACK': 'Quay lại',
+  'CANCEL': 'Hủy',
+  'CLOSE': 'Đóng',
+  'CONTINUE': 'Tiếp tục',
+  'DONE': 'Hoàn thành',
+  'EXIT': 'Thoát',
+  'HELP': 'Trợ giúp',
+  'NEXT': 'Kế tiếp',
+  'NO': 'No',
+  'OK': 'Ok',
+  'SETTINGS': 'Cài đặt',
+  'YES': 'Yes',
+};
