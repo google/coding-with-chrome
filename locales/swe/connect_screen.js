@@ -1,5 +1,5 @@
 /**
- * @fileoverview Supported languages for translations.
+ * @fileoverview Translation file for the Connect screen (english).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -15,22 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author Stephanie.Bordihn@gmail.com (Stephanie Bordihn)
- */
-window['Locales'] = window['Locales'] || {};
-
-
-/**
- * @final
- * @export
+ * @author brian@eldaria.net (Brian Levinsen)
  */
 /* eslint-disable max-len */
-Locales['supportedLanguages'] = [
-  'deu',
-  'eng',
-  'fra',
-  'hin',
-  'jpn',
-  'swe',
-  'vie',
-];
+Locales['swe']['CONNECT_SCREEN'] = {
+  'TURN_ON_NOTE': 'Vänligen säkra att följande enhet är laddad och påslagen:',
+  'CONNECT_NOTE': 'Vänligen säkra att Blåtandsenheten är laddad och påslagen.',
+  'SEARCH_FOR': 'Sök efter',
+  'SEARCH_FOR_DEVICE': 'Sök efter Båtandsenheter ...',
+};

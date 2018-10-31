@@ -1,5 +1,5 @@
 /**
- * @fileoverview Supported languages for translations.
+ * @fileoverview Library Translation file (english).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -15,22 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author Stephanie.Bordihn@gmail.com (Stephanie Bordihn)
- */
-window['Locales'] = window['Locales'] || {};
-
-
-/**
- * @final
- * @export
+ * @author brian@eldaria.net (Brian Levinsen)
  */
 /* eslint-disable max-len */
-Locales['supportedLanguages'] = [
-  'deu',
-  'eng',
-  'fra',
-  'hin',
-  'jpn',
-  'swe',
-  'vie',
-];
+Locales['swe']['LIBRARY'] = {
+  'TOUR_ALL_TAB': 'Här hittar du alla dina filer.',
+  'TOUR_AUDIO_TAB': 'Här hittar du dina ljudfiler.',
+  'TOUR_CLOSE_DIALOG': 'För att stänga fönstret, tryck Stäng.',
+  'TOUR_IMAGE_TAB': 'Här hittar du dina bilder.',
+  'TOUR_INTRO': 'Med filbiblioteket har du alla dina filer lättillgängliga.',
+  'TOUR_SEARCH_TAB': 'Denna sökning hjälper dig att hitta fler bilder till ditt projekt.',
+  'TOUR_UPLOAD_BUTTON': 'Tryck här för att ladda upp en fil till ditt bibliotek.',
+};
