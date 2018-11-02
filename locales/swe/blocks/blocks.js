@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author mbordihn@google.com (Markus Bordihn)
+ * @author brian@eldaria.net (Brian Levinsen)
  */
 Locales['swe']['BLOCKS'] = {
   'ALL': 'alla',
