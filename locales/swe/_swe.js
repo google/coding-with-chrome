@@ -1,5 +1,5 @@
 /**
- * @fileoverview Supported languages for translations.
+ * @fileoverview Translation file (english).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -15,22 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author Stephanie.Bordihn@gmail.com (Stephanie Bordihn)
+ * @author brian@eldaria.net (Brian Levinsen)
  */
 window['Locales'] = window['Locales'] || {};
-
-
-/**
- * @final
- * @export
- */
-/* eslint-disable max-len */
-Locales['supportedLanguages'] = [
-  'deu',
-  'eng',
-  'fra',
-  'hin',
-  'jpn',
-  'swe',
-  'vie',
-];
+Locales['swe'] = Locales['swe'] || {};

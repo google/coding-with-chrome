@@ -30,6 +30,7 @@ cwc.utils.I18nMapping.englishName = {
   'hin': 'Hindi',
   'jpn': 'Japanese',
   'kor': 'Korean',
+  'swe': 'Swedish',
   'vie': 'Vietnamese',
 };
 
@@ -44,6 +45,7 @@ cwc.utils.I18nMapping.nativeName = {
   'hin': 'हिन्दी',
   'jpn': '日本語',
   'kor': '한국어',
+  'swe': 'Svenska',
   'vie': 'Tiếng Việt',
 };
 
@@ -58,6 +60,7 @@ cwc.utils.I18nMapping.ISO639_3 = {
   'hin': 'hi',
   'jpn': 'ja',
   'kor': 'ko',
+  'swe': 'sv',
   'vie': 'vi',
 };
 
@@ -74,6 +77,8 @@ cwc.utils.I18nMapping.BCP47 = {
   'en-US': 'eng',
   'ja': 'jpn',
   'ja-JP': 'jpn',
+  'sv': 'swe',
+  'sv-SE': 'swe',
   'vi': 'vie',
   'vi-VN': 'vie',
 };

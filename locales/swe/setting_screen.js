@@ -1,5 +1,5 @@
 /**
- * @fileoverview Supported languages for translations.
+ * @fileoverview Translation file for the Setting screen (english).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -15,22 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author Stephanie.Bordihn@gmail.com (Stephanie Bordihn)
- */
-window['Locales'] = window['Locales'] || {};
-
-
-/**
- * @final
- * @export
+ * @author brian@eldaria.net (Brian Levinsen)
  */
 /* eslint-disable max-len */
-Locales['supportedLanguages'] = [
-  'deu',
-  'eng',
-  'fra',
-  'hin',
-  'jpn',
-  'swe',
-  'vie',
-];
+Locales['swe']['SETTING_SCREEN'] = {
+  'CLOSE': 'Stäng Inställningar',
+  'EDITOR': 'Redigeraren',
+  'GENERAL': 'Allmänt',
+  'MISC': 'Blandat',
+  'MODULES': 'Moduler',
+  'NOTE_RESTART': 'Du behöver starta om applikationen efter att du ändrat ett val',
+  'SECTIONS': 'Sektioner',
+  'TITLE': 'Inställningar',
+};
