@@ -39,6 +39,9 @@ closureBuilder.build({
 });
 
 
+/**
+ * Blockly translation
+ */
 closureBuilder.build({
   name: 'Blockly language files',
   resources: [
@@ -48,6 +51,7 @@ closureBuilder.build({
     BlocklyPath + 'msg/js/hi.js',
     BlocklyPath + 'msg/js/ja.js',
     BlocklyPath + 'msg/js/ko.js',
+    BlocklyPath + 'msg/js/sv.js',
     BlocklyPath + 'msg/js/vi.js',
   ],
   out: 'genfiles/third_party/external/blockly/msg/',

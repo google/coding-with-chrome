@@ -108,6 +108,49 @@ closureBuilder.build({
 
 
 /**
+ * FRA Translation.
+ */
+closureBuilder.build({
+  name: 'Locales.fra',
+  srcs: glob([
+    'locales/_fra.js',
+    'locales/fra/**/*.js',
+  ]),
+  externs: [
+    'build/externs/locales.js',
+  ],
+  compress: true,
+  options: {
+    closure: {
+      rewrite_polyfills: false,
+    },
+  },
+  out: 'genfiles/core/js/locales/fra.js',
+});
+
+
+/**
+ * HIN Translation.
+ */
+closureBuilder.build({
+  name: 'Locales.hin',
+  srcs: glob([
+    'locales/hin/translation.js',
+  ]),
+  externs: [
+    'build/externs/locales.js',
+  ],
+  compress: true,
+  options: {
+    closure: {
+      rewrite_polyfills: false,
+    },
+  },
+  out: 'genfiles/core/js/locales/hin.js',
+});
+
+
+/**
  * JPN Translation.
  */
 closureBuilder.build({
@@ -151,12 +194,13 @@ closureBuilder.build({
 
 
 /**
- * HIN Translation.
+ * SWE Translation.
  */
 closureBuilder.build({
-  name: 'Locales.hin',
+  name: 'Locales.swe',
   srcs: glob([
-    'locales/hin/translation.js',
+    'locales/_swe.js',
+    'locales/swe/**/*.js',
   ]),
   externs: [
     'build/externs/locales.js',
@@ -167,29 +211,9 @@ closureBuilder.build({
       rewrite_polyfills: false,
     },
   },
-  out: 'genfiles/core/js/locales/hin.js',
+  out: 'genfiles/core/js/locales/swe.js',
 });
 
-/**
- * FRA Translation.
- */
-closureBuilder.build({
-  name: 'Locales.fra',
-  srcs: glob([
-    'locales/_fra.js',
-    'locales/fra/**/*.js',
-  ]),
-  externs: [
-    'build/externs/locales.js',
-  ],
-  compress: true,
-  options: {
-    closure: {
-      rewrite_polyfills: false,
-    },
-  },
-  out: 'genfiles/core/js/locales/fra.js',
-});
 
 /**
  * VIE Translation.
