@@ -235,3 +235,25 @@ closureBuilder.build({
   },
   out: 'genfiles/core/js/locales/vie.js',
 });
+
+
+/**
+ * ZHO Translation.
+ */
+closureBuilder.build({
+  name: 'Locales.zho',
+  srcs: glob([
+    'locales/zho/_zho.js',
+    'locales/zho/**/*.js',
+  ]),
+  externs: [
+    'build/externs/locales.js',
+  ],
+  compress: true,
+  options: {
+    closure: {
+      rewrite_polyfills: false,
+    },
+  },
+  out: 'genfiles/core/js/locales/zho.js',
+});
