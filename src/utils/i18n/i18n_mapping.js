@@ -32,6 +32,7 @@ cwc.utils.I18nMapping.englishName = {
   'kor': 'Korean',
   'swe': 'Swedish',
   'vie': 'Vietnamese',
+  'zho': 'Chinese',
 };
 
 
@@ -47,6 +48,7 @@ cwc.utils.I18nMapping.nativeName = {
   'kor': '한국어',
   'swe': 'Svenska',
   'vie': 'Tiếng Việt',
+  'zho': '中文',
 };
 
 
@@ -62,6 +64,7 @@ cwc.utils.I18nMapping.ISO639_3 = {
   'kor': 'ko',
   'swe': 'sv',
   'vie': 'vi',
+  'zho': 'zh',
 };
 
 
@@ -81,4 +84,5 @@ cwc.utils.I18nMapping.BCP47 = {
   'sv-SE': 'swe',
   'vi': 'vie',
   'vi-VN': 'vie',
+  'zh-CN': 'zho',
 };
