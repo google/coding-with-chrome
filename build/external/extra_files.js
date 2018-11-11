@@ -53,6 +53,7 @@ closureBuilder.build({
     BlocklyPath + 'msg/js/ko.js',
     BlocklyPath + 'msg/js/sv.js',
     BlocklyPath + 'msg/js/vi.js',
+    BlocklyPath + 'msg/js/zh.js',
   ],
   out: 'genfiles/third_party/external/blockly/msg/',
 });
