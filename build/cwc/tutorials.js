@@ -63,14 +63,26 @@ let replacePlaceholders = function(obj, pwd) {
   if (obj === null || typeof obj !== 'object') {
     return;
   }
-  let templateRE = /^___TEMPLATE___:(binary:)?/;
+  let templateRE = /^___TEMPLATE___:((json|binary):)?/;
   for (let k in obj) {
     if (!Object.prototype.hasOwnProperty.call(obj, k)) continue;
     const matches = k.match(templateRE);
     if (matches) {
-      const data = matches[1] ?
-        fs.readFileSync(pwd+'/'+obj[k]).toString('base64') :
-        fs.readFileSync(pwd+'/'+obj[k], 'utf8');
+      let data = '';
+      switch (matches[2]) {
+        case 'binary':
+          data = fs.readFileSync(pwd+'/'+obj[k]).toString('base64');
+          break;
+        case 'json':
+          data = JSON.parse(fs.readFileSync(pwd+'/'+obj[k], 'utf8'));
+          break;
+        case undefined:
+          data = fs.readFileSync(pwd+'/'+obj[k], 'utf8');
+          break;
+        default:
+          throw new Error('Unknown file type "' + matches[2] +
+            '" for template "'+k+'"');
+      }
       obj[k.replace(matches[0], '')] = data;
       delete obj[k];
     } else {
@@ -95,7 +107,8 @@ procTemplates(inDir, function(template) {
         if (err) {
           throw err;
         }
-        console.log(template.replace(base, ''), '->', target.replace(base, ''));
+        console.log('\t'+template.replace(base, ''), '->',
+          target.replace(base, ''));
       });
     });
   });

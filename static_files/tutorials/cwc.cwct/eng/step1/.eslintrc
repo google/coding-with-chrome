@@ -1,0 +1,7 @@
+{
+  'rules': {
+    'no-unused-vars': [2, {
+      'varsIgnorePattern':'^checkCircle$'
+    }]
+  }
+}

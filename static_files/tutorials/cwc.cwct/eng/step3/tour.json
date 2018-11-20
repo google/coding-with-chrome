@@ -1,0 +1,10 @@
+[
+  {
+    "title": "Console",
+    "attachTo": {
+      "element": "#cwc-console-button",
+      "on": "top-start"
+    },
+    "text": "The console will give you details about errors in your code."
+  }
+]

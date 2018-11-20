@@ -43,7 +43,8 @@
             "validate": {
 							"type": "function",
 							"___TEMPLATE___:value": "eng/step1/validate.js"
-						}
+						},
+            "___TEMPLATE___:json:tour": "eng/step1/tour.json"
           },
           {
             "title": "Fill it with blue",

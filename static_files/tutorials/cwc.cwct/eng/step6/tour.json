@@ -1,0 +1,10 @@
+[
+              {
+                "title": "Hide the Sidebar",
+                "attachTo": {
+                  "element": ".cwc-sidebar-icon.active",
+                  "on": "right"
+                },
+                "text": "Click the highlighted sidebar icon to show or hide the sidebar."
+              }
+            ]

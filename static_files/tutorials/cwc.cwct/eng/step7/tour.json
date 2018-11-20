@@ -1,0 +1,10 @@
+[
+   {
+      "title" : "Next Tutorial",
+      "attachTo" : {
+         "element" : "#cwc-gui-chrome div.mdl-layout__drawer-button i.material-icons",
+         "on" : "bottom-start"
+      },
+      "text" : "Select 'Overview' to get to the next tutorial."
+   }
+]

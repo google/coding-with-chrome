@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Editor",
+    "attachTo": {
+      "element": "#cwc-blockly-code",
+      "on": "bottom"
+    },
+    "text": "Your code goes here, in the Editor pane."
+  },
+  {
+    "title": "Preview",
+    "attachTo": {
+      "element": "#cwc-layout-content-preview-chrome",
+      "on": "bottom"
+    },
+    "text": "If your code draws something or writes text, that output will appear here, in the Preview."
+  }
+]

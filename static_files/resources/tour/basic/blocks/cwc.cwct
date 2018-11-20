@@ -61,7 +61,7 @@
         }, {
           "title": "Tooltips",
           "attachTo": {
-            "element": "#cwc-status-button-body",
+            "element": "#cwc-preview-status-button-body",
             "on": "right"
           },
           "text": "Coding with Chrome has lots of buttons. Hover your mouse over one to see what it does."

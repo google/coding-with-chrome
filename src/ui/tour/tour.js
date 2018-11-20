@@ -75,12 +75,6 @@ cwc.ui.Tour.prototype.setTour = function(tour) {
       'showCancelLink': true,
     },
   });
-  this.tour_['once']('cancel', () => {
-    let sidebarInstance = this.helper.getInstance('sidebar');
-    if (sidebarInstance) {
-      sidebarInstance.setActive('tour', false);
-    }
-  });
   this.tourLength_ = tour['data'].length;
   for (let i in tour['data']) {
     if (!Object.prototype.hasOwnProperty.call(tour['data'], i)) continue;
@@ -128,6 +122,12 @@ cwc.ui.Tour.prototype.getTourDescription = function() {
   return this.tourDescription_ || '';
 };
 
+/**
+ * @return {Shepherd.Tour|boolean}
+ */
+cwc.ui.Tour.prototype.getTour = function() {
+  return this.tour_ || false;
+};
 
 cwc.ui.Tour.prototype.startTour = function() {
   if (!this.tour_) {
@@ -135,6 +135,12 @@ cwc.ui.Tour.prototype.startTour = function() {
   }
   this.tour_.cancel();
   this.log_.info('Starting tour with', this.tourLength_, 'steps...');
+  this.tour_['once']('cancel', () => {
+    let sidebarInstance = this.helper.getInstance('sidebar');
+    if (sidebarInstance) {
+      sidebarInstance.setActive('tour', false);
+    }
+  });
   let sidebarInstance = this.helper.getInstance('sidebar');
   if (sidebarInstance) {
     sidebarInstance.showContent('tour', 'Tour', this.tourDescription_);
@@ -160,47 +166,65 @@ cwc.ui.Tour.prototype.clear = function() {
   this.tourLength_ = 0;
 };
 
-
 /**
- * @param {number} step
+ * @param {number} stepNumber
+ * @param {number} tourLength
+ * @param {function} cancel
  * @return {!array}
  * @private
  */
-cwc.ui.Tour.prototype.processButtons_ = function(step) {
+cwc.ui.Tour.prototype.getStepButtons = function(stepNumber, tourLength,
+  cancel) {
   let tourButtons = [];
   // Back button
-  if (step > 0) {
+  if (stepNumber > 0) {
     tourButtons.push({
       'text': i18t('@@GENERAL__BACK'),
-      'action': this.tour_['back'],
+      // The inline func lets us call getStepButtons before this.tour_ is set
+      'action': () => {
+        this.tour_['back']();
+      },
       'classes': 'shepherd-button-secondary',
     });
   }
 
   // Exit
-  if (step == 0) {
+  if (stepNumber == 0) {
     tourButtons.push({
       'text': i18t('@@GENERAL__EXIT'),
-      'action': this.cancelTour.bind(this),
+      'action': cancel,
       'classes': 'shepherd-button-secondary',
     });
   }
 
   // Done
-  if (step == this.tourLength_ - 1) {
+  if (stepNumber == tourLength - 1) {
     tourButtons.push({
       'text': i18t('@@GENERAL__DONE'),
-      'action': this.cancelTour.bind(this),
+      'action': cancel,
       'classes': 'shepherd-button-example-primary',
     });
   }
   // Next button
-  if (step < this.tourLength_ - 1) {
+  if (stepNumber < tourLength - 1) {
     tourButtons.push({
       'text': i18t('@@GENERAL__NEXT'),
-      'action': this.tour_['next'],
+      // The inline func lets us call getStepButtons before this.tour_ is set
+      'action': () => {
+        this.tour_['next']();
+      },
       'classes': 'shepherd-button-example-primary',
     });
   }
   return tourButtons;
+};
+
+/**
+ * @param {number} stepNumber
+ * @return {!array}
+ * @private
+ */
+cwc.ui.Tour.prototype.processButtons_ = function(stepNumber) {
+  return this.getStepButtons(stepNumber, this.tourLength_,
+    this.cancelTour.bind(this));
 };
