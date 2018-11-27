@@ -19,15 +19,6 @@ gear.
 Under Sources, check Enable JavaScript Source Maps.
 You might also check Enable CSS Source Maps.
 
-### Running the debug mode
-
-During development, you should only use the debug mode, which provides additional
-information and pre-checks over:
-
-```bash
-npm run debug
-```
-
 Other options
 --------------
 
