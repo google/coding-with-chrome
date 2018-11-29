@@ -1,0 +1,1 @@
+You can save the file your working on either by typing *Ctrl+S* or clicking the *Save* icon at the upper left of the Editor pane. When you want to save your work to a new file, you'll find a *Save as new file* option in the menu at the upper left of Coding with Chrome.

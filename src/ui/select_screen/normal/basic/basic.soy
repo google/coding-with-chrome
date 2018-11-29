@@ -119,6 +119,15 @@
 
       <div class="mdl-grid cwc-tutorial-list">
         {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+          {param title: 'Introduction to Coding with Chrome' /}
+          {param text: 'Everything you need to know to get started.' /}
+          {param opt_link_text: 'Learn CwC' /}
+          {param tutorial: 'cwc.cwct' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_icon: 'school' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Blockly Basics' /}
           {param text: 'Learn drag-and-drop programming' /}
           {param opt_link_text: 'Learn Blockly' /}

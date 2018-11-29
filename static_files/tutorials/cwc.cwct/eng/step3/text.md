@@ -1,0 +1,1 @@
+If your code has errors, the preview window will often be empty, but Coding with Chrome can help you find the problem. Click the *Console* button at the bottom left of the window to see errors and other debugging output.

@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Expand",
+    "attachTo": {
+      "element": "#cwc-blockly-toolbar-expand",
+      "on": "bottom"
+    },
+    "text": "The Expand button will make the editor bigger and hide the preview."
+  },
+  {
+    "title": "Splitter",
+    "attachTo": {
+      "element": "#cwc-layout-content-splitter",
+      "on": "right"
+    },
+    "text": "You can drag the splitter to resize the Editor and Preview panes."
+  }
+]

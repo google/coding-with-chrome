@@ -116,6 +116,9 @@ cwc.ui.Tutorial = function(helper) {
 
   /** @private {Element} */
   this.rootNode_ = null;
+
+  /** @private {cwc.ui.Tour} */
+  this.tour_ = this.helper.getInstance('tour');
 };
 
 
@@ -229,6 +232,24 @@ cwc.ui.Tutorial.prototype.addStep_ = async function(stepTemplate, id) {
     await this.appendBinaries_(stepTemplate['images'], images, 'image');
   }
 
+  let tour = false;
+  if (stepTemplate['tour']) {
+    if (Array.isArray(stepTemplate['tour'])) {
+      tour = stepTemplate['tour'];
+      tour.forEach((step, stepNumber) => {
+        if (!('buttons' in step)) {
+          step['buttons'] = this.tour_.getStepButtons(stepNumber, tour.length,
+            () => {
+            this.cancelTour_();
+          });
+        }
+      });
+    } else {
+      this.log_.warn('Skipping tour for step', id, 'because it is not an array',
+        stepTemplate['tour']);
+    }
+  }
+
   this.steps_[id] = {
     code: code,
     description: description,
@@ -237,6 +258,7 @@ cwc.ui.Tutorial.prototype.addStep_ = async function(stepTemplate, id) {
     title: stepTemplate['title'] || '',
     validate: stepTemplate['validate'] || false,
     videos: stepTemplate['videos'] || [],
+    tour: tour,
   };
 };
 
@@ -444,6 +466,7 @@ cwc.ui.Tutorial.prototype.startTutorial = function() {
             video['youtube_id']
           ),
           hasCode: step.code && step.code.trim().length > 0,
+          hasTour: !!step.tour,
         })),
       }
     );
@@ -533,6 +556,7 @@ cwc.ui.Tutorial.prototype.initSteps_ = function() {
     step.node = stepNode;
     step.nodeContinue = stepNode.querySelector(classPrefix + 'continue');
     step.nodeLoadCode = stepNode.querySelector(classPrefix + 'load-code');
+    step.nodeLoadTour = stepNode.querySelector(classPrefix + 'load-tour');
     step.nodeHeader = stepNode.querySelector(classPrefix + 'header');
     step.nodeListMediaExpand = stepNode.querySelectorAll(classPrefix +
       'media-expand');
@@ -556,6 +580,10 @@ cwc.ui.Tutorial.prototype.initStepButtons_ = function() {
     if (step.nodeLoadCode) {
       goog.events.listen(step.nodeLoadCode, goog.events.EventType.CLICK,
         this.loadCodeWithPrompt_.bind(this));
+    }
+    if (step.nodeLoadTour) {
+      goog.events.listen(step.nodeLoadTour, goog.events.EventType.CLICK,
+        this.loadTour.bind(this));
     }
     goog.events.listen(step.nodeHeader, goog.events.EventType.CLICK,
       this.jumpToStep_.bind(this, step.id));
@@ -602,8 +630,18 @@ cwc.ui.Tutorial.prototype.jumpToStep_ = function(stepID) {
       activeStepID: stepID,
     });
   }
+  this.cancelTour_();
 };
 
+/**
+ * @private
+ */
+cwc.ui.Tutorial.prototype.cancelTour_ = function() {
+  let tour = this.tour_.getTour();
+  if (tour) {
+    tour.cancel();
+  }
+};
 
 /**
  * Scrolls the tutorial to the top of the given step.
@@ -747,10 +785,14 @@ cwc.ui.Tutorial.prototype.showMedia_ = function(media) {
  * @private
  */
 cwc.ui.Tutorial.prototype.setState_ = function(change) {
+  let previousActiveStepID = this.state_.activeStepID;
   let isEditorDirty = this.isEditorDirty_();
   Object.keys(change).forEach((key) => {
     this.state_[key] = change[key];
   });
+  if (previousActiveStepID != this.state_.activeStepID) {
+    this.cancelTour_();
+  }
   this.updateView_();
   if (!isEditorDirty) {
     this.loadCode_();
@@ -807,6 +849,7 @@ cwc.ui.Tutorial.prototype.loadCodeWithPrompt_ = function() {
   });
 };
 
+
 /**
  * Loads example code into editor
  * @private
@@ -823,6 +866,28 @@ cwc.ui.Tutorial.prototype.loadCode_ = function() {
   this.log_.info('Loaded example code into editor', activeStep.code);
   this.solved(false);
   this.restartValidate_();
+};
+
+/**
+ * Starts a per-step tour
+ * @private
+ */
+cwc.ui.Tutorial.prototype.loadTour = function() {
+  let step = this.getActiveStep_();
+  if (!step.tour) {
+    this.log_.warn('loadTour called for step with no tour');
+    return;
+  }
+  if (!this.tour_) {
+    this.log_.error('No tour instnace, can\'t load tour');
+    return;
+  }
+  this.tour_.setTour({
+    'description': 'Tutorial Tour', // TODO(carheden): Merge tutorial/tour
+    'data': step.tour,
+  });
+  this.cancelTour_();
+  this.tour_.getTour().start();
 };
 
 /**

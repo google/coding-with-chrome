@@ -77,6 +77,7 @@
   {@param images: list<string>}
   {@param isLastStep: bool}
   {@param hasCode: bool}
+  {@param hasTour: bool}
   {@param number: number}
   {@param online: bool}
   {@param prefix: string}
@@ -124,11 +125,16 @@
         <div class="{$prefix}actions">
           {if $hasCode}
             <button type="button" class="mdl-button mdl-js-button mdl-button--colored mdl-button--raised {$prefix}load-code">
-              <i class='material-icons'>chevron_left</i><label>Load Example Code</label>
+              <i class='material-icons'>chevron_left</i><label>{msg desc="Overwrite the content of the editor with the example code for the current step"}Load Example Code{/msg}</label>
+            </button>
+          {/if}
+          {if $hasTour}
+            <button type="button" class="mdl-button mdl-js-button mdl-button--colored mdl-button--raised {$prefix}load-tour">
+              <label>{msg desc="Shows the user what to do by opening a set of modal dialogs that point to areas of the scren"}Show Me{/msg}</label>
             </button>
           {/if}
           {if not $isLastStep}
-            <button type="button" class="mdl-button mdl-js-button mdl-button--colored mdl-button--raised {$prefix}continue">Continue</button>
+            <button type="button" class="mdl-button mdl-js-button mdl-button--colored mdl-button--raised {$prefix}continue">{msg desc="Continue to the next step"}Continue{/msg}</button>
           {/if}
         </div>
     </div>

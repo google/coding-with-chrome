@@ -1,0 +1,10 @@
+[
+  {
+    "title": "Add a circle",
+    "attachTo": {
+      "element": ".blocklyTreeRowItem_draw",
+      "on": "right"
+    },
+    "text": "Drag a 'Circle' block into the editor"
+  }
+]

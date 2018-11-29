@@ -1,0 +1,105 @@
+{
+  "content": {
+    "blockly": {
+      "content": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <variables></variables>\n</xml>",
+      "name": "blockly",
+      "size": 75,
+      "type": "application/blockly+xml",
+      "version": 1
+    },
+    "__javascript__": {
+      "content": "",
+      "name": "__javascript__",
+      "size": 0,
+      "type": "application/javascript",
+      "version": 1
+    }
+  },
+  "files": {},
+  "flags": {},
+  "format": "Coding with Chrome File Format 3.0",
+  "frameworks": {},
+  "history": "",
+  "metadata": {
+    "__tutorial__": {
+      "eng": {
+        "description": {
+          "___TEMPLATE___:text": "eng/description.md",
+          "mime_type": "text/markdown"
+        },
+        "steps": [
+          {
+            "title": "Editor & Preview",
+            "description": {
+              "___TEMPLATE___:text": "eng/step1/text.md",
+              "mime_type": "text/markdown"
+            },
+            "___TEMPLATE___:json:tour": "eng/step1/tour.json"
+          },
+          {
+            "title": "Customizing your view",
+            "description": {
+              "___TEMPLATE___:text": "eng/step2/text.md",
+              "mime_type": "text/markdown"
+            },
+            "___TEMPLATE___:json:tour": "eng/step2/tour.json"
+         },
+         {
+            "title": "Errors & Debugging",
+            "description": {
+              "___TEMPLATE___:text": "eng/step3/text.md",
+              "mime_type": "text/markdown"
+            },
+            "images": [
+              {
+                "mime_type": "image/png",
+                "___TEMPLATE___:binary:data": "eng/step3/console.png"
+              }
+            ],
+            "___TEMPLATE___:json:tour": "eng/step3/tour.json"
+          },
+          {
+            "title": "Title Your Project",
+            "description": {
+              "___TEMPLATE___:text": "eng/step4/text.md",
+              "mime_type": "text/markdown"
+            },
+            "___TEMPLATE___:json:tour": "eng/step4/tour.json"
+          },
+          {
+            "title": "Saving your work",
+            "description": {
+              "___TEMPLATE___:text": "eng/step5/text.md",
+              "mime_type": "text/markdown"
+            },
+            "___TEMPLATE___:json:tour": "eng/step5/tour.json"
+          },
+          {
+            "title": "The Sidebar",
+            "description": {
+              "___TEMPLATE___:text": "eng/step6/text.md",
+              "mime_type": "text/markdown"
+            },
+            "___TEMPLATE___:json:tour": "eng/step6/tour.json"
+          },
+          {
+            "title": "Next Up: Blockly",
+            "description": {
+              "___TEMPLATE___:text": "eng/step7/text.md",
+              "mime_type": "text/markdown"
+            },
+            "___TEMPLATE___:json:tour": "eng/step7/tour.json"
+          }
+        ]
+      }
+    },
+    "__default__": {
+      "author": "Adam Carheden",
+      "description": "An introduction to Coding with Chrome",
+      "title": "Coding With Chrome For The First Time",
+      "version": "1.0"
+    }
+  },
+  "mode": "basic_blockly",
+  "ui": "blockly"
+}

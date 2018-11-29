@@ -1,0 +1,1 @@
+By now you've noticed that Coding with Chrome has a thrid pane here on the right -- the sidebar. The sidebar can display tutorials and information about the file you're editing. The sidebar icons can perform other functions that we'll cover in future tutorials. You can hide the sidebar by clicking the highlighted sidebar icon.

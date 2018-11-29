@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Save Icon",
+    "attachTo": {
+      "element": "#cwc-blockly-toolbar-save",
+      "on": "bottom"
+    },
+    "text": "The Save icon saves the current file"
+  },
+  {
+    "title": "Menu",
+    "attachTo": {
+      "element": "#cwc-gui-chrome div.mdl-layout__drawer-button i.material-icons",
+      "on": "bottom-start"
+    },
+    "text": "You'll find a 'Save as new file' and other options in the menu"
+  }
+]

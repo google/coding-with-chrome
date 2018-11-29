@@ -1,0 +1,10 @@
+[
+              { 
+                "title": "Project Title",
+                "attachTo": {
+                  "element": "#cwc-gui-title",
+                  "on": "bottom"
+                },
+                "text": "Click the title to change it."
+              }
+            ]
