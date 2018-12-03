@@ -25,20 +25,6 @@ let makeDir = require('make-dir');
 let inDir = fs.realpathSync(__dirname + '/../../static_files/tutorials');
 let outDir = fs.realpathSync(__dirname + '/../../genfiles/core/resources');
 
-
-let mkdir = function(dir) {
-  if (fs.existsSync(dir)) {
-    return;
-  }
-  try {
-    fs.mkdirSync(dir);
-  } catch (e) {
-    let p = path.dirname(dir);
-    mkdir(p);
-    fs.mkdirSync(dir);
-  }
-};
-
 let procTemplates = function(dir, callback) {
   fs.readdir(dir, function(err, list) {
     if (err) {
