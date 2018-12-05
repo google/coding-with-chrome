@@ -42,6 +42,22 @@
 
     {param content kind="html"}
 
+      {call cwc.soy.SelectScreenTemplate.titleGrid data="all"}
+        {param text: 'Tutorials...' /}
+        {param opt_icon: 'school' /}
+      {/call}
+      {call cwc.soy.SelectScreenTemplate.fileCardList}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'AIY Tutorial' /}
+            {param text: 'Learn to set up and use the AIY voice or vision kit' /}
+            {param opt_link_text: 'Start Learning' /}
+            {param tutorial: 'aiy/aiy.cwct' /}
+            {param opt_color_class: 'bg-orange' /}
+            {param opt_icon: 'school' /}
+          {/call}
+        {/param}
+      {/call}
 
       {call cwc.soy.SelectScreenTemplate.titleGrid data="all"}
         {param text: 'Voice Kit...' /}

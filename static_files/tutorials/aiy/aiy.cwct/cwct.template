@@ -1,0 +1,79 @@
+{
+  "content": {
+    "__python__": {
+      "content": "",
+      "name": "__python__",
+      "size": 0,
+      "type": "text/x-python",
+      "version": 1
+    }
+  },
+  "files": {},
+  "format": "Coding with Chrome File Format 3.0",
+  "history": "",
+  "metadata": {
+    "__tutorial__": {
+      "eng": {
+        "description": {
+          "___TEMPLATE___:text": "eng/description.md",
+          "mime_type": "text/markdown"
+        },
+        "steps": [
+          {
+            "title": "Setup",
+            "description": {
+              "___TEMPLATE___:text": "eng/step1/text.md",
+              "mime_type": "text/markdown"
+            }
+          },
+          {
+            "title": "Plug it in",
+            "description": {
+              "___TEMPLATE___:text": "eng/step2/text.md",
+              "mime_type": "text/markdown"
+            },
+            "images": [
+              {
+                "mime_type": "image/jpeg",
+                "___TEMPLATE___:binary:data": "eng/step2/cabling.jpg"
+              }
+            ]
+          },
+          {
+            "title": "New Features",
+            "description": {
+              "___TEMPLATE___:text": "eng/step3/text.md",
+              "mime_type": "text/markdown"
+            },
+            "___TEMPLATE___:json:tour": "eng/step3/tour.json"
+          },
+          {
+            "title": "Hello, AIY",
+            "description": {
+              "___TEMPLATE___:text": "eng/step4/text.md",
+              "mime_type": "text/markdown"
+            },
+            "___TEMPLATE___:code": "eng/step4/code.py"
+          },
+          {
+            "title": "Light it up",
+            "description": {
+              "___TEMPLATE___:text": "eng/step5/text.md",
+              "mime_type": "text/markdown"
+            },
+            "___TEMPLATE___:code": "eng/step5/code.py"
+          }
+        ]
+      }
+    },
+    "__default__": {
+      "author": "Adam Carheden",
+      "description": "Instructions on using the AIY Voice or Vision Kit",
+      "title": "AIY Tutorial",
+      "version": "1.0"
+    }
+  },
+  "mode": "aiy",
+  "ui": "default",
+  "view": "__python__"
+}
