@@ -118,11 +118,12 @@
   {@param title: string}
   {@param? id: string}
   {@param? hidden: bool}
+  {@param? warning: string}
   {@param? opt_link_text: string}
   {@param? opt_color_class: string}
   {@param? opt_icon: string}
   {@param? opt_image: string}
-  {@param? opt_warning: string}
+
 
   {call .dataActionDiv_ data="all"}
     {param classes: 'cwc-file-card mdl-card mdl-shadow--2dp' /}
@@ -146,9 +147,9 @@
       <div class="mdl-card__supporting-text">
         {msg desc=""}{$text}{/msg}
       </div>
-      {if $opt_warning}
+      {if $warning}
       <div class="mdl-card__supporting-text mdl-color-text--red">
-        {msg desc=""}{$opt_warning}{/msg}
+        {msg desc=""}{$warning}{/msg}
       </div>
       {/if}
 
