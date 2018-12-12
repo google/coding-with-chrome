@@ -29,7 +29,7 @@
   <img src="images/cwc_logo.png" alt="{$manifest['name']}"
     style="display: block; margin: auto; height: 200px;">
   <p>
-    Version {$manifest['version']}<br/>
+    <span id="{$prefix}version-link" class="goog-link">Version {$manifest['version']}</span><br/>
     Use of the <a href="http://codingwithchrome.foo" target="_blank" class="goog-link">Coding with Chrome</a> is governed by <a href="https://www.google.com/intl/en/policies/" target="_blank" class="goog-link">Google Terms of Service and Privacy Policy</a>.<br/>
     Copyright 2015 The Coding with Chrome Authors.<br/>
   </p>
@@ -119,4 +119,21 @@
   </dl>
 
 </div>
+{/template}
+
+
+/**
+ * Changelog information.
+ */
+{template .changelog}
+  {@param prefix: string}
+  {@param is_chrome_app: bool}
+
+  {if $is_chrome_app}
+    <webview id="{$prefix}webview-notice" partition="static"
+      src="../CHANGELOG.html" style="width: 600px; height: 500px;"></webview>
+  {else}
+    <iframe id="{$prefix}webview-notice"
+      src="../CHANGELOG.html" style="width: 600px; height: 500px;"></iframe>
+  {/if}
 {/template}

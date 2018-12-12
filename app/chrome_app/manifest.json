@@ -46,6 +46,7 @@
   },
   "sandbox": {
     "pages": [
+      "CHANGLOG.html",
       "LICENSE.html",
       "NOTICE.html"
     ]
@@ -54,6 +55,7 @@
     "partitions": [{
         "name": "static",
         "accessible_resources": [
+          "CHANGELOG.html",
           "LICENSE.html",
           "NOTICE.html"
         ]

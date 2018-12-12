@@ -28,6 +28,7 @@ closureBuilder.build({
   name: 'Copy static files',
   resources: [
     'app/default/index.html',
+    'genfiles/core/CHANGELOG.html',
     'genfiles/core/LICENSE.html',
     'genfiles/core/NOTICE.html',
     'genfiles/core/icons/',
