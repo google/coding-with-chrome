@@ -162,7 +162,7 @@ cwc.protocol.aiy.Api.prototype.sendRun = function(code, args) {
  * @return {!Promise}
  * @export
  */
-cwc.protocol.aiy.Api.prototype.terminateJoyDemo = function(timeout) {
+cwc.protocol.aiy.Api.prototype.terminateJoyDemo = function(timeout = 2000) {
   return new Promise((resolve) => {
     this.quiet_ = true;
     this.send_(JSON.stringify({
