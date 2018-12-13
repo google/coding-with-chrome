@@ -118,10 +118,12 @@
   {@param title: string}
   {@param? id: string}
   {@param? hidden: bool}
+  {@param? warning: string}
   {@param? opt_link_text: string}
   {@param? opt_color_class: string}
   {@param? opt_icon: string}
   {@param? opt_image: string}
+
 
   {call .dataActionDiv_ data="all"}
     {param classes: 'cwc-file-card mdl-card mdl-shadow--2dp' /}
@@ -140,11 +142,17 @@
               <i class="icon_auto">insert_drive_file</i>
             </div>
           {/if}
-        </div>      
+        </div>
       </div>
       <div class="mdl-card__supporting-text">
         {msg desc=""}{$text}{/msg}
       </div>
+      {if $warning}
+        <div class="mdl-card__supporting-text mdl-color-text--red">
+          {msg desc=""}{$warning}{/msg}
+        </div>
+      {/if}
+
       <div class="mdl-card__actions mdl-card--border"{if $id} id="{$id}"{/if}>
         <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
           {if $opt_link_text}
@@ -340,7 +348,7 @@
   {let $tab_id: 'select-screen-tab-' + $id /}
   {let $isEnabled: isNonnull($modules[$module]) and $modules[$module] == true or not isNonnull($modules[$module]) /}
 
-  <a href="#{$tab_id}" id="{$tab_id}-link" class="mdl-tabs__tab 
+  <a href="#{$tab_id}" id="{$tab_id}-link" class="mdl-tabs__tab
     {if $icon} icon_24px_raw{/if}
     {if $active} is-active{/if}
     {if not $isEnabled} hidden{/if}">{$name}</a>

@@ -150,6 +150,7 @@ cwc.mode.aiy.Connection.prototype.connectInteractive = async function(host) {
 cwc.mode.aiy.Connection.prototype.connect = async function(host) {
   const url = this.buildSocketUrl(host);
   await this.api_.connect(url);
+  await this.api_.terminateJoyDemo();
   this.database_.put('host', host);
 };
 

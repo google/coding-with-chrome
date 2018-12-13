@@ -41,6 +41,9 @@ cwc.protocol.aiy.Api = function() {
   /** @private {!boolean} */
   this.connected_ = false;
 
+  /** @private {!boolean} */
+  this.quiet_ = false;
+
   /** @private {!string} */
   this.url_ = '';
 };
@@ -155,6 +158,27 @@ cwc.protocol.aiy.Api.prototype.sendRun = function(code, args) {
 
 
 /**
+ * @param {!number} timeout
+ * @return {!Promise}
+ * @export
+ */
+cwc.protocol.aiy.Api.prototype.terminateJoyDemo = function(timeout = 2000) {
+  return new Promise((resolve) => {
+    this.quiet_ = true;
+    this.send_(JSON.stringify({
+      'type': 'run',
+      'args': ['sudo', 'systemctl', 'stop', 'joy_detection_demo.service'],
+    }));
+    setTimeout(() => {
+      this.quiet_ = false;
+      this.disconnect();
+      resolve(this.reconnect());
+    }, timeout);
+  });
+};
+
+
+/**
  * @param {!number} signum
  * @export
  */
@@ -200,7 +224,7 @@ cwc.protocol.aiy.Api.prototype.parseMessage_ = function(messageData) {
  * @private
  */
 cwc.protocol.aiy.Api.prototype.handleMessage_ = function(messageData) {
-  if (!messageData) {
+  if (!messageData || this.quiet_) {
     return;
   }
 
