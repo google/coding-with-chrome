@@ -105,3 +105,8 @@
 	path = third_party/coding-with-chrome-libraries
 	url = https://github.com/google/coding-with-chrome-libraries.git
 	ignore = dirty
+
+[submodule "third_party/aiyprojects-raspbian"]
+	path = third_party/aiyprojects-raspbian
+	url = https://github.com/google/aiyprojects-raspbian.git
+	ignore = dirty

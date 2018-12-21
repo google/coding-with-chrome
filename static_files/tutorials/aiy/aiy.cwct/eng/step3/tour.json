@@ -1,0 +1,42 @@
+[
+  {
+    "title": "Run your code",
+    "attachTo": {
+      "element": "#cwc-aiy-toolbar-run",
+      "on": "right"
+    },
+    "text": "The Play button runs your code"
+  },
+  {
+    "title": "Stop you code",
+    "attachTo": {
+      "element": "#cwc-aiy-toolbar-terminate",
+      "on": "right"
+    },
+    "text": "Code taking too long? Click Stop"
+  },
+  {
+    "title": "Disconnect",
+    "attachTo": {
+      "element": "#cwc-aiy-toolbar-disconnect",
+      "on": "right"
+    },
+    "text": "Close the connection to the AIY."
+  },
+  {
+    "title": "Connected?",
+    "attachTo": {
+      "element": "#cwc-aiy-toolbar-status",
+      "on": "bottom"
+    },
+    "text": "Check here to see if CwC can talk to your AIY"
+  },
+  {
+    "title": "AIY Console",
+    "attachTo": {
+      "element": "#cwc-aiy-terminal-content",
+      "on": "top"
+    },
+    "text": "Your program's output will be here"
+  }
+]

@@ -30,7 +30,6 @@
  * Normal overview page.
  */
 {template .overview}
-
   {call cwc.soy.SelectScreenTemplate.container}
     {param header kind="html"}
       {call cwc.soy.SelectScreenTemplate.header}
@@ -41,6 +40,27 @@
     {/param}
 
     {param content kind="html"}
+      {call cwc.soy.SelectScreenTemplate.titleGrid data="all"}
+        {param text: 'Tutorials...' /}
+        {param opt_icon: 'school' /}
+      {/call}
+      {call cwc.soy.SelectScreenTemplate.fileCardList}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'AIY Tutorial' /}
+            {param text: 'Learn to set up and use the AIY voice or vision kit' /}
+            {param opt_link_text: 'Start Learning' /}
+            {param tutorial: 'aiy/aiy.cwct' /}
+            {param opt_color_class: 'bg-orange' /}
+            {param opt_icon: 'school' /}
+          {/call}
+        {/param}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.titleGrid data="all"}
+        {param text: 'Voice Kit...' /}
+        {param opt_icon: 'record_voice_over' /}
+      {/call}
       {call cwc.soy.SelectScreenTemplate.fileCardList}
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
@@ -51,7 +71,31 @@
             {param opt_color_class: 'bg-orange' /}
             {param opt_icon: 'record_voice_over' /}
           {/call}
+         {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Voice Recorder' /}
+            {param text: 'Record your voice and play it back' /}
+            {param opt_link_text: 'Start Recording' /}
+            {param file: 'aiy/voice/voice_recorder.cwc' /}
+            {param opt_color_class: 'bg-orange' /}
+            {param opt_icon: 'record_voice_overview' /}
+          {/call}
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Google Assistant' /}
+            {param text: 'The Google Assistant will answer all your questions' /}
+            {param opt_link_text: 'Start Google Assistant' /}
+            {param file: 'aiy/voice/assistant_grpc_demo.cwc' /}
+            {param opt_color_class: 'bg-orange' /}
+            {param opt_icon: 'record_voice_overview' /}
+          {/call}
+        {/param}
+      {/call}
 
+      {call cwc.soy.SelectScreenTemplate.titleGrid data="all"}
+        {param text: 'Vision Kit...' /}
+        {param opt_icon: 'videocam' /}
+      {/call}
+      {call cwc.soy.SelectScreenTemplate.fileCardList}
+        {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
             {param title: 'Vision Kit' /}
             {param text: 'Start building for the AIY Vision Kit' /}
@@ -61,10 +105,49 @@
             {param opt_color_class: 'bg-orange' /}
             {param opt_icon: 'videocam' /}
           {/call}
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Joy Detection' /}
+            {param text: 'AIY will tell you when you are smiling' /}
+            {param opt_link_text: 'Start Smiling' /}
+            {param file: 'aiy/vision/joy/joy_detection_demo.cwc' /}
+            {param opt_color_class: 'bg-orange' /}
+            {param opt_icon: 'videocam' /}
+          {/call}
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Image Classification' /}
+            {param text: 'AIY will tell you what it sees' /}
+            {param opt_link_text: 'Start Classifying' /}
+            {param file: 'aiy/vision/image_classification_camera.cwc' /}
+            {param opt_color_class: 'bg-orange' /}
+            {param opt_icon: 'videocam' /}
+          {/call}
         {/param}
       {/call}
 
+      {call cwc.soy.SelectScreenTemplate.titleGrid data="all"}
+        {param text: 'LED Button...' /}
+        {param opt_icon: 'brightness_5' /}
+      {/call}
+      {call cwc.soy.SelectScreenTemplate.fileCardList}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Illuminate while pressed' /}
+            {param text: 'Turn the button on while when it\'s depressed' /}
+            {param opt_link_text: 'Start Demo' /}
+            {param file: 'aiy/button_led.cwc' /}
+            {param opt_color_class: 'bg-orange' /}
+            {param opt_icon: 'brightness_5' /}
+          {/call}
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'LED Examples' /}
+            {param text: 'See all the things you can do with the LED button' /}
+            {param opt_link_text: 'Start Demo' /}
+            {param file: 'aiy/leds_example.cwc' /}
+            {param opt_color_class: 'bg-orange' /}
+            {param opt_icon: 'brightness_5' /}
+          {/call}
+        {/param}
+      {/call}
     {/param}
   {/call}
-
 {/template}
