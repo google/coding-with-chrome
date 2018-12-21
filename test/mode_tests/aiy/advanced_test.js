@@ -22,9 +22,11 @@
 describe('[Mode AIY - Advanced]', function() {
   prepareEditor();
   describe('Prepare Mode', function() {
-    loadExampleFile('aiy/vision/face_camera_trigger.cwc', it);
-    loadExampleFile('aiy/voice/assistant_grpc_demo.cwc', it);
     loadExampleFile('aiy/voice/voice_recorder.cwc', it);
+    loadExampleFile('aiy/voice/assistant_grpc_demo.cwc', it);
+    loadExampleFile('aiy/vision/joy/joy_detection_demo.cwc', it);
+    loadExampleFile('aiy/vision/image_classification_camera.cwc', it);
+    loadExampleFile('aiy/button_led.cwc', it);
     loadExampleFile('aiy/leds_example.cwc', it);
   });
 });

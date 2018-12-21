@@ -76,6 +76,12 @@ let examples = [
   // 'vision/face_camera_trigger.py',
 ];
 
+let normalizeTitle = function(title) {
+  return title.replace(/_/g, ' ')
+    .replace(/ \w/g, (part) => part.toUpperCase())
+    .replace(/^\w/g, (part) => part.toUpperCase());
+};
+
 /*
  * We have to encapsulate python code in for AIY in a .cwc file to
  * force it to use the AIY CwC mode mode.
@@ -103,10 +109,7 @@ let pyToAIYCwc = function(python) {
     'metadata': {
       '__default__': {
         'author': 'AIY Projects Team',
-        'title': path.basename(python, '.py')
-          .replace(/_/g, ' ')
-          .replace(/ \w/g, (part) => part.toUpperCase())
-          .replace(/^\w/g, (part) => part.toUpperCase()),
+        'title': normalizeTitle(path.basename(python, '.py')),
         'version': '1.0',
       },
     },
