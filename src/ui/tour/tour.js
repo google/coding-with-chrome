@@ -122,6 +122,7 @@ cwc.ui.Tour.prototype.getTourDescription = function() {
   return this.tourDescription_ || '';
 };
 
+
 /**
  * @return {Shepherd.Tour|boolean}
  */
@@ -166,16 +167,18 @@ cwc.ui.Tour.prototype.clear = function() {
   this.tourLength_ = 0;
 };
 
+
 /**
  * @param {number} stepNumber
  * @param {number} tourLength
- * @param {function} cancel
- * @return {!array}
+ * @param {Function} cancel
+ * @return {!Array}
  * @private
  */
 cwc.ui.Tour.prototype.getStepButtons = function(stepNumber, tourLength,
   cancel) {
   let tourButtons = [];
+
   // Back button
   if (stepNumber > 0) {
     tourButtons.push({
@@ -205,6 +208,7 @@ cwc.ui.Tour.prototype.getStepButtons = function(stepNumber, tourLength,
       'classes': 'shepherd-button-example-primary',
     });
   }
+
   // Next button
   if (stepNumber < tourLength - 1) {
     tourButtons.push({
@@ -219,9 +223,10 @@ cwc.ui.Tour.prototype.getStepButtons = function(stepNumber, tourLength,
   return tourButtons;
 };
 
+
 /**
  * @param {number} stepNumber
- * @return {!array}
+ * @return {!Array}
  * @private
  */
 cwc.ui.Tour.prototype.processButtons_ = function(stepNumber) {

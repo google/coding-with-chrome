@@ -406,7 +406,7 @@ cwc.utils.Dialog.prototype.isOpen = function(dialog) {
 
 
 /**
- * @return {!Element}
+ * @return {Element}
  */
 cwc.utils.Dialog.prototype.getCloseButton = function() {
   return goog.dom.getElement(this.prefix + 'close');

@@ -90,7 +90,7 @@ cwc.ui.Preview = function(helper) {
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = new goog.events.EventTarget();
 
-  /** @private {!Object.<number>} */
+  /** @private {!Object.<number|null>} */
   this.eventTimer_ = {};
 
   /** @private {boolean} */

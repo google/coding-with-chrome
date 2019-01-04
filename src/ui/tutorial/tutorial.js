@@ -75,13 +75,13 @@ cwc.ui.Tutorial = function(helper) {
   /** @private {!string} */
   this.completedStepClass_ = this.prefix + 'step-container--complete';
 
-  /** @private {!Element} */
+  /** @private {Element} */
   this.nodeMediaOverlay_ = null;
 
-  /** @private {!Element} */
+  /** @private {Element} */
   this.nodeMediaOverlayClose_ = null;
 
-  /** @private {!Element} */
+  /** @private {Element} */
   this.nodeMediaOverlayContent_ = null;
 
   /** @private {!cwc.utils.Database} */
@@ -178,7 +178,7 @@ cwc.ui.Tutorial.prototype.hasTutorial = function() {
 
 
 /**
- * @param {!object} steps
+ * @param {!Object} steps
  * @private
  */
 cwc.ui.Tutorial.prototype.parseSteps_ = async function(steps) {
@@ -205,7 +205,7 @@ cwc.ui.Tutorial.prototype.parseSteps_ = async function(steps) {
 
 
 /**
- * @param {!object} stepTemplate
+ * @param {!Object} stepTemplate
  * @param {!int} id
  * @private
  */
@@ -265,7 +265,7 @@ cwc.ui.Tutorial.prototype.addStep_ = async function(stepTemplate, id) {
 
 /**
  * @param {!string} key
- * @param {!object} data
+ * @param {!Object} data
  * @param {boolean} warnOnOverwrite
  * @return {string|boolean}
  */
@@ -311,7 +311,7 @@ cwc.ui.Tutorial.prototype.ensureUrlInDB_ =
 
 /**
  * @param {!Array} source
- * @param {!object} destination
+ * @param {!Object} destination
  * @param {!string} name
  * @return {!Promise}
  * @private
@@ -346,7 +346,7 @@ cwc.ui.Tutorial.prototype.appendBinaries_ =
 
 
 /**
- * @param {!object} spec
+ * @param {!Object} spec
  * @return {!string|boolean}
  * @private
  */
@@ -370,7 +370,7 @@ cwc.ui.Tutorial.prototype.ensureObjectInDb_ = async function(spec) {
 
 
 /**
- * @param {!object} description
+ * @param {!Object} description
  * @private
  * @return {boolean}
  */
@@ -395,7 +395,7 @@ cwc.ui.Tutorial.prototype.validateDescription_ = function(description) {
 
 
 /**
- * @param {!object} description
+ * @param {!Object} description
  * @private
  * @return {string}
  */

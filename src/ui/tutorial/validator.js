@@ -37,6 +37,7 @@ cwc.ui.TutorialValidator.Type = {
   MATCH_TEXT_OUTPUT: 'match_text_output',
 };
 
+
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -71,6 +72,7 @@ cwc.ui.TutorialValidator = function(helper) {
   /** @private {!boolean} */
   this.running_ = false;
 };
+
 
 /**
  * Creates a validator webview/iframe with the same code as the preview and
@@ -112,6 +114,7 @@ cwc.ui.TutorialValidator.prototype.start = function() {
   this.sandbox_['src'] = contentUrl;
 };
 
+
 /**
  * @return {string|null}
  * @private
@@ -139,6 +142,7 @@ cwc.ui.TutorialValidator.prototype.getValidate_ = function() {
   return validate;
 };
 
+
 /**
  * @param {string} textMatch
  * @param {string} message
@@ -164,6 +168,7 @@ cwc.ui.TutorialValidator.prototype.validateByMatchTextOutput_ =
   }
 };
 
+
 /**
  * @param {string} textOutput
  * @param {string} textMatch
@@ -185,9 +190,10 @@ cwc.ui.TutorialValidator.prototype.matchTextOutput_ = function(textOutput,
   this.processValidateResults_(result);
 };
 
+
 /**
  * Callback for validate.
- * @param {object} result
+ * @param {Object} result
  * @private
  */
 cwc.ui.TutorialValidator.prototype.processValidateResults_ = function(result) {
@@ -209,8 +215,8 @@ cwc.ui.TutorialValidator.prototype.processValidateResults_ = function(result) {
 /**
  * Injects code into an iframe/webview and handles the results.
  * @param {string} code
- * @param {any} expect
- * @param {int} timeout
+ * @param {?} expect
+ * @param {number} timeout
  * @private
  * @return {Promise}
  */
@@ -245,7 +251,7 @@ cwc.ui.TutorialValidator.prototype.injectCode_ = function(code, expect,
 
 
 /**
- * Calls the appropriate function to run validatior code in sandbox
+ * Calls the appropriate function to run validator code in sandbox
  * webview/iframe
  * @private
  */
@@ -359,7 +365,7 @@ cwc.ui.TutorialValidator.prototype.callValidator_ = function() {
 
 /**
  * Processes the results of the current step's validation function.
- * @param {Event} event
+ * @param {?} event
  * @private
  */
 cwc.ui.TutorialValidator.prototype.handleValidatorMessage_ = function(event) {
@@ -370,13 +376,12 @@ cwc.ui.TutorialValidator.prototype.handleValidatorMessage_ = function(event) {
   }
 
   if (!this.running()) {
-    this.log_.warn('Ignoring message', event,
-      'because valiation isn\'t running');
+    this.log_.warn('Ignoring message', event, 'validation isn\'t running');
     return;
   }
   if (!('source' in browserEvent) ||
     browserEvent['source'] !== this.sandbox_.contentWindow) {
-    this.log_.warn('Ignoring message', browserEvent, 'because source isn\'t',
+    this.log_.warn('Ignoring message', browserEvent, ' source isn\'t',
       this.sandbox_.contentWindow);
     return;
   }
@@ -386,18 +391,19 @@ cwc.ui.TutorialValidator.prototype.handleValidatorMessage_ = function(event) {
     this.processValidateResults_(browserEvent['data']['cwc-validate-result']);
     this.stop();
   } else {
-    this.log_.info('Igorning unknown event', browserEvent);
+    this.log_.info('Ignoring unknown event', browserEvent);
   }
 };
 
 
 /**
- * Determins if the script is running.
+ * Determines if the script is running.
  * @return {boolean}
  */
 cwc.ui.TutorialValidator.prototype.running = function() {
   return this.running_;
 };
+
 
 /**
  * Stops validation and cleans up events and sandbox.
@@ -410,6 +416,7 @@ cwc.ui.TutorialValidator.prototype.stop = function() {
   }
   this.running_ = false;
 };
+
 
 /**
  * @param {!string} text
