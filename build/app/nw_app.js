@@ -30,6 +30,7 @@ closureBuilder.build({
     'app/chrome_app/manifest.json',
     'app/default/index.html',
     'app/nw_app/package.json',
+    'genfiles/core/CHANGELOG.html',
     'genfiles/core/LICENSE.html',
     'genfiles/core/NOTICE.html',
     'genfiles/core/icons/',

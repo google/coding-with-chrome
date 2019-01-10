@@ -33,6 +33,7 @@
   },
   "scripts": {
     "build": "npm run build:third_party && npm run build:core",
+    "build:changelog": "node build/cwc/changelog.js",
     "build:chrome_app": "node build/app/chrome_app.js",
     "build:chrome_app_debug": "node build/app/chrome_app_debug.js",
     "build:core": "npm run build:cwc-deps",

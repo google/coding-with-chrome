@@ -52,6 +52,7 @@ cwc.userConfigName = {
   LEGO: 'lego',
   MAKEBLOCK: 'makeblock',
   PENCIL_CODE: 'pencil_code',
+  PREVIOUS_VERSION: 'previous_version',
   PYTHON: 'python',
   SKIP_WELCOME: 'skip_welcome',
   SPHERO: 'sphero',

@@ -15,38 +15,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author mbordihn@google.com (Markus Bordihn)
+ * @author gau@google.com (Ashley Gau)
  */
-let closureBuilder = require('closure-builder');
+const fs = require('fs');
 
+const date = new Date(Date.now()).toLocaleString();
+const version = '5.10.16';
+const commits = require('child_process').execSync('git --no-pager log -10');
 
-/**
- * Static files
- */
-closureBuilder.build({
-  name: 'CwC core files',
-  resources: [
-    'static_files/icons/',
-    'static_files/images/',
-    'static_files/resources/',
-  ],
-  out: 'genfiles/core/',
-});
+fs.writeFile('CHANGELOG.md',
+`New Major Coding With Chrome Update
+====================================
 
+${date} -v${version}
 
-/**
- * Markdown files
- */
-closureBuilder.build({
-  name: 'CwC Markdown files',
-  markdown: [
-    'LICENSE.md',
-    'NOTICE.md',
-    'CHANGELOG.md',
-  ],
-  replace: [
-    ['nw-js', 'nwjs'],
-    ['three-js', 'threejs'],
-  ],
-  out: 'genfiles/core/',
+Recent Changelog
+----------------
+
+${commits}
+[Show all](https://github.com/google/coding-with-chrome/commits/master)
+`,
+  function(err) {
+    if (err) {
+        return console.log(err);
+    }
+
+    console.log('The file was saved!');
 });

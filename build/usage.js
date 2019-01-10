@@ -66,6 +66,9 @@ const sections = [{
     }, {
         name: 'test',
         summary: 'Performs automated tests.',
+    }, {
+        name: 'changelog',
+        summary: 'Generates the CHANGELOG.md file',
     }],
   }, {
     header: 'Deploy commands (binary)',
