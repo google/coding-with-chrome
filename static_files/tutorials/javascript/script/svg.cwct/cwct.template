@@ -82,7 +82,10 @@
               "mime_type": "text/markdown"
             },
             "___TEMPLATE___:code": "eng/step8/code.js",
-            "___TEMPLATE___:validate": "eng/step8/validate.js"
+            "validate": {
+              "type": "function",
+              "___TEMPLATE___:value": "eng/step8/validate.js"
+            }
           }
         ]
       }
