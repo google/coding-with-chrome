@@ -27,6 +27,27 @@ goog.require('cwc.utils.Database');
 
 
 /**
+ * The AIY socket port.
+ * @const
+ */
+cwc.mode.aiy.Connection.PORT = '8765';
+
+
+/**
+ * The default AIY hostname.
+ * @const
+ */
+cwc.mode.aiy.Connection.DEFAULT_HOSTNAME = 'raspberrypi.local';
+
+
+/**
+ * IP address used by AIY when connected via USB.
+ * @const
+ */
+cwc.mode.aiy.Connection.USB_HOST = '192.168.11.2';
+
+
+/**
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
@@ -90,29 +111,8 @@ cwc.mode.aiy.Connection.prototype.connectAndSendRun = function(data) {
 
 
 /**
- * The AIY socket port.
- * @const
- */
-cwc.mode.aiy.Connection.PORT = '8765';
-
-
-/**
- * The default AIY hostname.
- * @const
- */
-cwc.mode.aiy.Connection.DEFAULT_HOSTNAME = 'raspberrypi.local';
-
-
-/**
- * IP address used by AIY when connected via USB.
- * @const
- */
-cwc.mode.aiy.Connection.USB_HOST = '192.168.11.2';
-
-
-/**
  * Prompts the user for the hostname and then tries to connect to it.
- * @param {string} host
+ * @param {string=} host
  * @return {Promise}
  * @export
  */
@@ -148,8 +148,7 @@ cwc.mode.aiy.Connection.prototype.connectInteractive = async function(host) {
  * @export
  */
 cwc.mode.aiy.Connection.prototype.connect = async function(host) {
-  const url = this.buildSocketUrl(host);
-  await this.api_.connect(url);
+  await this.api_.connect(this.buildSocketUrl(host));
   await this.api_.terminateJoyDemo();
   this.database_.put('host', host);
 };

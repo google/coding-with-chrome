@@ -30,6 +30,7 @@ goog.require('goog.Timer');
 goog.scope(function() {
 const BluetoothProfile =
   goog.module.get('cwc.lib.protocol.bluetoothChrome.profile.Device');
+
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper

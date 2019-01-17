@@ -137,7 +137,7 @@ cwc.framework.Messenger.prototype.setAppWindow = function(appWindow) {
 
 /**
  * Sets the listener scope.
- * @param {!Function} scope
+ * @param {?} scope
  * @return {THIS}
  * @template THIS
  * @export
@@ -279,7 +279,7 @@ cwc.framework.Messenger.prototype.handleHandshake_ = function(data) {
     'start_time': data['start_time'],
     'ping_time': new Date().getTime(),
   });
-  this.ready_ = this.appWindow && this.appOrigin;
+  this.ready_ = Boolean(this.appWindow && this.appOrigin);
   if (this.ready_) {
     this.senderStack_.start();
   }
@@ -297,16 +297,10 @@ cwc.framework.Messenger.prototype.handleGamepad_ = function(data) {
 
 /**
  * Handles the received start message.
+ * @param {!Object} data
  * @private
  */
-cwc.framework.Messenger.prototype.handleStart_ = function() {
-  if (this.monitor_) {
-    console.log('Initialize monitor ...');
-    this.monitor_();
-  }
-  if (this.callback_) {
-    console.log('Starting program ...');
-    this.callback_(this.scope_);
-  }
+cwc.framework.Messenger.prototype.handleStart_ = function(data) {
+  console.log('__start__', data);
 };
 });

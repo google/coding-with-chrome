@@ -62,7 +62,7 @@ chrome.app.window = {};
 /** @type {Function} */
 chrome.app.window.get = function() {};
 
-/** @type {chrome.app.window} */
+/** @type {Function} */
 chrome.app.window.current = function() {};
 
 /** @type {Function} */

@@ -84,7 +84,6 @@ cwc.utils.Resources.getUriAsBase64 = function(uri) {
  * @param {string} uri
  * @param {string} nodeId
  * @return {Promise}
- * @private
  */
 cwc.utils.Resources.getUriAsJavaScriptTag = function(uri, nodeId) {
   return new Promise((resolve, reject) => {
@@ -109,7 +108,6 @@ cwc.utils.Resources.getUriAsJavaScriptTag = function(uri, nodeId) {
 /**
  * @param {string} uri
  * @return {Promise}
- * @private
  */
 cwc.utils.Resources.getUriAsJson = function(uri) {
   return new Promise((resolve, reject) => {

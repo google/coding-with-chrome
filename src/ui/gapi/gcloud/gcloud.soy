@@ -64,7 +64,7 @@
     <select id="{$prefix}folders-picker"/>
       <option selected disabled>Choose folder</option>
       {foreach $folder in $nextFolders}
-      <option value="{$folder}">{$folder}</option>
+        <option value="{$folder}">{$folder}</option>
       {/foreach}
     </select>
     {/if}
@@ -99,7 +99,7 @@
 
   <label>Public URL:
     <a id="{$prefix}public-url-link" target="_newtab" href="https://storage.googleapis.com/{$encodedPath}">
-    https://storage.googleapis.com/{$path}
+      https://storage.googleapis.com/{$path}
     </a>
   </labe>
 {/template}

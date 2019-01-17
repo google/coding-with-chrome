@@ -37,6 +37,15 @@
         {param title: 'Save the project' /}
       {/call}
 
+      {if $experimental}
+        {call cwc.soy.ui.Template.navigationIcon}
+          {param prefix: $prefix /}
+          {param id: 'publish' /}
+          {param icon: 'cloud_upload' /}
+          {param title: 'Publish to Google Cloud...' /}
+        {/call}
+      {/if}
+
       {call cwc.soy.ui.Template.navigationIcon}
         {param prefix: $prefix /}
         {param id: 'undo' /}
@@ -58,15 +67,6 @@
         {param text: '@@BLOCKLY__CREATE_NEW_VARIABLE' /}
         {param title: 'Create new variable...' /}
       {/call}
-
-      {if $experimental}
-        {call cwc.soy.ui.Template.navigationIcon}
-          {param prefix: $prefix /}
-          {param id: 'publish' /}
-          {param icon: 'cloud_upload' /}
-          {param title: 'Publish to Google Cloud...' /}
-        {/call}
-      {/if}
 
     </nav>
     <div class="mdl-layout-spacer"></div>

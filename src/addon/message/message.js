@@ -60,7 +60,7 @@ cwc.addon.Message.prototype.prepare = function() {
   let modeInstance = this.helper.getInstance('mode');
   if (modeInstance) {
     goog.events.listen(modeInstance.getEventTarget(),
-      cwc.mode.Modder.Events.Type.MODE_CHANGE,
+      /** @type {string} */ cwc.mode.Modder.Events.Type.MODE_CHANGE,
       this.eventsModder, false, this);
   }
 };

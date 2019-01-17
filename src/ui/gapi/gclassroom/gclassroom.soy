@@ -42,6 +42,7 @@
 {template .gClassroomCourseListTemplate}
   {@param prefix: string}
   {@param courses: ?}
+
   <div>
     <h5>Select Course:</h5>
     <ul class="mdl-list">
@@ -63,14 +64,15 @@
 {template .gClassroomCourseWorkListTemplate}
   {@param prefix: string}
   {@param courseWorks: ?}
+
   <div>
     <h5>Select Course Work:</h5>
     <ul class="mdl-list">
       {foreach $course_work in $courseWorks}
       <li class="mdl-list__item {$prefix}course_work" data-course-work-id="{$course_work['id']}">
         <span class="mdl-list__item-primary-content {$prefix}course_work_title">
-         <i class="material-icons mdl-list__item-icon">expand_more</i>
-         {$course_work['title']}
+          <i class="material-icons mdl-list__item-icon">expand_more</i>
+          {$course_work['title']}
         </span>
         <div id="{$prefix}student_submission_{$course_work['id']}"></div>
       </li>
@@ -86,13 +88,14 @@
 {template .gClassroomStudentSubmissionListTemplate}
   {@param prefix: string}
   {@param submissions: ?}
+
   <ul class="mdl-list">
-      {foreach $submission in $submissions}
+    {foreach $submission in $submissions}
       <li class="mdl-list__item {$prefix}student_submission" data-student-submission-id="{$submission['id']}">
-          <span class="mdl-list__item-primary-content">
+        <span class="mdl-list__item-primary-content">
           {$submission['name']}
-          </span>
+        </span>
       </li>
-      {/foreach}
+    {/foreach}
   </ul>
 {/template}

@@ -51,7 +51,7 @@ cwc.framework.lego.WeDo2 = function() {
  * @export
  */
 cwc.framework.lego.WeDo2.prototype.stop = function(delay) {
-  this.messenger_.send('stop', delay);
+  this.messenger_.send('stop', {}, delay);
 };
 
 

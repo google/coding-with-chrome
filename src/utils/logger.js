@@ -112,7 +112,7 @@ cwc.utils.Logger = function(name = 'Logger',
 
 
 /**
- * @param {!cwc.utils.LogLevel} logLevel
+ * @param {!cwc.utils.LogLevel|number} logLevel
  * @export
  */
 cwc.utils.Logger.prototype.setLogLevel = function(logLevel) {
@@ -170,7 +170,7 @@ cwc.utils.Logger.prototype.setLogger_ = function(name, logLevel, logger, raw) {
 
 /**
  * @param {!Function} logger
- * @param {bollean=} raw
+ * @param {boolean=} raw
  * @return {Function}
  * @private
  */

@@ -21,7 +21,7 @@ goog.provide('cwc.framework.MessengerDisplay');
 
 
 /**
- * @param {!cwc.Messenger} messenger
+ * @param {!Function} messenger
  * @constructor
  * @struct
  * @final

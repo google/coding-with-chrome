@@ -222,7 +222,7 @@ cwc.ui.BlocklyToolbox.prototype.clearSelection = function() {
 
 /**
  * Collapse Toolbox without the optional label.
- * @param {event=} e
+ * @param {?Event=} e
  */
 cwc.ui.BlocklyToolbox.prototype.collapse = function(e) {
   let treeRoot = document.getElementsByClassName('blocklyTreeRoot')[0];
@@ -278,7 +278,7 @@ cwc.ui.BlocklyToolbox.prototype.getToolboxTree_ = function() {
 
 
 /**
- * @param {event} e
+ * @param {!Event} e
  * @private
  */
 cwc.ui.BlocklyToolbox.prototype.handleAutoCollapse_ = function(e) {

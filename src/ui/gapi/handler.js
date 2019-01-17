@@ -38,16 +38,16 @@ cwc.ui.gapi.Handler = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {cwc.ui.gapi.Account} */
+  /** @type {?cwc.ui.gapi.Account} */
   this.accountInstance = null;
 
-  /** @type {cwc.ui.gapi.Classroom} */
+  /** @type {?cwc.ui.gapi.Classroom} */
   this.classroomInstance = null;
 
-  /** @type {cwc.ui.gapi.Cloud} */
+  /** @type {?cwc.ui.gapi.Cloud} */
   this.cloudInstance = null;
 
-  /** @type {cwc.ui.gapi.Drive} */
+  /** @type {?cwc.ui.gapi.Drive} */
   this.driveInstance = null;
 
   /** @private {!cwc.utils.Logger} */
@@ -109,25 +109,25 @@ cwc.ui.gapi.Handler.prototype.request = function(options, callback) {
 };
 
 
-/** @return {!cwc.ui.gapi.Account} */
+/** @return {?cwc.ui.gapi.Account} */
 cwc.ui.gapi.Handler.prototype.getAccount = function() {
   return this.accountInstance;
 };
 
 
-/** @return {!cwc.ui.gapi.Classroom} */
+/** @return {?cwc.ui.gapi.Classroom} */
 cwc.ui.gapi.Handler.prototype.getClassroom = function() {
   return this.classroomInstance;
 };
 
 
-/** @return {!cwc.ui.gapi.Cloud} */
+/** @return {?cwc.ui.gapi.Cloud} */
 cwc.ui.gapi.Handler.prototype.getCloud = function() {
   return this.cloudInstance;
 };
 
 
-/** @return {!cwc.ui.gapi.Drive} */
+/** @return {?cwc.ui.gapi.Drive} */
 cwc.ui.gapi.Handler.prototype.getDrive = function() {
   return this.driveInstance;
 };

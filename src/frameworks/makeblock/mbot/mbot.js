@@ -25,7 +25,6 @@ goog.require('cwc.framework.Messenger');
 
 /**
  * @constructor
- * @param {!Function} code
  * @struct
  * @final
  * @export
