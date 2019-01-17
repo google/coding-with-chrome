@@ -5,6 +5,6 @@
       "element": ".blocklyTreeRowItem_draw",
       "on": "right"
     },
-    "text": "Drag a 'Circle' block into the editor"
+    "text": "Click the 'Draw' category and drag a 'Circle' block into the editor"
   }
 ]
