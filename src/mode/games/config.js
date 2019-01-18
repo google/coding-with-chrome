@@ -43,6 +43,7 @@ cwc.mode.games.Config[cwc.mode.Type.PHASER] = new cwc.mode.Mod({
   mod: cwc.mode.phaser.Mod,
   name: 'Phaser',
   services: [cwc.mode.Service.GAMEPAD],
+  show_export: true,
   template: 'phaser/blank.cwc',
 });
 
@@ -59,6 +60,7 @@ cwc.mode.games.Config[cwc.mode.Type.PHASER_BLOCKLY] = new cwc.mode.Mod({
   name: 'Phaser blockly',
   services: [cwc.mode.Service.GAMEPAD],
   show_blockly: true,
+  show_export: true,
   template: 'phaser/blank-blocks.cwc',
 });
 

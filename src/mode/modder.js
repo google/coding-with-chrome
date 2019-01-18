@@ -103,9 +103,12 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
   if (navigationInstance) {
     navigationInstance.enableOverview(true);
     navigationInstance.enableSaveFile(true);
+    navigationInstance.enableOpenGoogleDriveFile(true);
+    navigationInstance.enableSaveGoogleDriveFile(true);
     if (modeConfig.name) {
       navigationInstance.setHeader(modeConfig.name, modeConfig.icon);
     }
+    navigationInstance.enableExportGoogleCloud(modeConfig.showExport);
   }
 
   // End existing tours.

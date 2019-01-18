@@ -24,7 +24,7 @@ describe('File format', function() {
   let content1 = Math.random().toString(36);
   let content2 = Math.random().toString(36);
   let content3 = Math.random().toString(36);
-  let version = Math.random();
+  let version = String(Math.random());
   let legacyFormat = {
     'author': 'Markus Bordihn',
     'content': {

@@ -55,16 +55,15 @@ cwc.ui.gapi.Handler = function(helper) {
 };
 
 
+/**
+ * @export
+ */
 cwc.ui.gapi.Handler.prototype.prepare = function() {
   this.log_.info('Preparing GAPI ...');
-
   this.accountInstance = new cwc.ui.gapi.Account(this.helper);
   this.accountInstance.prepare();
-
   this.classroomInstance = new cwc.ui.gapi.Classroom(this.helper);
-
   this.cloudInstance = new cwc.ui.gapi.Cloud(this.helper);
-
   this.driveInstance = new cwc.ui.gapi.Drive(this.helper);
 };
 

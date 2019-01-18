@@ -24,7 +24,6 @@
  * Toolbar template.
  */
 {template .template}
-  {@param experimental: bool}
   {@param prefix: string}
 
   <div class="mdl-layout__header-row">
@@ -36,15 +35,6 @@
         {param icon: 'save' /}
         {param title: 'Save the project' /}
       {/call}
-
-      {if $experimental}
-        {call cwc.soy.ui.Template.navigationIcon}
-          {param prefix: $prefix /}
-          {param id: 'publish' /}
-          {param icon: 'cloud_upload' /}
-          {param title: 'Publish to Google Cloud...' /}
-        {/call}
-      {/if}
 
       {call cwc.soy.ui.Template.navigationIcon}
         {param prefix: $prefix /}

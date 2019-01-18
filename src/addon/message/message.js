@@ -45,6 +45,9 @@ cwc.addon.Message = function(helper) {
   /** @private {boolean} */
   this.chromeApp_ = this.helper.checkChromeFeature('app');
 
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name, this.prefix);
+
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
@@ -56,12 +59,11 @@ cwc.addon.Message.prototype.prepare = function() {
   }
 
   this.log_.info('Preparing message addon ...');
-
   let modeInstance = this.helper.getInstance('mode');
   if (modeInstance) {
-    goog.events.listen(modeInstance.getEventTarget(),
-      /** @type {string} */ cwc.mode.Modder.Events.Type.MODE_CHANGE,
-      this.eventsModder, false, this);
+    this.events_.listen(modeInstance.getEventTarget(),
+      cwc.mode.Modder.Events.Type.MODE_CHANGE,
+      this.eventsModder.bind(this));
   }
 };
 

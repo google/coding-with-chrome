@@ -162,6 +162,8 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(forceOverview) {
     navigationInstance.enableOverview(false);
     navigationInstance.enableNewFile(false);
     navigationInstance.enableSaveFile(false);
+    navigationInstance.enableSaveGoogleDriveFile(false);
+    navigationInstance.enableExportGoogleCloud(false);
     navigationInstance.setHeader('Coding with Chrome', 'turned_in');
   }
 

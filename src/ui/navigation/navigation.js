@@ -81,6 +81,18 @@ cwc.ui.Navigation = function(helper) {
   /** @type {Element} */
   this.nodeOpenGoogleClassroom = null;
 
+  /** @type {Element} */
+  this.nodeExportGoogleCloud = null;
+
+  /** @type {boolean} */
+  this.supportGoogleClassroom = false;
+
+  /** @type {boolen} */
+  this.supportGoogleCloud = false;
+
+  /** @type {boolen} */
+  this.supportGoogleDrive = false;
+
   /** @type {!goog.ui.KeyboardShortcutHandler} */
   this.shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
 };
@@ -109,6 +121,8 @@ cwc.ui.Navigation.prototype.decorate = function(node) {
       this.prefix + 'save-google-drive');
   this.nodeOpenGoogleClassroom = goog.dom.getElement(
       this.prefix + 'open-google-classroom');
+  this.nodeExportGoogleCloud = goog.dom.getElement(
+      this.prefix + 'export-google-cloud');
 
 
   // Footer Items
@@ -119,9 +133,10 @@ cwc.ui.Navigation.prototype.decorate = function(node) {
 
   // Default stats
   goog.style.setElementShown(this.nodeDebug, this.helper.debugEnabled());
+  this.enableExportGoogleCloud(false);
+  this.enableOpenGoogleClassroom(false);
   this.enableOpenGoogleDriveFile(false);
   this.enableSaveGoogleDriveFile(false);
-  this.enableOpenGoogleClassroom(false);
 
   // Events
   goog.events.listen(this.nodeHome, goog.events.EventType.CLICK,
@@ -140,7 +155,8 @@ cwc.ui.Navigation.prototype.decorate = function(node) {
     this.saveGDriveFile.bind(this));
   goog.events.listen(this.nodeOpenGoogleClassroom, goog.events.EventType.CLICK,
     this.requestShowGoogleClassroomOverview.bind(this));
-
+  goog.events.listen(this.nodeExportGoogleCloud, goog.events.EventType.CLICK,
+    this.exportGoogleCloud.bind(this));
 
   goog.events.listen(this.nodeAbout, goog.events.EventType.CLICK,
     this.showAbout.bind(this));
@@ -359,6 +375,18 @@ cwc.ui.Navigation.prototype.saveFileAs = function() {
 
 
 /**
+ * Exports Preview to Google Cloud.
+ */
+cwc.ui.Navigation.prototype.exportGoogleCloud = function() {
+  let fileExporterInstance = this.helper.getInstance('fileExporter');
+  if (fileExporterInstance) {
+    fileExporterInstance.exportHtmlToGoogleCloud();
+    this.hide();
+  }
+};
+
+
+/**
  * @param {boolean} enable
  */
 cwc.ui.Navigation.prototype.enableOverview = function(enable) {
@@ -383,7 +411,8 @@ cwc.ui.Navigation.prototype.enableNewFile = function(enable) {
  */
 cwc.ui.Navigation.prototype.enableOpenGoogleDriveFile = function(enable) {
   if (this.nodeOpenGoogleDriveFile) {
-    goog.style.setElementShown(this.nodeOpenGoogleDriveFile, enable);
+    goog.style.setElementShown(this.nodeOpenGoogleDriveFile,
+      this.supportGoogleDrive && enable);
   }
 };
 
@@ -393,7 +422,8 @@ cwc.ui.Navigation.prototype.enableOpenGoogleDriveFile = function(enable) {
  */
 cwc.ui.Navigation.prototype.enableSaveGoogleDriveFile = function(enable) {
   if (this.nodeSaveGoogleDriveFile) {
-    goog.style.setElementShown(this.nodeSaveGoogleDriveFile, enable);
+    goog.style.setElementShown(this.nodeSaveGoogleDriveFile,
+      this.supportGoogleDrive && enable);
   }
 };
 
@@ -405,13 +435,54 @@ cwc.ui.Navigation.prototype.enableSaveFile = function(enable) {
   goog.style.setElementShown(this.nodeSaveFile, enable);
 };
 
+
 /**
  * @param {!boolean} enable
  */
 cwc.ui.Navigation.prototype.enableOpenGoogleClassroom = function(enable) {
   if (this.nodeOpenGoogleClassroom) {
-    goog.style.setElementShown(this.nodeOpenGoogleClassroom, enable);
+    goog.style.setElementShown(this.nodeOpenGoogleClassroom,
+      this.supportGoogleClassroom && enable);
   }
+};
+
+
+/**
+ * @param {!boolean} enable
+ */
+cwc.ui.Navigation.prototype.enableExportGoogleCloud = function(enable) {
+  if (this.nodeExportGoogleCloud) {
+    goog.style.setElementShown(this.nodeExportGoogleCloud,
+      this.supportGoogleCloud && enable);
+  }
+};
+
+
+/**
+ * @param {!boolean} supported
+ */
+cwc.ui.Navigation.prototype.enableGoogleClassroomSupport = function(supported) {
+  this.supportGoogleClassroom = supported;
+  this.enableOpenGoogleClassroom(supported);
+};
+
+
+/**
+ * @param {!boolean} supported
+ */
+cwc.ui.Navigation.prototype.enableGoogleCloudSupport = function(supported) {
+  this.supportGoogleCloud = supported;
+  this.enableExportGoogleCloud(supported);
+};
+
+
+/**
+ * @param {!boolean} supported
+ */
+cwc.ui.Navigation.prototype.enableGoogleDriveSupport = function(supported) {
+  this.supportGoogleDrive = supported;
+  this.enableOpenGoogleDriveFile(supported);
+  this.enableSaveGoogleDriveFile(supported);
 };
 
 

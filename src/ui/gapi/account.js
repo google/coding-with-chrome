@@ -185,10 +185,10 @@ cwc.ui.gapi.Account.prototype.setAuthentication = function(authenticated) {
 
   let navigationInstance = this.helper.getInstance('navigation');
   if (navigationInstance) {
-    navigationInstance.enableOpenGoogleDriveFile(authenticated);
-    navigationInstance.enableSaveGoogleDriveFile(authenticated);
+    navigationInstance.enableGoogleDriveSupport(authenticated);
+    this.handleClassroomAuthentication_(authenticated);
+    this.handleCloudAuthentication_(authenticated);
   }
-  this.handleClassroomAuthentication_(authenticated);
 };
 
 
@@ -348,14 +348,12 @@ cwc.ui.gapi.Account.prototype.handleAuthentication_ = function(access_token) {
 
 
 /**
+ * Checks if there is any Google Classroom course available.
  * @param {boolean} authenticated
  */
 cwc.ui.gapi.Account.prototype.handleClassroomAuthentication_ = function(
     authenticated) {
   let navigationInstance = this.helper.getInstance('navigation');
-  if (!navigationInstance) {
-    return;
-  }
   if (authenticated) {
     this.request({
       ignore_errors: true,
@@ -365,13 +363,42 @@ cwc.ui.gapi.Account.prototype.handleClassroomAuthentication_ = function(
         'studentId': 'me',
       },
     }).then((response) => {
-      navigationInstance.enableOpenGoogleClassroom(
-        Object.keys(response).length > 0);
+      let numCourses = Object.keys(response).length;
+      this.log_.info('Fround', numCourses, 'Google Classroom courses.');
+      navigationInstance.enableGoogleClassroomSupport(numCourses > 0);
     }, () => {
-      navigationInstance.enableOpenGoogleClassroom(false);
+      navigationInstance.enableGoogleClassroomSupport(false);
     });
   } else {
-    navigationInstance.enableOpenGoogleClassroom(false);
+    navigationInstance.enableGoogleClassroomSupport(false);
+  }
+};
+
+
+/**
+ * Checks if there is any Google Clould project available.
+ * @param {boolean} authenticated
+ */
+cwc.ui.gapi.Account.prototype.handleCloudAuthentication_ = function(
+    authenticated) {
+  let navigationInstance = this.helper.getInstance('navigation');
+  if (authenticated) {
+    this.request({
+      ignore_errors: true,
+      subdomain: 'cloudresourcemanager',
+      path: '/v1/projects',
+      params: {
+        'pageSize': 1000,
+      },
+    }).then((response) => {
+      let numberProject = Object.keys(response['projects']).length;
+      this.log_.info('Found', numberProject, 'Google Cloud projects.');
+      navigationInstance.enableGoogleCloudSupport(numberProject > 0);
+    }, () => {
+      navigationInstance.enableGoogleCloudSupport(false);
+    });
+  } else {
+    navigationInstance.enableGoogleCloudSupport(false);
   }
 };
 

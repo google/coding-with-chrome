@@ -81,7 +81,6 @@ Object.assign(Locales['deu'], {
   'Open file': 'Öffne Datei',
   'Physics Sprite': 'Physik Sprite',
   'Preload': 'Vorrausladen',
-  'Publish to Google Cloud...': 'Veröffentliche auf Google Cloud...',
   'Recent': 'Zuletzt',
   'Redo last change': 'Mache die letzte Änderung rückgängig',
   'Render': 'Ausgabe',

@@ -66,9 +66,6 @@ cwc.ui.EditorToolbar = function(helper) {
   this.nodeSave = null;
 
   /** @type {Element} */
-  this.nodePublish = null;
-
-  /** @type {Element} */
   this.nodeUndo = null;
 
   /** @type {Element} */
@@ -94,7 +91,6 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_select_view) {
   goog.soy.renderElement(
     this.node,
     cwc.soy.ui.EditorToolbar.template, {
-      experimental: this.helper.experimentalEnabled(),
       prefix: this.prefix,
     }
   );
@@ -113,12 +109,6 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_select_view) {
   cwc.ui.Helper.enableElement(this.nodeRedo, false);
   goog.style.setElementShown(this.nodeExpandExit, false);
   goog.style.setElementShown(this.nodeMore, false);
-
-  if (this.helper.experimentalEnabled()) {
-    this.nodePublish = goog.dom.getElement(this.prefix + 'publish');
-    goog.events.listen(this.nodePublish, goog.events.EventType.CLICK,
-      this.publish.bind(this));
-  }
 
   // Events
   goog.events.listen(this.nodeDebug, goog.events.EventType.CLICK,
@@ -203,23 +193,6 @@ cwc.ui.EditorToolbar.prototype.setSyntaxCheck = function() {
 
 
 /**
- * Publish file.
- */
-cwc.ui.EditorToolbar.prototype.publish = function() {
-  let fileExporterInstance = this.helper.getInstance('fileExporter');
-  fileExporterInstance.exportHtmlToGoogleCloud();
-};
-
-
-/**
- * @param {boolean} enable
- */
-cwc.ui.EditorToolbar.prototype.enablePublishButton = function(enable) {
-  cwc.ui.Helper.enableElement(this.nodePublish, enable);
-};
-
-
-/**
  * @param {boolean} enable
  */
 cwc.ui.EditorToolbar.prototype.enableDebugButton = function(enable) {
@@ -248,6 +221,7 @@ cwc.ui.EditorToolbar.prototype.enableRedoButton = function(enable) {
  * @param {string} editor_mode
  */
 cwc.ui.EditorToolbar.prototype.updateToolbar = function(editor_mode) {
+  // Enable Debugger
   if (editor_mode == cwc.utils.mime.Type.COFFEESCRIPT.type ||
       editor_mode == cwc.utils.mime.Type.CSS.type ||
       editor_mode == cwc.utils.mime.Type.HTML.type ||
@@ -260,9 +234,6 @@ cwc.ui.EditorToolbar.prototype.updateToolbar = function(editor_mode) {
       editorInstance.setSyntaxCheck(false);
     }
     this.enableDebugButton(false);
-  }
-  if (this.helper.experimentalEnabled()) {
-    this.enablePublishButton(false);
   }
 };
 

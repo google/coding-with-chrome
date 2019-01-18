@@ -126,7 +126,7 @@ cwc.fileFormat.File.prototype.setAuthor = function(author) {
  * @return {string}
  */
 cwc.fileFormat.File.prototype.getAuthor = function() {
-  return this.getMetadata('author');
+  return this.getMetadataText('author');
 };
 
 
@@ -195,7 +195,7 @@ cwc.fileFormat.File.prototype.setDescription = function(description) {
  * @return {string}
  */
 cwc.fileFormat.File.prototype.getDescription = function() {
-  return this.getMetadata('description');
+  return this.getMetadataText('description');
 };
 
 
@@ -298,7 +298,7 @@ cwc.fileFormat.File.prototype.getFrameworks = function() {
  * @param {string} name
  * @param {string=} namespace
  * @param {boolean=} quiet
- * @return {!string|Array}
+ * @return {!string|Array|Object}
  */
 cwc.fileFormat.File.prototype.getMetadata = function(
     name, namespace = this.metedataNamespace_, quiet = false) {
@@ -314,6 +314,24 @@ cwc.fileFormat.File.prototype.getMetadata = function(
   } else {
     return this.metadata_[namespace];
   }
+};
+
+
+/**
+ * @param {string} name
+ * @param {string=} namespace
+ * @param {boolean=} quiet
+ * @return {!string}
+ */
+cwc.fileFormat.File.prototype.getMetadataText = function(
+    name, namespace = this.metedataNamespace_, quiet = false) {
+  let data = this.getMetadata(name, namespace, quiet);
+  if (typeof data === 'string') {
+    return data;
+  } else if (typeof data === 'number') {
+    return String(data);
+  }
+  return '';
 };
 
 
@@ -364,7 +382,7 @@ cwc.fileFormat.File.prototype.setModel = function(model) {
  * @return {string}
  */
 cwc.fileFormat.File.prototype.getModel = function() {
-  return this.getMetadata('model');
+  return this.getMetadataText('model');
 };
 
 
@@ -403,7 +421,7 @@ cwc.fileFormat.File.prototype.setTitle = function(title) {
  * @return {string}
  */
 cwc.fileFormat.File.prototype.getTitle = function() {
-  return this.getMetadata('title');
+  return this.getMetadataText('title');
 };
 
 
@@ -413,7 +431,7 @@ cwc.fileFormat.File.prototype.getTitle = function() {
  */
 cwc.fileFormat.File.prototype.getTour = function(language = 'eng') {
   let tour = this.getMetadata(language, '__tour__', true);
-  if (!tour && this.getMetadata(null, '__tour__', true)) {
+  if (!tour && this.getMetadata('', '__tour__', true)) {
     this.log_.warn('Tour is not available in user\'s language', language);
     return this.getMetadata('eng', '__tour__', true);
   }
@@ -427,7 +445,7 @@ cwc.fileFormat.File.prototype.getTour = function(language = 'eng') {
  */
 cwc.fileFormat.File.prototype.getTutorial = function(language = 'eng') {
   let tutorial = this.getMetadata(language, '__tutorial__', true);
-  if (!tutorial && this.getMetadata(null, '__tutorial__', true)) {
+  if (!tutorial && this.getMetadata('', '__tutorial__', true)) {
     this.log_.warn('Tutorial is not available in user\'s language', language);
     return this.getMetadata('eng', '__tutorial__', true);
   }
@@ -448,7 +466,7 @@ cwc.fileFormat.File.prototype.setVersion = function(version) {
  * @return {string}
  */
 cwc.fileFormat.File.prototype.getVersion = function() {
-  return this.getMetadata('version');
+  return this.getMetadataText('version');
 };
 
 
@@ -578,7 +596,9 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
   // File format version handling
   let fileFormatVersion = cwc.fileFormat.File.getFileHeaderVersion(
     jsonData['format'], file);
-  file.log_.info('Loading JSON data with', Object.keys(jsonData).length,
+  file.log_.info('Loading JSON data with', Object.keys(
+      /** @type {Object} */ (jsonData)
+    ).length,
     'entries');
   file.init(true);
 

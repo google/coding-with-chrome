@@ -45,6 +45,7 @@ cwc.mode.programming.Config[cwc.mode.Type.BASIC] = new cwc.mode.Mod({
   mime_types: [cwc.utils.mime.Type.CWC.type],
   mod: cwc.mode.basic.Mod,
   name: 'Basic',
+  show_export: true,
   template: 'basic/blank.cwc',
 });
 
@@ -60,6 +61,7 @@ cwc.mode.programming.Config[cwc.mode.Type.BASIC_BLOCKLY] = new cwc.mode.Mod({
   mod: cwc.mode.basic.Mod,
   name: 'Basic Blockly',
   show_blockly: true,
+  show_export: true,
   template: 'basic/blank-blocks.cwc',
 });
 
@@ -102,6 +104,7 @@ cwc.mode.programming.Config[cwc.mode.Type.PENCIL_CODE] = new cwc.mode.Mod({
   mime_types: [cwc.utils.mime.Type.CWC.type],
   mod: cwc.mode.pencilCode.Mod,
   name: 'Pencil Code',
+  show_export: true,
   template: 'pencil_code/blank.cwc',
 });
 

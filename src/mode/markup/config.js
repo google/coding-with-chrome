@@ -42,5 +42,6 @@ cwc.mode.markup.Config[cwc.mode.Type.HTML5] = new cwc.mode.Mod({
   mime_types: [cwc.utils.mime.Type.HTML.type],
   mod: cwc.mode.html5.Mod,
   name: 'HTML 5',
+  show_export: true,
   template: 'html5/blank.html',
 });

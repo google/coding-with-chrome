@@ -23,6 +23,8 @@ Locales['deu']['NAVIGATION'] = {
   'ABOUT_TEXT': 'Weitere Informationen zur Codierung mit Chrome',
   'DEBUG': 'Debuggen',
   'DEBUG_TEXT': 'Open Debug',
+  'EXPORT_TO_GCLOUD': 'Exportieren zu Google Cloud',
+  'EXPORT_TO_GCLOUD_TEXT': 'Exportieren der Vorschau zu Google Cloud...',
   'HELP': 'Hilfe',
   'HELP_TEXT': 'Dokumentation öffnen',
   'HOME': 'Home',

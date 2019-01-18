@@ -40,6 +40,9 @@ cwc.mode.Mod = function(config_data) {
   this.showBlockly = config_data.show_blockly || false;
 
   /** @type {boolean} */
+  this.showExport = config_data.show_export || false;
+
+  /** @type {boolean} */
   this.runPreview = config_data.run_preview || false;
 
   /** @type {string} */

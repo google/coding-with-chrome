@@ -72,7 +72,6 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node) {
   goog.soy.renderElement(
     this.node,
     cwc.soy.ui.BlocklyToolbar.template, {
-      experimental: this.helper.experimentalEnabled(),
       prefix: this.prefix,
     }
   );
@@ -90,12 +89,6 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node) {
 
   goog.style.setElementShown(this.nodeExpandExit, false);
   goog.style.setElementShown(this.nodeMore, false);
-
-  if (this.helper.experimentalEnabled()) {
-    let nodePublish = goog.dom.getElement(this.prefix + 'publish');
-    goog.events.listen(nodePublish, goog.events.EventType.CLICK,
-      this.publish.bind(this));
-  }
 
   // Events
   goog.events.listen(this.nodeExpand, goog.events.EventType.CLICK,
@@ -173,15 +166,6 @@ cwc.ui.BlocklyToolbar.prototype.redo = function() {
     this.enableUndoButton(history['undo'] > 0);
     this.enableRedoButton(history['redo'] > 0);
   }
-};
-
-
-/**
- * Publish file.
- */
-cwc.ui.BlocklyToolbar.prototype.publish = function() {
-  let fileExporterInstance = this.helper.getInstance('fileExporter');
-  fileExporterInstance.exportHtmlToGoogleCloud();
 };
 
 
