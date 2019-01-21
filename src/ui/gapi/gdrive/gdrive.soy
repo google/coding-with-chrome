@@ -110,3 +110,15 @@
     </table>
   </div>
 {/template}
+
+
+/**
+ * Google Drive wait indicator.
+ */
+{template .gDriveWait}
+  {@param prefix: string}
+
+  <div id="{$prefix}wait">
+    <div class="mdl-spinner mdl-js-spinner is-active"></div> Please wait loading ... 
+  </div>
+{/template}

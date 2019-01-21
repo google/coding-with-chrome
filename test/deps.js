@@ -197,7 +197,7 @@ goog.addDependency('../../../../src/ui/editor/toolbar/editor_toolbar.js', ['cwc.
 goog.addDependency('../../../../src/ui/gapi/account.js', ['cwc.ui.gapi.Account'], ['cwc.utils.Logger', 'goog.Uri', 'goog.events', 'goog.net.XhrIo'], {});
 goog.addDependency('../../../../src/ui/gapi/gclassroom/gclassroom.js', ['cwc.ui.gapi.Classroom'], ['cwc.config.GDrive', 'cwc.soy.GClassroom', 'cwc.ui.Helper', 'cwc.utils.Events', 'goog.dom.dataset', 'goog.events.EventType'], {});
 goog.addDependency('../../../../src/ui/gapi/gcloud/gcloud.js', ['cwc.ui.gapi.Cloud'], ['cwc.soy.GCloud', 'cwc.utils.Helper', 'goog.dom', 'goog.dom.forms', 'goog.events', 'goog.events.EventType'], {});
-goog.addDependency('../../../../src/ui/gapi/gdrive/gdrive.js', ['cwc.ui.gapi.Drive'], ['cwc.config.GDrive', 'cwc.soy.GDrive', 'cwc.ui.Helper', 'cwc.utils.Events', 'goog.dom.dataset', 'goog.events.EventType'], {});
+goog.addDependency('../../../../src/ui/gapi/gdrive/gdrive.js', ['cwc.ui.gapi.Drive'], ['cwc.config.GDrive', 'cwc.soy.GDrive', 'cwc.ui.Helper', 'cwc.utils.Events', 'cwc.utils.Logger', 'goog.dom.dataset', 'goog.events.EventType'], {});
 goog.addDependency('../../../../src/ui/gapi/handler.js', ['cwc.ui.gapi.Handler'], ['cwc.ui.gapi.Account', 'cwc.ui.gapi.Classroom', 'cwc.ui.gapi.Cloud', 'cwc.ui.gapi.Drive', 'cwc.utils.Logger'], {});
 goog.addDependency('../../../../src/ui/gui/gui.js', ['cwc.ui.Gui'], ['cwc.soy.ui.Gui', 'cwc.utils.Helper', 'cwc.utils.Logger', 'goog.dom', 'goog.dom.fullscreen', 'goog.events', 'goog.events.EventType', 'goog.soy'], {});
 goog.addDependency('../../../../src/ui/help/help.js', ['cwc.ui.Help'], ['cwc.soy.Help'], {});

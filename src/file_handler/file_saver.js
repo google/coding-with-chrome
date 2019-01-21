@@ -62,7 +62,6 @@ cwc.fileHandler.FileSaver = function(helper) {
  * @export
  */
 cwc.fileHandler.FileSaver.prototype.saveFile = function(autoDetect = false) {
-  this.log_.info('saveFile...');
   this.prepareContent();
   if (autoDetect && this.gDriveId) {
     this.saveGDriveFile(true);
@@ -78,7 +77,6 @@ cwc.fileHandler.FileSaver.prototype.saveFile = function(autoDetect = false) {
  * @export
  */
 cwc.fileHandler.FileSaver.prototype.saveFileAs = function() {
-  this.log_.info('saveFileAs...');
   this.prepareContent();
   this.selectFileToSave(this.filename, this.fileData);
 };
@@ -90,7 +88,7 @@ cwc.fileHandler.FileSaver.prototype.saveFileAs = function() {
  * @export
  */
 cwc.fileHandler.FileSaver.prototype.saveGDriveFile = function(save_file) {
-  this.log_.info('Save file in Google Drive', this.gDriveId);
+  this.log_.info('Save file', this.filename, 'in Google Drive', this.gDriveId);
   let gDriveInstance = this.helper.getInstance('gapi').getDrive();
   this.prepareContent();
   if (save_file) {
@@ -105,7 +103,7 @@ cwc.fileHandler.FileSaver.prototype.saveGDriveFile = function(save_file) {
  * @export
  */
 cwc.fileHandler.FileSaver.prototype.saveGCloudFile = function() {
-  this.log_.info('Save file in Google Cloud');
+  this.log_.info('Save file', this.filename, 'in Google Cloud');
   let gCloudInstance = this.helper.getInstance('gapi').getCloud();
   this.prepareContent();
   gCloudInstance.publishDialog(this.filename, this.fileData, this.mimeType);
@@ -116,6 +114,7 @@ cwc.fileHandler.FileSaver.prototype.saveGCloudFile = function() {
  * Prepares file and ensures we have the latest editor content.
  */
 cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
+  this.log_.info('Prepare Content for saving file...');
   let editorInstance = this.helper.getInstance('editor');
   let fileInstance = this.helper.getInstance('file');
   let fileTitle = fileInstance.getFileTitle();
@@ -167,10 +166,12 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
  */
 cwc.fileHandler.FileSaver.prototype.addFileExtension = function(
     filename, extension = cwc.utils.mime.Type.CWC.ext[0]) {
-  if (filename.includes(extension)) {
-    return filename;
+  console.log('addFileExtension', filename);
+  if (!filename) {
+    this.log_.error('Invalid filename', filename, 'for', extension);
+    return;
   }
-  return filename + extension;
+  return filename.includes(extension) ? filename : filename + extension;
 };
 
 

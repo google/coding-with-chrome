@@ -519,7 +519,6 @@ cwc.fileFormat.File.prototype.loadJSON = function(data) {
  * @return {!Object}
  */
 cwc.fileFormat.File.prototype.toJSON = function() {
-  console.log(cwc.fileFormat.File.toJSON(this));
   return cwc.fileFormat.File.toJSON(this);
 };
 

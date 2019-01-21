@@ -24,6 +24,7 @@ goog.require('cwc.config.GDrive');
 goog.require('cwc.soy.GDrive');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Logger');
 
 goog.require('goog.dom.dataset');
 goog.require('goog.events.EventType');
@@ -59,25 +60,21 @@ cwc.ui.gapi.Drive = function(helper) {
 
   /** @type {Object} */
   this.menu = {
-    myFiles: cwc.ui.Helper.getListItem(
-      'My files', this.getMyFiles.bind(this)),
-    SharedFiles: cwc.ui.Helper.getListItem(
-      'Shared with me', this.getSharedFiles.bind(this)),
-    Starred: cwc.ui.Helper.getListItem(
-      'Starred', this.getStarredFiles.bind(this)),
-    Recent: cwc.ui.Helper.getListItem(
-      'Recent', this.getLastOpenedFiles.bind(this)),
-    Trash: cwc.ui.Helper.getListItem('Trash', this.getTrashFiles.bind(this)),
+    MyFiles: this.getListItem_('My files', this.getMyFiles),
+    Recent: this.getListItem_('Recent', this.getRecentFiles),
+    Shared: this.getListItem_('Shared with me', this.getSharedFiles),
+    Starred: this.getListItem_('Starred', this.getStarredFiles),
+    Trash: this.getListItem_('Trash', this.getTrashFiles),
   };
 
   /** @type {Object} */
   this.dialogMenus = {
     'open': [
-      this.menu.LastOpenedFiles,
       this.menu.MyFiles,
-      this.menu.SharedFiles,
-      this.menu.StarredFiles,
-      this.menu.TrashFiles,
+      this.menu.Recent,
+      this.menu.Shared,
+      this.menu.Starred,
+      this.menu.Trash,
     ],
     'save': [
       this.menu.MyFiles,
@@ -98,6 +95,9 @@ cwc.ui.gapi.Drive = function(helper) {
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -132,7 +132,7 @@ cwc.ui.gapi.Drive.prototype.decorate = function() {
       let dialogInstance = this.helper.getInstance('dialog', true);
       let fileInstance = this.helper.getInstance('file', true);
       let saveFilename = goog.dom.getElement(this.prefix + 'save_filename');
-      fileInstance.setFilename(saveFilename);
+      fileInstance.setFilename(saveFilename.value || this.saveFileName);
       this.saveFile(saveFilename.value || this.saveFileName,
         this.saveFileContent, undefined, this.saveFileParentId);
       dialogInstance.close();
@@ -198,7 +198,7 @@ cwc.ui.gapi.Drive.prototype.saveDialog = function(name, content) {
  * Returns all files which are created by the user.
  */
 cwc.ui.gapi.Drive.prototype.getMyFiles = function() {
-  this.switchMenu(this.menu.MyFiles);
+  this.switchMenu_(this.menu.MyFiles);
   this.parents = [{name: 'My files', id: 'root'}];
   let fileEvent = this.handleFileList.bind(this);
   this.getFiles_({
@@ -213,18 +213,6 @@ cwc.ui.gapi.Drive.prototype.getMyFiles = function() {
 
 
 /**
- * Fetches all related files from Google drive.
- */
-cwc.ui.gapi.Drive.prototype.getFile = function() {
-  let fileEvent = this.handleFileList.bind(this);
-  this.getFiles_({
-    'pageSize': cwc.config.GDrive.PAGE_SIZE,
-    'q': 'mimeType = \'' + this.mimeType + '\'',
-  }, fileEvent);
-};
-
-
-/**
  * Navigate down a sub-folder in the Google Drive file browser.
  * @param {string} file
  * @param {boolean=} trashed
@@ -232,7 +220,19 @@ cwc.ui.gapi.Drive.prototype.getFile = function() {
 cwc.ui.gapi.Drive.prototype.getFolder = function(file, trashed = false) {
   let name = file['name'];
   let id = file ['id'];
-  console.log('Navigate to', name, 'folder');
+  console.log('Navigate to', name, 'folder', id);
+
+  let fileListNode = goog.dom.getElement(this.prefix + 'file_list');
+  if (fileListNode) {
+    goog.soy.renderElement(
+      fileListNode,
+      cwc.soy.GDrive.gDriveWait, {
+        prefix: this.prefix,
+      }
+    );
+  }
+  cwc.ui.Helper.mdlRefresh();
+
   this.saveFileParentId = id;
   this.parents.push({name: name, id: id});
   let fileEvent = this.handleFileList.bind(this);
@@ -251,23 +251,10 @@ cwc.ui.gapi.Drive.prototype.getFolder = function(file, trashed = false) {
 
 
 /**
- * Switch to the clicked on sidebar menu.
- * @param {element} node
- */
-cwc.ui.gapi.Drive.prototype.switchMenu = function(node) {
-  if (this.menuCurrent) {
-    this.menuCurrent.classList.remove(this.prefix + 'menu-selected');
-  }
-  node.classList.add(this.prefix + 'menu-selected');
-  this.menuCurrent = node;
-};
-
-
-/**
  * Returns all files which are shared with the user.
  */
 cwc.ui.gapi.Drive.prototype.getSharedFiles = function() {
-  this.switchMenu(this.menu.SharedFiles);
+  this.switchMenu_(this.menu.Shared);
   this.parents = [{
     name: 'Shared with me', callback: this.getSharedFiles.bind(this)}];
   let fileEvent = this.handleFileList.bind(this);
@@ -285,7 +272,7 @@ cwc.ui.gapi.Drive.prototype.getSharedFiles = function() {
  * Returns all marked files from the user.
  */
 cwc.ui.gapi.Drive.prototype.getStarredFiles = function() {
-  this.switchMenu(this.menu.StarredFiles);
+  this.switchMenu_(this.menu.Starred);
   this.parents = [{
     name: 'Starred', callback: this.getStarredFiles.bind(this)}];
   let fileEvent = this.handleFileList.bind(this);
@@ -302,10 +289,10 @@ cwc.ui.gapi.Drive.prototype.getStarredFiles = function() {
 /**
  * Returns all last opened files by the user.
  */
-cwc.ui.gapi.Drive.prototype.getLastOpenedFiles = function() {
-  this.switchMenu(this.menu.LastOpenedFiles);
+cwc.ui.gapi.Drive.prototype.getRecentFiles = function() {
+  this.switchMenu_(this.menu.Recent);
   this.parents = [{
-    name: 'Recent', callback: this.getLastOpenedFiles.bind(this)}];
+    name: 'Recent', callback: this.getRecentFiles.bind(this)}];
   let fileEvent = this.handleFileList.bind(this);
   let lastDays = new Date();
   lastDays.setDate(new Date().getDate() - 7);
@@ -324,7 +311,7 @@ cwc.ui.gapi.Drive.prototype.getLastOpenedFiles = function() {
  * Returns all trashed files by the user.
  */
 cwc.ui.gapi.Drive.prototype.getTrashFiles = function() {
-  this.switchMenu(this.menu.TrashFiles);
+  this.switchMenu_(this.menu.Trash);
   this.parents = [{
     name: 'Trash', callback: this.getTrashFiles.bind(this)}];
   let fileEvent = this.handleFileList.bind(this);
@@ -342,16 +329,13 @@ cwc.ui.gapi.Drive.prototype.getTrashFiles = function() {
  * @param {Object} files Filelist with the result of the search.
  */
 cwc.ui.gapi.Drive.prototype.updateFileList = function(files) {
-  let fileList = goog.dom.getElement(this.prefix + 'file_list');
   goog.soy.renderElement(
-    fileList,
+    goog.dom.getElement(this.prefix + 'file_list'),
     cwc.soy.GDrive.gDriveFileList,
     {prefix: this.prefix, files: files}
   );
-
-  let fileParents = goog.dom.getElement(this.prefix + 'file_parents');
   goog.soy.renderElement(
-    fileParents,
+    goog.dom.getElement(this.prefix + 'file_parents'),
     cwc.soy.GDrive.gDriveParentFolders,
     {prefix: this.prefix, parents: this.parents}
   );
@@ -444,7 +428,7 @@ cwc.ui.gapi.Drive.prototype.saveFile = function(name, content, id, parent_id) {
       console.error('Unknown filetype: ' + name);
       return;
     }
-    let saveEvent = this.handleSaveFile.bind(this);
+    let saveEvent = this.handleSaveFile_.bind(this);
     let method = 'POST';
     let metaData = {};
     metaData['name'] = name;
@@ -491,22 +475,6 @@ cwc.ui.gapi.Drive.prototype.saveFile = function(name, content, id, parent_id) {
 
 
 /**
- * @param {Object} file
- */
-cwc.ui.gapi.Drive.prototype.handleSaveFile = function(file) {
-  let fileInstance = this.helper.getInstance('file');
-  if (file) {
-    this.helper.showInfo('Saved file ' + file['name'] + ' successful.');
-    fileInstance.setGDriveId(file['id']);
-    console.info('Saved gDrive file: ' + file['id']);
-  } else {
-    this.helper.showError('Was not able to save file!');
-    console.error('Save failed!');
-  }
-};
-
-
-/**
  * Downloads and loads the content form the given file instance.
  * @param {Object} file File instance.
  */
@@ -534,6 +502,35 @@ cwc.ui.gapi.Drive.prototype.downloadFile = function(file) {
 
 
 /**
+ * Switch to the clicked on sidebar menu.
+ * @param {element} node
+ * @private
+ */
+cwc.ui.gapi.Drive.prototype.switchMenu_ = function(node) {
+  if (!node) {
+    this.log_.error('Invalid Menu entry point', node);
+    return;
+  }
+  if (this.menuCurrent) {
+    this.menuCurrent.classList.remove(this.prefix + 'menu-selected');
+  }
+  node.classList.add(this.prefix + 'menu-selected');
+  this.menuCurrent = node;
+
+  let fileListNode = goog.dom.getElement(this.prefix + 'file_list');
+  if (fileListNode) {
+    goog.soy.renderElement(
+      fileListNode,
+      cwc.soy.GDrive.gDriveWait, {
+        prefix: this.prefix,
+      }
+    );
+  }
+  cwc.ui.Helper.mdlRefresh();
+};
+
+
+/**
  * @param {Object} params
  * @param {function(?)} callback
  * @private
@@ -549,20 +546,38 @@ cwc.ui.gapi.Drive.prototype.getFiles_ = function(params, callback) {
   }
 };
 
+
 /**
- * @param {string} fileId
- * @param {function(?)} callback
- * @return {Promise} to wait on the completion gdrive file request.
+ * @param {string} name
+ * @param {!function()} func
+ * @return {!Element}
+ * @private
  */
-cwc.ui.gapi.Drive.prototype.getFile = function(fileId, callback) {
-  let gapiInstance = this.helper.getInstance('gapi');
-  if (gapiInstance) {
-    let opts = {
-      path: '/drive/v3/files/' + fileId,
-    };
-    return gapiInstance.request(opts, callback);
+cwc.ui.gapi.Drive.prototype.getListItem_ = function(name, func) {
+  let text = document.createTextNode(i18t(name));
+  let item = goog.dom.createDom(goog.dom.TagName.LI, 'mdl-list__item');
+  let primaryContent = goog.dom.createDom(
+    goog.dom.TagName.SPAN, 'mdl-list__item-primary-content');
+  primaryContent.appendChild(text);
+  item.appendChild(primaryContent);
+  goog.events.listen(item, goog.events.EventType.CLICK, func.bind(this));
+  return item;
+};
+
+
+/**
+ * @param {Object} file
+ * @private
+ */
+cwc.ui.gapi.Drive.prototype.handleSaveFile_ = function(file) {
+  let fileInstance = this.helper.getInstance('file');
+  if (file) {
+    this.helper.showInfo('Saved file ' + file['name'] + ' successful.');
+    fileInstance.setGDriveId(file['id']);
+    this.log_.info('Saved file', file['id']);
   } else {
-    console.error('GDrive.getFile missing account');
+    this.helper.showError('Was not able to save file!');
+    this.log_.error('Save failed for', file);
   }
 };
 

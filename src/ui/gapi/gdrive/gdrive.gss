@@ -48,6 +48,12 @@
   font-weight: bold;
 }
 
+#{$prefix}gdrive-wait {
+  margin: auto;
+  padding: 10px;
+  width: 50%
+}
+
 #{$prefix}gdrive-content {
   overflow: hidden;
   height: 450px;
@@ -56,8 +62,9 @@
 #{$prefix}gdrive-file_list {
   position: relative;
   min-width: 750px;
-  height: 350px;
-  overflow: scroll;
+  height: 414px;
+  overflow-y: scroll;
+  overflow-x: auto;
 }
 
 #{$prefix}gdrive-file_list td {
@@ -79,4 +86,8 @@
 #{$prefix}gdrive-file_list tr td webview {
   width: 16px;
   height: 16px;
+}
+
+#{$prefix}gdrive-file_list .mdl-data-table {
+  min-width: 735px;
 }

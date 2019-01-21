@@ -47,25 +47,6 @@ cwc.ui.Helper.getMenuItem = function(name, title, func) {
 
 
 /**
- * @param {string} name
- * @param {function()=} optFunc
- * @return {!Element}
- */
-cwc.ui.Helper.getListItem = function(name, optFunc) {
-  let text = document.createTextNode(i18t(name));
-  let item = goog.dom.createDom(goog.dom.TagName.LI, 'mdl-list__item');
-  let primaryContent = goog.dom.createDom(
-    goog.dom.TagName.SPAN, 'mdl-list__item-primary-content');
-  primaryContent.appendChild(text);
-  item.appendChild(primaryContent);
-  if (optFunc) {
-    goog.events.listen(item, goog.events.EventType.CLICK, optFunc);
-  }
-  return item;
-};
-
-
-/**
  * Refreshs dom structure for mdl framework.
  */
 cwc.ui.Helper.mdlRefresh = function() {
