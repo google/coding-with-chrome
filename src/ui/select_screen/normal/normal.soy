@@ -25,6 +25,7 @@
  */
 {template .template}
   {@param prefix: string}
+  {@param version: string}
 
   <div class="{$prefix}overview mdl-layout mdl-js-layout">
 
@@ -65,6 +66,7 @@
         {param active: true /}
         {param id: 'overview' /}
         {param content kind="html"}
+          {call cwc.soy.SelectScreen.whatsNew data="all" /}
           {call .overview data="all" /}
         {/param}
       {/call}

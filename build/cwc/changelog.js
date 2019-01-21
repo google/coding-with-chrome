@@ -18,16 +18,39 @@
  * @author gau@google.com (Ashley Gau)
  */
 const fs = require('fs');
+const path = require('path');
 
 const date = new Date(Date.now()).toLocaleString();
 const version = '5.10.16';
-const commits = require('child_process').execSync('git --no-pager log -10');
+const commits = require('child_process').execSync('git --no-pager log -10')
+  .toString('utf8').trim().replace(/[ \t]+$/gm, '');
 
-fs.writeFile('CHANGELOG.md',
-`New Major Coding With Chrome Update
-====================================
+const whats_new_path = path.join(__dirname, '../../static_files/whats_new',
+  `${version}.md`);
 
+let whats_new_md = false;
+try {
+  fs.accessSync(whats_new_path, fs.constants.F_OK | fs.constants.R_OK);
+} catch (err) {
+  console.warn(`
+
+'${whats_new_path}' doesn't exist or isn't readable.
+
+Consider writing release notes before releasing.
+
+`);
+  whats_new_md = '';
+}
+if (whats_new_md === false) {
+  whats_new_md = fs.readFileSync(whats_new_path, 'utf8').trim();
+}
+
+const changelog_md = 'CHANGELOG.md';
+fs.writeFile(changelog_md,
+`<!-- markdownlint-disable -->
 ${date} -v${version}
+
+${whats_new_md}
 
 Recent Changelog
 ----------------
@@ -40,5 +63,5 @@ ${commits}
         return console.log(err);
     }
 
-    console.log('The file was saved!');
+    console.log(`Wrote '${changelog_md}'`);
 });

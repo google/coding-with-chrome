@@ -31,6 +31,38 @@
   </div>
 {/template}
 
+/**
+ * Notification of new release
+ */
+{template .whatsNew}
+  {@param prefix: string}
+  {@param version: string}
+	{@param showWhatsNew: bool}
+
+	{if $showWhatsNew}
+    <div id="{$prefix}whats_new" class='mdl-color--yellow'>
+  
+     <button id="{$prefix}whats_new-close" class="mdl-button mdl-js-button mdl-button--icon" title="close">
+      <i class="material-icons">close</i>
+     </button>
+  
+      <div class="mdl-grid">
+  
+        <a id="{$prefix}whats_new-link" class="mdl-button mdl-js-button">
+          {$version}&nbsp;{msg desc="Link to description of features in a newly installed version."}released, check out the new features!{/msg}
+          <i class="material-icons">chevron_right</i>
+        </a>
+    
+        <label for="{$prefix}whats_new-show" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+          <input type="checkbox" id="{$prefix}whats_new-show" class="mdl-checkbox__input"/>
+          <div class="mdl-checkbox__label">
+            {msg desc="Checkbox to enable/disable showing a notification when a new release is installed."}@@SELECT_SCREEN__ENABLE_WHATS_NEW{/msg}
+          </div>
+        </label>
+      </div>
+    </div>
+	{/if}
+{/template}
 
 /**
  * Connect devices template.
@@ -91,3 +123,5 @@ for (let i = 0; i < 10; i++) {
 {/literal}
   </textarea>
 {/template}
+
+

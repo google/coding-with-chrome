@@ -91,7 +91,7 @@
     "launch:win-experimental": "echo && \"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\" --profile-directory=Default --load-and-launch-app=%CD%\\dist\\chrome_os --enable-logging --v=1 --no-first-run --enable-experimental-web-platform-features",
     "lint": "npm run lint-javascript && npm run lint-markdown",
     "lint-javascript": "eslint .",
-    "lint-markdown": "markdownlint doc/ training/ *.md src/**/*.md",
+    "lint-markdown": "markdownlint doc/ training/ *.md src/**/*.md static_files/whats_new/**/*.md",
     "nw-app": "npm run build:core && npm run build:nw_app && npm run launch:nw",
     "nw-app-debug": "npm run build:core && npm run build:nw_app_debug && npm run launch:nw",
     "postpublish:nw_app-linux": "node build/binary/linux.js",

@@ -74,10 +74,13 @@ cwc.ui.SettingScreen.prototype.decorate = function(node) {
   let closeButton = goog.dom.getElement(this.prefix + 'close');
   let setLanguage = goog.dom.getElement(this.prefix + 'language');
   let showWelcome = goog.dom.getElement(this.prefix + 'show-welcome');
+  let showWhatsNew = goog.dom.getElement(this.prefix + 'show-whats_new');
 
   showWelcome.checked = !userConfigInstance.get(cwc.userConfigType.GENERAL,
             cwc.userConfigName.SKIP_WELCOME);
   advancedMode.disabled = showWelcome.checked;
+  showWhatsNew.checked = !userConfigInstance.get(cwc.userConfigType.GENERAL,
+    cwc.userConfigName.SKIP_WHATS_NEW);
 
   goog.events.listen(closeButton, goog.events.EventType.CLICK,
      this.hide, false, this);
@@ -94,6 +97,12 @@ cwc.ui.SettingScreen.prototype.decorate = function(node) {
       let value = event.target.firstChild.data;
       userConfigInstance.set(cwc.userConfigType.GENERAL,
         cwc.userConfigName.LANGUAGE, value);
+    }, false, this);
+
+  goog.events.listen(showWhatsNew, goog.events.EventType.CHANGE,
+    function(opt_event) {
+      userConfigInstance.set(cwc.userConfigType.GENERAL,
+        cwc.userConfigName.SKIP_WHATS_NEW, !showWhatsNew.checked);
     }, false, this);
 
   this.setUserConfig();

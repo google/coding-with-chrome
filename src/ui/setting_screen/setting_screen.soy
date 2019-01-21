@@ -148,6 +148,13 @@
             </ul>
           </span>
         </li>
+
+        {call .setting_ data="all"}
+          {param title: 'Show What\'s New' /}
+          {param text: 'Show a list new features when Coding with Chrome is updated.' /}
+          {param type: 'checkbox' /}
+          {param id: 'show-whats_new' /}
+        {/call}
       </ul>
 
       <div class="mdl-card__supporting-text">

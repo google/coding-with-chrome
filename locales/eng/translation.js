@@ -223,6 +223,7 @@ Object.assign(Locales['eng'], {
   'Rectangle example': 'Rectangle example',
   'Redo last change': 'Redo last change',
   'Refresh preview': 'Refresh preview',
+  'released, check out the new features!': 'released, check out the new features!',
   'Reload preview': 'Reload preview',
   'Rename variable...': 'Rename variable...',
   'Render': 'Render',

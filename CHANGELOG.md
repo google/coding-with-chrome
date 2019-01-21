@@ -1,16 +1,96 @@
-New Major Coding With Chrome Update
-====================================
+<!-- markdownlint-disable -->
+2019-1-21 16:44:06 -v5.10.16
 
-1/9/2019, 1:34:51 PM -v5.10.16
+Welcome to Coding with Chrome 5.16.10
+=====================================
+
+In this version we have a lot for you to try.
+
+* [AIY](https://aiyprojects.withgoogle.com/) Support
+
+   AIY is a cardboard machine learning kit that Coding with Chrome can now
+   control for you. Want to try some object recognition (have the computer
+   look at a picture and tell you what's in it)? Or just make it go 'beep'?
+   Try the AIY mode now!
+
+* Tutorial Engine
+
+  Coding with Chrome now has built-in interactive tutorials. We'll walk you
+  through getting started with the user interface, Blockly, JavaScript and
+  [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics). Look for the
+  *Tutorials* header in the Blockly, AIY and Programming/JavaScript sections.
+
+* [Google Classroom](https://edu.google.com/intl/en/products/classroom/?modal_active=none)
+  Improvements
+
+  Does tour teacher have new assignments for you in
+  [Google Classroom](https://edu.google.com/intl/en/products/classroom/?modal_active=none)?
+  You can now open them directly from the Coding with Chrome menu. Make sure
+  you log in using the person icon in the upper right of Coding with Chrome to
+  see the *Open Google Classroom* menu option.
+
+* [Bluetooth BLE](https://en.wikipedia.org/wiki/Bluetooth_Low_Energy) support
+
+  We now support Bluetooth 4 (BLE) robots too, including the SPRK+. Try it out!
+
+You can learn about lots of other minor changes in the change log below, pulled
+directly from our [Open Source code repository on
+Github](https://github.com/google/coding-with-chrome). Check there to see how
+Coding with Chrome is built.
+
+Please send comments and suggestions to
+[codingwithchrome@google.com](mailto:codingwithchrome@google.com).
+
+Thanks!
 
 Recent Changelog
 ----------------
 
-commit da956d3db9b9d8fa633436248d6523b77714b4a9
-Author: Ashley Gau <gau@google.com>
-Date:   Wed Dec 12 11:57:44 2018 -0800
+commit 42de1848bc5af4a43518f78e9e8216560e18895e (HEAD, whats-new)
+Author: Adam Carheden <adam.carheden@gmail.com>
+Date:   Mon Jan 21 12:18:07 2019 -0700
 
-    add changelog as built file
+    Added What's New! banner
+
+commit 8d9afb801fafb41280986bec86a39b10748af794 (upstream/master, origin/master, origin/HEAD, master)
+Author: Markus Bordihn <mbordihn@google.com>
+Date:   Mon Jan 21 18:41:27 2019 +0100
+
+    Fixed Google Drive integration issues.
+    There are still some remaining issues.
+
+commit 833b2a93ae748fa6d83243c9cccf912104e31a65
+Author: Markus Bordihn <mbordihn@google.com>
+Date:   Fri Jan 18 17:19:15 2019 +0100
+
+    Fixed Google Classroom and Google Cloud integration.
+    Note: Seems Google Drive integration get's broken and needs to be fixed.
+
+commit 35e468f4d62d3395179345076c385e90d7956d93
+Author: Markus Bordihn <mbordihn@google.com>
+Date:   Thu Jan 17 17:34:34 2019 +0100
+
+    Update main-debug.js
+
+commit 32d76c07042302167a49b6c29eec57712a900f1e
+Author: Markus Bordihn <mbordihn@google.com>
+Date:   Thu Jan 17 17:31:01 2019 +0100
+
+    Fixed smaller issues and compiler warnings.
+
+commit 3de1ee8feeced5f047dfce02994d774eaa0d63d5
+Author: Adam Carheden <adam.carheden@gmail.com>
+Date:   Thu Jan 17 09:13:29 2019 -0700
+
+    Moved AIY and Tutorial cards out of experimental (#209)
+
+    - Fixed bug displaying feedback for SVG tutorial
+
+commit b5d7f3683ae386a3284b652d1616a63b9e0c59e2
+Author: Ashley Gau <agau4779@gmail.com>
+Date:   Thu Jan 10 15:27:51 2019 -0800
+
+    Add changelog as built file (#203)
 
 commit 8d0697d7462d2599bc82b61ed0f16eb0b4ebb476
 Author: Markus Bordihn <mbordihn@google.com>
@@ -39,55 +119,4 @@ Date:   Wed Dec 12 16:14:59 2018 +0000
     * Add warning about Joy Demo
     * Disable Joy Demo when connecting
     * add default timeout
-
-commit 59ce036b0bbee82acf1352dbd45c63ac330b262a
-Author: Adam Carheden <adam.carheden@gmail.com>
-Date:   Thu Nov 29 15:12:39 2018 -0700
-
-    Added tour functionality to tutorial (#204)
-
-commit ad2830838b0871a2891a58dbaa54fe28fb7c9209
-Author: Markus Bordihn <mbordihn@google.com>
-Date:   Tue Nov 27 15:21:32 2018 +0100
-
-    Update DEVELOPMENT.md
-
-commit 8d20d847efb2a22de858a7dae0c0728d916f8527
-Author: Markus Bordihn <mbordihn@google.com>
-Date:   Fri Nov 23 16:20:34 2018 +0100
-
-    Updated dependencies for blockly, brython, codemirror and phaser-ce.
-
-commit e80bae217c744943c0f93cbbd43dfc43ca284d3e
-Author: Chan <chenzhiyu512@gmail.com>
-Date:   Sun Nov 11 20:56:08 2018 +0800
-
-    Added Chinese Translation (#202)
-
-    * Create _zho.js
-    * Added Chinese Translation
-    * Update blockly.js
-    * Update connect_screen.js
-    * Update console.js
-    * Update general.js
-    * Update library.js
-    * Update welcome_screen.js
-    * Update status.js
-    * Update sidebar.js
-    * Update setting_screen.js
-    * Update select_screen.js
-    * Update navigation.js
-
-commit b7012489ae96cd64513521fffea7bab520ded812
-Author: Chan <chenzhiyu512@gmail.com>
-Date:   Sun Nov 11 20:54:57 2018 +0800
-
-    Added Chinese Blockly files (#201)
-
-commit 5d49534ef4c9efa156a68f45e9250d01e6d34a38
-Author: Chan <chenzhiyu512@gmail.com>
-Date:   Sun Nov 11 20:53:21 2018 +0800
-
-    Added Chinese Translation build rules (#200)
-
 [Show all](https://github.com/google/coding-with-chrome/commits/master)
