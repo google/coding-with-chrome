@@ -136,4 +136,11 @@
     <iframe id="{$prefix}webview-notice"
       src="../CHANGELOG.html" style="width: 600px; height: 500px;"></iframe>
   {/if}
+
+  <label id="{$prefix}whats_new-show" for="{$prefix}whats_new-checkbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+    <input type="checkbox" id="{$prefix}whats_new-checkbox" class="mdl-checkbox__input"/>
+    <div class="mdl-checkbox__label">
+      {msg desc="Checkbox to enable/disable showing a notification when a new release is installed."}@@SELECT_SCREEN__ENABLE_WHATS_NEW{/msg}
+    </div>
+  </label>
 {/template}

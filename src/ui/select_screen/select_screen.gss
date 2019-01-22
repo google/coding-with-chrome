@@ -295,28 +295,3 @@
   left: 15%;
   background-color: rgb(255,64,129);
 }
-
-#{$prefix}select-screen-whats_new .mdl-button {
-	width: 95%;
-}
-
-#{$prefix}select-screen-whats_new-close {
-	float: right;
-	max-width: fit-content;
-}
-
-#{$prefix}select-screen-whats_new .mdl-grid {
-	max-width: fit-content;
-	padding: 0;
-}
-
-#{$prefix}select-screen-whats_new label {
-	max-width: fit-content;
-	margin: auto;
-}
-
-#{$prefix}select-screen-whats_new .mdl-checkbox__label {
-	font-size: 1rem;
-	color: rgba(0,0,0,.54);
-}
-

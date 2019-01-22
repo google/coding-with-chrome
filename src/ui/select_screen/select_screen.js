@@ -277,17 +277,6 @@ cwc.ui.SelectScreen.prototype.addFileHandler_ = function() {
  * @param {!Function} template
  */
 cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
-  let skipWhatsNew = false;
-  let lastWhatsNewVersion = null;
-  let userConfigInstance = this.helper.getInstance('userConfig');
-  if (userConfigInstance) {
-    skipWhatsNew = userConfigInstance.get(cwc.userConfigType.GENERAL,
-      cwc.userConfigName.SKIP_WHATS_NEW);
-    lastWhatsNewVersion = userConfigInstance.get(cwc.userConfigType.GENERAL,
-      cwc.userConfigName.LAST_WHATS_NEW_VERSION);
-  }
-  let version = this.helper.getAppVersion();
-
   if (this.nodeContent && template) {
     goog.soy.renderElement(this.nodeContent, template, {
       bluetooth: Feature.hasBluetooth(),
@@ -298,8 +287,7 @@ cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
       modules: this.modules,
       online: this.helper.checkFeature('online'),
       prefix: this.prefix,
-      showWhatsNew: (!skipWhatsNew) && (version != lastWhatsNewVersion),
-      version: version,
+      version: this.helper.getAppVersion(),
     });
     this.addFileHandler_();
     cwc.ui.Helper.mdlRefresh();
@@ -308,63 +296,12 @@ cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
     // Event Handling
     this.eventTarget_.dispatchEvent(
       cwc.ui.SelectScreen.Events.changeView(this.nodeContent));
-    this.initWhatsNew_(version);
+    this.showWhatsNew_();
   } else {
     console.error('Unable to render template', template);
   }
 };
 
-/**
- * @private
- * @param {!string} version
- */
-cwc.ui.SelectScreen.prototype.initWhatsNew_ = function(version) {
-  let prefix = this.prefix + 'whats_new';
-  let whats_new = goog.dom.getElement(prefix);
-  if (!whats_new) {
-    return;
-  }
-  let userConfigInstance = this.helper.getInstance('userConfig');
-
-  // Flag tha we've show What's New for this version
-  if (userConfigInstance) {
-    userConfigInstance.set(cwc.userConfigType.GENERAL,
-      cwc.userConfigName.LAST_WHATS_NEW_VERSION, version);
-  }
-
-  let whatsNewLink = goog.dom.getElement(prefix + '-link');
-  if (whatsNewLink) {
-    this.events_.listen(whatsNewLink, goog.events.EventType.CLICK, () => {
-      let helpInstance = this.helper.getInstance('help');
-      if (!helpInstance) {
-        console.error('Failed to get helper instance');
-        return;
-      }
-      helpInstance.showChangelog();
-    });
-  }
-
-  let whatsNewClose = goog.dom.getElement(prefix + '-close');
-  if (whatsNewClose) {
-    this.events_.listen(whatsNewClose, goog.events.EventType.CLICK, () => {
-      goog.style.setElementShown(whats_new, false);
-    });
-  }
-
-  let whatsNewShow = goog.dom.getElement(prefix + '-show');
-  if (whatsNewShow && userConfigInstance) {
-    if (userConfigInstance.get(cwc.userConfigType.GENERAL,
-      cwc.userConfigName.SKIP_WHATS_NEW)) {
-      whatsNewShow.parentNode['MaterialCheckbox']['uncheck']();
-    } else {
-      whatsNewShow.parentNode['MaterialCheckbox']['check']();
-    }
-    this.events_.listen(whatsNewShow, goog.events.EventType.CHANGE, () => {
-      userConfigInstance.set(cwc.userConfigType.GENERAL,
-        cwc.userConfigName.SKIP_WHATS_NEW, !whatsNewShow.checked);
-    });
-  }
-};
 
 /**
  * @param {string} title
@@ -431,12 +368,38 @@ cwc.ui.SelectScreen.prototype.handleFileClick_ = function(e) {
 };
 
 /**
- * Displays list of new features
+ * @private
  */
-cwc.ui.SelectScreen.prototype.showWhatsNew = function() {
-  let dialogInstance = this.helper.getInstance('dialog');
-  dialogInstance.showTemplate('What\'s New', cwc.soy.SelectScreen.whatsNew, {
-    prefix: this.prefix,
-  });
+cwc.ui.SelectScreen.prototype.showWhatsNew_ = function() {
+  let version = this.helper.getAppVersion();
+
+  let userConfigInstance = this.helper.getInstance('userConfig');
+  if (!userConfigInstance) {
+    console.error('Failed to get user config instance');
+    return;
+  }
+
+  if (userConfigInstance.get(cwc.userConfigType.GENERAL,
+        cwc.userConfigName.SKIP_WHATS_NEW)) {
+    return;
+  }
+
+  if (userConfigInstance.get(cwc.userConfigType.GENERAL,
+    cwc.userConfigName.LAST_WHATS_NEW_VERSION) == version) {
+    return;
+  }
+
+  let helpInstance = this.helper.getInstance('help');
+  if (!helpInstance) {
+    console.error('Failed to help instance');
+    return;
+  }
+
+  // Flag that we've show What's New for this version
+  if (userConfigInstance) {
+    userConfigInstance.set(cwc.userConfigType.GENERAL,
+      cwc.userConfigName.LAST_WHATS_NEW_VERSION, version);
+  }
+  helpInstance.showChangelog(true);
 };
 });

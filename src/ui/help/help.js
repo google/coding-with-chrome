@@ -20,7 +20,11 @@
 goog.provide('cwc.ui.Help');
 
 goog.require('cwc.soy.Help');
+goog.require('cwc.userConfigType');
+goog.require('cwc.utils.Events');
 
+goog.require('goog.dom');
+goog.require('goog.events.EventType');
 
 /**
  * @param {!cwc.utils.Helper} helper
@@ -39,6 +43,9 @@ cwc.ui.Help = function(helper) {
 
   /** @private {boolean} */
   this.chromeApp_ = this.helper.checkChromeFeature('app');
+
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name, this.prefix, this);
 };
 
 
@@ -86,6 +93,23 @@ cwc.ui.Help.prototype.showChangelog = function() {
   let noticeWebview = goog.dom.getElement(this.prefix + 'webview-notice');
   noticeWebview.addEventListener('contentload', function() {
     noticeWebview['insertCSS']({'code': 'html {overflow-y: scroll;}'});
+  });
+  this.initWhatsNewControl_();
+};
+
+
+cwc.ui.Help.prototype.initWhatsNewControl_ = function() {
+  let showWhatsNew = goog.dom.getElement(this.prefix + 'whats_new-checkbox');
+  let userConfigInstance = this.helper.getInstance('userConfig');
+  if (userConfigInstance.get(cwc.userConfigType.GENERAL,
+    cwc.userConfigName.SKIP_WHATS_NEW)) {
+    showWhatsNew.parentNode['MaterialCheckbox']['uncheck']();
+  } else {
+    showWhatsNew.parentNode['MaterialCheckbox']['check']();
+  }
+  this.events_.listen(showWhatsNew, goog.events.EventType.CHANGE, () => {
+    userConfigInstance.set(cwc.userConfigType.GENERAL,
+    cwc.userConfigName.SKIP_WHATS_NEW, !showWhatsNew.checked);
   });
 };
 
