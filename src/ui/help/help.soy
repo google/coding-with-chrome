@@ -137,6 +137,15 @@
       src="../CHANGELOG.html" style="width: 600px; height: 500px;"></iframe>
   {/if}
 
+	{call .whatsNew data="all"/}
+{/template}
+
+/**
+ * Enable/Disable showing What's New checkbox
+ */
+{template .whatsNew}
+  {@param prefix: string}
+
   <label id="{$prefix}whats_new-show" for="{$prefix}whats_new-checkbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
     <input type="checkbox" id="{$prefix}whats_new-checkbox" class="mdl-checkbox__input"/>
     <div class="mdl-checkbox__label">

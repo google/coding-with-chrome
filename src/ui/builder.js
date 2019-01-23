@@ -61,6 +61,7 @@ goog.require('cwc.ui.Sidebar');
 goog.require('cwc.ui.StatusBar');
 goog.require('cwc.ui.Tour');
 goog.require('cwc.ui.Tutorial');
+goog.require('cwc.ui.WhatsNew');
 goog.require('cwc.ui.connectScreen.Screens');
 goog.require('cwc.ui.gapi.Handler');
 goog.require('cwc.utils.Dialog');
@@ -111,6 +112,7 @@ cwc.ui.BuilderHelpers = {
   'statusBar': cwc.ui.StatusBar,
   'tour': cwc.ui.Tour,
   'tutorial': cwc.ui.Tutorial,
+  'whatsNew': cwc.ui.WhatsNew,
 };
 
 

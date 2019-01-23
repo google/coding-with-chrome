@@ -296,7 +296,7 @@ cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
     // Event Handling
     this.eventTarget_.dispatchEvent(
       cwc.ui.SelectScreen.Events.changeView(this.nodeContent));
-    this.showWhatsNew_();
+    this.helper.getInstance('whatsNew').show();
   } else {
     console.error('Unable to render template', template);
   }
@@ -365,41 +365,5 @@ cwc.ui.SelectScreen.prototype.handleFileClick_ = function(e) {
       editorWindow['clearAttention']();
     }
   }
-};
-
-/**
- * @private
- */
-cwc.ui.SelectScreen.prototype.showWhatsNew_ = function() {
-  let version = this.helper.getAppVersion();
-
-  let userConfigInstance = this.helper.getInstance('userConfig');
-  if (!userConfigInstance) {
-    console.error('Failed to get user config instance');
-    return;
-  }
-
-  if (userConfigInstance.get(cwc.userConfigType.GENERAL,
-        cwc.userConfigName.SKIP_WHATS_NEW)) {
-    return;
-  }
-
-  if (userConfigInstance.get(cwc.userConfigType.GENERAL,
-    cwc.userConfigName.LAST_WHATS_NEW_VERSION) == version) {
-    return;
-  }
-
-  let helpInstance = this.helper.getInstance('help');
-  if (!helpInstance) {
-    console.error('Failed to help instance');
-    return;
-  }
-
-  // Flag that we've show What's New for this version
-  if (userConfigInstance) {
-    userConfigInstance.set(cwc.userConfigType.GENERAL,
-      cwc.userConfigName.LAST_WHATS_NEW_VERSION, version);
-  }
-  helpInstance.showChangelog(true);
 };
 });

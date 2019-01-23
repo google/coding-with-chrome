@@ -94,25 +94,9 @@ cwc.ui.Help.prototype.showChangelog = function() {
   noticeWebview.addEventListener('contentload', function() {
     noticeWebview['insertCSS']({'code': 'html {overflow-y: scroll;}'});
   });
-  this.initWhatsNewControl_();
+  this.helper.getInstance('whatsNew').init(goog.dom.getElement(this.prefix +
+    'whats_new-checkbox'));
 };
-
-
-cwc.ui.Help.prototype.initWhatsNewControl_ = function() {
-  let showWhatsNew = goog.dom.getElement(this.prefix + 'whats_new-checkbox');
-  let userConfigInstance = this.helper.getInstance('userConfig');
-  if (userConfigInstance.get(cwc.userConfigType.GENERAL,
-    cwc.userConfigName.SKIP_WHATS_NEW)) {
-    showWhatsNew.parentNode['MaterialCheckbox']['uncheck']();
-  } else {
-    showWhatsNew.parentNode['MaterialCheckbox']['check']();
-  }
-  this.events_.listen(showWhatsNew, goog.events.EventType.CHANGE, () => {
-    userConfigInstance.set(cwc.userConfigType.GENERAL,
-    cwc.userConfigName.SKIP_WHATS_NEW, !showWhatsNew.checked);
-  });
-};
-
 
 cwc.ui.Help.prototype.showHelp = function() {
   let dialogInstance = this.helper.getInstance('dialog');
