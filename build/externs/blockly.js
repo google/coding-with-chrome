@@ -230,7 +230,7 @@ Blockly.WorkspaceSvg.prototype.setScale = function(newScale) {};
 Blockly.WorkspaceSvg.prototype.scrollCenter = function() {};
 
 /**
- * @param {Node|string} tree
+ * @param {Node|string=} tree
  */
 Blockly.WorkspaceSvg.prototype.updateToolbox = function(tree) {};
 

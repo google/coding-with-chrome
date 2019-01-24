@@ -19,13 +19,13 @@
  */
 goog.provide('cwc.ui.WhatsNew');
 
+goog.require('cwc.soy.ui.WhatsNew');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Helper');
 
 goog.require('goog.dom');
 
 
-goog.scope(function() {
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -38,17 +38,19 @@ cwc.ui.WhatsNew = function(helper) {
   /** @type {string} */
   this.prefix = this.helper.getPrefix('whats_new');
 
+  /** @private {boolean} */
+  this.chromeApp_ = this.helper.checkChromeFeature('app');
+
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, this.prefix, this);
 };
+
 
 /**
  * Conditionally shows the changelog if it hasn't been shown for this version
  * yet and if the user hasn't disabling showing it for new versions.
  */
-cwc.ui.WhatsNew.prototype.show = function() {
-  let version = this.helper.getAppVersion();
-
+cwc.ui.WhatsNew.prototype.showWhatsNewScreen = function() {
   let userConfigInstance = this.helper.getInstance('userConfig');
   if (!userConfigInstance) {
     console.error('Failed to get user config instance');
@@ -60,14 +62,9 @@ cwc.ui.WhatsNew.prototype.show = function() {
     return;
   }
 
+  let version = this.helper.getAppVersion();
   if (userConfigInstance.get(cwc.userConfigType.GENERAL,
-    cwc.userConfigName.LAST_WHATS_NEW_VERSION) == version) {
-    return;
-  }
-
-  let helpInstance = this.helper.getInstance('help');
-  if (!helpInstance) {
-    console.error('Failed to help instance');
+    cwc.userConfigName.LAST_WHATS_NEW_VERSION) >= version) {
     return;
   }
 
@@ -76,14 +73,22 @@ cwc.ui.WhatsNew.prototype.show = function() {
     userConfigInstance.set(cwc.userConfigType.GENERAL,
       cwc.userConfigName.LAST_WHATS_NEW_VERSION, version);
   }
-  helpInstance.showChangelog(true);
+  this.showChangeLog();
 };
 
-/**
- * Synchronizes UI component with underlying user config
- * @param {!Element} checkbox
- */
-cwc.ui.WhatsNew.prototype.init = function(checkbox) {
+
+cwc.ui.WhatsNew.prototype.showChangeLog = function() {
+  let dialogInstance = this.helper.getInstance('dialog');
+  dialogInstance.showTemplate('Coding with Chrome Changelog',
+    cwc.soy.ui.WhatsNew.template, {
+      prefix: this.prefix,
+      is_chrome_app: this.chromeApp_,
+    });
+  let changelogWebview = goog.dom.getElement(this.prefix + 'webview-changelog');
+  changelogWebview.addEventListener('contentload', function() {
+    changelogWebview['insertCSS']({'code': 'html {overflow-y: scroll;}'});
+  });
+  let checkbox = goog.dom.getElement(this.prefix + 'checkbox');
   if (!checkbox) {
     return;
   }
@@ -102,4 +107,3 @@ cwc.ui.WhatsNew.prototype.init = function(checkbox) {
     cwc.userConfigName.SKIP_WHATS_NEW, !checkbox.checked);
   });
 };
-});

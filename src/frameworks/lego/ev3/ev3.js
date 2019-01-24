@@ -33,8 +33,7 @@ goog.require('cwc.protocol.lego.ev3.Robots');
 
 /**
  * @constructor
- * @struct
- * @final
+ * @unrestricted
  * @export
  */
 cwc.framework.lego.Ev3 = function() {

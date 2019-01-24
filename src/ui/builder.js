@@ -271,6 +271,7 @@ cwc.ui.Builder.prototype.decorateUI = function() {
       this.setProgressFunc('Prepare GAPI ...', this.prepareGAPI);
     }
     this.setProgressFunc('Loading select screen ...', this.showSelectScreen);
+    this.setProgressFunc('Loading whats new screen ...', this.showWhatsNew);
     this.setProgressFunc('Loading cache ...', this.loadCache).then(() => {
       // Done.
       this.setProgress('Starting Coding with Chrome', 100);
@@ -570,6 +571,18 @@ cwc.ui.Builder.prototype.showSelectScreen = function() {
     selectScreenInstance.showSelectScreen();
   }
 };
+
+
+/**
+ * Shows what's new screen.
+ */
+cwc.ui.Builder.prototype.showWhatsNew = function() {
+  let whatsNewScreen = this.helper.getInstance('whatsNew');
+  if (whatsNewScreen) {
+    whatsNewScreen.showWhatsNewScreen();
+  }
+};
+
 
 /**
  * @param {string} name

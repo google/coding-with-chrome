@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.Help autoescape="strict"}
+{namespace cwc.soy.ui.Help autoescape="strict"}
 
 
 /**
@@ -70,86 +70,53 @@
  * About Coding with Chrome.
  */
 {template .help}
-<div class="large">
+  <div class="large">
 
-  <h3>Keyboard shortcuts</h3>
-  <p>
-    There are different keyboard shortcuts for the different functions of the editor.
-  </p>
+    <h3>Keyboard shortcuts</h3>
+    <p>
+      There are different keyboard shortcuts for the different functions of the editor.
+    </p>
 
-  <h4>General keyboard shortcuts</h4>
-  <dl>
-    <dt>Ctrl-N</dt><dd>New file</dd>
-    <dt>Ctrl-O</dt><dd>Open file...</dd>
-    <dt>Ctrl-S</dt><dd>Save file...</dd>
-    <dt>Ctrl-Shift-S</dt><dd>Save file as...</dd>
-    <dt>Ctrl-Return</dt><dd>Execute / run preview</dd>
-  </dl>
+    <h4>General keyboard shortcuts</h4>
+    <dl>
+      <dt>Ctrl-N</dt><dd>New file</dd>
+      <dt>Ctrl-O</dt><dd>Open file...</dd>
+      <dt>Ctrl-S</dt><dd>Save file...</dd>
+      <dt>Ctrl-Shift-S</dt><dd>Save file as...</dd>
+      <dt>Ctrl-Return</dt><dd>Execute / run preview</dd>
+    </dl>
 
-  <h4>Code / Text Editor specific shortcuts</h4>
-  <p>
-    The following keyboard shortcuts will only work inside the code or text editor.
-  </p>
-  <dl>
-    <dt>Ctrl-Space / Cmd-Space</dt><dd>Autocomplete</dd>
-    <dt>Ctrl-F / Cmd-F</dt><dd>Start searching</dd>
-    <dt>Ctrl-G / Cmd-G</dt><dd>Find next</dd>
-    <dt>Shift-Ctrl-G / Shift-Cmd-G</dt><dd>Find previous</dd>
-    <dt>Shift-Ctrl-F / Cmd-Option-F</dt><dd>Replace</dd>
-    <dt>Shift-Ctrl-R / Shift-Cmd-Option-F</dt><dd>Replace all</dd>
-  </dl>
+    <h4>Code / Text Editor specific shortcuts</h4>
+    <p>
+      The following keyboard shortcuts will only work inside the code or text editor.
+    </p>
+    <dl>
+      <dt>Ctrl-Space / Cmd-Space</dt><dd>Autocomplete</dd>
+      <dt>Ctrl-F / Cmd-F</dt><dd>Start searching</dd>
+      <dt>Ctrl-G / Cmd-G</dt><dd>Find next</dd>
+      <dt>Shift-Ctrl-G / Shift-Cmd-G</dt><dd>Find previous</dd>
+      <dt>Shift-Ctrl-F / Cmd-Option-F</dt><dd>Replace</dd>
+      <dt>Shift-Ctrl-R / Shift-Cmd-Option-F</dt><dd>Replace all</dd>
+    </dl>
 
-  <h4>Roboter specific shortcuts</h4>
-  <p>
-    The following keyboard shortcuts could be used to control an robot.<br>
-    These are only enabled in the monitor screen and the control screen.
-  </p>
-  <dl>
-    <dt>Up</dt><dd>Moves the robot forward</dd>
-    <dt>Down</dt><dd>Moves the robot backwards</dd>
-    <dt>Left</dt><dd>Rotates / moves the robot left</dd>
-    <dt>Right</dt><dd>Rotates / moves the robot right</dd>
-    <dt>Shift-Up</dt><dd>Moves the robot with boosted speed forward</dd>
-    <dt>Shift-Down</dt><dd>Moves the robot with boosted speed backwards</dd>
-    <dt>Shift-Left</dt><dd>Rotates / moves the robot with boosted speed left</dd>
-    <dt>Shift-Right</dt><dd>Rotates / moves the robot with boosted speed right</dd>
-    <dt>Page Up</dt><dd>Moves servo up</dd>
-    <dt>Page Down</dt><dd>Moves servo down</dd>
-    <dt>Space</dt><dd>Stop</dd>
-  </dl>
+    <h4>Roboter specific shortcuts</h4>
+    <p>
+      The following keyboard shortcuts could be used to control an robot.<br>
+      These are only enabled in the monitor screen and the control screen.
+    </p>
+    <dl>
+      <dt>Up</dt><dd>Moves the robot forward</dd>
+      <dt>Down</dt><dd>Moves the robot backwards</dd>
+      <dt>Left</dt><dd>Rotates / moves the robot left</dd>
+      <dt>Right</dt><dd>Rotates / moves the robot right</dd>
+      <dt>Shift-Up</dt><dd>Moves the robot with boosted speed forward</dd>
+      <dt>Shift-Down</dt><dd>Moves the robot with boosted speed backwards</dd>
+      <dt>Shift-Left</dt><dd>Rotates / moves the robot with boosted speed left</dd>
+      <dt>Shift-Right</dt><dd>Rotates / moves the robot with boosted speed right</dd>
+      <dt>Page Up</dt><dd>Moves servo up</dd>
+      <dt>Page Down</dt><dd>Moves servo down</dd>
+      <dt>Space</dt><dd>Stop</dd>
+    </dl>
 
-</div>
-{/template}
-
-
-/**
- * Changelog information.
- */
-{template .changelog}
-  {@param prefix: string}
-  {@param is_chrome_app: bool}
-
-  {if $is_chrome_app}
-    <webview id="{$prefix}webview-notice" partition="static"
-      src="../CHANGELOG.html" style="width: 600px; height: 500px;"></webview>
-  {else}
-    <iframe id="{$prefix}webview-notice"
-      src="../CHANGELOG.html" style="width: 600px; height: 500px;"></iframe>
-  {/if}
-
-	{call .whatsNew data="all"/}
-{/template}
-
-/**
- * Enable/Disable showing What's New checkbox
- */
-{template .whatsNew}
-  {@param prefix: string}
-
-  <label id="{$prefix}whats_new-show" for="{$prefix}whats_new-checkbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-    <input type="checkbox" id="{$prefix}whats_new-checkbox" class="mdl-checkbox__input"/>
-    <div class="mdl-checkbox__label">
-      {msg desc="Checkbox to enable/disable showing a notification when a new release is installed."}@@SELECT_SCREEN__ENABLE_WHATS_NEW{/msg}
-    </div>
-  </label>
+  </div>
 {/template}

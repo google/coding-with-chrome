@@ -24,7 +24,6 @@ Locales['eng']['SELECT_SCREEN'] = {
   'BLUETOOTH_WEB_NOT_AVAILABLE': 'Required Web Bluetooth support is not available.',
   'LOAD_FILE': 'Load {$title}',
   'USE': 'Use',
-  'ENABLE_WHATS_NEW': 'Show notification when a new version is installed.',
 };
 
 

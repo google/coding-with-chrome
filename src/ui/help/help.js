@@ -19,12 +19,13 @@
  */
 goog.provide('cwc.ui.Help');
 
-goog.require('cwc.soy.Help');
+goog.require('cwc.soy.ui.Help');
 goog.require('cwc.userConfigType');
 goog.require('cwc.utils.Events');
 
 goog.require('goog.dom');
 goog.require('goog.events.EventType');
+
 
 /**
  * @param {!cwc.utils.Helper} helper
@@ -51,10 +52,11 @@ cwc.ui.Help = function(helper) {
 
 cwc.ui.Help.prototype.showAbout = function() {
   let dialogInstance = this.helper.getInstance('dialog');
-  dialogInstance.showTemplate('About Coding with Chrome', cwc.soy.Help.about, {
-    prefix: this.prefix,
-    manifest: this.helper.getManifest(),
-  });
+  dialogInstance.showTemplate('About Coding with Chrome',
+    cwc.soy.ui.Help.about, {
+      prefix: this.prefix,
+      manifest: this.helper.getManifest(),
+    });
   let noticeLink = goog.dom.getElement(this.prefix + 'notice-link');
   noticeLink.addEventListener('click', this.showOpenSource.bind(this));
 
@@ -63,17 +65,28 @@ cwc.ui.Help.prototype.showAbout = function() {
 };
 
 
+cwc.ui.Help.prototype.showDebug = function() {
+  let layoutInstance = this.helper.getInstance('layout', true);
+  let debugInstance = this.helper.getInstance('debug', true);
+  let overlayNode = layoutInstance.getOverlay();
+  debugInstance.decorate(overlayNode);
+  layoutInstance.showOverlay(true);
+};
+
+
 cwc.ui.Help.prototype.showIntro = function() {
   let dialogInstance = this.helper.getInstance('dialog');
-  dialogInstance.showTemplate('Intro', cwc.soy.Help.intro, {
-    prefix: this.prefix});
+  dialogInstance.showTemplate('Intro',
+    cwc.soy.ui.Help.intro, {
+    prefix: this.prefix,
+  });
 };
 
 
 cwc.ui.Help.prototype.showOpenSource = function() {
   let dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showTemplate('Coding with Chrome credits',
-    cwc.soy.Help.notice, {
+    cwc.soy.ui.Help.notice, {
       prefix: this.prefix,
       is_chrome_app: this.chromeApp_,
     });
@@ -83,36 +96,11 @@ cwc.ui.Help.prototype.showOpenSource = function() {
   });
 };
 
-cwc.ui.Help.prototype.showChangelog = function() {
-  let dialogInstance = this.helper.getInstance('dialog');
-  dialogInstance.showTemplate('Coding with Chrome Changelog',
-    cwc.soy.Help.changelog, {
-      prefix: this.prefix,
-      is_chrome_app: this.chromeApp_,
-    });
-  let noticeWebview = goog.dom.getElement(this.prefix + 'webview-notice');
-  noticeWebview.addEventListener('contentload', function() {
-    noticeWebview['insertCSS']({'code': 'html {overflow-y: scroll;}'});
-  });
-  this.helper.getInstance('whatsNew').init(goog.dom.getElement(this.prefix +
-    'whats_new-checkbox'));
-};
 
 cwc.ui.Help.prototype.showHelp = function() {
   let dialogInstance = this.helper.getInstance('dialog');
-  dialogInstance.showTemplate('Help', cwc.soy.Help.help,
-    {'prefix': this.prefix});
-};
-
-
-/**
- * Shows some debug information.
- * @param {Event=} opt_event
- */
-cwc.ui.Help.prototype.showDebug = function(opt_event) {
-  let layoutInstance = this.helper.getInstance('layout', true);
-  let debugInstance = this.helper.getInstance('debug', true);
-  let overlayNode = layoutInstance.getOverlay();
-  debugInstance.decorate(overlayNode);
-  layoutInstance.showOverlay(true);
+  dialogInstance.showTemplate('Help',
+    cwc.soy.ui.Help.help, {
+      'prefix': this.prefix,
+    });
 };

@@ -21,7 +21,7 @@ goog.provide('cwc.framework.MessengerDisplay');
 
 
 /**
- * @param {!Function} messenger
+ * @param {!cwc.framework.Messenger} messenger
  * @constructor
  * @struct
  * @final
@@ -30,7 +30,7 @@ cwc.framework.MessengerDisplay = function(messenger) {
   /** @type {string} */
   this.name = 'Messenger Display';
 
-  /** @private {!cwc.Messenger} */
+  /** @private {!cwc.framework.Messenger} */
   this.messenger_ = messenger;
 
   // Global mapping

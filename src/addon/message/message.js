@@ -23,6 +23,7 @@ goog.require('cwc.mode.Modder.Events');
 goog.require('cwc.mode.Type');
 goog.require('cwc.soy.addon.Message');
 goog.require('cwc.ui.SelectScreen.Events');
+goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
 

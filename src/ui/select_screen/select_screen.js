@@ -296,7 +296,6 @@ cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
     // Event Handling
     this.eventTarget_.dispatchEvent(
       cwc.ui.SelectScreen.Events.changeView(this.nodeContent));
-    this.helper.getInstance('whatsNew').show();
   } else {
     console.error('Unable to render template', template);
   }

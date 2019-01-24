@@ -17,18 +17,41 @@
  *
  * @author carheden@google.com (Adam Carheden)
  */
-{namespace cwc.soy.WhatsNew autoescape="strict"}
+{namespace cwc.soy.ui.WhatsNew autoescape="strict"}
+
+
+
+/**
+ * Whats New template include's Changelog information.
+ */
+{template .template}
+  {@param prefix: string}
+  {@param is_chrome_app: bool}
+
+  {if $is_chrome_app}
+    <webview id="{$prefix}webview-changelog" partition="static"
+      src="../CHANGELOG.html" style="width: 600px; height: 500px;"></webview>
+  {else}
+    <iframe id="{$prefix}webview-changelog"
+      src="../CHANGELOG.html" style="width: 600px; height: 500px;"></iframe>
+  {/if}
+
+  {call .enable data="all"/}
+{/template}
+
 
 /**
  * Enable/Disable showing What's New checkbox
  */
-{template .enable}
+{template .enable private="true"}
   {@param prefix: string}
 
-  <label id="{$prefix}whats_new-show" for="{$prefix}whats_new-checkbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-    <input type="checkbox" id="{$prefix}whats_new-checkbox" class="mdl-checkbox__input"/>
+  <label id="{$prefix}enable-box" for="{$prefix}checkbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+    <input type="checkbox" id="{$prefix}checkbox" class="mdl-checkbox__input"/>
     <div class="mdl-checkbox__label">
-      {msg desc="Checkbox to enable/disable showing a notification when a new release is installed."}@@SELECT_SCREEN__ENABLE_WHATS_NEW{/msg}
+      {msg desc="Checkbox to enable/disable showing a notification when a new release is installed."}
+        @@WHATS_NEW_SCREEN__SHOW_ON_CHANGE
+      {/msg}
     </div>
   </label>
 {/template}
