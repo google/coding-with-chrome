@@ -62,7 +62,7 @@
 #{$prefix}gdrive-file_list {
   position: relative;
   min-width: 750px;
-  height: 414px;
+  height: 350px;
   overflow-y: scroll;
   overflow-x: auto;
 }
