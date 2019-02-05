@@ -38,6 +38,7 @@ cwc.mode.games.Config = {};
 cwc.mode.games.Config[cwc.mode.Type.PHASER] = new cwc.mode.Mod({
   authors: ['Markus Bordihn'],
   auto_preview: true,
+  enable_library: true,
   icon: 'mode_edit',
   mime_types: [cwc.utils.mime.Type.CWC.type],
   mod: cwc.mode.phaser.Mod,
@@ -54,6 +55,7 @@ cwc.mode.games.Config[cwc.mode.Type.PHASER] = new cwc.mode.Mod({
 cwc.mode.games.Config[cwc.mode.Type.PHASER_BLOCKLY] = new cwc.mode.Mod({
   authors: ['Markus Bordihn'],
   auto_preview: true,
+  enable_library: true,
   icon: 'mode_edit',
   mime_types: [cwc.utils.mime.Type.CWC.type],
   mod: cwc.mode.phaser.Mod,

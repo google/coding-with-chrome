@@ -119,4 +119,4 @@ cwc.config.Sample = {
 /**
  * @type {string}
  */
-cwc.config.Version = '5.10.16';
+cwc.config.Version = '6.01.05';

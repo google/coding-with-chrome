@@ -87,10 +87,10 @@ cwc.ui.Navigation = function(helper) {
   /** @type {boolean} */
   this.supportGoogleClassroom = false;
 
-  /** @type {boolen} */
+  /** @type {boolean} */
   this.supportGoogleCloud = false;
 
-  /** @type {boolen} */
+  /** @type {boolean} */
   this.supportGoogleDrive = false;
 
   /** @type {!goog.ui.KeyboardShortcutHandler} */

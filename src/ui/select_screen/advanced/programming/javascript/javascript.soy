@@ -87,28 +87,26 @@
         {/param}
       {/call}
 
-    {/param}
-  {/call}
+      {call cwc.soy.SelectScreenTemplate.fileCardList}
+        {param title: 'Select a Tutorial ...' /}
+        {param icon: 'school' /}
+        {param id: 'cwc-tutorial-list' /}
+        {param content kind="html"}
 
-  <div id="tutorial-javascript-content">
-    {call cwc.soy.SelectScreenTemplate.titleGrid data="all"}
-      {param text: 'Select a Tutorial ...' /}
-      {param opt_icon: 'school' /}
-    {/call}
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Scalable Vector Graphics' /}
+            {param text: 'Drawing with JavaScript' /}
+            {param opt_link_text: 'Learn to draw with JavaScript' /}
+            {param tutorial: 'javascript/script/svg.cwct' /}
+            {param opt_color_class: 'bg-light-blue' /}
+            {param opt_icon: 'school' /}
+          {/call}
 
-    <div class="mdl-grid">
-
-      {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
-        {param title: 'Scalable Vector Graphics' /}
-        {param text: 'Drawing with JavaScript' /}
-        {param opt_link_text: 'Learn to draw with JavaScript' /}
-        {param tutorial: 'javascript/script/svg.cwct' /}
-        {param opt_color_class: 'bg-light-blue' /}
-        {param opt_icon: 'school' /}
+        {/param}
       {/call}
 
-    </div>
-  </div>
+    {/param}
+  {/call}
 
 {/template}
 

@@ -259,7 +259,7 @@ cwc.utils.mime.getTypeByNameAndContent = function(name, content) {
 
 /**
  * @param {string} content
- * @param {!array} searchTerms
+ * @param {!Array} searchTerms
  * @return {boolean}
  * @private
  */

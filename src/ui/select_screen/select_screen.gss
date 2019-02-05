@@ -208,13 +208,19 @@
   flex: 1;
 }
 
-.mdl-grid.cwc-select-title-grid {
+.cwc-file-card-list {
+  margin: 0 !important;
+  max-width: 100% !important;
+}
+
+.cwc-file-card-list-title {
   color: #4c4c4c;
   padding: 10px 0 0px 10px;
 }
 
-.mdl-grid.cwc-select-title-grid > .material-icons {
+.cwc-file-card-list-title > .material-icons {
   font-size: 20px;
+  padding-right: 5px;
   vertical-align: bottom;
 }
 
@@ -229,7 +235,7 @@
 .{$prefix}select-header,
 .{$prefix}select-screen-container .mdl-grid {
   margin: 0 auto;
-  max-width: 95%;
+  max-width: 96%;
   width: 100%;
 }
 

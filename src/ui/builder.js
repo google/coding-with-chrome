@@ -213,7 +213,7 @@ cwc.ui.Builder.prototype.decorate = async function(node = 'cwc-editor') {
   }, false, this);
 
   this.setProgress('Load and prepare user config ...', 1);
-  let userConfig = await new cwc.UserConfig(this.helper).prepare();
+  let userConfig = await new cwc.UserConfig().prepare();
   this.helper.setInstance('userConfig', userConfig);
 
   this.setProgress('Load and prepare i18n translations ...', 2);

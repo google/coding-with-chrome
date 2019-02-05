@@ -61,7 +61,15 @@ cwc.ui.Help.prototype.showAbout = function() {
   noticeLink.addEventListener('click', this.showOpenSource.bind(this));
 
   let versionLink = goog.dom.getElement(this.prefix + 'version-link');
-  versionLink.addEventListener('click', this.showChangelog.bind(this));
+  versionLink.addEventListener('click', this.showChangeLog.bind(this));
+};
+
+
+cwc.ui.Help.prototype.showChangeLog = function() {
+  let whatsNewInstance = this.helper.getInstance('whatsNew');
+  if (whatsNewInstance) {
+    whatsNewInstance.showChangeLog();
+  }
 };
 
 

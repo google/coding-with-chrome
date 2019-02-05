@@ -118,7 +118,7 @@ cwc.utils.I18n.prototype.translate = function(translationKey, values) {
 
   // Handle old translation during migration.
   if (!translationKey.startsWith('@@')) {
-    return this.translateOld(translationKey, values);
+    return this.translateOld(translationKey, /** @type {string} */ (values));
   }
 
   let [group, key] = translationKey.substr(2).split('__', 2);
@@ -165,10 +165,8 @@ cwc.utils.I18n.prototype.getLanguage = function() {
     this.log_.info('Detected chrome language', chrome.i18n.getUILanguage());
     return cwc.utils.I18n.bcp47ToISO639_3(chrome.i18n.getUILanguage());
   }
-  if (this.fallbackLanguage) {
-    this.log_.info('Using fallback language', this.fallbackLanguage);
-    return this.fallbackLanguage;
-  }
+  this.log_.info('Using fallback language', this.fallbackLanguage);
+  return this.fallbackLanguage;
 };
 
 
@@ -177,18 +175,17 @@ cwc.utils.I18n.prototype.getLanguage = function() {
  * @return {string}
  */
 cwc.utils.I18n.prototype.setLanguage = function(language = '') {
-  if (this.language === language) {
-    return;
-  }
-  this.language = language || this.getLanguage();
-  this.log_.info('Set language to', this.language);
-  if (!Locales) {
-    this.log_.error('Global variable "Locales" is undefined.');
-  } else if (Locales && Object.keys(Locales).length == 0) {
-    this.log_.error('Unable to find any language file.');
-  } else if (!Locales[this.language] &&
-             !Locales['supportedLanguages'].includes(this.language)) {
-    this.log_.error('Language', this.language, 'is untranslated.');
+  if (this.language !== language) {
+    this.language = language || this.getLanguage();
+    this.log_.info('Set language to', this.language);
+    if (!Locales) {
+      this.log_.error('Global variable "Locales" is undefined.');
+    } else if (Locales && Object.keys(Locales).length == 0) {
+      this.log_.error('Unable to find any language file.');
+    } else if (!Locales[this.language] &&
+               !Locales['supportedLanguages'].includes(this.language)) {
+      this.log_.error('Language', this.language, 'is untranslated.');
+    }
   }
   return this.language;
 };

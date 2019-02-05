@@ -115,7 +115,7 @@ cwc.ui.Message.prototype.decorate = function(node) {
 cwc.ui.Message.prototype.decorateCalibration = function(decorator) {
   this.decorate();
   this.decorateContent_(
-    decorator, this.nodeCalibration, this.nodeCalibrationTab);
+    this.nodeCalibration, this.nodeCalibrationTab, decorator);
 };
 
 
@@ -124,7 +124,7 @@ cwc.ui.Message.prototype.decorateCalibration = function(decorator) {
  */
 cwc.ui.Message.prototype.decorateControl = function(decorator) {
   this.decorate();
-  this.decorateContent_(decorator, this.nodeControl, this.nodeControlTab);
+  this.decorateContent_(this.nodeControl, this.nodeControlTab, decorator);
 };
 
 
@@ -133,7 +133,7 @@ cwc.ui.Message.prototype.decorateControl = function(decorator) {
  */
 cwc.ui.Message.prototype.decorateMonitor = function(decorator) {
   this.decorate();
-  this.decorateContent_(decorator, this.nodeMonitor, this.nodeMonitorTab);
+  this.decorateContent_(this.nodeMonitor, this.nodeMonitorTab, decorator);
 };
 
 
@@ -206,13 +206,13 @@ cwc.ui.Message.prototype.refresh_ = function() {
 
 
 /**
- * @param {Function=} decorator
  * @param {!Element} nodeContent
  * @param {!Element} nodeTab
+ * @param {Function=} decorator
  * @private
  */
 cwc.ui.Message.prototype.decorateContent_ = function(
-    decorator, nodeContent, nodeTab) {
+    nodeContent, nodeTab, decorator) {
   if (decorator && typeof decorator.decorate === 'function') {
     decorator.decorate(nodeContent);
   }

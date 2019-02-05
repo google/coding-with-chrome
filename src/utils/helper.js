@@ -48,7 +48,6 @@ cwc.utils.AddonInstance;
  *   cwc.fileHandler.FileSaver|
  *   cwc.mode.Modder|
  *   cwc.protocol.arduino.Api|
- *   cwc.protocol.bluetooth.classic.Api|
  *   cwc.protocol.lego.ev3.Api|
  *   cwc.protocol.serial.Api|
  *   cwc.renderer.Renderer|
@@ -62,7 +61,7 @@ cwc.utils.AddonInstance;
  *   cwc.ui.Help|
  *   cwc.ui.Layout|
  *   cwc.ui.Library|
- *   cwc.ui.Menubar|
+ *   cwc.ui.MenuBar|
  *   cwc.ui.Navigation|
  *   cwc.ui.Notification|
  *   cwc.ui.Notification|

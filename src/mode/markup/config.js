@@ -38,6 +38,7 @@ cwc.mode.markup.Config = {};
 cwc.mode.markup.Config[cwc.mode.Type.HTML5] = new cwc.mode.Mod({
   authors: ['Markus Bordihn'],
   auto_preview: true,
+  enable_library: true,
   icon: 'public',
   mime_types: [cwc.utils.mime.Type.HTML.type],
   mod: cwc.mode.html5.Mod,

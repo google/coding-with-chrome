@@ -277,7 +277,7 @@ cwc.ui.gapi.Classroom.prototype.getMyCourses_ = function(callback) {
 
 
 /**
- * @param {int} courseId
+ * @param {number} courseId
  * @param {function(?)} callback
  * @private
  */

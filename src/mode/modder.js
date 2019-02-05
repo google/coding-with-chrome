@@ -138,10 +138,11 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     settingScreenInstance.hide();
   }
 
-  // Remove custom sidebar button.
+  // Handle sidebar button.
   let sidebarInstance = this.helper.getInstance('sidebar');
   if (sidebarInstance) {
     sidebarInstance.clear();
+    sidebarInstance.enableLibrary(modeConfig.enableLibrary);
   }
 
   // Reset Render instance.

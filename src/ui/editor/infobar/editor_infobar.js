@@ -31,6 +31,9 @@ goog.require('cwc.utils.Events');
  * @final
  */
 cwc.ui.EditorInfobar = function(helper) {
+  /** @type {string} */
+  this.name = 'EditorInfobar';
+
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 

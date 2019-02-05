@@ -65,6 +65,9 @@ cwc.ui.gapi.Account = function(helper) {
   /** @type {string} */
   this.userLink = '';
 
+  /** @type {string} */
+  this.userLocal = 'en';
+
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
@@ -135,12 +138,12 @@ cwc.ui.gapi.Account.prototype.requestUserInfo = function() {
  * @param {Object} user_info
  */
 cwc.ui.gapi.Account.prototype.setUserInfo = function(user_info) {
-  this.userName = user_info['name'] || '';
   this.userFamilyName = user_info['family_name'] || '';
   this.userGivenName = user_info['given_name'] || '';
-  this.userPicture = user_info['picture'] || '';
   this.userLink = user_info['link'] || '';
   this.userLocal = user_info['local'] || 'en';
+  this.userName = user_info['name'] || '';
+  this.userPicture = user_info['picture'] || '';
 };
 
 

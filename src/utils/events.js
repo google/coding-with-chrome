@@ -32,7 +32,7 @@ goog.require('goog.events');
  * @constructor
  * @final
  */
-cwc.utils.Events = function(name = 'Events', prefix = '', scope = undefined) {
+cwc.utils.Events = function(name = 'Events', prefix = '', scope = null) {
   /** @type {string} */
   this.name = name || '';
 
@@ -72,14 +72,14 @@ cwc.utils.Events.prototype.listen = function(src, type, listener,
     eventTarget = document.getElementById(this.prefix + src);
     if (!eventTarget) {
       this.log_.error('Unable to find listener element', this.prefix + src);
-      return;
+      return null;
     }
   } else {
     eventTarget = src;
   }
   if (!eventTarget) {
     this.log_.error('Undefined listener event target!', eventTarget);
-    return;
+    return null;
   }
   let listenerKey = goog.events.listen(eventTarget, type, listener, capture,
       scope || this.scope);

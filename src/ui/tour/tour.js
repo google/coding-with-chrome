@@ -225,7 +225,7 @@ cwc.ui.Tour.prototype.getStepButtons = function(stepNumber, tourLength,
 
 
 /**
- * @param {number} stepNumber
+ * @param {number|string} stepNumber
  * @return {!Array}
  * @private
  */

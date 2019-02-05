@@ -33,6 +33,9 @@ cwc.mode.Mod = function(config_data) {
   /** @type {boolean} */
   this.autoPreview = config_data.auto_preview || false;
 
+  /** @type {boolean} */
+  this.enableLibrary = config_data.enable_library || false;
+
   /** @type {!Array} */
   this.services = config_data.services || [];
 

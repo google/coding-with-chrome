@@ -104,9 +104,22 @@
  */
 {template .fileCardList}
   {@param content: ?}
+  {@param? id: string}
+  {@param? title: string}
+  {@param? icon: string}
 
-  {$content}
-  <div class="__extension"></div>
+  {if $title}
+    <div class="cwc-file-card-list-title">
+      {if $icon}
+        <i class="material-icons">{$icon}</i>
+      {/if}
+      {msg desc=""}{$title}{/msg}
+    </div>
+  {/if}
+
+  <div class="cwc-file-card-list mdl-grid"{if $id} id="{$id}"{/if}>
+    {$content}
+  </div>
 {/template}
 
 
@@ -272,22 +285,6 @@
       {/if}
     </div>
   </header>
-{/template}
-
-
-/**
- * Grid title.
- */
-{template .titleGrid}
-  {@param text: string}
-  {@param? opt_icon: string}
-
-  <div class="mdl-grid cwc-select-title-grid">
-    {if $opt_icon}
-      <i class="material-icons">{$opt_icon}</i>
-    {/if}
-    {msg desc=""}{$text}{/msg}
-  </div>
 {/template}
 
 

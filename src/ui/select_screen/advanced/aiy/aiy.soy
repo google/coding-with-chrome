@@ -40,11 +40,10 @@
     {/param}
 
     {param content kind="html"}
-      {call cwc.soy.SelectScreenTemplate.titleGrid data="all"}
-        {param text: 'Tutorials...' /}
-        {param opt_icon: 'school' /}
-      {/call}
+
       {call cwc.soy.SelectScreenTemplate.fileCardList}
+        {param title: 'Tutorials...' /}
+        {param icon: 'school' /}
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
             {param title: 'AIY Tutorial' /}
@@ -57,11 +56,9 @@
         {/param}
       {/call}
 
-      {call cwc.soy.SelectScreenTemplate.titleGrid data="all"}
-        {param text: 'Voice Kit...' /}
-        {param opt_icon: 'record_voice_over' /}
-      {/call}
       {call cwc.soy.SelectScreenTemplate.fileCardList}
+        {param title: 'Voice Kit...' /}
+        {param icon: 'record_voice_over' /}
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
             {param title: 'Voice Kit' /}
@@ -90,11 +87,9 @@
         {/param}
       {/call}
 
-      {call cwc.soy.SelectScreenTemplate.titleGrid data="all"}
-        {param text: 'Vision Kit...' /}
-        {param opt_icon: 'videocam' /}
-      {/call}
       {call cwc.soy.SelectScreenTemplate.fileCardList}
+        {param title: 'Vision Kit...' /}
+        {param icon: 'videocam' /}
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
             {param title: 'Vision Kit' /}
@@ -124,11 +119,9 @@
         {/param}
       {/call}
 
-      {call cwc.soy.SelectScreenTemplate.titleGrid data="all"}
-        {param text: 'LED Button...' /}
-        {param opt_icon: 'brightness_5' /}
-      {/call}
       {call cwc.soy.SelectScreenTemplate.fileCardList}
+        {param title: 'LED Button...' /}
+        {param icon: 'brightness_5' /}
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
             {param title: 'Illuminate while pressed' /}
@@ -148,6 +141,8 @@
           {/call}
         {/param}
       {/call}
+
     {/param}
   {/call}
+
 {/template}
