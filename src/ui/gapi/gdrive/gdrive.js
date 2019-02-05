@@ -200,6 +200,7 @@ cwc.ui.gapi.Drive.prototype.saveDialog = function(name, content) {
 cwc.ui.gapi.Drive.prototype.getMyFiles = function() {
   this.switchMenu_(this.menu.MyFiles);
   this.parents = [{name: 'My files', id: 'root'}];
+  this.saveFileParentId = 'root';
   let fileEvent = this.handleFileList.bind(this);
   this.getFiles_({
     'pageSize': cwc.config.GDrive.PAGE_SIZE,
