@@ -115,7 +115,7 @@ cwc.ui.SelectScreenWelcome.prototype.decorate = function() {
 
 
 /**
- * Starts an basic tour.
+ * Starts a basic tour.
  */
 cwc.ui.SelectScreen.prototype.startTour = function() {
   if (this.tour_) {
