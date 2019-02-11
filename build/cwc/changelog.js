@@ -21,7 +21,7 @@ const fs = require('fs');
 const path = require('path');
 
 const date = new Date(Date.now()).toLocaleString();
-const version = '5.10.16';
+const version = '6.01.05';
 const commits = require('child_process').execSync('git --no-pager log -10')
   .toString('utf8').trim().replace(/[ \t]+$/gm, '');
 
