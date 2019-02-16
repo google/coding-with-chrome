@@ -33,4 +33,5 @@ Locales['supportedLanguages'] = [
   'jpn',
   'swe',
   'vie',
+  'zho',
 ];
