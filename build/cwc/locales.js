@@ -243,7 +243,7 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'Locales.zho',
   srcs: glob([
-    'locales/zho/_zho.js',
+    'locales/_zho.js',
     'locales/zho/**/*.js',
   ]),
   externs: [
