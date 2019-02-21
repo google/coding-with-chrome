@@ -1,5 +1,5 @@
 /**
- * @fileoverview Supported languages for translations.
+ * @fileoverview Translation file for the What's New screen (Chinese).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -15,23 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author Stephanie.Bordihn@gmail.com (Stephanie Bordihn)
- */
-window['Locales'] = window['Locales'] || {};
-
-
-/**
- * @final
- * @export
+ * @author chenzhiyu512@gmail.com (Chan)
  */
 /* eslint-disable max-len */
-Locales['supportedLanguages'] = [
-  'deu',
-  'eng',
-  'fra',
-  'hin',
-  'jpn',
-  'swe',
-  'vie',
-  'zho',
-];
+Locales['zho']['WHATS_NEW_SCREEN'] = {
+  'SHOW_ON_CHANGE': '新的版本安装后显示通知.',
+};

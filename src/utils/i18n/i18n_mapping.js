@@ -84,5 +84,6 @@ cwc.utils.I18nMapping.BCP47 = {
   'sv-SE': 'swe',
   'vi': 'vie',
   'vi-VN': 'vie',
+  'zh': 'zho',
   'zh-CN': 'zho',
 };
