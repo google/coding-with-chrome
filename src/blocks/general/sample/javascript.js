@@ -174,6 +174,37 @@ Blockly.JavaScript['general_sample_image_paddle'] = function() {
 
 
 /**
+ * Sample image: player.png
+ * @return {string}
+ */
+Blockly.JavaScript['general_sample_image_player'] = function() {
+  let image = 'data:image/png;base64,' +
+    'iVBORw0KGgoAAAANSUhEUgAAACoAAAAqCAMAAADyHTlpAAAB9VBMVEUAAAD///8gcrsCi/DQ' +
+    '0NDBwsECjO79/f37/PseuZ0AAADx8vLp7PHNy8tdyk0EkuVekL0lccC343aG0RzZ2dkgnqeQ' +
+    'l5kdccMRsrJrbm8Bhvfn5uYJntMswoTw8PAXuaQrgY00h2plnC/6+vv39/fs7Ozd3d3U1NQd' +
+    'dMskbbS04nB2vSAmk/wDj+rh4eHg4ODb29vS0tLFxcS/y7ckeq0pv4YrhHwrhniIqltMx1oT' +
+    'i/wBifMIhO3o6ezo6OjW1tYOmNDOzc3LysrFxcXExcQgb70OrbshdrYnbK4ubanO6aU2bqId' +
+    'uZ1AcJ0qfpUqhYa64IIqhn4rjndDxWY/omBJx15dyUxayUtSqEiQ1DRlpTBmky8ej/ru7+0q' +
+    'iuPi4uITfOIFleHm7twHmNqcuNEKo8tqm8gXj8cahMQMqMPT4b8edb9ej7vW7bTK3LOwsLAc' +
+    'n6+zwacXsaYme6YhmqRqiaTI5J4YvZ5LeJ6OmJ0pfZ0cpZtggJkevpfE45apu5U4apUcq5LA' +
+    '4o0kwIwueYkjmIUkloWetIK02no1xHkvinI7xHGTrm8yk26OqG2v3Ws3nGo2lmpMtFRKpFJL' +
+    'olFXyU+f101/pUhhyked2UVszEJewkJ4zz9bqj5zmT6D0TyW1jthqjaBtTVxnDSH0CZupCWA' +
+    'yR8Im87rAAAAAXRSTlMAQObYZgAAAhxJREFUOMu11NVf21AUwPGbpjSBtnQjWYRQS92Nlpbh' +
+    'MGDAcBkwd3d3d3f37e/cTUJGkt0+tfxeznn4PtzPebhg5WvELfrwxnKyiXOP1C434ua62pCy' +
+    'NeHOl+Zm69Vm50r5i/vCKBpPnJ2h3kcb1KJv/ry40xwBqCzumfkhElMjj/zY2NK8Hklxburb' +
+    'YUKVhC/35WVhYBhJ1/Y/nB/y1dXZJAnH8cXpiYMb0HT//a9n/Mv06uL0GFvmWLudn65YFUrA' +
+    'cVd85llX7q7ODzc09NHC49EytHXnzXfjLoVK7yh+f3AhAtBtv/x6fLPNRhIYYYO9/dxyclAv' +
+    'TPjS4nCXnu5w8X6StLbz7bmf/86Km4w0wU39uneA4QVB4Jnck9+vJgaGjTSuLJb+/MdYrMjw' +
+    'PM8UY7GF52Mm+axxhUZwmMOhnKDrxPVJr7fAMEzB6/VO3r7FnpMfJpkIMMFUu6lt77E1MI7j' +
+    'pHFqdJC9pEhJASkJy3bLtvBqTeHwtfOyVJzO7tqzStuh00xWlUYbtNfo6qNVabTBYMCqLZCi' +
+    'VWm0tEAS2sgAnVGl3qaCLgLTRviTdoSElk76MH2EEDKj6Fa6gyB9pC5XugdF02mX0G3X1tMZ' +
+    'SGVCCNoZMv9XdybUh6C0GVXvUQTtsNcg6qVBZbGsRakJtrSyLKg0j6dWzgmTF48HVCNRrIdR' +
+    'MDhEEVQtioK/cLSBokB1S2LZLAYq6S82IV4PAnrfgAAAAABJRU5ErkJggg==';
+  return [image, Blockly.JavaScript.ORDER_NONE];
+};
+
+
+/**
  * Sample image: bg/bg_01.png
  * @return {string}
  */

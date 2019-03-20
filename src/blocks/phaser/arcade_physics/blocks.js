@@ -200,7 +200,7 @@ Blockly.Blocks['phaser_physics_arcade_sprite_adjust'] = {
 
 
 /**
- * Adjust arcade sprite.
+ * Adjust arcade sprite (custom).
  */
 Blockly.Blocks['phaser_physics_arcade_sprite_adjust_custom'] = {
   init: function() {
@@ -265,6 +265,29 @@ Blockly.Blocks['phaser_physics_arcade_sprite_adjust_dimension'] = {
         .setCheck('Number');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
+    this.setColour(0);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
+ * Adjust arcade sprite dimension (custom).
+ */
+Blockly.Blocks['phaser_physics_arcade_sprite_adjust_dimension_custom'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(i18t('@@BLOCKS__SET'))
+        .appendField(i18t('dimension to'));
+    this.appendValueInput('width')
+        .setCheck('Number');
+    this.appendValueInput('height')
+        .appendField('x')
+        .setCheck('Number');
+    this.setPreviousStatement(true, ['PhysicsArcadeAttribute']);
+    this.setNextStatement(true, ['PhysicsArcadeAttribute']);
+    this.setInputsInline(true);
     this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');

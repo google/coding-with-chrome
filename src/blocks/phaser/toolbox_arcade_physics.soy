@@ -224,6 +224,13 @@
     <value name="y">
       <block type="math_number"><field name="NUM">200</field></block>
     </value>
+    <statement name="CODE">
+      <block type="phaser_physics_arcade_sprite_adjust_custom">
+        <value name="value">
+          <block type="math_number"></block>
+        </value>
+      </block>
+    </statement>
   </block>
 
   <block type="phaser_physics_arcade_sprite_paddle_add">
@@ -261,6 +268,16 @@
   <block type="phaser_physics_arcade_sprite_adjust_custom">
     <value name="value">
       <block type="math_number"></block>
+    </value>
+  </block>
+
+
+  <block type="phaser_physics_arcade_sprite_adjust_dimension_custom">
+    <value name="width">
+      <block type="math_number"><field name="NUM">50</field></block>
+    </value>
+    <value name="height">
+      <block type="math_number"><field name="NUM">50</field></block>
     </value>
   </block>
 {/template}

@@ -154,7 +154,7 @@ Blockly.JavaScript['phaser_physics_arcade_sprite_adjust'] = function(block,
 
 
 /**
- * Adjust arcade sprite.
+ * Adjust arcade sprite custom.
  * @param {Blockly.Block} block
  * @return {string}
  */
@@ -168,18 +168,31 @@ Blockly.JavaScript['phaser_physics_arcade_sprite_adjust_custom'] = function(
 /**
  * Adjust arcade sprite dimension.
  * @param {Blockly.Block} block
+ * @param {string=} variableName
  * @return {string}
  */
 Blockly.JavaScript['phaser_physics_arcade_sprite_adjust_dimension'] = function(
-    block) {
+    block, variableName = '') {
   let variable = Blockly.JavaScript.valueToCode(block,
-    'variable', Blockly.JavaScript.ORDER_ATOMIC);
+    'variable', Blockly.JavaScript.ORDER_ATOMIC) || variableName;
   let value_width = Blockly.JavaScript.valueToCode(
     block, 'width', Blockly.JavaScript.ORDER_ATOMIC) || 50;
   let value_height = Blockly.JavaScript.valueToCode(
     block, 'height', Blockly.JavaScript.ORDER_ATOMIC) || 50;
   return variable + '.width = ' + value_width + ';\n' +
     variable + '.height = ' + value_height + ';\n';
+};
+
+
+/**
+ * Adjust arcade sprite dimension custom.
+ * @param {Blockly.Block} block
+ * @return {string}
+ */
+Blockly.JavaScript['phaser_physics_arcade_sprite_adjust_dimension_custom'] =
+    function(block) {
+  return Blockly.JavaScript['phaser_physics_arcade_sprite_adjust_dimension'](
+    block, 'arcadeSpriteCustom');
 };
 
 

@@ -139,6 +139,23 @@ Blockly.Blocks['general_sample_image_paddle'] = {
 
 
 /**
+ * Sample image: player.png
+ */
+Blockly.Blocks['general_sample_image_player'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage('../images/samples/player.png',
+          42, 42, ''));
+    this.setInputsInline(false);
+    this.setOutput(true, 'Image');
+    this.setColour(150);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
  * Sample image: bg/bg_01.png
  */
 Blockly.Blocks['general_sample_image_bg_01'] = {
