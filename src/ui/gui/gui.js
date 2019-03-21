@@ -157,18 +157,19 @@ cwc.ui.Gui.prototype.setFullscreen = function(fullscreen = true) {
   if (fullscreen) {
     if (this.isChromeApp_ && chrome.app.window) {
       chrome.app.window.current()['fullscreen']();
-    } else if (goog.dom.fullscreen.isSupported()) {
+    } else if (goog.dom.fullscreen.isSupported() &&
+        !goog.dom.fullscreen.isFullScreen()) {
       goog.dom.fullscreen.requestFullScreen(document.documentElement);
     }
-  } else {
-    // Make sure to end Chrome window mode, to avoid any user confusions.
-    if (this.isChromeApp_ && chrome.app.window &&
+
+  // Make sure to end Chrome window mode, to avoid any user confusions.
+  } else if (this.isChromeApp_ && chrome.app.window &&
        (chrome.app.window.current()['isFullscreen']() ||
         chrome.app.window.current()['isMaximized']())) {
       chrome.app.window.current()['restore']();
-    } else if (goog.dom.fullscreen.isSupported()) {
+  } else if (goog.dom.fullscreen.isSupported() &&
+        goog.dom.fullscreen.isFullScreen()) {
       goog.dom.fullscreen.exitFullScreen();
-    }
   }
 };
 

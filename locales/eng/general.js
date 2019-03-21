@@ -30,5 +30,6 @@ Locales['eng']['GENERAL'] = {
   'NO': 'No',
   'OK': 'Ok',
   'SETTINGS': 'Settings',
+  'UNSAVED_CHANGES': 'Changes have not been saved. Exit?',
   'YES': 'Yes',
 };

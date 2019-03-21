@@ -197,7 +197,10 @@ cwc.protocol.tcp.HTTPServer.prototype.httpResponse_ = function(content,
   }
   let statusCode = options['status_code'] || 200;
   chrome.sockets.tcp.getInfo(clientSocketId, function(socketInfo) {
-    if (!socketInfo['connected']) {
+    if (!socketInfo) {
+      this.log_.error('Socket is not available yet!');
+      return;
+    } else if (!socketInfo['connected']) {
       this.log_.error('Socket is no longer connected', socketInfo);
       this.disconnectSocket_(clientSocketId);
       return;

@@ -28,7 +28,7 @@ Blockly.Blocks['phaser_generator_vertical_obstacle'] = {
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('@@BLOCKS_PHASER__GENERATOR_VERTICAL_OBSTACLE'))
         .appendField(new Blockly.FieldDropdown(
-          Blockly.BlocksHelper['phaser_image']('block')), 'sprite');
+          Blockly.BlocksHelper['phaser_image']('obstacles')), 'sprite');
     this.appendValueInput('obstacles')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
