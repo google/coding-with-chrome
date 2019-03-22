@@ -8,7 +8,7 @@
   "dependencies": {},
   "devDependencies": {
     "bestzip": "^1.1.6",
-    "closure-builder": "^2.3.6",
+    "closure-builder": "^2.3.7",
     "command-line-usage": "^5.0.5",
     "escape-string-regexp": "^1.0.5",
     "eslint": "^4.19.1",
@@ -26,7 +26,7 @@
     "markdownlint": "^0.8.1",
     "markdownlint-cli": "^0.8.1",
     "mv": "^2.1.1",
-    "nw": "^0.37.0",
+    "nw": "^0.37.1",
     "nw-builder": "^3.5.7",
     "replace-in-file": "^3.4.4",
     "rimraf": "^2.6.3"
