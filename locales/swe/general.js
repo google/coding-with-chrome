@@ -1,5 +1,5 @@
 /**
- * @fileoverview General Translation file (english).
+ * @fileoverview General Translation file (Swedish).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

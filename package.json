@@ -1,11 +1,10 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "6.01.05",
+  "version": "6.05.24",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
-  "dependencies": {},
   "devDependencies": {
     "bestzip": "^1.1.6",
     "closure-builder": "^2.3.7",
@@ -16,7 +15,7 @@
     "http-server": "latest",
     "jasmine-core": "^3.3.0",
     "jsdoc": "^3.5.5",
-    "karma": "^3.1.4",
+    "karma": "^4.0.1",
     "karma-chrome-launcher": "latest",
     "karma-closure": "latest",
     "karma-coverage": "^1.1.2",

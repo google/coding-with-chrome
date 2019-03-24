@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for Phaser blocks (german).
+ * @fileoverview Translation file for Phaser blocks (German).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -30,6 +30,7 @@ Locales['deu']['BLOCKS_PHASER'] = {
   'COLLIDE_WITH': 'kollidiert mit',
   'COUNT_LIVING_OBJECTS': 'zähle lebende Objekte',
   'CREATE': 'Erstellen',
+  'DYNAMIC_TEXT_ADD_HIGHSCORE': 'als Highscore',
   'EXAMPLE_FILES': 'Beispiel Dateien',
   'FILES': 'Dateien',
   'GAME': 'Spiel',
@@ -44,6 +45,7 @@ Locales['deu']['BLOCKS_PHASER'] = {
   'INPUTS': 'Eingaben',
   'KEYBOARD_CURSOR_KEYS': 'Tastatur Pfeiltasten',
   'KEYBOARD_KEY': 'Tastatur Taste',
+  'KEYBOARD_SHIFT_KEYS': 'Tastatur Umschalttasten',
   'KEYBOARD_SPACEBAR': 'Tastatur Leertaste',
   'KEYBOARD_WASD_KEYS': 'Tastatur WASD Tasten',
   'LOAD_AUDIO': 'lade Audio',

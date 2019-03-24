@@ -122,6 +122,27 @@ Blockly.Blocks['phaser_input_keyboard_spacebar_add'] = {
 
 
 /**
+ * Add keyboard shift keys (left/right).
+ */
+Blockly.Blocks['phaser_input_keyboard_shift_add'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .appendField(Blockly.BlocksTemplate.addCircle())
+        .appendField(i18t('@@BLOCKS__DEFINE'));
+    this.appendDummyInput()
+        .appendField(i18t('@@BLOCKS__AS'))
+        .appendField(i18t('@@BLOCKS_PHASER__KEYBOARD_SHIFT_KEYS'))
+        .appendField(Blockly.BlocksTemplate.keyboard());
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
+    this.setColour(135);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
  * Add keyboard key.
  */
 Blockly.Blocks['phaser_input_keyboard_key_add'] = {
@@ -250,6 +271,30 @@ Blockly.Blocks['phaser_input_keyboard_key_is_hold_pressed'] = {
         .appendField(Blockly.BlocksTemplate.keyboard());
     this.appendDummyInput()
         .appendField(i18t('is hold pressed'));
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
+ * Keyboard code is pressed.
+ */
+Blockly.Blocks['phaser_input_keyboard_code_is_pressed'] = {
+  init: function() {
+    this.appendValueInput('key')
+        .appendField(Blockly.BlocksTemplate.keyboard());
+    this.appendDummyInput()
+        .appendField(i18t('is pressed'))
+        .appendField(i18t('with'))
+        .appendField(new Blockly.FieldDropdown([
+          ['ShiftLeft', 'ShiftLeft'],
+          ['ShiftRight', 'ShiftRight'],
+        ]), 'code')
+        .appendField(i18t('code'));
     this.setInputsInline(true);
     this.setOutput(true, null);
     this.setColour(135);

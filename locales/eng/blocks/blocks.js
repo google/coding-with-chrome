@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for blocks (english).
+ * @fileoverview Translation file for blocks (English).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -32,6 +32,8 @@ Locales['eng']['BLOCKS'] = {
   'DO': 'do',
   'DOWN': 'down',
   'ENABLE': 'enable',
+  'GET_NUMBER': 'get number',
+  'GET_TEXT': 'get text',
   'GROUP': 'group',
   'HEIGHT': 'height',
   'IMMEDIATELY': 'immediately',

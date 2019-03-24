@@ -89,6 +89,20 @@ Blockly.JavaScript['phaser_input_keyboard_spacebar_add'] = function(block) {
 
 
 /**
+ * Add keyboard shift keys (left/right).
+ * @param {Blockly.Block} block
+ * @return {string}
+ */
+Blockly.JavaScript['phaser_input_keyboard_shift_add'] = function(block) {
+  let variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  return variable +
+    ' = this.input.keyboard.addKey(Phaser.KeyCode.SHIFT);\n' +
+    variable + '.onDown.add(this.input_, this);\n';
+};
+
+
+/**
  * Add keyboard key.
  * @param {Blockly.Block} block
  * @return {string}
@@ -171,6 +185,22 @@ Blockly.JavaScript['phaser_input_keyboard_key_is_hold_pressed'] = function(
   let value_key = Blockly.JavaScript.valueToCode(
     block, 'key', Blockly.JavaScript.ORDER_ATOMIC);
   let code = value_key + '.isDown && e !== ' + value_key;
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+
+/**
+ * Keyboard code is pressed.
+ * @param {Blockly.Block} block
+ * @return {string}
+ */
+Blockly.JavaScript['phaser_input_keyboard_code_is_pressed'] = function(
+    block) {
+  let value_key = Blockly.JavaScript.valueToCode(
+    block, 'key', Blockly.JavaScript.ORDER_ATOMIC);
+  let dropdown_code = block.getFieldValue('code');
+  let code = value_key + '.isDown && e === ' +
+    value_key + ' && e.event.code === "' + dropdown_code + '"';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 

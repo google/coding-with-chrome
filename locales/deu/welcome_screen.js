@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for the Welcome screen (german).
+ * @fileoverview Translation file for the Welcome screen (German).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

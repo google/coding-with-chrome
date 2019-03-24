@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for the Setting screen (french).
+ * @fileoverview Translation file for the Setting screen (French).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

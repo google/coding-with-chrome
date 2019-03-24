@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for the Status bar / button (vietnamese).
+ * @fileoverview Translation file for the Status bar / button (Vietnamese).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

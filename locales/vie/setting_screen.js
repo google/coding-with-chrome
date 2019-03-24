@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for the Setting screen (vietnamese).
+ * @fileoverview Translation file for the Setting screen (Vietnamese).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

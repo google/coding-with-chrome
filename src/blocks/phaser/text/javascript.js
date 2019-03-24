@@ -70,6 +70,33 @@ Blockly.JavaScript['phaser_dynamic_text_add'] = function(block) {
 
 
 /**
+ * Add a dynamic high-score.
+ * @param {Blockly.Block} block
+ * @return {string}
+ */
+Blockly.JavaScript['phaser_dynamic_text_highscore_add'] = function(block) {
+  let text_color = block.getFieldValue('color');
+  let text_font = block.getFieldValue('font');
+  let text_size = block.getFieldValue('size');
+  let variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  let value_score = Blockly.JavaScript.valueToCode(
+    block, 'score', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  let value_x = Blockly.JavaScript.valueToCode(
+    block, 'x', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  let value_y = Blockly.JavaScript.valueToCode(
+    block, 'y', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  if (/^\d+$/.test(text_size)) {
+    text_size = text_size + 'px';
+  }
+  return variable + ' = game.add.text(' + value_x + ', ' + value_y + ', ' +
+    String(value_score) + ', ' +
+    '{ font: \'' + text_size + ' ' + text_font + '\', ' +
+    'fill: \'' + text_color + '\'});\n';
+};
+
+
+/**
  * Add action text.
  * @param {Blockly.Block} block
  * @return {string}
@@ -119,8 +146,20 @@ Blockly.JavaScript['phaser_text_change'] = function(block) {
 Blockly.JavaScript['phaser_text_get'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  let code = 'isNaN(' + variable + '.text) ? ' + variable + '.text : Number(' +
-    variable + '.text)';
+  let code = variable + '.text';
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+
+/**
+ * Get text number.
+ * @param {Blockly.Block} block
+ * @return {string}
+ */
+Blockly.JavaScript['phaser_text_get_number'] = function(block) {
+  let variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  let code = 'Number(' + variable + '.text)';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 

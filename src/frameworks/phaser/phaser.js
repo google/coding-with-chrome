@@ -143,6 +143,7 @@ cwc.framework.Phaser.MatrixBlockGenerator = function(sprite, data,
  * @param {string} sprite
  * @param {Function=} manipulation
  * @return {Object}
+ * @export
  */
 cwc.framework.Phaser.getSpriteSize = function(sprite, manipulation) {
   let width = game.cache.getImage(sprite).width;

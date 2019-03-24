@@ -1,5 +1,5 @@
 /**
- * @fileoverview Blockly Translation file (english).
+ * @fileoverview Blockly Translation file (Swedish).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for the Connect screen (chinese).
+ * @fileoverview Translation file for the Connect screen (Chinese).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

@@ -1,5 +1,5 @@
 /**
- * @fileoverview General Translation file (vietnamese).
+ * @fileoverview General Translation file (Vietnamese).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

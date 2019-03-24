@@ -32,7 +32,7 @@ Blockly.JavaScript['phaser_create'] = function(block) {
     'game.time.desiredFps = 30;}\n' +
 
     // Empty generator groups to make sure game restarts works.
-    'block_group = null;\nobstalce_group = null;\n' +
+    '  block_group = null;\n  obstacle_group = null;\n' +
     statements_code + '},\n';
 };
 

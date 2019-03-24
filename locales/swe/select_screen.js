@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for the Select screen (english).
+ * @fileoverview Translation file for the Select screen (Swedish).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

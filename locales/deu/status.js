@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for the Status bar / button (german).
+ * @fileoverview Translation file for the Status bar / button (German).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

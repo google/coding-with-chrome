@@ -1,5 +1,5 @@
 /**
- * @fileoverview Blockly Translation file (french).
+ * @fileoverview Blockly Translation file (French).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

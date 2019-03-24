@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for the navigation (german).
+ * @fileoverview Translation file for the navigation (German).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -35,8 +35,8 @@ Locales['deu']['NAVIGATION'] = {
   'OPEN_FILE_TEXT': 'Öffne eine lokale Datei',
   'OPEN_GDRIVE_FILE': 'Open Google Drive-Datei',
   'OPEN_GDRIVE_FILE_TEXT': 'Öffnen Sie eine Google Drive-Datei ...',
-  'OVERVIEW': 'Überblick',
-  'OVERVIEW_TEXT': 'Überblick',
+  'OVERVIEW': 'Übersicht',
+  'OVERVIEW_TEXT': 'Übersicht',
   'SAVE_AS': 'Als neue Datei speichern',
   'SAVE_AS_TEXT': 'Als neue Datei speichern ...',
   'SAVE_GDRIVE_FILE': 'Als Google Drive-Datei speichern',

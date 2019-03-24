@@ -261,7 +261,7 @@
 
 
 /** 
- * Naviation and Overview design
+ * Navigation and Overview design
  */
 
 .{$prefix}select-screen-navigation-overview {

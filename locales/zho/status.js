@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for the Status bar / button (chinese).
+ * @fileoverview Translation file for the Status bar / button (Chinese).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

@@ -300,7 +300,7 @@
 
   <a href="#{$tab_id}" id="{$tab_id}-link" class="mdl-layout__tab{if $active} is-active{/if}">
     {if $icon}<i class="icon_24px" aria-hidden="true">{$icon}</i>{/if}
-    {if $name}{$name}{/if}
+    {if $name}{msg desc=""}{$name}{/msg}{/if}
   </a>
 {/template}
 
@@ -348,7 +348,7 @@
   <a href="#{$tab_id}" id="{$tab_id}-link" class="mdl-tabs__tab
     {if $icon} icon_24px_raw{/if}
     {if $active} is-active{/if}
-    {if not $isEnabled} hidden{/if}">{$name}</a>
+    {if not $isEnabled} hidden{/if}">{msg desc=""}{$name}{/msg}</a>
 
 {/template}
 

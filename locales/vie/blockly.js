@@ -1,5 +1,5 @@
 /**
- * @fileoverview Blockly Translation file (vietnamese).
+ * @fileoverview Blockly Translation file (Vietnamese).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

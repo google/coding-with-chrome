@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for the Console (french).
+ * @fileoverview Translation file for the Console (French).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

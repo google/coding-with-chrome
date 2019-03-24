@@ -69,6 +69,56 @@ Blockly.Blocks['phaser_text_add'] = {
 /**
  * Add dynamic text.
  */
+Blockly.Blocks['phaser_dynamic_text_highscore_add'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .appendField(Blockly.BlocksTemplate.addCircle())
+        .appendField(i18t('@@BLOCKS__DEFINE'));
+    this.appendDummyInput()
+         .appendField(i18t('@@BLOCKS_PHASER__DYNAMIC_TEXT_ADD_HIGHSCORE'));
+    this.appendValueInput('score')
+        .setCheck('Number');
+    this.appendValueInput('x')
+        .setCheck('Number')
+        .appendField(i18t('on'));
+    this.appendValueInput('y')
+        .appendField('x')
+        .setCheck('Number');
+    this.appendDummyInput()
+        .appendField('y')
+        .appendField(i18t('with style'))
+        .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
+        .appendField(new Blockly.FieldTextInput(
+          '16px', Blockly.BlocksHelper['validate_text']), 'size')
+        .appendField(new Blockly.FieldDropdown([
+          ['Arial Black', 'Arial Black'],
+          ['Arial Narrow', 'Arial Narrow'],
+          ['Arial', 'Arial'],
+          ['Comic Sans MS', 'Comic Sans MS'],
+          ['Courier New', 'Courier New'],
+          ['Georgia', 'Georgia'],
+          ['Helvetica', 'Helvetica'],
+          ['Impact', 'Impact'],
+          ['Lucida Console', 'Lucida Console'],
+          ['Tahoma', 'Tahoma'],
+          ['Times New Roman', 'Times New Roman'],
+          ['Verdana', 'Verdana'],
+          ['Webdings', 'Webdings'],
+          ['Wingdings', 'Wingdings'],
+          ['sans-serif', 'sans-serif'],
+        ]), 'font');
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
+    this.setColour(260);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
+ * Add dynamic text.
+ */
 Blockly.Blocks['phaser_dynamic_text_add'] = {
   init: function() {
     this.appendValueInput('variable')
@@ -192,7 +242,22 @@ Blockly.Blocks['phaser_text_change'] = {
 Blockly.Blocks['phaser_text_get'] = {
   init: function() {
     this.appendValueInput('variable')
-        .appendField(i18t('get text'));
+        .appendField(i18t('@@BLOCKS__GET_TEXT'));
+    this.setOutput(true, null);
+    this.setColour(255);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
+ * Get text number.
+ */
+Blockly.Blocks['phaser_text_get_number'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .appendField(i18t('@@BLOCKS__GET_NUMBER'));
     this.setOutput(true, null);
     this.setColour(255);
     this.setTooltip('');

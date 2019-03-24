@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for English.
+ * @fileoverview Translation file for Swedish.
  *
  * @license Copyright 2016 The Coding with Chrome Authors.
  *

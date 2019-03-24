@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for the Welcome screen (vietnamese).
+ * @fileoverview Translation file for the Welcome screen (Vietnamese).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

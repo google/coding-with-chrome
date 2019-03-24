@@ -1,5 +1,5 @@
 /**
- * @fileoverview Blockly Translation file (german).
+ * @fileoverview Blockly Translation file (German).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,6 +17,8 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+/* eslint-disable max-len */
 Locales['deu']['BLOCKLY'] = {
   'CREATE_NEW_VARIABLE': 'Erstelle neue Variable',
+  'SWITCHING_TO_BLOCKLY': 'Beim Wechseln in den Block-Modus werden alle manuellen Änderungen überschrieben! Fortsetzen?',
 };

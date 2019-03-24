@@ -459,15 +459,32 @@
       </value>
     </block>
 
-    <block type="phaser_dynamic_text_add">
+    <block type="phaser_dynamic_text_highscore_add">
       <value name="variable">
         <block type="variables_get">
           <field name="VAR">highscore</field>
         </block>
       </value>
+      <value name="score">
+        <block type="math_number"><field name="NUM">0</field></block>
+      </value>
+      <value name="x">
+        <block type="math_number"><field name="NUM">10</field></block>
+      </value>
+      <value name="y">
+        <block type="math_number"><field name="NUM">10</field></block>
+      </value>
+    </block>
+
+    <block type="phaser_dynamic_text_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">text</field>
+        </block>
+      </value>
       <value name="text">
         <block type="text">
-          <field name="TEXT">0</field>
+          <field name="TEXT">Text</field>
         </block>
       </value>
       <value name="x">
@@ -513,12 +530,12 @@
   <block type="phaser_text_change">
     <value name="variable">
       <block type="variables_get">
-        <field name="VAR">highscore</field>
+        <field name="VAR">text</field>
       </block>
     </value>
     <value name="text">
       <block type="text">
-        <field name="TEXT">100</field>
+        <field name="TEXT">Hello World</field>
       </block>
     </value>
   </block>
@@ -533,7 +550,7 @@
       <block type="math_arithmetic">
         <field name="OP">ADD</field>
         <value name="A">
-          <block type="phaser_text_get">
+          <block type="phaser_text_get_number">
             <value name="variable">
               <block type="variables_get">
                 <field name="VAR">highscore</field>
@@ -551,6 +568,14 @@
   </block>
 
   <block type="phaser_text_get">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">text</field>
+      </block>
+    </value>
+  </block>
+
+  <block type="phaser_text_get_number">
     <value name="variable">
       <block type="variables_get">
         <field name="VAR">highscore</field>

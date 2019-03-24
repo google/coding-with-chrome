@@ -1,5 +1,5 @@
 /**
- * @fileoverview General Translation file (english).
+ * @fileoverview General Translation file (English).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -29,7 +29,9 @@ Locales['eng']['GENERAL'] = {
   'NEXT': 'Next',
   'NO': 'No',
   'OK': 'Ok',
+  'OVERVIEW': 'Overview',
   'SETTINGS': 'Settings',
   'UNSAVED_CHANGES': 'Changes have not been saved. Exit?',
+  'WARNING': 'Warning',
   'YES': 'Yes',
 };

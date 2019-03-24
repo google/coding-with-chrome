@@ -1,5 +1,5 @@
 /**
- * @fileoverview Library Translation file (english).
+ * @fileoverview Library Translation file (English).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

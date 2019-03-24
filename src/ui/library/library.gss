@@ -98,14 +98,15 @@
   width: 240px;
   min-height: 60px;
   position: relative;
+  border-radius: 18px;
 }
 
 .{$prefix}library-audio-entry audio {
   width: 260px;
+  height: 35px;
   position: absolute;
   bottom: 0;
   left: 0;
-  border-top: 1px solid #ccc;
 }
 
 .{$prefix}library-audio-entry i {

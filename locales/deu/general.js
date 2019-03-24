@@ -1,5 +1,5 @@
 /**
- * @fileoverview General Translation file (german).
+ * @fileoverview General Translation file (German).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -29,7 +29,9 @@ Locales['deu']['GENERAL'] = {
   'NEXT': 'Weiter',
   'NO': 'Nein',
   'OK': 'Ok',
+  'OVERVIEW': 'Übersicht',
   'SETTINGS': 'Einstellungen',
   'UNSAVED_CHANGES': 'Änderungen wurden nicht gespeichert. Beenden?',
+  'WARNING': 'Warnung',
   'YES': 'Ja',
 };

@@ -1,7 +1,7 @@
 /**
- * @fileoverview BUILD configuration for Coding with Chrome satic files.
+ * @fileoverview BUILD configuration for Coding with Chrome static files.
  *
- * @license Copyright 2017 The Coding with Chrome Authors.
+ * @license Copyright 2019 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,10 +21,7 @@ const fs = require('fs');
 const path = require('path');
 
 const date = new Date(Date.now()).toLocaleString();
-const version = '6.01.05';
-const commits = require('child_process').execSync('git --no-pager log -10')
-  .toString('utf8').trim().replace(/[ \t]+$/gm, '');
-
+const version = '6.05.24';
 const whats_new_path = path.join(__dirname, '../../static_files/whats_new',
   `${version}.md`);
 
@@ -52,11 +49,7 @@ ${date} -v${version}
 
 ${whats_new_md}
 
-Recent Changelog
-----------------
-
-${commits}
-[Show all](https://github.com/google/coding-with-chrome/commits/master)
+[Show all changes](https://github.com/google/coding-with-chrome/commits/master)
 `,
   function(err) {
     if (err) {

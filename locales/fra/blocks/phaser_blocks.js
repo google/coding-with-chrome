@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for Phaser blocks (french).
+ * @fileoverview Translation file for Phaser blocks (French).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

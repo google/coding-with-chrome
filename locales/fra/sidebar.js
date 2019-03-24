@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for the sidebar (french).
+ * @fileoverview Translation file for the sidebar (French).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

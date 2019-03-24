@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for Blocks (german).
+ * @fileoverview Translation file for Blocks (German).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
