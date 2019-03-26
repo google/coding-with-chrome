@@ -46,19 +46,21 @@ cwc.utils.AddonInstance;
  *   cwc.fileHandler.FileExporter|
  *   cwc.fileHandler.FileLoader|
  *   cwc.fileHandler.FileSaver|
+ *   cwc.fileHandler.File|
  *   cwc.mode.Modder|
  *   cwc.protocol.arduino.Api|
  *   cwc.protocol.lego.ev3.Api|
  *   cwc.protocol.serial.Api|
+ *   cwc.protocol.tcp.HTTPServer|
  *   cwc.renderer.Renderer|
  *   cwc.ui.Blockly|
  *   cwc.ui.Debug|
  *   cwc.ui.Documentation|
  *   cwc.ui.Editor|
  *   cwc.ui.Experimental|
- *   cwc.ui.gapi.Handler|
  *   cwc.ui.Gui|
  *   cwc.ui.Help|
+ *   cwc.ui.Language|
  *   cwc.ui.Layout|
  *   cwc.ui.Library|
  *   cwc.ui.MenuBar|
@@ -71,6 +73,7 @@ cwc.utils.AddonInstance;
  *   cwc.ui.Turtle|
  *   cwc.ui.Tutorial|
  *   cwc.ui.connectScreen.Screens|
+ *   cwc.ui.gapi.Handler|
  *   cwc.utils.Dialog}
  */
 cwc.utils.HelperInstance;

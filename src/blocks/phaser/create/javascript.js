@@ -27,10 +27,6 @@
 Blockly.JavaScript['phaser_create'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'create: function(e) {\n' +
-    // Webview has not the same performance like an real browser window.
-    '  if (navigator.userAgent == \'CwC sandbox\') {' +
-    'game.time.desiredFps = 30;}\n' +
-
     // Empty generator groups to make sure game restarts works.
     '  block_group = null;\n  obstacle_group = null;\n' +
     statements_code + '},\n';
