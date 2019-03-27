@@ -42,8 +42,8 @@ cwc.utils.Events = function(name = 'Events', prefix = '', scope = null) {
   /** @type {Object} */
   this.scope = scope;
 
-  /** @private {!Array} */
-  this.debouncer_ = [];
+  /** @private {Object} */
+  this.debouncer_ = {};
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);

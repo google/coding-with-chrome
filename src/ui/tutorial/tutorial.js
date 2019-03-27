@@ -967,7 +967,7 @@ cwc.ui.Tutorial.prototype.restartValidate_ = function() {
  */
 cwc.ui.Tutorial.prototype.setMessage = function(message) {
   let node = this.getActiveMessageNode_();
-  if (!node) {
+  if (!node || !node.nodeType) {
     this.log_.warn('No active message node, can\'t set message ', message);
     return;
   }

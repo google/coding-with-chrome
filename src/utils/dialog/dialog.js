@@ -148,11 +148,12 @@ cwc.utils.Dialog.prototype.close = function(title) {
  *   content: string,
  *   prefix: string,
  *   title: string,
- *   opt_css_class: (string|undefined),
- *   opt_title_icon: (string|undefined),
- *   opt_title_untranslated: (string|undefined),
- *   opt_values: (string|undefined)
- * })=} template
+ *   i18n: boolean,
+ *   opt_css_class: (null|string|undefined),
+ *   opt_title_icon: (null|string|undefined),
+ *   opt_title_untranslated: (null|string|undefined),
+ *   opt_values: (null|string|undefined)
+ * }, null=)} template
  * @param {string=} values
  * @param {string=} css_class
  * @export
@@ -196,7 +197,7 @@ cwc.utils.Dialog.prototype.render = function(title, content,
 cwc.utils.Dialog.prototype.showContent = function(title, content, css_class) {
   if (this.getDialog_()) {
     this.render(
-      title, content, cwc.soy.Dialog.contentTemplate, null, css_class);
+      title, content, cwc.soy.Dialog.contentTemplate, undefined, css_class);
     this.getCloseButton().addEventListener('click', () => {
         this.close();
       });

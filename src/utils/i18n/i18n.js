@@ -101,7 +101,7 @@ cwc.utils.I18n.prototype.translateOld = function(key, text = '') {
 /**
  * Translate the given translation Key to the current language.
  * @param {string} translationKey
- * @param {Object=} values
+ * @param {Object|string=} values
  * @return {string}
  */
 cwc.utils.I18n.prototype.translate = function(translationKey, values) {

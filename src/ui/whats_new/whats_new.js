@@ -32,6 +32,9 @@ goog.require('goog.dom');
  * @struct
  */
 cwc.ui.WhatsNew = function(helper) {
+  /** @type {string} */
+  this.name = 'WhatsNew';
+
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
