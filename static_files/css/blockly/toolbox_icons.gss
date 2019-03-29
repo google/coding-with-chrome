@@ -133,6 +133,10 @@
   content: 'rotate_90_degrees_ccw';
 }
 
+.blocklyTreeRowItem_blocks_phaser__time::before {
+  content: 'access_time';
+}
+
 .blocklyTreeRowItem_blocks_phaser__text::before {
   content: 'format_shapes';
 }

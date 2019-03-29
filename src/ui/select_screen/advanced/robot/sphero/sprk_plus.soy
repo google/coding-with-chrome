@@ -34,7 +34,7 @@
     {param header kind="html"}
       {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Robots: Sphero SPRK+' /}
-        {param opt_text: 'Control a Sphero SPRK+ with blocks' /}
+        {param opt_text: 'Control a Sphero SPRK+' /}
         {param opt_icon: 'adjust' /}
       {/call}
     {/param}
@@ -44,13 +44,29 @@
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
             {param title: 'New program' /}
-            {param text: 'Begin a new program to drive a Sphero or an on-screen robot with Blockly' /}
+            {param text: 'Begin a new program to drive a Sphero or an on-screen robot' /}
             {param opt_link_text: 'new Sphero blocks program' /}
             {param mode: 'sphero_sprk_plus' /}
-            {param opt_image: '' /}
             {param opt_color_class: 'bg-light-blue' /}
             {param opt_icon: 'insert_drive_file' /}
           {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Rectangle example (JavaScript)' /}
+            {param text: 'Sphero SPRK+ is rolling a rectangle' /}
+            {param file: 'sphero/sprk_plus/script/Sphero SPRKplus - rectangle.cwc' /}
+            {param opt_color_class: 'bg-blue' /}
+            {param opt_icon: 'crop_square' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Collision Example (Python)' /}
+            {param text: 'Sphero SPRK+ change color on collision' /}
+            {param file: 'sphero/sprk_plus/script/Sphero SPRKplus - collision.cwc' /}
+            {param opt_color_class: 'bg-blue' /}
+            {param opt_icon: 'perm_scan_wifi' /}
+          {/call}
+
         {/param}
       {/call}
     {/param}

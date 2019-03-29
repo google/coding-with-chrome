@@ -39,9 +39,11 @@ Blockly.BlocksHelper['phaser_images'] = function(name = '') {
   let spriteList = [];
   let blocks = Blockly.getMainWorkspace().getAllBlocks();
   for (let i = 0; i < blocks.length; i++) {
-    if (blocks[i]['type'] === 'phaser_load_image') {
-      let imageName = blocks[i]['inputList'][0]['fieldRow'][2]['text_'];
-      let childInputList = blocks[i]['childBlocks_'][0]['inputList'];
+    let block = blocks[i];
+    if (block && block['type'] === 'phaser_load_image' && !block['disabled'] &&
+        block['childBlocks_'][0] !== undefined) {
+      let imageName = block['inputList'][0]['fieldRow'][2]['text_'];
+      let childInputList = block['childBlocks_'][0]['inputList'];
       let imageSrc = childInputList [0]['fieldRow'][0]['src_'] ||
         childInputList [1]['fieldRow'][0]['src_'];
       let imageEntry = [

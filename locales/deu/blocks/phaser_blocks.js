@@ -63,6 +63,8 @@ Locales['deu']['BLOCKS_PHASER'] = {
   'SPRITE': 'Sprite',
   'TEXT': 'Text Objekt',
   'TILE_SPRITE': 'Tile Sprite',
+  'TIME': 'Zeit',
+  'TIME_EVENT': 'nach',
   'TIME_LOOP_EVENT': 'wiederhole alle',
   'UPDATE': 'Aktualisieren',
   'WORLD': 'Welt',

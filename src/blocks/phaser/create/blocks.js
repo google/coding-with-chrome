@@ -100,25 +100,3 @@ Blockly.Blocks['phaser_add_background_scaled'] = {
     this.setHelpUrl('');
   },
 };
-
-
-/**
- * Timer Loop Event
- */
-Blockly.Blocks['phaser_time_loop_event'] = {
-  init: function() {
-    this.appendValueInput('time')
-        .setCheck('Number')
-        .appendField(Blockly.BlocksTemplate.repeat())
-        .appendField(i18t('@@BLOCKS_PHASER__TIME_LOOP_EVENT'));
-    this.appendDummyInput()
-        .appendField(i18t('milliseconds'));
-    this.appendStatementInput('func')
-        .appendField(i18t('@@BLOCKS__DO'));
-    this.setPreviousStatement(true, 'Create');
-    this.setNextStatement(true, 'Create');
-    this.setColour(30);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  },
-};

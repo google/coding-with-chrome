@@ -56,17 +56,17 @@
           {param name: 'Sphero 2.0' /}
         {/call}
 
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
+          {param id: 'sphero_sprk_plus' /}
+          {param module: 'sphero' /}
+          {param name: 'Sphero SPRK+' /}
+        {/call}
+
         {if $experimental}
           {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
             {param id: 'sphero_bb8' /}
             {param module: 'sphero' /}
             {param name: 'Sphero BB-8' /}
-          {/call}
-
-          {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
-            {param id: 'sphero_sprk_plus' /}
-            {param module: 'sphero' /}
-            {param name: 'Sphero SPRK+' /}
           {/call}
         {/if}
 
@@ -96,14 +96,14 @@
           {/param}
         {/call}
 
-        {if $experimental}
-          {call cwc.soy.SelectScreenTemplate.subTabBarContent}
-            {param id: 'sphero_sprk_plus' /}
-            {param content kind="html"}
-              {call cwc.soy.SelectScreenAdvanced.robot.sphero.sprkPlus.overview data="all" /}
-            {/param}
-          {/call}
+        {call cwc.soy.SelectScreenTemplate.subTabBarContent}
+          {param id: 'sphero_sprk_plus' /}
+          {param content kind="html"}
+            {call cwc.soy.SelectScreenAdvanced.robot.sphero.sprkPlus.overview data="all" /}
+          {/param}
+        {/call}
 
+        {if $experimental}
           {call cwc.soy.SelectScreenTemplate.subTabBarContent}
             {param id: 'sphero_bb8' /}
             {param content kind="html"}
@@ -130,7 +130,7 @@
     {param header kind="html"}
       {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Robots' /}
-        {param opt_text: 'Simple robot control with blocks' /}
+        {param opt_text: 'Advanced robot control with JavaScript and/or Python' /}
         {param opt_icon kind="html"}{call .icon /}{/param}
       {/call}
     {/param}
@@ -140,7 +140,7 @@
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'Lego' /}
         {param id: 'lego' /}
-        {param text: 'Control a real or virtual EV3 by assembling Blockly Blocks' /}
+        {param text: 'Control a real or virtual EV3' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'adb' /}
 
@@ -156,7 +156,7 @@
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'Sphero' /}
         {param id: 'sphero' /}
-        {param text: 'Control a real or virtual Sphero by assembling Blockly Blocks' /}
+        {param text: 'Control a real or virtual Sphero' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'adjust' /}
 
@@ -166,12 +166,12 @@
             {param tab: 'sphero_classic' /}
           {/call}
 
-          {if $experimental}
-            {call cwc.soy.SelectScreenTemplate.selectSectionLink}
-              {param text: 'Sphero SPRK+ robot' /}
-              {param tab: 'sphero_sprk_plus' /}
-            {/call}
+          {call cwc.soy.SelectScreenTemplate.selectSectionLink}
+            {param text: 'Sphero SPRK+ robot' /}
+            {param tab: 'sphero_sprk_plus' /}
+          {/call}
 
+          {if $experimental}
             {call cwc.soy.SelectScreenTemplate.selectSectionLink}
               {param text: 'Sphero BB-8 robot' /}
               {param tab: 'sphero_bb8' /}

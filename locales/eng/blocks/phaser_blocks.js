@@ -63,6 +63,8 @@ Locales['eng']['BLOCKS_PHASER'] = {
   'SPRITE': 'Sprite',
   'TEXT': 'Text Object',
   'TILE_SPRITE': 'Tile Sprite',
+  'TIME': 'Time',
+  'TIME_EVENT': 'after',
   'TIME_LOOP_EVENT': 'repeat every',
   'UPDATE': 'Update',
   'WORLD': 'World',

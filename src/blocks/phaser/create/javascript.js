@@ -70,17 +70,3 @@ Blockly.JavaScript['phaser_add_background_scaled'] = function(block) {
     'backgroundImage.width = ' + number_width + ';\n' +
     'backgroundImage.height = ' + number_height + ';\n';
 };
-
-
-/**
- * Timer Loop Event
- * @param {Blockly.Block} block
- * @return {string}
- */
-Blockly.JavaScript['phaser_time_loop_event'] = function(block) {
-  let value_time = Blockly.JavaScript.valueToCode(
-    block, 'time', Blockly.JavaScript.ORDER_ATOMIC);
-  let statements_func = Blockly.JavaScript.statementToCode(block, 'func');
-  return 'game.time.events.loop(' + value_time + ', ' +
-    'function() {\n' + statements_func + '}, this);\n';
-};

@@ -23,6 +23,9 @@ describe('[Mode Sphero SPRK+ - Advanced]', function() {
   prepareEditor();
   describe('Prepare Mode', function() {
     loadTemplateFile('sphero/sprk_plus/blank.cwc', it);
-    loadExampleFile('sphero/sprk_plus/script/Sphero-collision.cwc', it);
+    loadExampleFile(
+      'sphero/sprk_plus/script/Sphero SPRKplus - collision.cwc', it);
+    loadExampleFile(
+      'sphero/sprk_plus/script/Sphero SPRKplus - rectangle.cwc', it);
   });
 });

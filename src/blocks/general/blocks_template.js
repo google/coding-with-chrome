@@ -144,3 +144,22 @@ Blockly.BlocksTemplate.audio = function() {
   return new Blockly.FieldImage(
     '../images/icons/audio_20pt.png', 18, 18, '▼');
 };
+
+
+/**
+ * @return {!Blockly.FieldImage}
+ */
+Blockly.BlocksTemplate.timer = function() {
+  return new Blockly.FieldImage(
+    '../images/icons/timer_20pt.png', 18, 18, '▼');
+};
+
+
+/**
+ * @return {!Blockly.FieldImage}
+ */
+Blockly.BlocksTemplate.timelapse = function() {
+  return new Blockly.FieldImage(
+    '../images/icons/timelapse_20pt.png', 18, 18, '▼');
+};
+

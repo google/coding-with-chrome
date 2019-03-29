@@ -75,6 +75,10 @@
         {param opt_hide_event_blocks: true /}
       {/call}
 
+      <category name="@@BLOCKS_PHASER__TIME" colour="350">
+        {call .timeBlocks /}
+      </category>
+
       <category name="@@BLOCKS_PHASER__GROUP" colour="260">
         {call cwc.soy.phaser.GroupBlocks.toolbox data="all" /}
       </category>
@@ -586,6 +590,135 @@
 
 
 /**
+ * Tile Sprite blocks.
+ */
+{template .tileSpriteBlocks}
+  {@param? opt_show_create_blocks: bool}
+
+  {if $opt_show_create_blocks}
+
+    <block type="phaser_tile_sprite_background">
+      <value name="x">
+        <block type="math_number"><field name="NUM">-50</field></block>
+      </value>
+      <value name="y">
+        <block type="math_number"><field name="NUM">0</field></block>
+      </value>
+    </block>
+
+    <block type="phaser_tile_sprite_floor_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">floor</field>
+        </block>
+      </value>
+      <value name="x">
+        <block type="math_number"><field name="NUM">-50</field></block>
+      </value>
+      <value name="y">
+        <block type="math_number"><field name="NUM">0</field></block>
+      </value>
+    </block>
+
+    <block type="phaser_tile_sprite_ceiling_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">ceiling</field>
+        </block>
+      </value>
+      <value name="x">
+        <block type="math_number"><field name="NUM">-50</field></block>
+      </value>
+      <value name="y">
+        <block type="math_number"><field name="NUM">0</field></block>
+      </value>
+    </block>
+
+    <block type="phaser_tile_sprite_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">tile_sprite</field>
+        </block>
+      </value>
+      <value name="x">
+        <block type="math_number"><field name="NUM">0</field></block>
+      </value>
+      <value name="y">
+        <block type="math_number"><field name="NUM">550</field></block>
+      </value>
+    </block>
+
+    <block type="phaser_tile_sprite_crop">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">blocks</field>
+        </block>
+      </value>
+    </block>
+  {/if}
+
+  <block type="phaser_tile_sprite_adjust">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">sprite</field>
+      </block>
+    </value>
+    <value name="value">
+      <block type="math_number"></block>
+    </value>
+  </block>
+
+  <block type="phaser_tile_sprite_destroy">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">sprite</field>
+      </block>
+    </value>
+  </block>
+
+  <block type="phaser_tile_sprite_autoScroll">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">blocks</field>
+      </block>
+    </value>
+    <value name="x">
+      <block type="math_number"><field name="NUM">-50</field></block>
+    </value>
+    <value name="y">
+      <block type="math_number"><field name="NUM">0</field></block>
+    </value>
+  </block>
+
+  <block type="phaser_tile_sprite_immovable">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">blocks</field>
+      </block>
+    </value>
+  </block>
+{/template}
+
+
+/**
+ * Time blocks.
+ */
+{template .timeBlocks}
+  <block type="phaser_time_event">
+    <value name="time">
+      <block type="math_number"><field name="NUM">1500</field></block>
+    </value>
+  </block>
+
+  <block type="phaser_time_loop_event">
+    <value name="time">
+      <block type="math_number"><field name="NUM">1500</field></block>
+    </value>
+  </block>
+{/template}
+
+
+/**
  * Game blocks.
  */
 {template .gameBlocks}
@@ -718,117 +851,6 @@
     <value name="variable">
       <block type="variables_get">
         <field name="VAR">sprite</field>
-      </block>
-    </value>
-  </block>
-{/template}
-
-
-/**
- * Tile Sprite blocks.
- */
-{template .tileSpriteBlocks}
-  {@param? opt_show_create_blocks: bool}
-
-  {if $opt_show_create_blocks}
-
-    <block type="phaser_tile_sprite_background">
-      <value name="x">
-        <block type="math_number"><field name="NUM">-50</field></block>
-      </value>
-      <value name="y">
-        <block type="math_number"><field name="NUM">0</field></block>
-      </value>
-    </block>
-
-    <block type="phaser_tile_sprite_floor_add">
-      <value name="variable">
-        <block type="variables_get">
-          <field name="VAR">floor</field>
-        </block>
-      </value>
-      <value name="x">
-        <block type="math_number"><field name="NUM">-50</field></block>
-      </value>
-      <value name="y">
-        <block type="math_number"><field name="NUM">0</field></block>
-      </value>
-    </block>
-
-    <block type="phaser_tile_sprite_ceiling_add">
-      <value name="variable">
-        <block type="variables_get">
-          <field name="VAR">ceiling</field>
-        </block>
-      </value>
-      <value name="x">
-        <block type="math_number"><field name="NUM">-50</field></block>
-      </value>
-      <value name="y">
-        <block type="math_number"><field name="NUM">0</field></block>
-      </value>
-    </block>
-
-    <block type="phaser_tile_sprite_add">
-      <value name="variable">
-        <block type="variables_get">
-          <field name="VAR">tile_sprite</field>
-        </block>
-      </value>
-      <value name="x">
-        <block type="math_number"><field name="NUM">0</field></block>
-      </value>
-      <value name="y">
-        <block type="math_number"><field name="NUM">550</field></block>
-      </value>
-    </block>
-
-    <block type="phaser_tile_sprite_crop">
-      <value name="variable">
-        <block type="variables_get">
-          <field name="VAR">blocks</field>
-        </block>
-      </value>
-    </block>
-  {/if}
-
-  <block type="phaser_tile_sprite_adjust">
-    <value name="variable">
-      <block type="variables_get">
-        <field name="VAR">sprite</field>
-      </block>
-    </value>
-    <value name="value">
-      <block type="math_number"></block>
-    </value>
-  </block>
-
-  <block type="phaser_tile_sprite_destroy">
-    <value name="variable">
-      <block type="variables_get">
-        <field name="VAR">sprite</field>
-      </block>
-    </value>
-  </block>
-
-  <block type="phaser_tile_sprite_autoScroll">
-    <value name="variable">
-      <block type="variables_get">
-        <field name="VAR">blocks</field>
-      </block>
-    </value>
-    <value name="x">
-      <block type="math_number"><field name="NUM">-50</field></block>
-    </value>
-    <value name="y">
-      <block type="math_number"><field name="NUM">0</field></block>
-    </value>
-  </block>
-
-  <block type="phaser_tile_sprite_immovable">
-    <value name="variable">
-      <block type="variables_get">
-        <field name="VAR">blocks</field>
       </block>
     </value>
   </block>
