@@ -76,16 +76,6 @@
 	url = https://github.com/google/closure-library.git
 	ignore = dirty
 
-[submodule "third_party/shepherd"]
-	path = third_party/shepherd
-	url = https://github.com/HubSpot/shepherd.git
-	ignore = dirty
-
-[submodule "third_party/tether"]
-	path = third_party/tether
-	url = https://github.com/HubSpot/tether.git
-	ignore = dirty
-
 [submodule "third_party/brython"]
 	path = third_party/brython
 	url = https://github.com/brython-dev/brython.git

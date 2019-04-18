@@ -34,6 +34,7 @@ closureBuilder.build({
     'third_party/coding-with-chrome-libraries/src/**/!(*_test).js',
   ]),
   externs: [
+    'build/externs/addons.js',
     'build/externs/blockly.js',
     'build/externs/chrome.js',
     'build/externs/codemirror.js',

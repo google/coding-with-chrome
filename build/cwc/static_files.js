@@ -47,6 +47,7 @@ closureBuilder.build({
   replace: [
     ['nw-js', 'nwjs'],
     ['three-js', 'threejs'],
+    ['tippy-js', 'tippyjs'],
   ],
   out: 'genfiles/core/',
 });

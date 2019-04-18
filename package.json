@@ -13,9 +13,9 @@
     "eslint": "^4.19.1",
     "eslint-config-google": "^0.9.1",
     "http-server": "latest",
-    "jasmine-core": "^3.3.0",
+    "jasmine-core": "^3.4.0",
     "jsdoc": "^3.5.5",
-    "karma": "^4.0.1",
+    "karma": "^4.1.0",
     "karma-chrome-launcher": "latest",
     "karma-closure": "latest",
     "karma-coverage": "^1.1.2",
@@ -25,10 +25,12 @@
     "markdownlint": "^0.8.1",
     "markdownlint-cli": "^0.8.1",
     "mv": "^2.1.1",
-    "nw": "^0.37.1",
+    "nw": "^0.37.4",
     "nw-builder": "^3.5.7",
     "replace-in-file": "^3.4.4",
-    "rimraf": "^2.6.3"
+    "rimraf": "^2.6.3",
+    "shepherd.js": "^2.6.0",
+    "tippy.js": "^4.2.1"
   },
   "scripts": {
     "build": "npm run build:third_party && npm run build:core",

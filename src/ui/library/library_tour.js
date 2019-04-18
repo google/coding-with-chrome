@@ -21,14 +21,16 @@ goog.provide('cwc.ui.LibraryTour');
 
 
 /**
- * @param {string} prefix
+ * @param {string=} prefix
  * @return {!Shepherd}
  */
 cwc.ui.LibraryTour.get = function(prefix = '') {
   let tour = new Shepherd.Tour({
-    'defaults': {
-      'classes': 'shepherd-theme-arrows',
+    'defaultStepOptions': {
       'showCancelLink': true,
+      'tippyOptions': {
+        'appendTo': document.getElementById('cwc-dialog-chrome'),
+      },
     },
   });
   tour.addStep('intro', {
@@ -50,26 +52,46 @@ cwc.ui.LibraryTour.get = function(prefix = '') {
     'text': i18t('@@LIBRARY__TOUR_UPLOAD_BUTTON'),
     'attachTo': '#' + prefix + 'upload-button left',
     'advanceOn': '#' + prefix + 'upload-button click',
+    'buttons': [{
+      'text': i18t('@@GENERAL__NEXT'),
+      'action': tour.next,
+    }],
   });
   tour.addStep('images', {
     'text': i18t('@@LIBRARY__TOUR_IMAGE_TAB'),
     'attachTo': '#' + prefix + 'images_tab bottom',
     'advanceOn': '#' + prefix + 'images_tab click',
+    'buttons': [{
+      'text': i18t('@@GENERAL__NEXT'),
+      'action': tour.next,
+    }],
   });
   tour.addStep('audio', {
     'text': i18t('@@LIBRARY__TOUR_AUDIO_TAB'),
     'attachTo': '#' + prefix + 'audio_tab bottom',
     'advanceOn': '#' + prefix + 'audio_tab click',
+    'buttons': [{
+      'text': i18t('@@GENERAL__NEXT'),
+      'action': tour.next,
+    }],
   });
   tour.addStep('all', {
     'text': i18t('@@LIBRARY__TOUR_ALL_TAB'),
     'attachTo': '#' + prefix + 'all_tab bottom',
     'advanceOn': '#' + prefix + 'all_tab click',
+    'buttons': [{
+      'text': i18t('@@GENERAL__NEXT'),
+      'action': tour.next,
+    }],
   });
   tour.addStep('search', {
     'text': i18t('@@LIBRARY__TOUR_SEARCH_TAB'),
     'attachTo': '#' + prefix + 'search_tab bottom',
     'advanceOn': '#' + prefix + 'search_tab click',
+    'buttons': [{
+      'text': i18t('@@GENERAL__NEXT'),
+      'action': tour.next,
+    }],
   });
   tour.addStep('close', {
     'text': i18t('@@LIBRARY__TOUR_CLOSE_DIALOG'),

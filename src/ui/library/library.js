@@ -69,9 +69,6 @@ cwc.ui.Library = function(helper) {
   /** @private {cwc.utils.Dialog} */
   this.dialog_ = null;
 
-  /** @private {Shepherd.Tour} */
-  this.tour_ = cwc.ui.LibraryTour.get(this.prefix);
-
   /** @private {!cwc.utils.Logger|null} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
@@ -149,7 +146,7 @@ cwc.ui.Library.prototype.showLibrary = function() {
   }
 
   if (this.helper.getAndSetFirstRun(this.name) && this.numOfFiles_ === 0) {
-    this.startTour();
+    cwc.ui.LibraryTour.get(this.prefix).start();
   }
 };
 

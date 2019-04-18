@@ -22,3 +22,19 @@ a.shepherd-cancel-link {
 .shepherd-step {
   z-index: 110;
 }
+
+.shepherd-element.shepherd-has-title .shepherd-content header {
+  background-color: #3f51b5 !important;
+  padding: 0.7em !important;
+}
+
+.shepherd-element .shepherd-content header .shepherd-title {
+  color: #eee !important;
+}
+
+.shepherd-element {
+  box-shadow:
+    0 4px 5px 0 rgba(0,0,0,0.14),
+    0 1px 10px 0 rgba(0,0,0,0.12),
+    0 2px 4px -1px rgba(0,0,0,0.2);
+}

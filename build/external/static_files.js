@@ -42,7 +42,10 @@ closureBuilder.build({
     'third_party/dialog-polyfill/dialog-polyfill.css',
 
     /* Shpherd */
-    'third_party/shepherd/dist/css/shepherd-theme-arrows.css',
+    'node_modules/tippy.js/themes/google.css',
+
+    /* Shpherd */
+    'node_modules/shepherd.js/dist/css/shepherd-theme-default.css',
   ]),
   out: 'genfiles/third_party/css/external.css',
 });

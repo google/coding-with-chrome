@@ -34,6 +34,7 @@ closureBuilder.build({
     'third_party/coding-with-chrome-libraries/src/**/!(*_test).js',
   ]),
   externs: [
+    'build/externs/addons.js',
     'build/externs/blockly.js',
     'build/externs/chrome.js',
     'build/externs/codemirror.js',
@@ -50,6 +51,7 @@ closureBuilder.build({
   ],
   compress: true,
   out: 'genfiles/core/js/cwc_ui.js',
+  // Something is broken with the source map generation...
   // out_source_map: 'genfiles/core/js/cwc_ui.js.map',
   // append: '//# sourceMappingURL=cwc_ui.js.map',
   options: {
