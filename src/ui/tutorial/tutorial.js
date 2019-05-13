@@ -808,7 +808,7 @@ cwc.ui.Tutorial.prototype.isEditorDirty_ = function() {
   let editorInstance = this.helper.getInstance('editor');
   let activeStep = this.getActiveStep_();
   let code = editorInstance.getEditorContent(editorInstance.getCurrentView());
-  code = code ? code.trim() : '';
+  code = typeof code === 'string' ? code.trim() : '';
 
   // It's always ok to load code into an empty editor
   if (code.length === 0) {
