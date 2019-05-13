@@ -296,10 +296,10 @@ cwc.ui.Tutorial.prototype.ensureUrlInDB_ =
   if (existingData) {
     this.log_.info('Not downloading', url,
       'because it is already in the database');
-    return false;
+    return true;
   }
 
-  if (this.helper.checkFeature('online')) {
+  if (!this.helper.checkFeature('online')) {
     this.log_.warn(offlineMessage);
     return false;
   }
