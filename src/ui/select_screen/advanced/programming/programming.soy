@@ -39,32 +39,32 @@
 
         {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
           {param active: true /}
-          {param id: 'programming_overview' /}
+          {param id: 'advanced-programming_overview' /}
           {param name: '@@GENERAL__OVERVIEW' /}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
-          {param id: 'javascript' /}
+          {param id: 'advanced-javascript' /}
           {param name: 'JavaScript' /}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
-          {param id: 'python' /}
+          {param id: 'advanced-python' /}
           {param name: 'Python' /}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
-          {param id: 'python27' /}
+          {param id: 'advanced-python27' /}
           {param name: 'Python 2.7' /}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
-          {param id: 'coffeescript' /}
+          {param id: 'advanced-coffeescript' /}
           {param name: 'Coffeescript' /}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
-          {param id: 'pencil_code' /}
+          {param id: 'advanced-pencil_code' /}
           {param name: 'Pencil Code' /}
         {/call}
 
@@ -74,42 +74,42 @@
 
         {call cwc.soy.SelectScreenTemplate.subTabBarContent}
           {param active: true /}
-          {param id: 'programming_overview' /}
+          {param id: 'advanced-programming_overview' /}
           {param content kind="html"}
             {call .overview data="all" /}
           {/param}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarContent}
-          {param id: 'javascript' /}
+          {param id: 'advanced-javascript' /}
           {param content kind="html"}
             {call cwc.soy.SelectScreenAdvanced.programming.javascript.overview data="all" /}
           {/param}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarContent}
-          {param id: 'python' /}
+          {param id: 'advanced-python' /}
           {param content kind="html"}
             {call cwc.soy.SelectScreenAdvanced.programming.python.overview data="all" /}
           {/param}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarContent}
-          {param id: 'python27' /}
+          {param id: 'advanced-python27' /}
           {param content kind="html"}
             {call cwc.soy.SelectScreenAdvanced.programming.python27.overview data="all" /}
           {/param}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarContent}
-          {param id: 'coffeescript' /}
+          {param id: 'advanced-coffeescript' /}
           {param content kind="html"}
             {call cwc.soy.SelectScreenAdvanced.programming.coffeescript.overview data="all" /}
           {/param}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarContent}
-          {param id: 'pencil_code' /}
+          {param id: 'advanced-pencil_code' /}
           {param content kind="html"}
             {call cwc.soy.SelectScreenAdvanced.programming.pencil_code.overview data="all" /}
           {/param}
@@ -139,7 +139,7 @@
 
     {param content kind="html"}
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
-        {param id: 'javascript' /}
+        {param id: 'advanced-javascript' /}
         {param title: 'JavaScript' /}
         {param text: 'Use JavaScript to create programs' /}
         {param opt_color_class: 'bg-orange' /}
@@ -148,13 +148,13 @@
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.selectSectionLink}
             {param text: 'JavaScript' /}
-            {param tab: 'javascript' /}
+            {param tab: 'advanced-javascript' /}
           {/call}
         {/param}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
-        {param id: 'python' /}
+        {param id: 'advanced-python' /}
         {param title: 'Python' /}
         {param text: 'Use the Python language to create programs' /}
         {param opt_color_class: 'bg-orange' /}
@@ -163,18 +163,18 @@
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.selectSectionLink}
             {param text: 'Python' /}
-            {param tab: 'python' /}
+            {param tab: 'advanced-python' /}
           {/call}
 
           {call cwc.soy.SelectScreenTemplate.selectSectionLink}
             {param text: 'Python 2.7' /}
-            {param tab: 'python27' /}
+            {param tab: 'advanced-python27' /}
           {/call}
         {/param}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
-        {param id: 'coffeescript' /}
+        {param id: 'advanced-coffeescript' /}
         {param title: 'CoffeeScript' /}
         {param text: 'Use the simple CoffeeScript language to create programs' /}
         {param opt_color_class: 'bg-orange' /}
@@ -183,13 +183,13 @@
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.selectSectionLink}
             {param text: 'CoffeeScript' /}
-            {param tab: 'coffeescript' /}
+            {param tab: 'advanced-coffeescript' /}
           {/call}
         {/param}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
-        {param id: 'pencil_code' /}
+        {param id: 'advanced-pencil_code' /}
         {param title: 'Pencil Code' /}
         {param text: 'Draw art, play music or create games' /}
         {param opt_color_class: 'bg-orange' /}
@@ -198,7 +198,7 @@
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.selectSectionLink}
             {param text: 'Pencil Code' /}
-            {param tab: 'pencil_code' /}
+            {param tab: 'advanced-pencil_code' /}
           {/call}
         {/param}
       {/call}

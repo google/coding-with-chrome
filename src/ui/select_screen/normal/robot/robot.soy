@@ -40,51 +40,51 @@
 
         {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
           {param active: true /}
-          {param id: 'robot_overview' /}
+          {param id: 'beginner-robot_overview' /}
           {param name: '@@GENERAL__OVERVIEW' /}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
-          {param id: 'lego_ev3' /}
+          {param id: 'beginner-lego_ev3' /}
           {param module: 'lego' /}
           {param name: 'EV3' /}
         {/call}
 
         {if $experimental}
           {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
-            {param id: 'lego_wedo2' /}
+            {param id: 'beginner-lego_wedo2' /}
             {param module: 'lego' /}
             {param name: 'WeDo 2.0' /}
           {/call}
         {/if}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
-          {param id: 'makeblock_mbot' /}
+          {param id: 'beginner-makeblock_mbot' /}
           {param module: 'makeblock' /}
           {param name: 'mBot' /}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
-          {param id: 'makeblock_mbot_ranger' /}
+          {param id: 'beginner-makeblock_mbot_ranger' /}
           {param module: 'makeblock' /}
           {param name: 'mBot Ranger' /}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
-          {param id: 'sphero_classic' /}
+          {param id: 'beginner-sphero_classic' /}
           {param module: 'sphero' /}
           {param name: 'Sphero 2.0' /}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
-          {param id: 'sphero_sprk_plus' /}
+          {param id: 'beginner-sphero_sprk_plus' /}
           {param module: 'sphero' /}
           {param name: 'Sphero SPRK+' /}
         {/call}
 
         {if $experimental}
           {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
-            {param id: 'sphero_bb8' /}
+            {param id: 'beginner-sphero_bb8' /}
             {param module: 'sphero' /}
             {param name: 'Sphero BB-8' /}
           {/call}
@@ -96,14 +96,14 @@
 
         {call cwc.soy.SelectScreenTemplate.subTabBarContent}
           {param active: true /}
-          {param id: 'robot_overview' /}
+          {param id: 'beginner-robot_overview' /}
           {param content kind="html"}
             {call .overview data="all" /}
           {/param}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarContent}
-          {param id: 'lego_ev3' /}
+          {param id: 'beginner-lego_ev3' /}
           {param content kind="html"}
             {call cwc.soy.SelectScreenNormal.robot.lego.ev3.overview data="all" /}
           {/param}
@@ -111,7 +111,7 @@
 
         {if $experimental}
           {call cwc.soy.SelectScreenTemplate.subTabBarContent}
-            {param id: 'lego_wedo2' /}
+            {param id: 'beginner-lego_wedo2' /}
             {param content kind="html"}
               {call cwc.soy.SelectScreenNormal.robot.lego.weDo2.overview data="all" /}
             {/param}
@@ -119,28 +119,28 @@
         {/if}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarContent}
-          {param id: 'makeblock_mbot' /}
+          {param id: 'beginner-makeblock_mbot' /}
           {param content kind="html"}
             {call cwc.soy.SelectScreenNormal.robot.makeblock.mBot.overview data="all" /}
           {/param}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarContent}
-          {param id: 'makeblock_mbot_ranger' /}
+          {param id: 'beginner-makeblock_mbot_ranger' /}
           {param content kind="html"}
             {call cwc.soy.SelectScreenNormal.robot.makeblock.mBotRanger.overview data="all" /}
           {/param}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarContent}
-          {param id: 'sphero_classic' /}
+          {param id: 'beginner-sphero_classic' /}
           {param content kind="html"}
             {call cwc.soy.SelectScreenNormal.robot.sphero.classic.overview data="all" /}
           {/param}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarContent}
-          {param id: 'sphero_sprk_plus' /}
+          {param id: 'beginner-sphero_sprk_plus' /}
           {param content kind="html"}
             {call cwc.soy.SelectScreenNormal.robot.sphero.sprkPlus.overview data="all" /}
           {/param}
@@ -148,7 +148,7 @@
 
         {if $experimental}
           {call cwc.soy.SelectScreenTemplate.subTabBarContent}
-            {param id: 'sphero_bb8' /}
+            {param id: 'beginner-sphero_bb8' /}
             {param content kind="html"}
               {call cwc.soy.SelectScreenNormal.robot.sphero.bb8.overview data="all" /}
             {/param}
@@ -182,7 +182,7 @@
 
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'Lego' /}
-        {param id: 'lego' /}
+        {param id: 'beginner-lego' /}
         {param text: 'Control a real or virtual EV3 by assembling Blockly Blocks' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'adb' /}
@@ -190,13 +190,13 @@
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.selectSectionLink}
             {param text: 'EV3 Robot' /}
-            {param tab: 'lego_ev3' /}
+            {param tab: 'beginner-lego_ev3' /}
           {/call}
 
           {if $experimental}
             {call cwc.soy.SelectScreenTemplate.selectSectionLink}
               {param text: 'WeDo 2.0 robot' /}
-              {param tab: 'lego_wedo2' /}
+              {param tab: 'beginner-lego_wedo2' /}
             {/call}
           {/if}
         {/param}
@@ -204,7 +204,7 @@
 
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'Sphero' /}
-        {param id: 'sphero' /}
+        {param id: 'beginner-sphero' /}
         {param text: 'Control a real or virtual Sphero by assembling Blockly Blocks' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'adjust' /}
@@ -212,18 +212,18 @@
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.selectSectionLink}
             {param text: 'Sphero 2.0 robot' /}
-            {param tab: 'sphero_classic' /}
+            {param tab: 'beginner-sphero_classic' /}
           {/call}
 
           {call cwc.soy.SelectScreenTemplate.selectSectionLink}
             {param text: 'Sphero SPRK+ robot' /}
-            {param tab: 'sphero_sprk_plus' /}
+            {param tab: 'beginner-sphero_sprk_plus' /}
           {/call}
 
           {if $experimental}
             {call cwc.soy.SelectScreenTemplate.selectSectionLink}
               {param text: 'Sphero BB-8 robot' /}
-              {param tab: 'sphero_bb8' /}
+              {param tab: 'beginner-sphero_bb8' /}
             {/call}
           {/if}
         {/param}
@@ -231,7 +231,7 @@
 
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'MakeBlock' /}
-        {param id: 'makeblock' /}
+        {param id: 'beginner-makeblock' /}
         {param text: 'Control an mBot by assembling Blockly Blocks' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'functions' /}
@@ -240,12 +240,12 @@
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.selectSectionLink}
             {param text: 'mBot - Blue Robot' /}
-            {param tab: 'makeblock_mbot' /}
+            {param tab: 'beginner-makeblock_mbot' /}
           {/call}
 
           {call cwc.soy.SelectScreenTemplate.selectSectionLink}
             {param text: 'mBot Ranger Robot' /}
-            {param tab: 'makeblock_mbot_ranger' /}
+            {param tab: 'beginner-makeblock_mbot_ranger' /}
           {/call}
         {/param}
       {/call}
