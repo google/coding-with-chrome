@@ -92,7 +92,8 @@
 
 .{$prefix}tutorial-step-media {
   margin-top: 24px;
-  overflow-y: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   white-space: nowrap;
 }
 
