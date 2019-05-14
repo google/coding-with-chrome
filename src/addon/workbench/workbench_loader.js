@@ -38,6 +38,9 @@ cwc.addon.WorkbenchLoader = function(helper, projectsDb, imagesDb) {
   /** @private {!cwc.utils.Database} */
   this.projectsDb_ = projectsDb;
 
+  /** @private {!Object} */
+  this.projectsToLoad_ = {};
+
   /** @private {!cwc.utils.Database} */
   this.imagesDb_ = imagesDb;
 
@@ -51,10 +54,14 @@ cwc.addon.WorkbenchLoader = function(helper, projectsDb, imagesDb) {
   this.loadCompleteListeners_ = [];
 
   /** @private {string} */
-  this.projectsApiBase_ = 'https://edu.workbencheducation.com/api/v1/activities/';
+  this.apiDomain_ = 'https://edu.workbencheducation.com/';
 
   /** @private {string} */
-  this.projectsApiAll_ = `${this.projectsApiBase_}?content_channels=1`;
+  this.projectDetailEndpoint_ = `${this.apiDomain_}api/v1/activities/`;
+
+  /** @private {string} */
+  this.allProjectsEndpoint_ =
+    `${this.apiDomain_}api/v2/activities/?content_channels=1`;
 };
 
 
@@ -68,36 +75,97 @@ cwc.addon.WorkbenchLoader.prototype.loadProjects = function() {
 
   if (!this.helper.checkFeature('online') || !isFetchEnabled) return;
 
-  cwc.utils.Resources.getUriAsJson(this.projectsApiAll_)
-    .then((json) => {
-      const projects = json['results'];
+  const loadProjectList = (url = this.allProjectsEndpoint_) => {
+    cwc.utils.Resources.getUriAsJson(url)
+      .then((json) => {
+        const projects = json['results'];
+        const nextResultsURL = json['next'];
 
-      if (projects && projects.length) {
-        projects.forEach((project) => {
-          const dbKey = project.id;
-
-          this.projectsDb_.get(dbKey).then((storedProject) => {
-            if (storedProject) {
-              storedProject = JSON.parse(storedProject);
-            }
-
-            if (!storedProject || (
-                storedProject &&
-                storedProject['modified'] !== project['modified'])) {
-              this.loadSingleProject_(project.id, (err, projectData) => {
-                if (err) {
-                  // remove any project that fails to load
-                  this.projectsDb_.delete(dbKey);
-                  return;
-                }
-
-                this.projectsDb_.set(dbKey, JSON.stringify(projectData));
-              });
-            }
+        if (projects && projects.length) {
+          projects.forEach((project) => {
+            this.projectsToLoad_[project['id']] = project;
           });
-        });
-      }
+        }
+
+        if (nextResultsURL) {
+          loadProjectList(nextResultsURL);
+        } else {
+          this.pruneDeletedProjectsFromDB_();
+          this.loadAllNewOrModifiedProjects_();
+        }
+      });
+  };
+
+  loadProjectList();
+};
+
+
+/**
+ * Removes projects from the DB that were deleted on Workbench
+ * @private
+ */
+cwc.addon.WorkbenchLoader.prototype.pruneDeletedProjectsFromDB_ = function() {
+  this.projectsDb_.getAll().then((storedProjects) => {
+    if (storedProjects && storedProjects.length) {
+      storedProjects.forEach((storedProject) => {
+        storedProject = JSON.parse(storedProject);
+        if (!this.projectsToLoad_[storedProject.id]) {
+          this.projectsDb_.delete(storedProject.id);
+        }
+      });
+    }
+  });
+};
+
+
+/**
+ * Goes through full list of projects and downloads the full project content
+ * if the project is new or has been modified since the last download
+ * @private
+ */
+cwc.addon.WorkbenchLoader.prototype.loadAllNewOrModifiedProjects_ = function() {
+  const projectListIDs = Object.keys(this.projectsToLoad_);
+  let remainingProjectsToLoad = projectListIDs.length;
+
+  const projectLoadComplete = (loadedCount) => {
+    remainingProjectsToLoad = remainingProjectsToLoad - loadedCount;
+    if (remainingProjectsToLoad === 0) {
+      this.fireLoadCompleteListeners_();
+    }
+  };
+
+  projectLoadComplete(0);
+
+  if (projectListIDs && projectListIDs.length) {
+    projectListIDs.forEach((projectID) => {
+      projectID = Number(projectID);
+      const project = this.projectsToLoad_[projectID];
+
+      this.projectsDb_.get(projectID).then((storedProject) => {
+        if (storedProject) {
+          storedProject = JSON.parse(storedProject);
+        }
+
+        if (!storedProject || (
+            storedProject &&
+            storedProject['modified'] !== project['modified'])) {
+          this.loadSingleProject_(project.id, (err, projectData) => {
+            if (err) {
+              // remove any project that fails to load
+              this.projectsDb_.delete(projectID);
+              return;
+            } else {
+              this.projectsDb_.set(projectID, JSON.stringify(projectData));
+            }
+
+            projectLoadComplete(1);
+          });
+        } else {
+          projectLoadComplete(1);
+        }
+      });
     });
+  }
 };
 
 
@@ -105,6 +173,7 @@ cwc.addon.WorkbenchLoader.prototype.loadProjects = function() {
  * Loads projects from Workbench
  * @param {number} projectID
  * @param {function(?string=, Object=)} callback
+ * @private
  */
 cwc.addon.WorkbenchLoader.prototype.loadSingleProject_ = function(projectID,
     callback) {
@@ -115,7 +184,7 @@ cwc.addon.WorkbenchLoader.prototype.loadSingleProject_ = function(projectID,
     data['steps'].every((step) => step['description'])
   );
 
-  cwc.utils.Resources.getUriAsJson(this.projectsApiBase_ + projectID)
+  cwc.utils.Resources.getUriAsJson(this.projectDetailEndpoint_ + projectID)
     .then((json) => {
       if (isDataCorrupt(json)) {
         callback(`project data for project with ID ${projectID} is corrupt`);
@@ -127,10 +196,10 @@ cwc.addon.WorkbenchLoader.prototype.loadSingleProject_ = function(projectID,
     .catch(callback);
 };
 
-
 /**
  * Download project media files
  * @param {Object} projectData
+ * @private
  */
 cwc.addon.WorkbenchLoader.prototype.downloadProjectMedia_ = function(
   projectData) {
@@ -150,6 +219,7 @@ cwc.addon.WorkbenchLoader.prototype.downloadProjectMedia_ = function(
 /**
  * Download project media files
  * @param {string} url
+ * @private
  */
 cwc.addon.WorkbenchLoader.prototype.saveMediaLocal_ = function(url) {
   cwc.utils.Resources.getUriAsBlob(url)
@@ -161,6 +231,7 @@ cwc.addon.WorkbenchLoader.prototype.saveMediaLocal_ = function(url) {
 
 /**
  * Fire all load complete listeners that were added
+ * @private
  */
 cwc.addon.WorkbenchLoader.prototype.fireLoadCompleteListeners_ = function() {
   this.loadCompleteListeners_.forEach((fn) => fn());
