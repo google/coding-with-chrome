@@ -160,16 +160,16 @@ cwc.fileHandler.FileLoader.prototype.loadGDriveFileData = function(id,
  */
 cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
     filename = '', fileHandler = null, gDriveId = undefined) {
-  return new Promise((resolve) => {
+  return new Promise(async (resolve) => {
     let mimeType = cwc.utils.mime.getTypeByNameAndContent(filename || '', data);
     this.log_.info('Handle file data ... (', data.length, ') with MIME-type:',
       mimeType);
 
     // Load compatible file mode.
     if (mimeType === cwc.utils.mime.Type.CWC.type) {
-      this.loadCWCFile(data, filename);
+      await this.loadCWCFile(data, filename);
     } else {
-      this.loadRawFile(data, filename);
+      await this.loadRawFile(data, filename);
     }
 
     // Sets file handler for local or gDrive files
