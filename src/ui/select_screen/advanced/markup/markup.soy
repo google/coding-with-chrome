@@ -39,12 +39,12 @@
 
         {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
           {param active: true /}
-          {param id: 'markup_overview' /}
+          {param id: 'advanced-markup_overview' /}
           {param name: '@@GENERAL__OVERVIEW' /}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
-          {param id: 'html5' /}
+          {param id: 'advanced-html5' /}
           {param name: 'HTML5' /}
         {/call}
 
@@ -54,14 +54,14 @@
 
         {call cwc.soy.SelectScreenTemplate.subTabBarContent}
           {param active: true /}
-          {param id: 'markup_overview' /}
+          {param id: 'advanced-markup_overview' /}
           {param content kind="html"}
             {call .overview data="all" /}
           {/param}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarContent}
-          {param id: 'html5' /}
+          {param id: 'advanced-html5' /}
           {param content kind="html"}
             {call cwc.soy.SelectScreenAdvanced.markup.html5.overview data="all" /}
           {/param}
@@ -91,7 +91,7 @@
 
     {param content kind="html"}
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
-        {param id: 'html5' /}  
+        {param id: 'advanced-html5' /}
         {param title: 'HTML5' /}
         {param text: 'Create applications and websites using HTML, CSS and JavaScript' /}
         {param opt_color_class: 'bg-orange' /}
@@ -100,7 +100,7 @@
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.selectSectionLink}
             {param text: 'HTML5' /}
-            {param tab: 'html5' /}
+            {param tab: 'advanced-html5' /}
           {/call}
         {/param}
       {/call}

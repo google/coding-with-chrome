@@ -34,49 +34,49 @@
 
         {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
           {param active: true /}
-          {param id: 'overview' /}
+          {param id: 'advanced-overview' /}
           {param name: '@@GENERAL__OVERVIEW' /}
           {param icon: 'apps' /}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
-          {param id: 'basic' /}
+          {param id: 'advanced-basic' /}
           {param name: 'Basic' /}
           {param icon kind="html"}{call cwc.soy.SelectScreenAdvanced.basic.icon /}{/param}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
-          {param id: 'games' /}
+          {param id: 'advanced-games' /}
           {param name: 'Games' /}
           {param icon kind="html"}{call cwc.soy.SelectScreenAdvanced.games.icon /}{/param}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
-          {param id: 'programming' /}
+          {param id: 'advanced-programming' /}
           {param name: 'Programming' /}
           {param icon kind="html"}{call cwc.soy.SelectScreenAdvanced.programming.icon /}{/param}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
-          {param id: 'markup' /}
+          {param id: 'advanced-markup' /}
           {param name: 'Markup' /}
           {param icon kind="html"}{call cwc.soy.SelectScreenAdvanced.markup.icon /}{/param}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
-          {param id: 'robots' /}
+          {param id: 'advanced-robots' /}
           {param name: 'Robots' /}
           {param icon kind="html"}{call cwc.soy.SelectScreenAdvanced.robot.icon /}{/param}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
-          {param id: 'graphic' /}
+          {param id: 'advanced-graphic' /}
           {param name: 'Graphic' /}
           {param icon kind="html"}{call cwc.soy.SelectScreenAdvanced.graphic.icon /}{/param}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
-          {param id: 'aiy' /}
+          {param id: 'advanced-aiy' /}
           {param name: 'AIY' /}
           {param icon kind="html"}{call cwc.soy.SelectScreenAdvanced.aiy.icon /}{/param}
         {/call}
@@ -87,56 +87,56 @@
 
       {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
         {param active: true /}
-        {param id: 'overview' /}
+        {param id: 'advanced-overview' /}
         {param content kind="html"}
           {call .overview data="all" /}
         {/param}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
-        {param id: 'basic' /}
+        {param id: 'advanced-basic' /}
         {param content kind="html"}
           {call cwc.soy.SelectScreenAdvanced.basic.overview data="all" /}
         {/param}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
-        {param id: 'games' /}
+        {param id: 'advanced-games' /}
         {param content kind="html"}
           {call cwc.soy.SelectScreenAdvanced.games.overview data="all" /}
         {/param}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
-        {param id: 'programming' /}
+        {param id: 'advanced-programming' /}
         {param content kind="html"}
           {call cwc.soy.SelectScreenAdvanced.programming.template data="all" /}
         {/param}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
-        {param id: 'markup' /}
+        {param id: 'advanced-markup' /}
         {param content kind="html"}
           {call cwc.soy.SelectScreenAdvanced.markup.template data="all" /}
         {/param}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
-        {param id: 'robots' /}
+        {param id: 'advanced-robots' /}
         {param content kind="html"}
           {call cwc.soy.SelectScreenAdvanced.robot.template data="all" /}
         {/param}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
-        {param id: 'graphic' /}
+        {param id: 'advanced-graphic' /}
         {param content kind="html"}
           {call cwc.soy.SelectScreenAdvanced.graphic.overview data="all" /}
         {/param}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
-        {param id: 'aiy' /}
+        {param id: 'advanced-aiy' /}
         {param content kind="html"}
           {call cwc.soy.SelectScreenAdvanced.aiy.overview data="all" /}
         {/param}
@@ -168,7 +168,7 @@
         {param title: 'Simple' /}
         {param text: 'JavaScript made easy through easy starter functions' /}
         {param link_text: 'Go Simple' /}
-        {param tab: 'basic' /}
+        {param tab: 'advanced-basic' /}
         {param opt_color_class: 'bg-light-blue' /}
         {param opt_icon: 'school' /}
       {/call}
@@ -177,7 +177,7 @@
         {param title: 'Games' /}
         {param text: 'Create games with the Phaser framework' /}
         {param link_text: 'Start creating games' /}
-        {param tab: 'games' /}
+        {param tab: 'advanced-games' /}
         {param opt_color_class: 'bg-lime' /}
         {param opt_icon: 'videogame_asset' /}
       {/call}
@@ -186,7 +186,7 @@
         {param title: 'Programming' /}
         {param text: 'Build software with text-based programming languages' /}
         {param link_text: 'Go Coding ' /}
-        {param tab: 'programming' /}
+        {param tab: 'advanced-programming' /}
         {param opt_color_class: 'bg-blue' /}
         {param opt_icon: 'view_stream' /}
       {/call}
@@ -195,7 +195,7 @@
         {param title: 'Markup' /}
         {param text: 'Put together the components of a website- HTML, CSS and JavaScript' /}
         {param link_text: 'Go Web' /}
-        {param tab: 'markup' /}
+        {param tab: 'advanced-markup' /}
         {param opt_color_class: 'bg-blue' /}
         {param opt_icon: 'public' /}
       {/call}
@@ -204,7 +204,7 @@
         {param title: 'Robots' /}
         {param text: 'Control real or virtual robots' /}
         {param link_text: 'Go Robots' /}
-        {param tab: 'robots' /}
+        {param tab: 'advanced-robots' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'memory' /}
       {/call}
@@ -213,7 +213,7 @@
         {param title: '3D' /}
         {param text: 'Create and display animated 3D computer graphics' /}
         {param link_text: 'Start drawing' /}
-        {param tab: 'graphic' /}
+        {param tab: 'advanced-graphic' /}
         {param opt_color_class: 'bg-blue' /}
         {param opt_icon: '3d_rotation' /}
       {/call}
@@ -222,7 +222,7 @@
         {param title: 'AIY' /}
         {param text: 'Build for one of the Google AIY kits' /}
         {param link_text: 'Start with AIY' /}
-        {param tab: 'aiy' /}
+        {param tab: 'advanced-aiy' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'build' /}
       {/call}

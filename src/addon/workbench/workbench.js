@@ -62,7 +62,7 @@ cwc.addon.Workbench = function(helper) {
     this.imagesDb_);
 
   /** @private {!Array<Element>} */
-  this.cards_ = [];
+  this.cardContainers_ = [];
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
@@ -112,37 +112,56 @@ cwc.addon.Workbench.prototype.getAllProjects_ = function() {
 
 
 /**
- * @param {Object} projects
- * @param {string=} filterTag
+ * @param {Array<Object>} projects
+ * @param {number=} filterTagId
  * @return {Object}
  * @private
  */
 cwc.addon.Workbench.prototype.filterProjectsByTag_ = function(
-    projects, filterTag) {
+    projects, filterTagId) {
   return projects.filter((project) => (
-    project['theme_tags'].find((tag) => (
-      (tag.title || '').toLowerCase() === (filterTag || '').toLowerCase())
-    )
+    project['tags'].find((tagId) => tagId === filterTagId)
   ));
 };
+
 
 /**
  * @private
  */
 cwc.addon.Workbench.prototype.showRelevantProjects_ = async function() {
   const allProjects = await this.getAllProjects_();
+  const tags = Object.keys(cwc.addon.WorkbenchMap);
   this.clearCards_();
 
-  Object.keys(cwc.addon.WorkbenchMap).forEach((tag) => {
-    const tabNode = document.querySelector(
-      cwc.addon.WorkbenchMap[tag].appendNode);
-    if (!tabNode) return;
-
-    const mode = cwc.addon.WorkbenchMap[tag].mode;
+  tags.forEach((tagName) => {
+    const tagId = cwc.addon.WorkbenchMap[tagName].wbTagId;
+    const mode = cwc.addon.WorkbenchMap[tagName].mode;
     const userLanguage = this.helper.getUserLanguage();
     const userLanguageName = cwc.utils.I18n.getEnglishName()[userLanguage];
-    let matchingProjects = this.filterProjectsByTag_(allProjects.filter(
-      (project) => project.language == userLanguageName), tag);
+    const matchingProjects = this
+        .filterProjectsByTag_(allProjects, tagId)
+        .filter((project) => project.language == userLanguageName);
+    const tabNode = document.querySelector(
+        cwc.addon.WorkbenchMap[tagName].appendNode);
+    const cardListId = `workbench-${mode}-cards`;
+
+    // If no matches or no matching CwC tab for the tag, render nothing
+    if (!tabNode || !matchingProjects || matchingProjects.length < 1) return;
+
+    // create an empty div to render the section title and cards into
+    const containerNode = document.createElement('div');
+    goog.soy.renderElement(
+      containerNode,
+      cwc.soy.SelectScreenTemplate.fileCardList, {
+        content: '',
+        id: cardListId,
+        title: 'Workbench Lessons',
+        icon: 'format_list_numbered',
+      }
+    );
+    tabNode.appendChild(containerNode);
+    this.cardContainers_.push(containerNode);
+    const cardContainerNode = document.getElementById(cardListId);
 
     matchingProjects.forEach((project) => {
       const card = goog.soy.renderAsElement(
@@ -151,52 +170,59 @@ cwc.addon.Workbench.prototype.showRelevantProjects_ = async function() {
           text: project.description,
           opt_link_text: 'Start Project',
           opt_color_class: 'bg-light-blue',
-          opt_icon: 'school',
+          opt_icon: 'format_list_numbered',
         });
 
       card.addEventListener('click', () => {
-        let tutorialInstance = this.helper.getInstance('tutorial');
-        this.helper.getInstance('mode')
-          .loadMode(mode)
-          .then(() => {
-            // Map Workbench project data structure into CwC Tutorial structure
-            let tutorialSpec = {
-              'url': this.projectDetailLinkBase_ + project.id,
-              'description': {
-                'text': project['description'],
-                'mime_type': 'text/html',
-              },
-              'steps': project['steps'].sort((a, b) => {
-                return a.order - b.order;
-              }).map((step) => {
-                return {
-                  'title': step['title'],
-                  'description': {
-                    'text': step['description'],
-                    'mime_type': 'text/html',
-                  },
-                  'images': step['images'],
-                  'videos': step['videos'],
-                };
-              }),
-            };
-            return tutorialInstance.setTutorial(tutorialSpec, this.imagesDb_);
-          })
-          .then(() => {
-            tutorialInstance.startTutorial();
-          });
+        this.loadProjectAsTutorial_(project, mode);
       });
-
-      tabNode.appendChild(card);
-      this.cards_.push(card);
+      cardContainerNode.appendChild(card);
     });
   });
 };
 
+
 /**
+ * @private
+ * @param {!Object} project
+ * @param {!cwc.mode.Type} mode
+ */
+cwc.addon.Workbench.prototype.loadProjectAsTutorial_ = function(project, mode) {
+  let tutorialInstance = this.helper.getInstance('tutorial');
+  this.helper.getInstance('mode')
+    .loadMode(mode)
+    .then(() => {
+      // Map Workbench project data structure into CwC Tutorial structure
+      let tutorialSpec = {
+        'url': this.projectDetailLinkBase_ + project.id,
+        'description': {
+          'text': project['description'],
+          'mime_type': 'text/html',
+        },
+        'steps': project['steps'].sort((a, b) => {
+          return a.order - b.order;
+        }).map((step) => {
+          return {
+            'title': step['title'],
+            'description': {
+              'text': step['description'],
+              'mime_type': 'text/html',
+            },
+            'images': step['images'],
+            'videos': step['videos'],
+          };
+        }),
+      };
+      tutorialInstance.setTutorial(tutorialSpec, this.imagesDb_);
+    });
+};
+
+
+/**
+ * Removes all of the existing Workbench project card sections
  * @private
  */
 cwc.addon.Workbench.prototype.clearCards_ = function() {
-  this.cards_.forEach((card) => card.remove());
-  this.cards_ = [];
+  this.cardContainers_.forEach((cardContainer) => cardContainer.remove());
+  this.cardContainers_ = [];
 };

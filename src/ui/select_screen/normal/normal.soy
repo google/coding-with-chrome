@@ -34,25 +34,25 @@
 
         {call cwc.soy.SelectScreenTemplate.mainTabBarLink data="all"}
           {param active: true /}
-          {param id: 'overview' /}
+          {param id: 'beginner-overview' /}
           {param name: '@@GENERAL__OVERVIEW' /}
           {param icon: 'apps' /}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.mainTabBarLink data="all"}
-          {param id: 'blocks' /}
+          {param id: 'beginner-blocks' /}
           {param name: 'Blocks' /}
           {param icon kind="html"}{call cwc.soy.SelectScreenNormal.basic.icon /}{/param}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.mainTabBarLink data="all"}
-          {param id: 'games' /}
+          {param id: 'beginner-games' /}
           {param name: 'Games' /}
           {param icon kind="html"}{call cwc.soy.SelectScreenNormal.games.icon /}{/param}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.mainTabBarLink data="all"}
-          {param id: 'robots' /}
+          {param id: 'beginner-robots' /}
           {param name: 'Robots' /}
           {param icon kind="html"}{call cwc.soy.SelectScreenNormal.robot.icon /}{/param}
         {/call}
@@ -63,28 +63,28 @@
 
       {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
         {param active: true /}
-        {param id: 'overview' /}
+        {param id: 'beginner-overview' /}
         {param content kind="html"}
           {call .overview data="all" /}
         {/param}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
-        {param id: 'blocks' /}
+        {param id: 'beginner-blocks' /}
         {param content kind="html"}
           {call cwc.soy.SelectScreenNormal.basic.overview data="all" /}
         {/param}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
-        {param id: 'games' /}
+        {param id: 'beginner-games' /}
         {param content kind="html"}
           {call cwc.soy.SelectScreenNormal.games.overview data="all" /}
         {/param}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
-        {param id: 'robots' /}
+        {param id: 'beginner-robots' /}
         {param content kind="html"}
           {call cwc.soy.SelectScreenNormal.robot.template data="all" /}
         {/param}
@@ -113,7 +113,7 @@
     {param content kind="html"}
 
       {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
-        {param tab: 'blocks' /}
+        {param tab: 'beginner-blocks' /}
         {param link_text: '@@SELECT_SCREEN_NORMAL__BLOCKLY_ACTION' /}
         {param text: '@@SELECT_SCREEN_NORMAL__BLOCKLY_TEXT' /}
         {param title: '@@SELECT_SCREEN_NORMAL__BLOCKLY' /}
@@ -122,7 +122,7 @@
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
-        {param tab: 'games' /}
+        {param tab: 'beginner-games' /}
         {param link_text: '@@SELECT_SCREEN_NORMAL__GAME_ACTION' /}
         {param text: '@@SELECT_SCREEN_NORMAL__GAME_TEXT' /}
         {param title: '@@SELECT_SCREEN_NORMAL__GAME' /}
@@ -131,7 +131,7 @@
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
-        {param tab: 'robots' /}
+        {param tab: 'beginner-robots' /}
         {param link_text: '@@SELECT_SCREEN_NORMAL__ROBOTS_ACTION' /}
         {param text: '@@SELECT_SCREEN_NORMAL__ROBOTS_TEXT' /}
         {param title: '@@SELECT_SCREEN_NORMAL__ROBOTS' /}
