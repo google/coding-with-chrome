@@ -1,0 +1,378 @@
+/**
+
+ * @fileoverview Tutorial Editor for Coding with Chrome.
+ *
+ * @license Copyright 2019 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mdiehl@workbenchplatform.com (Matt Diehl)
+ * @author carheden@google.com (Adam Carheden)
+ */
+{namespace cwc.soy.ui.tutorial.Editor autoescape="strict"}
+
+
+/**
+ * Main template for the tutorial editor
+ */
+{template .template}
+  {@param prefix: string}
+  {@param tutorialPrefix: string}
+  {@param steps: list<?>}
+
+  <div id='{$prefix}content'>
+
+    {call .editor_buttons_ data="all" /}
+
+    <div id='{$prefix}description'></div>
+
+    <div id='{$prefix}steps'>
+      {foreach $step in $steps}
+        {call .step_ data="$step"}
+          {param prefix: $prefix + 'step' /}
+          {param tutorialPrefix: $tutorialPrefix + 'step' /}
+          {param number: index($step) /}
+          {param first: isFirst($step) /}
+          {param last: isLast($step) /}
+        {/call}
+      {/foreach}
+    </div>
+
+    {call .editor_buttons_ data="all" /}
+
+  </div>
+
+{/template}
+
+/**
+ * Button
+ */
+{template .button_ private="true"}
+  {@param? id: string}
+  {@param? addClass: string}
+  {@param? icon: string}
+  {@param? text: string}
+
+  <a href="#" {if $id}id="{$id}"{/if} class="cwc-tutorial-editor-button {$addClass} mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">
+    {if $icon}<i class='material-icons'>{$icon}</i>{/if}
+    {if $text}{$text}{/if}
+  </a>
+{/template}
+
+/**
+ * Open/Close Buttons at top/bottom
+ */
+{template .editor_buttons_ private="true"}
+  {@param prefix: string}
+
+  <div class='{$prefix}buttons'>
+    {call .button_}
+      {param addClass: $prefix + 'add-step' /}
+      {param icon: 'add' /}
+      {param text kind="html"}
+        {msg desc="Add New Step"}@@TUTORIAL_EDITOR__ADD_STEP{/msg}
+      {/param}
+    {/call}
+
+    {call .button_}
+      {param addClass: $prefix + 'save' /}
+      {param icon: 'save' /}
+      {param text kind="html"}
+        {msg desc="Save and close"}@@TUTORIAL_EDITOR__SAVE{/msg}
+      {/param}
+    {/call}
+
+    {call .button_}
+      {param addClass: $prefix + 'cancel' /}
+      {param icon: 'cancel' /}
+      {param text kind="html"}
+        {msg desc="Close without saving"}@@TUTORIAL_EDITOR__CLOSE{/msg}
+      {/param}
+    {/call}
+  </div>
+{/template}
+
+
+/**
+ * Step editor
+ */
+{template .step_ private="true"}
+  {@param prefix: string}
+  {@param tutorialPrefix: string}
+  {@param title: string}
+  {@param number: number}
+  {@param first: bool}
+  {@param last: bool}
+  {@param images: list<string>}
+  {@param videos: list<string>}
+  {@param youtube_videos: list<string>}
+  {@param? validate: string}
+  {@param? text_match_success_message: string}
+
+  <div id='{$prefix}{$number}' class='{$prefix} mdl-card mdl-card--expand mdl-shadow--3dp mdl-color--grey-200'>
+    <div class='{$prefix}-title mdl-card__title'>
+      <i class='material-icons {$prefix}-collapse'>keyboard_arrow_up</i>
+      <i class='material-icons {$prefix}-expand'>keyboard_arrow_down</i>
+      {msg desc="Work 'Step' in title before step number"}@@TUTORIAL_EDITOR__STEP{/msg}
+      <span class='{$prefix}-title-number'>{$number + 1}</span>:
+      <span class='{$prefix}-title-text'>
+        {call .step_title }
+          {param title: $title /}
+        {/call}
+      </span>
+    </div>
+    <div class='mdl-card__media'>
+
+      {call .field_ data="all"}
+        {param label kind="html"}
+          {msg desc="Label for step title row"}@@TUTORIAL_EDITOR__TITLE{/msg}
+        {/param}
+        {param field kind="html"}
+          <input class='{$prefix}-input-title' type='text' placeholder='step title' value='{$title}'/>
+        {/param}
+      {/call}
+
+      {call .field_ data="all"}
+        {param label kind="html"}
+          {msg desc="label for step description row"}@@TUTORIAL_EDITOR__DESCRIPTION{/msg}
+        {/param}
+        {param wide: true/}
+        {param field kind="html"}
+          <div class='{$prefix}-input-description'></div>
+        {/param}
+      {/call}
+
+      {call .field_ data="all"}
+        {param label kind="html"}
+          {msg desc="label for step media row"}@@TUTORIAL_EDITOR__MEDIA{/msg}
+        {/param}
+        {param field kind="html"}
+          <div class='{$tutorialPrefix}-media'>
+            {foreach $image in $images}
+              {call .media_item_}
+                {param prefix: $prefix /}
+                {param key: index($image) /}
+                {param type: 'images' /}
+                {param media kind="html"}
+                  {call cwc.soy.ui.Tutorial.image_button}
+                    {param prefix: $tutorialPrefix + '-' /}
+                    {param src: $image /}
+                  {/call}
+                {/param}
+              {/call}
+            {/foreach}
+            {foreach $video in $videos}
+              {call .media_item_}
+                {param prefix: $prefix /}
+                {param key: index($video) /}
+                {param type: 'images' /}
+                {param media kind="html"}
+                  {call cwc.soy.ui.Tutorial.video_button}
+                    {param prefix: $tutorialPrefix + '-' /}
+                    {param src: $video /}
+                  {/call}
+                {/param}
+              {/call}
+            {/foreach}
+            {foreach $youtube_video in $youtube_videos}
+              {call .media_item_}
+                {param prefix: $prefix /}
+                {param key: index($youtube_video) /}
+                {param type: 'videos' /}
+                {param media kind="html"}
+                  {call cwc.soy.ui.Tutorial.youtube_button}
+                    {param prefix: $tutorialPrefix + '-' /}
+                    {param src: $youtube_video /}
+                  {/call}
+                {/param}
+              {/call}
+            {/foreach}
+          </div>
+
+          <div class='{$prefix}-buttons'>
+            {call .button_}
+              {param addClass: $prefix + '-button-attachment' /}
+              {param icon: 'image' /}
+              {param text kind="html"}
+                {msg desc="Add an image or video"}@@TUTORIAL_EDITOR__ADD_ATTACHMENT{/msg}
+              {/param}
+            {/call}
+            {call .button_}
+              {param addClass: $prefix + '-button-youtube' /}
+              {param icon: 'subscriptions' /}
+              {param text kind="html"}
+                {msg desc="Add a YouTube video"}@@TUTORIAL_EDITOR__ADD_YOUTUBE{/msg}
+              {/param}
+            {/call}
+           </div>
+
+        {/param}
+      {/call}
+
+      {call .field_ data="all"}
+        {param label kind="html"}
+          {msg desc="Label for example code row"}@@TUTORIAL_EDITOR__EXAMPLE_CODE{/msg}
+          {call .help_}
+            {param prefix: $prefix /}
+            {param name: 'example-code' /}
+          {/call}
+        {/param}
+        {param wide: true /}
+        {param field kind="html"}
+          <div class='{$prefix}-example-code'></div>
+        {/param}
+      {/call}
+
+      {call .field_ data="all"}
+        {param label kind="html"}
+          {msg desc="Label for row with ways to validate student's code"}@@TUTORIAL_EDITOR__VALIDATION{/msg}
+          {call .help_}
+            {param prefix: $prefix /}
+            {param name: 'validation' /}
+          {/call}
+        {/param}
+        {param wide: true /}
+        {param field kind="html"}
+          <div class='{$prefix}-toggle'>
+            <div class='{$prefix}-toggle-control'>
+              <div class='{$prefix}-toggle-label {$prefix}-toggle-label-inactive'>
+                {msg desc="Label for toggle to validate by matching text"}@@TUTORIAL_EDITOR__MATCH_TEXT{/msg}
+                {call .help_}
+                  {param prefix: $prefix /}
+                  {param name: 'match-text' /}
+                {/call}
+              </div>
+              <label class='{$prefix}-toggle-button mdl-switch mdl-js-switch mdl-js-ripple-effect'>
+                <input type='checkbox' class='{$prefix}-validate-toggle mdl-switch__input' />
+              </label>
+              <div class='{$prefix}-toggle-label {$prefix}-toggle-label-active'>
+                {msg desc="Label for toggle to validate by running code"}@@TUTORIAL_EDITOR__RUN_CODE{/msg}
+                {call .help_}
+                  {param prefix: $prefix /}
+                  {param name: 'run-code' /}
+                {/call}
+              </div>
+            </div>
+            <div class='{$prefix}-toggle-content'>
+              <div class='{$prefix}-toggle-content-inactive'>
+                <textarea class='{$prefix}-validate-text {$prefix}-toggle-content-inactive'>
+                  {if $validate}{$validate}{/if}
+                </textarea>
+                <div class='{$prefix}-text-match-success-message-container'>
+                  <span class='{$prefix}-text-match-success-message-label'>
+                    {msg desc="Message to display when text validation is successful"}@@TUTORIAL_EDITOR__SUCCESS_MESSAGE{/msg}
+                  </span>
+                  <input class='{$prefix}-text-match-success-message'
+                    value='{if $text_match_success_message}{$text_match_success_message}{/if}'
+                    placeholder='{msg desc="Example of sucess message"}@@TUTORIAL_EDITOR__SUCCESS_MESSAGE_EXAMPLE{/msg}'/>
+                  </div>
+              </div>
+              <div class='{$prefix}-toggle-content-active'>
+                <div class='{$prefix}-validate-code {$prefix}-toggle-content-active'></div>
+                {call .button_}
+                  {param addClass: $prefix + '-load-validation-template' /}
+                  {param text kind="html"}
+                    {msg desc="Load validation code template into editor"}@@TUTORIAL_EDITOR__LOAD_VALIDATION_TEMPLATE{/msg}
+                  {/param}
+                {/call}
+              </div>
+            </div>
+          </div>
+        {/param}
+      {/call}
+
+      {call .field_ data="all"}
+        {param field kind="html"}
+          {if not $first}
+            {call .button_}
+              {param addClass: $prefix + '-up' /}
+              {param icon: 'arrow_upward' /}
+              {param text kind="html"}
+                {msg desc="Move step up"}@@TUTORIAL_EDITOR__MOVE_STEP_UP{/msg}
+              {/param}
+            {/call}
+          {/if}
+          {if not $last}
+            {call .button_}
+              {param addClass: $prefix + '-down' /}
+              {param icon: 'arrow_downward' /}
+              {param text kind="html"}
+                {msg desc="Move step down"}@@TUTORIAL_EDITOR__MOVE_STEP_DOWN{/msg}
+              {/param}
+            {/call}
+          {/if}
+          {call .button_}
+            {param addClass: $prefix + '-remove' /}
+            {param icon: 'delete' /}
+            {param text kind="html"}
+              {msg desc="Remove step"}@@TUTORIAL_EDITOR__REMOVE_STEP{/msg}
+            {/param}
+          {/call}
+        {/param}
+      {/call}
+
+    </div>
+  </div>
+
+{/template}
+
+/**
+ * Title - This is a template so we can re-render it as the form field updates
+ */
+{template .step_title }
+  {@param title: string}
+  {$title}
+{/template}
+
+/**
+ * Help button
+ */
+{template .help_ private="true"}
+  {@param prefix: string}
+  {@param name: string}
+  <a href="#" class="{$prefix}-help-button-{$name} {$prefix}-help-button mdl-button mdl-js-button mdl-js-ripple-effect">
+    <i class='material-icons'>help_outline</i>
+  </a>
+{/template}
+
+/**
+ * Media item with delete button
+ */
+{template .media_item_ private="true"}
+  {@param prefix: string}
+  {@param media: string}
+  {@param key: int}
+  {@param type: string}
+  <div class='{$prefix}-media-button-set'>
+    {$media}
+    <a href="#" data-media-key="{$key}" data-media-type="{$type}" class="{$prefix}-media-button-delete mdl-button mdl-js-button mdl-js-ripple-effect">
+      <i class='material-icons'>delete</i>
+    </a>
+  </div>
+{/template}
+
+/**
+ * Field editor
+ */
+{template .field_ private="true"}
+  {@param prefix: string}
+  {@param? label: string}
+  {@param? wide: bool}
+  {@param field: string}
+
+  <div class='{$prefix}-field {if $wide}{$prefix}-field-wide{/if}'>
+    {if $label}<label class='{$prefix}-field-label'>{$label}</label>{/if}
+    <div class='{$prefix}-field-editor{if not $label} {$prefix}-field-nolabel{/if}'>{$field}</div>
+  </div>
+
+{/template}

@@ -140,5 +140,8 @@
     "usage": "node build/usage.js",
     "web-app": "npm run build:core && npm run build:cwc-main && npm run build:web_app && npm run launch:web",
     "web-app-debug": "npm run build:core && npm run build:cwc-main-debug && npm run build:web_app && npm run launch:web"
+  },
+  "dependencies": {
+    "cl-editor": "^1.3.1"
   }
 }

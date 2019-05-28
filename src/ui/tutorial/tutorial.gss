@@ -130,6 +130,10 @@
 }
 
 .{$prefix}tutorial-step-media-item {
+  height: 144px;
+  width: 233px;
+}
+.{$prefix}tutorial-step-media-item img {
   display: block;
   max-height: 144px;
   width: auto;
@@ -139,7 +143,6 @@
   background-color: #949394;
   padding-bottom: 56.25%;
   position: relative;
-  width: 144px;
 }
 
 .{$prefix}tutorial-step-media-item-video i {
@@ -264,4 +267,8 @@
   left: 16px;
   position: absolute;
   top: 16px;
+}
+
+#{$prefix}tutorial-edit {
+  float: right;
 }

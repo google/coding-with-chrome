@@ -167,6 +167,8 @@ cwc.ui.SettingScreen.prototype.setUserConfig = function() {
     cwc.userConfigName.DEBUG_MODE);
   this.setConfig_('workbench-fetch', cwc.userConfigType.GENERAL,
     cwc.userConfigName.WORKBENCH_FETCH);
+  this.setConfig_('teacher-mode', cwc.userConfigType.GENERAL,
+    cwc.userConfigName.TEACHER_MODE);
 };
 
 

@@ -26,6 +26,7 @@ goog.require('cwc.soy.ui.Tutorial');
 
 goog.require('goog.dom');
 goog.require('goog.events');
+goog.require('goog.string');
 
 
 /**
@@ -150,6 +151,10 @@ cwc.ui.TutorialValidator.prototype.getValidate_ = function() {
  */
 cwc.ui.TutorialValidator.prototype.validateByMatchTextOutput_ =
   function(textMatch, message) {
+  if (goog.string.isEmptyOrWhitespace(textMatch)) {
+    this.log_.info('Skipping text match validation because it is empty');
+    return;
+  }
   this.log_.info('Starting validation by text match');
 
   let code = `(function() { return document.body.innerText; })();`;

@@ -231,7 +231,8 @@ cwc.addon.Workbench.prototype.loadProjectAsTutorial_ =
         },
         'steps': steps,
       };
-      tutorialInstance.setTutorial(tutorialSpec, this.imagesDb_);
+      tutorialInstance.setTutorial(tutorialSpec, this.helper.getUserLanguage(),
+        this.imagesDb_);
     });
 };
 

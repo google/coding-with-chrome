@@ -1,7 +1,8 @@
 /**
- * @fileoverview Translation file for the sidebar (English).
+ * @fileoverview CL Editor externs.
+ * @externs
  *
- * @license Copyright 2018 The Coding with Chrome Authors.
+ * @license Copyright 2019 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +16,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author mbordihn@google.com (Markus Bordihn)
+ * @author carheden@google.com (Adam Carheden)
  */
-Locales['eng']['SIDEBAR'] = {
-  'ADD_TUTORIAL': 'Add tutorial',
-  'FILE_DESCRIPTION': 'Show file description',
-  'LIBRARY': 'Open file library',
-  'MEDIA': 'Upload and insert media',
-  'TOUR': 'Start/restart tour',
-  'TUTORIAL': 'Start/restart tutorial',
-};
+
+
+/**
+  * @param {Object} options
+  * @constructor
+  */
+let clEditor = function(options) {};
+
+/** @type {Function} */
+clEditor.prototype.getHtml = function() {};

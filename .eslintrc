@@ -30,6 +30,7 @@
     'Sk': true,
     'brython': true,
     'chrome': true,
+    'clEditor': true,
     'cwc': true,
     'goog': true,
     'i18t': true,

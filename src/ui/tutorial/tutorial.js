@@ -21,8 +21,9 @@
  */
 goog.provide('cwc.ui.Tutorial');
 
+goog.require('cwc.ui.tutorial.Editor');
+goog.require('cwc.ui.tutorial.EditorEvents');
 goog.require('cwc.mode.Type');
-goog.require('cwc.renderer.Helper');
 goog.require('cwc.soy.ui.Tutorial');
 goog.require('cwc.ui.TutorialValidator');
 goog.require('cwc.ui.TutorialUtils');
@@ -34,8 +35,8 @@ goog.require('cwc.utils.mime.Type');
 goog.require('cwc.utils.Resources');
 
 goog.require('goog.dom');
+goog.require('goog.dom.classes');
 goog.require('goog.html.SafeHtml');
-goog.require('goog.html.sanitizer.HtmlSanitizer');
 goog.require('goog.events');
 goog.require('goog.soy');
 goog.require('goog.string');
@@ -58,9 +59,6 @@ cwc.ui.Tutorial = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!cwc.renderer.Helper} */
-  this.rendererHelper = new cwc.renderer.Helper();
-
   /** @type {string} */
   this.prefix = this.helper.getPrefix('tutorial');
 
@@ -75,15 +73,6 @@ cwc.ui.Tutorial = function(helper) {
 
   /** @private {!string} */
   this.completedStepClass_ = this.prefix + 'step-container--complete';
-
-  /** @private {Element} */
-  this.nodeMediaOverlay_ = null;
-
-  /** @private {Element} */
-  this.nodeMediaOverlayClose_ = null;
-
-  /** @private {Element} */
-  this.nodeMediaOverlayContent_ = null;
 
   /** @private {!string} */
   this.description_ = '';
@@ -100,14 +89,11 @@ cwc.ui.Tutorial = function(helper) {
   /** @private {!cwc.utils.Events} */
   this.editorEvents_ = new cwc.utils.Events(this.name+'_editor', '', this);
 
-  /** @private {boolean} */
+ /** @private {boolean} */
   this.webviewSupport_ = this.helper.checkChromeFeature('webview');
 
   /** @private {!boolean} */
   this.contentSet_ = false;
-
-  /** @private {!Array<DOMString>} */
-  this.objectURLs_ = [];
 
   /** @private {cwc.ui.TutorialValidator} */
   this.validator_ = null;
@@ -119,16 +105,27 @@ cwc.ui.Tutorial = function(helper) {
   this.tour_ = this.helper.getInstance('tour');
 
   /** @private {cwc.ui.TutorialUtils} */
-  this.utils_ = new cwc.ui.TutorialUtils(this.helper);
+  this.utils_ = new cwc.ui.TutorialUtils(this.prefix, this.helper);
+
+  /** @private {string} */
+  this.language_ = this.helper.getUserLanguage();
+
+  /** @private {cwc.userConfig} */
+  this.userConfig = this.helper.getInstance('userConfig');
+
+  /** @private {cwc.ui.tutorial.Editor} */
+  this.tutorialEditor_ = new cwc.ui.tutorial.Editor(helper, this.utils_);
 };
 
 
 /**
  * @param {!Object} tutorial
+ * @param {string} language
  * @param {cwc.utils.Database} imagesDb
  * @export
  */
-cwc.ui.Tutorial.prototype.setTutorial = async function(tutorial, imagesDb) {
+cwc.ui.Tutorial.prototype.setTutorial = async function(tutorial, language,
+  imagesDb) {
   this.log_.info('Setting tutorial', tutorial);
   this.clear();
   if (!tutorial) {
@@ -136,10 +133,14 @@ cwc.ui.Tutorial.prototype.setTutorial = async function(tutorial, imagesDb) {
     return;
   }
 
+  if (language) {
+    this.language_ = language;
+  }
+
   await this.utils_.initImagesDb(imagesDb);
   await this.parseSteps_(tutorial['steps']);
   this.url_ = tutorial['url'];
-  this.description_ = this.parseDescription_(tutorial['description']);
+  this.description_ = this.utils_.sanitizeTextObject(tutorial['description']);
   this.contentSet_ = true;
 
   let sidebarInstance = this.helper.getInstance('sidebar');
@@ -160,6 +161,34 @@ cwc.ui.Tutorial.prototype.hasTutorial = function() {
   return this.contentSet_;
 };
 
+/**
+ * @param {string} language
+ * @export
+ */
+cwc.ui.Tutorial.prototype.newTutorial = async function(language) {
+  if (this.hasTutorial()) {
+    this.log_.error('Refusing to replace existing tutorial');
+    return;
+  }
+  if (!language) {
+    language = this.helper.getUserLanguage();
+  }
+  await this.setTutorial({
+    'description': {
+      'mime_type': 'text/plain',
+      'text': '<a href="#">this</a>is this a link',
+    },
+    'steps': [
+      {
+        'title': 'Step title',
+        'description': {
+          'mime_type': 'text/plain',
+          'text': 'First step instructions',
+        },
+      },
+    ],
+  }, language);
+};
 
 /**
  * @param {!Object} steps
@@ -194,7 +223,7 @@ cwc.ui.Tutorial.prototype.parseSteps_ = async function(steps) {
  * @private
  */
 cwc.ui.Tutorial.prototype.addStep_ = async function(stepTemplate, id) {
-  let description = this.parseDescription_(stepTemplate['description']);
+  let description = this.utils_.sanitizeTextObject(stepTemplate['description']);
   if (!description) {
     this.log_.error('Skipping step', id, 'because parsing it\'s ' +
       'description failed', stepTemplate['description']);
@@ -211,9 +240,7 @@ cwc.ui.Tutorial.prototype.addStep_ = async function(stepTemplate, id) {
     }
   }
 
-  if (Array.isArray(stepTemplate['images'])) {
-    await this.utils_.cacheEmbeddedBinaries(stepTemplate['images']);
-  }
+  await this.utils_.cacheMediaSet(stepTemplate['images'] || []);
 
   let tour = false;
   if (stepTemplate['tour']) {
@@ -246,69 +273,6 @@ cwc.ui.Tutorial.prototype.addStep_ = async function(stepTemplate, id) {
 };
 
 /**
- * @param {!Object} description
- * @private
- * @return {boolean}
- */
-cwc.ui.Tutorial.prototype.validateDescription_ = function(description) {
-  if (typeof description !== 'object') {
-    this.log_.error('Skipping step because it has invalid or ' +
-      'missing description:', description);
-    return false;
-  }
-  if (typeof description['text'] !== 'string') {
-    this.log_.error('Skipping step because it\'s description ' +
-      'has invalid or missing text:', description);
-    return false;
-  }
-  if (typeof description['mime_type'] !== 'string') {
-    this.log_.error('Skipping step because it\'s description '+
-      'has invalid or missing mime_type:', description);
-    return false;
-  }
-  return true;
-};
-
-
-/**
- * @param {!Object} description
- * @private
- * @return {string}
- */
-cwc.ui.Tutorial.prototype.parseDescription_ = function(description) {
-  if (!this.validateDescription_(description)) {
-    return '';
-  }
-
-  const sanitizer = new goog.html.sanitizer.HtmlSanitizer();
-  switch (description['mime_type']) {
-    case cwc.utils.mime.Type.HTML.type: {
-      return soydata.VERY_UNSAFE.ordainSanitizedHtml(
-        goog.html.SafeHtml.unwrap(sanitizer.sanitize(description['text'])));
-    }
-    case cwc.utils.mime.Type.MARKDOWN.type: {
-      if (this.helper.checkJavaScriptFeature('marked')) {
-        return soydata.VERY_UNSAFE.ordainSanitizedHtml(
-          goog.html.SafeHtml.unwrap(sanitizer.sanitize(marked(
-            description['text']))));
-      } else {
-        this.log_.warn('Markdown not supported, displaying description text',
-          description);
-        return description['text'];
-      }
-    }
-    case cwc.utils.mime.Type.TEXT.type: {
-      return description['text'];
-    }
-    default: {
-      this.log_.error('Unknown or unsupported mime type',
-        description['mime_type']);
-      return '';
-    }
-  }
-};
-
-/**
  * Renders the tutorial in the sidebar.
  * @export
  */
@@ -327,13 +291,14 @@ cwc.ui.Tutorial.prototype.startTutorial = function() {
         description: this.description_,
         online: this.helper.checkFeature('online'),
         url: this.url_ ? this.url_ : '',
+        allowEdit: this.allowEdit_(),
         steps: this.steps_.map((step, index) => ({
           id: index,
           description: step.description,
-          images: this.utils_.getImageKeys(step.images),
+          images: this.utils_.getImageKeys(step.images || []),
           number: index + 1,
           title: step.title || `Step ${index + 1}`,
-          videos: this.utils_.getVideoKeys(step.images),
+          videos: this.utils_.getVideoKeys(step.images || []),
           youtube_videos: (step.videos || []).map((video) =>
             video['youtube_id']
           ),
@@ -343,6 +308,7 @@ cwc.ui.Tutorial.prototype.startTutorial = function() {
       }
     );
     this.rootNode_ = goog.dom.getElement(this.prefix + 'container');
+    sidebarInstance.showTutorialButtons();
   }
 
   this.state_ = {
@@ -363,7 +329,7 @@ cwc.ui.Tutorial.prototype.startTutorial = function() {
  */
 cwc.ui.Tutorial.prototype.initUI_ = function() {
   this.initSteps_();
-  this.initMedia_();
+  this.initEdit_();
 
   let state = {};
   if (this.steps_.length > 0) {
@@ -373,45 +339,46 @@ cwc.ui.Tutorial.prototype.initUI_ = function() {
 };
 
 /**
- * Captures references to elements needed by the media overlay.
+ * Initialize edit icon if editing is allowed
  * @private
  */
-cwc.ui.Tutorial.prototype.initMediaOverlay_ = function() {
-  this.nodeMediaOverlay_ = goog.dom.getElement(this.prefix + 'media-overlay');
-  this.nodeMediaOverlayClose_ = goog.dom.getElement(
-    this.prefix + 'media-overlay-close');
-  this.nodeMediaOverlayContent_ = goog.dom.getElement(
-    this.prefix + 'media-overlay-content');
-
-  this.nodeMediaOverlayClose_.addEventListener('click', () => {
-    this.setState_({
-      expandedMedia: null,
-    });
+cwc.ui.Tutorial.prototype.initEdit_ = function() {
+  let editButtonId = this.prefix + 'edit';
+  if (!this.allowEdit_()) {
+    this.log_.info('Editing not allowed, not initializing edit button');
+    return;
+  }
+  let editButton = goog.dom.getElement(editButtonId);
+  if (!editButton) {
+    this.log_.error('Failed to find edit button with id', editButtonId);
+    return;
+  }
+  goog.events.listen(editButton, 'click', async () => {
+    let editorName = this.prefix + 'editor';
+    let editor = goog.dom.getElement(editorName);
+    if (!editor) {
+      this.log_.error('Failed to find editor container', editorName, editor);
+      return;
+    }
+    let tutorial = await this.getJSON_(true);
+    this.tutorialEditor_.edit(tutorial[this.language_], editor);
+    goog.events.listenOnce(this.tutorialEditor_.getEventTarget(),
+      cwc.ui.tutorial.EditorEvents.Type.CLOSE,
+      this.handleEditorClose_.bind(this));
   });
 };
 
-
 /**
- * Renders cached images and videos from database to DOM.
+ * @param {!Event} e
  * @private
  */
-cwc.ui.Tutorial.prototype.initMedia_ = function() {
-  this.initMediaOverlay_();
-  let nodeListImages = this.rootNode_.querySelectorAll('.' + this.prefix +
-    'step-image');
-  if (this.utils_.imagesDb) {
-    [].forEach.call(nodeListImages, (image) => {
-      let imageSrc = image.getAttribute('data-src');
-      this.utils_.imagesDb.get(imageSrc).then((blob) => {
-        if (blob) {
-          let objectURL = URL.createObjectURL(blob);
-          image.src = objectURL;
-          this.objectURLs_.push(objectURL);
-        } else {
-          image.remove();
-        }
-      });
-    });
+cwc.ui.Tutorial.prototype.handleEditorClose_ = function(e) {
+  if (e.data) {
+    let tutorial = e.source.getTutorial();
+    this.log_.info('Setting edited tutorial', tutorial);
+    this.setTutorial(tutorial);
+  } else {
+    this.log_.info('Tutorial not edited');
   }
 };
 
@@ -430,10 +397,10 @@ cwc.ui.Tutorial.prototype.initSteps_ = function() {
     step.nodeLoadCode = stepNode.querySelector(classPrefix + 'load-code');
     step.nodeLoadTour = stepNode.querySelector(classPrefix + 'load-tour');
     step.nodeHeader = stepNode.querySelector(classPrefix + 'header');
-    step.nodeListMediaExpand = stepNode.querySelectorAll(classPrefix +
-      'media-expand');
     step.nodeMessage = stepNode.querySelector(classPrefix+'message');
     goog.style.setElementShown(step.nodeMessage, false);
+    this.utils_.initMedia_(stepNode);
+    this.utils_.initStepMediaButtons_(stepNode);
   });
   this.initStepButtons_();
 };
@@ -459,11 +426,6 @@ cwc.ui.Tutorial.prototype.initStepButtons_ = function() {
     }
     goog.events.listen(step.nodeHeader, goog.events.EventType.CLICK,
       this.jumpToStep_.bind(this, step.id));
-
-    [].forEach.call(step.nodeListMediaExpand, (toggle) => {
-      goog.events.listen(toggle, goog.events.EventType.CLICK,
-        this.onMediaClick_.bind(this, toggle));
-    });
   });
 };
 
@@ -571,83 +533,6 @@ cwc.ui.Tutorial.prototype.getValidate = function() {
     return null;
   }
   return step.validate;
-};
-
-/**
- * Shows media in a full screen overlay.
- * @param {Element} button
- * @private
- */
-cwc.ui.Tutorial.prototype.onMediaClick_ = function(button) {
-  let mediaType = button.getAttribute('data-media-type');
-  let mediaImg = button.querySelector('img');
-  let youtubeId = button.getAttribute('data-youtube-id');
-  let videoUrl = button.getAttribute('data-video-url');
-
-  if (mediaType === 'image' && mediaImg) {
-    let clone = mediaImg.cloneNode(true);
-    clone.removeAttribute('class');
-    this.setState_({
-      expandedMedia: clone,
-    });
-  } else if (mediaType === 'youtube' && youtubeId) {
-    let content = document.createElement(
-      this.webviewSupport_ ? 'webview' : 'iframe');
-    content.src = `https://www.youtube-nocookie.com/embed/${youtubeId}/?rel=0&amp;autoplay=0&showinfo=0`;
-
-    this.setState_({
-      expandedMedia: content,
-    });
-  } else if (mediaType === 'video') {
-    let video = document.createElement('video');
-    this.utils_.imagesDb.get(videoUrl).then((blob) => {
-      if (blob) {
-        let objectURL = URL.createObjectURL(blob);
-        video.src = objectURL;
-        this.objectURLs_.push(objectURL);
-        video.controls = true;
-        this.setState_({
-          expandedMedia: video,
-        });
-      } else {
-        video.remove();
-      }
-    });
-  }
-};
-
-
-/**
- * Event fired on media overlay close button click.
- * @private
- */
-cwc.ui.Tutorial.prototype.onMediaClose_ = function() {
-  this.setState_({
-    expandedMedia: null,
-  });
-};
-
-
-/**
- * Closes media overlay.
- * @private
- */
-cwc.ui.Tutorial.prototype.hideMedia_ = function() {
-  while (this.nodeMediaOverlayContent_.firstChild) {
-    this.nodeMediaOverlayContent_.firstChild.remove();
-  }
-  this.nodeMediaOverlay_.classList.add('is-hidden');
-};
-
-
-/**
- * Shows media overlay with the provided element.
- * @param {!Element} media
- * @private
- */
-cwc.ui.Tutorial.prototype.showMedia_ = function(media) {
-  this.nodeMediaOverlayContent_.appendChild(media);
-  this.nodeMediaOverlay_.classList.remove('is-hidden');
 };
 
 
@@ -781,12 +666,6 @@ cwc.ui.Tutorial.prototype.updateView_ = function() {
       step.node.classList.remove(this.completedStepClass_);
     }
   });
-
-  if (this.state_.expandedMedia) {
-    this.showMedia_(this.state_.expandedMedia);
-  } else {
-    this.hideMedia_();
-  }
 };
 
 
@@ -812,6 +691,7 @@ cwc.ui.Tutorial.prototype.startValidate = function() {
     this.log_.warn('startValidate: No editor instance');
     return;
   }
+
   this.editorEvents_.listen(editorInstance.getEventTarget(),
     goog.ui.Component.EventType.CHANGE, this.restartValidate_,
     false, this);
@@ -830,7 +710,6 @@ cwc.ui.Tutorial.prototype.restartValidate_ = function() {
   }
   this.validator_.start();
 };
-
 
 /**
  * @param {string} message
@@ -877,14 +756,8 @@ cwc.ui.Tutorial.prototype.clear = function() {
   this.description_ = '';
   this.url_ = '';
   this.contentSet_ = false;
-  this.utils_.imagesDb = false;
-  this.nodeMediaOverlay_ = null;
-  this.nodeMediaOverlayClose_ = null;
-  this.nodeMediaOverlayContent_ = null;
+  this.utils_.clear();
   this.editorEvents_.clear();
-  while (this.objectURLs_.length > 0) {
-    URL.revokeObjectURL(this.objectURLs_.pop());
-  }
   let sidebarInstance = this.helper.getInstance('sidebar');
   if (sidebarInstance) {
     sidebarInstance.clear();
@@ -893,4 +766,126 @@ cwc.ui.Tutorial.prototype.clear = function() {
     this.validator_.stop();
     this.validator_ = null;
   }
+};
+
+/**
+ * Exports tutorial to file metadata
+ */
+cwc.ui.Tutorial.prototype.prepareForSave = async function() {
+  if (!this.allowEdit_()) return;
+  if (!this.contentSet_) return;
+  this.log_.info('Saving tutorial');
+
+  let fileInstance = this.helper.getInstance('file');
+  if (!fileInstance) {
+    this.log_.warn('No file instance, tutorial won\'t be saved');
+    return;
+  }
+  let file = fileInstance.getFile();
+  let json = await this.getJSON_();
+  if (file && json) {
+    file.setMetadata('', json, '__tutorial__');
+  }
+};
+
+/**
+ * @param {bool} saveDBKeys
+ * @return {!string}
+ * @private
+ */
+cwc.ui.Tutorial.prototype.getJSON_ = async function(saveDBKeys) {
+  let json = {};
+  json[this.language_] = {
+    'description': {
+      'text': this.description_.content,
+      'mime_type': cwc.utils.mime.Type.HTML.type,
+    },
+    'steps': Array.from(await Promise.all(this.steps_.map( (step, order) => {
+      return this.getStepJSON_(step, saveDBKeys, order);
+    }))).sort((a, b) => {
+      return a.order - b.order;
+    }),
+  };
+  return json;
+};
+
+/**
+ * @param {!object} step
+ * @param {bool} saveDBKeys
+ * @param {int} order
+ * @return {!object}
+ * @private
+ */
+cwc.ui.Tutorial.prototype.getStepJSON_ = async function(step, saveDBKeys,
+  order) {
+  return {
+    'title': step.title,
+    'description': {
+      'text': step.description.content,
+      'mime_type': cwc.utils.mime.Type.HTML.type,
+    },
+    'images': (await Promise.all(step.images.map((image) => {
+      return new Promise(async (resolve) => {
+        resolve(await this.serializeImage_(image, saveDBKeys));
+      });
+    }))).filter((image) => image),
+    'videos': step.videos,
+    'code': step.code,
+    'validate': step.validate,
+    'order': order,
+  };
+};
+
+/**
+ * @param {!object} image
+ * @param {!bool} saveDBKeys
+ * @return {object|bool}
+ * @private
+ */
+cwc.ui.Tutorial.prototype.serializeImage_ = async function(image, saveDBKeys) {
+  if ('url' in image) {
+    return {
+      'url': image['url'],
+    };
+  }
+  // Already serialized
+  if ('mime_type' in image && 'data' in image) {
+    if (!saveDBKeys && cwc.ui.TutorialUtils.databaseReferenceKey) {
+      delete image[cwc.ui.TutorialUtils.databaseReferenceKey];
+    }
+    return image;
+  }
+  let blob = await this.utils_.imagesDb.get(
+    image[cwc.ui.TutorialUtils.databaseReferenceKey]);
+  if (!blob) {
+    return false;
+  }
+  let data = await new Promise((resolve) => {
+    let reader = new FileReader();
+    reader.addEventListener('loadend', (event) => {
+      let binStr = '';
+      (new Uint8Array(event.target.result)).forEach((i) => {
+        binStr += String.fromCharCode(i);
+      });
+      resolve(btoa(binStr));
+    });
+    reader.readAsArrayBuffer(blob);
+  });
+  return {
+    'mime_type': blob.type,
+    'data': data,
+  };
+};
+
+/**
+ * @return {!bool}
+ * @private
+ */
+cwc.ui.Tutorial.prototype.allowEdit_ = function() {
+  if (!this.userConfig) {
+    this.log_.error('No userConfig, editing disabled');
+    return false;
+  }
+  return this.userConfig.get(cwc.userConfigType.GENERAL,
+    cwc.userConfigName.TEACHER_MODE) === true;
 };

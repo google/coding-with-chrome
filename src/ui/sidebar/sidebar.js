@@ -98,6 +98,7 @@ cwc.ui.Sidebar.prototype.decorate = function(node) {
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
   this.nodeCustomIcons = goog.dom.getElement(this.prefix + 'icons-custom');
   this.hideContent();
+  this.showTutorialButtons();
 
   // File Library
   this.events_.listen('library-button', goog.events.EventType.CLICK, () => {
@@ -156,6 +157,12 @@ cwc.ui.Sidebar.prototype.decorate = function(node) {
     } else {
       this.helper.getInstance('tutorial').startTutorial();
     }
+  });
+
+  // Add Tutorial
+  this.events_.listen('add_tutorial-button', goog.events.EventType.CLICK,
+    () => {
+      this.helper.getInstance('tutorial').newTutorial();
   });
 };
 
@@ -224,6 +231,20 @@ cwc.ui.Sidebar.prototype.enableButton = function(id, enabled) {
   cwc.ui.Helper.enableElement(this.prefix + id + '-button', enabled);
 };
 
+/**
+ * Shows/hides the tutorial and add tutorial buttons based on whether or not
+ * there is a tutorial and if teacher mode is enabled. It should ensure that
+ * only one or the other are visable at a time.
+ */
+cwc.ui.Sidebar.prototype.showTutorialButtons = function() {
+  let userConfigInstance = this.helper.getInstance('userConfig');
+  let tutorialInstance = this.helper.getInstance('tutorial');
+  let teacherMode = userConfigInstance.get(cwc.userConfigType.GENERAL,
+    cwc.userConfigName.TEACHER_MODE);
+  let canAddTutorial = teacherMode && !tutorialInstance.hasTutorial();
+  this.showButton('add_tutorial', canAddTutorial);
+  this.showButton('tutorial', !canAddTutorial);
+};
 
 /**
  * @param {boolean} enabled
@@ -246,6 +267,7 @@ cwc.ui.Sidebar.prototype.enableTour = function(enabled) {
  */
 cwc.ui.Sidebar.prototype.enableTutorial = function(enabled) {
   this.enableButton('tutorial', enabled);
+  this.showTutorialButtons();
 };
 
 
@@ -265,7 +287,6 @@ cwc.ui.Sidebar.prototype.showButton = function(id, visible) {
   goog.style.setElementShown(
     goog.dom.getElement(this.prefix + id), visible);
 };
-
 
 /**
  * @param {boolean} visible

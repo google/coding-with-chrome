@@ -58,6 +58,7 @@ cwc.userConfigName = {
   SKIP_WELCOME: 'skip_welcome',
   SKIP_WHATS_NEW: 'skip_whats_new',
   SPHERO: 'sphero',
+  TEACHER_MODE: 'teacher_mode',
   WORKBENCH_FETCH: 'workbench_fetch',
   ZOOM: 'zoom',
 };
