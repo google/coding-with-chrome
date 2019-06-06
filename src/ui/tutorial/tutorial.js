@@ -25,6 +25,7 @@ goog.require('cwc.mode.Type');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.soy.ui.Tutorial');
 goog.require('cwc.ui.TutorialValidator');
+goog.require('cwc.ui.TutorialUtils');
 goog.require('cwc.utils.Database');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.Events');
@@ -84,9 +85,6 @@ cwc.ui.Tutorial = function(helper) {
   /** @private {Element} */
   this.nodeMediaOverlayContent_ = null;
 
-  /** @private {!cwc.utils.Database} */
-  this.imagesDb_ = null;
-
   /** @private {!string} */
   this.description_ = '';
 
@@ -119,6 +117,9 @@ cwc.ui.Tutorial = function(helper) {
 
   /** @private {cwc.ui.Tour} */
   this.tour_ = this.helper.getInstance('tour');
+
+  /** @private {cwc.ui.TutorialUtils} */
+  this.utils_ = new cwc.ui.TutorialUtils(this.helper);
 };
 
 
@@ -135,7 +136,7 @@ cwc.ui.Tutorial.prototype.setTutorial = async function(tutorial, imagesDb) {
     return;
   }
 
-  await this.setImagesDb_(imagesDb);
+  await this.utils_.initImagesDb(imagesDb);
   await this.parseSteps_(tutorial['steps']);
   this.url_ = tutorial['url'];
   this.description_ = this.parseDescription_(tutorial['description']);
@@ -149,23 +150,6 @@ cwc.ui.Tutorial.prototype.setTutorial = async function(tutorial, imagesDb) {
   }
   this.startTutorial();
 };
-
-
-/**
- * @param {cwc.utils.Database} imagesDb
- * @private
- */
-cwc.ui.Tutorial.prototype.setImagesDb_ = async function(imagesDb) {
-  if (imagesDb) {
-    this.imagesDb_ = imagesDb;
-  } else {
-    const objectStoreName = '__tutorial__';
-    this.imagesDb_ = new cwc.utils.Database('Tutorial')
-    .setObjectStoreName(objectStoreName);
-    await this.imagesDb_.open({'objectStoreNames': [objectStoreName]});
-  }
-};
-
 
 /**
  * Returns true if a tutorial has been loaded.
@@ -227,9 +211,8 @@ cwc.ui.Tutorial.prototype.addStep_ = async function(stepTemplate, id) {
     }
   }
 
-  let images = [];
   if (Array.isArray(stepTemplate['images'])) {
-    await this.appendBinaries_(stepTemplate['images'], images, 'image');
+    await this.utils_.cacheEmbeddedBinaries(stepTemplate['images']);
   }
 
   let tour = false;
@@ -254,120 +237,13 @@ cwc.ui.Tutorial.prototype.addStep_ = async function(stepTemplate, id) {
     code: code,
     description: description,
     id: id,
-    images: images,
+    images: stepTemplate['images'] || [],
     title: stepTemplate['title'] || '',
     validate: stepTemplate['validate'] || false,
     videos: stepTemplate['videos'] || [],
     tour: tour,
   };
 };
-
-
-/**
- * @param {!string} key
- * @param {!Object} data
- * @param {boolean} warnOnOverwrite
- * @return {string|boolean}
- */
-cwc.ui.Tutorial.prototype.ensureBlobInDB_ =
-  async function(key, data, warnOnOverwrite = false) {
-  if (warnOnOverwrite) {
-    let existingData = await this.imagesDb_.get(key);
-    if (existingData) {
-      this.log_.warn('Overwriting', key);
-    }
-  }
-  if (await this.imagesDb_.set(key, data)) {
-    return key;
-  }
-  return false;
-};
-
-
-/**
- * @param {!string} url
- * @param {!string} offlineMessage
- * @return {!boolean}
- * @private
- */
-cwc.ui.Tutorial.prototype.ensureUrlInDB_ =
-  async function(url, offlineMessage) {
-  let existingData = await this.imagesDb_.get(url);
-  if (existingData) {
-    this.log_.info('Not downloading', url,
-      'because it is already in the database');
-    return true;
-  }
-
-  if (!this.helper.checkFeature('online')) {
-    this.log_.warn(offlineMessage);
-    return false;
-  }
-
-  let blob = await cwc.utils.Resources.getUriAsBlob(url);
-  return await this.ensureBlobInDB_(url, blob);
-};
-
-
-/**
- * @param {!Array} source
- * @param {!Object} destination
- * @param {!string} name
- * @return {!Promise}
- * @private
- */
-cwc.ui.Tutorial.prototype.appendBinaries_ =
-  function(source, destination, name) {
-  return Promise.all(source.map(async function(spec, index) {
-    switch (typeof spec) {
-      case 'string': {
-        if (await this.ensureUrlInDB_(spec, 'Ignoring '+name+' index '+index+
-          ' with url '+spec+' because we are offline')) {
-          destination[index] = spec;
-        }
-        break;
-      }
-      case 'object': {
-        let key = await this.ensureObjectInDb_(spec);
-        if (key) {
-          destination[index] = key;
-        } else {
-          this.log_.warn('Failed to insert blob', spec);
-        }
-        break;
-      }
-      default: {
-        this.log_.warn('Ignoring', name, index,
-          'because it is neither a string nor an object', spec);
-      }
-    }
-  }.bind(this)));
-};
-
-
-/**
- * @param {!Object} spec
- * @return {!string|boolean}
- * @private
- */
-cwc.ui.Tutorial.prototype.ensureObjectInDb_ = async function(spec) {
-   if (!('mime_type' in spec)) {
-    return false;
-  }
-  if (!('data' in spec)) {
-    return false;
-  }
-  const binaryData = atob(spec['data']);
-  const encodedData = new Uint8Array(binaryData.length);
-  for (let i=0; i<binaryData.length; i++) {
-    encodedData[i] = binaryData.charCodeAt(i);
-  }
-  const blob = new Blob([encodedData], {'type': spec['mime_type']});
-  let key = goog.string.createUniqueString();
-  await this.ensureBlobInDB_(key, blob, true);
-  return key;
-};
-
 
 /**
  * @param {!Object} description
@@ -454,14 +330,10 @@ cwc.ui.Tutorial.prototype.startTutorial = function() {
         steps: this.steps_.map((step, index) => ({
           id: index,
           description: step.description,
-          images: step.images.filter((url = '') =>
-            !this.videoExtensions.some((ext) => url.endsWith(ext))
-          ),
+          images: this.utils_.getImageKeys(step.images),
           number: index + 1,
           title: step.title || `Step ${index + 1}`,
-          videos: step.images.filter((url = '') =>
-            this.videoExtensions.some((ext) => url.endsWith(ext))
-          ),
+          videos: this.utils_.getVideoKeys(step.images),
           youtube_videos: (step.videos || []).map((video) =>
             video['youtube_id']
           ),
@@ -527,10 +399,10 @@ cwc.ui.Tutorial.prototype.initMedia_ = function() {
   this.initMediaOverlay_();
   let nodeListImages = this.rootNode_.querySelectorAll('.' + this.prefix +
     'step-image');
-  if (this.imagesDb_) {
+  if (this.utils_.imagesDb) {
     [].forEach.call(nodeListImages, (image) => {
       let imageSrc = image.getAttribute('data-src');
-      this.imagesDb_.get(imageSrc).then((blob) => {
+      this.utils_.imagesDb.get(imageSrc).then((blob) => {
         if (blob) {
           let objectURL = URL.createObjectURL(blob);
           image.src = objectURL;
@@ -728,7 +600,7 @@ cwc.ui.Tutorial.prototype.onMediaClick_ = function(button) {
     });
   } else if (mediaType === 'video') {
     let video = document.createElement('video');
-    this.imagesDb_.get(videoUrl).then((blob) => {
+    this.utils_.imagesDb.get(videoUrl).then((blob) => {
       if (blob) {
         let objectURL = URL.createObjectURL(blob);
         video.src = objectURL;
@@ -1006,7 +878,7 @@ cwc.ui.Tutorial.prototype.clear = function() {
   this.description_ = '';
   this.url_ = '';
   this.contentSet_ = false;
-  this.imagesDb_ = false;
+  this.utils_.imagesDb = false;
   this.nodeMediaOverlay_ = null;
   this.nodeMediaOverlayClose_ = null;
   this.nodeMediaOverlayContent_ = null;
