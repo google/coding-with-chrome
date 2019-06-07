@@ -54,7 +54,7 @@ cwc.ui.TutorialUtils = function(helper, imagesDb) {
 /**
  * @param {cwc.utils.Database} imagesDb
  */
-cwc.ui.Tutorial.prototype.initImagesDb = async function(imagesDb) {
+cwc.ui.TutorialUtils.prototype.initImagesDb = async function(imagesDb) {
   if (imagesDb) {
     this.imagesDb = imagesDb;
   } else if (!this.imagesDb) {
@@ -108,7 +108,7 @@ cwc.ui.TutorialUtils.prototype.cacheEmbeddedBinary = async function(spec) {
  * @return {string|boolean}
  * @private
  */
-cwc.ui.Tutorial.prototype.ensureUrlInDb_ = async function(url) {
+cwc.ui.TutorialUtils.prototype.ensureUrlInDb_ = async function(url) {
   let existingData = await this.imagesDb.get(url);
   if (existingData) {
     this.log_.info('Not downloading', url,
@@ -136,7 +136,7 @@ cwc.ui.Tutorial.prototype.ensureUrlInDb_ = async function(url) {
  * @return {!string|boolean}
  * @private
  */
-cwc.ui.Tutorial.prototype.ensureObjectInDb_ = async function(spec) {
+cwc.ui.TutorialUtils.prototype.ensureObjectInDb_ = async function(spec) {
    if (!('mime_type' in spec)) {
     this.log_.warn('No mime_type key in media spec', spec);
     return false;
@@ -162,7 +162,7 @@ cwc.ui.Tutorial.prototype.ensureObjectInDb_ = async function(spec) {
  * @return {string|boolean}
  * @private
  */
-cwc.ui.Tutorial.prototype.ensureBlobInDb_ =
+cwc.ui.TutorialUtils.prototype.ensureBlobInDb_ =
   async function(key, data, warnOnOverwrite = false) {
   if (warnOnOverwrite) {
     let existingData = await this.imagesDb.get(key);
