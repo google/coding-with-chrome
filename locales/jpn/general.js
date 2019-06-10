@@ -29,6 +29,9 @@ Locales['jpn']['GENERAL'] = {
   'NEXT': '次へ',
   'NO': 'いいえ',
   'OK': 'OK',
+  'OVERVIEW': '概要',
   'SETTINGS': '設定',
+  'UNSAVED_CHANGES': '変更は保存されていません。終了してよろしいですか？',
+  'WARNING': '警報',
   'YES': 'はい',
 };
