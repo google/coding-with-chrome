@@ -35,7 +35,7 @@
   "file_handlers": {
     "supported": {
       "extensions": [
-        "cwc", "txt", "html", "htm", "js", "coffee", "py"
+        "cwc", "cwct", "txt", "html", "htm", "js", "coffee", "py"
       ]
     },
     "text": {
