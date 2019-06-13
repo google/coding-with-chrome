@@ -337,7 +337,7 @@ cwc.ui.Tutorial.prototype.startTutorial = function() {
           youtube_videos: (step.videos || []).map((video) =>
             video['youtube_id']
           ),
-          hasCode: step.code && step.code.trim().length > 0,
+          hasCode: !!(step.code && step.code.trim().length),
           hasTour: !!step.tour,
         })),
       }

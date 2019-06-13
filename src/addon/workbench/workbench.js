@@ -21,6 +21,7 @@ goog.provide('cwc.addon.Workbench');
 
 goog.require('cwc.addon.WorkbenchLoader');
 goog.require('cwc.addon.WorkbenchMap');
+goog.require('cwc.fileFormat.File');
 goog.require('cwc.mode.Type');
 goog.require('cwc.soy.SelectScreenTemplate');
 goog.require('cwc.ui.SelectScreen.Events');
@@ -187,22 +188,17 @@ cwc.addon.Workbench.prototype.showRelevantProjects_ = async function() {
  * @param {!Object} project
  * @param {!cwc.mode.Type} mode
  */
-cwc.addon.Workbench.prototype.loadProjectAsTutorial_ = function(project, mode) {
+cwc.addon.Workbench.prototype.loadProjectAsTutorial_ =
+  async function(project, mode) {
   let tutorialInstance = this.helper.getInstance('tutorial');
   this.helper.getInstance('mode')
     .loadMode(mode)
-    .then(() => {
-      // Map Workbench project data structure into CwC Tutorial structure
-      let tutorialSpec = {
-        'url': this.projectDetailLinkBase_ + project.id,
-        'description': {
-          'text': project['description'],
-          'mime_type': 'text/html',
-        },
-        'steps': project['steps'].sort((a, b) => {
-          return a.order - b.order;
-        }).map((step) => {
-          return {
+    .then(async () => {
+      // Potentially download example code in parallel
+      let steps = Array.from(await Promise.all(project['steps'].map((step) => {
+        return new Promise(async (resolve) => {
+          resolve({
+            'order': step['order'],
             'title': step['title'],
             'description': {
               'text': step['description'],
@@ -210,13 +206,136 @@ cwc.addon.Workbench.prototype.loadProjectAsTutorial_ = function(project, mode) {
             },
             'images': step['images'],
             'videos': step['videos'],
-          };
-        }),
+            'code': await this.getExampleCode_(step, mode),
+          });
+        });
+      })));
+
+      // Ensure steps are sorted based on workbench-provided order property
+      steps.sort((a, b) => {
+        return a['order'] - b['order'];
+      });
+
+      // Map Workbench project data structure into CwC Tutorial structure
+      let tutorialSpec = {
+        'url': this.projectDetailLinkBase_ + project.id,
+        'description': {
+          'text': project['description'],
+          'mime_type': 'text/html',
+        },
+        'steps': steps,
       };
       tutorialInstance.setTutorial(tutorialSpec, this.imagesDb_);
     });
 };
 
+/**
+ * @param {!Object} step
+ * @param {!cwc.mode.Type} mode
+ * @return {string}
+ * @private
+ */
+cwc.addon.Workbench.prototype.getExampleCode_ = async function(step, mode) {
+  if (!('other' in step)) {
+    return '';
+  }
+  if (!Array.isArray(step['other'])) {
+    this.log_.warn('Workbench step', step, '"other" property is not an array');
+    return '';
+  }
+  let other = step['other'];
+  let code = false;
+  for (let i=0; i<other.length; i++) {
+    let entry = other[i];
+    if (typeof entry != 'string') {
+      this.log_.warn('Ignoring attachment', entry,
+        'because it is not a string');
+      continue;
+    }
+    let url;
+    try {
+      url = new URL(entry);
+    } catch (e) {
+      this.log_.warn('Ignoring', entry,
+        'because it does not appear to be a URL', e);
+      continue;
+    }
+    if (!url.pathname.match(/\.cwc(t)?$/i)) {
+      this.log_.info('Ignoring', entry,
+        'because it does not end with a CwC extenson');
+      continue;
+    }
+    if (code) {
+      this.log_.warn('Multiple CwC files attached to step', step, 'ignoring',
+        entry);
+      continue;
+    }
+    try {
+      code = await this.loadExampleCodeAttachment_(entry, mode);
+      // We don't break here so we can log files we ignore
+    } catch (e) {
+      this.log_.warn('Ignoring attached CwC url', entry, ':', e);
+    }
+  }
+  if (!code) {
+    this.log_.info('No attachments in ', other, 'were CwC files');
+    return '';
+  }
+  return code;
+};
+
+/**
+ * Load example code from URL (which should point to a CWC file) and returns
+ * the code only if the mode of the downladed file matches the mode passed in.
+ * @param {!string} url
+ * @param {!cwc.mode.Type} expectMode
+ * @return {string}
+ * @private
+ */
+cwc.addon.Workbench.prototype.loadExampleCodeAttachment_ =
+  async function(url, expectMode) {
+  let editorInstance = this.helper.getInstance('editor');
+  if (!editorInstance) {
+    this.log_.error('Not loading', url,
+      'because we don\'t have an editor instance to match it\'s mime type to');
+    return '';
+  }
+  let editorMode = editorInstance.getEditorMode();
+  let cwcJson = await cwc.utils.Resources.getUriAsText(url);
+  let file;
+  try {
+    file = new cwc.fileFormat.File(cwcJson);
+  } catch (e) {
+    this.log_.error('Failed to load', url, 'as CwC File:', e);
+    return '';
+  }
+  let mode = file.getMode();
+  if (mode != expectMode) {
+    this.log_.warn('Ignoring', url, 'because it\'s mode', mode,
+      'doesn\'t match the expected mode of', expectMode);
+    return '';
+  }
+  let code = '';
+  let contents = file.getContentData();
+  for (let entry in contents) {
+    if (!Object.prototype.hasOwnProperty.call(contents, entry)) {
+      continue;
+    }
+    let entryType = contents[entry].getType();
+    if (entryType == editorMode) {
+      if (code) {
+        this.log_.warn('Multiple contents with type', editorMode, 'in', url,
+          '. Ignoring', entry, contents[entry].getContent());
+        continue;
+      }
+      code = contents[entry].getContent();
+    } else {
+      this.log_.info('Skipping content', contents[entry], 'because it\'s type',
+        entryType, 'doesn\'t match the editor entry type of', editorMode);
+    }
+  }
+  return code;
+};
 
 /**
  * Removes all of the existing Workbench project card sections
