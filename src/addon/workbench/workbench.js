@@ -194,6 +194,12 @@ cwc.addon.Workbench.prototype.loadProjectAsTutorial_ =
   this.helper.getInstance('mode')
     .loadMode(mode)
     .then(async () => {
+      // Set the title
+      let gui = this.helper.getInstance('gui');
+      if (gui && 'name' in project && project['name']) {
+        gui.setTitle(project['name']);
+      }
+
       // Potentially download example code in parallel
       let steps = Array.from(await Promise.all(project['steps'].map((step) => {
         return new Promise(async (resolve) => {
@@ -236,17 +242,17 @@ cwc.addon.Workbench.prototype.loadProjectAsTutorial_ =
  * @private
  */
 cwc.addon.Workbench.prototype.getExampleCode_ = async function(step, mode) {
-  if (!('other' in step)) {
+  const WB_ATTACHMENTS_KEY = 'others';
+  if (!(WB_ATTACHMENTS_KEY in step)) {
     return '';
   }
-  if (!Array.isArray(step['other'])) {
-    this.log_.warn('Workbench step', step, '"other" property is not an array');
+  if (!Array.isArray(step[WB_ATTACHMENTS_KEY])) {
     return '';
   }
-  let other = step['other'];
+  let attachments = step[WB_ATTACHMENTS_KEY];
   let code = false;
-  for (let i=0; i<other.length; i++) {
-    let entry = other[i];
+  for (let i=0; i<attachments.length; i++) {
+    let entry = attachments[i];
     if (typeof entry != 'string') {
       this.log_.warn('Ignoring attachment', entry,
         'because it is not a string');
@@ -278,7 +284,7 @@ cwc.addon.Workbench.prototype.getExampleCode_ = async function(step, mode) {
     }
   }
   if (!code) {
-    this.log_.info('No attachments in ', other, 'were CwC files');
+    this.log_.info('No attachments in ', attachments, 'were CwC files');
     return '';
   }
   return code;
