@@ -540,15 +540,3 @@ cwc.utils.Helper.prototype.openUrl = function(url) {
     window.open(url);
   }
 };
-
-/**
- * Check if a variable is a string with non-whitespace characters
- * @param {*} subject
- * @return {bool}
- */
-cwc.utils.Helper.isNonEmptyString = function(subject) {
-  if (typeof subject == 'string' && subject.trim().length > 0) {
-    return true;
-  }
-  return false;
-};
