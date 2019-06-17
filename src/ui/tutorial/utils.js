@@ -19,6 +19,10 @@
  */
 goog.provide('cwc.ui.TutorialUtils');
 
+goog.require('cwc.utils.Logger');
+goog.require('cwc.utils.Helper');
+goog.require('cwc.utils.Database');
+
 /** @const {string} */
 cwc.ui.TutorialUtils.databaseReferenceKey = 'dbref';
 /** @const {string} */

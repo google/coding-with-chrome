@@ -337,8 +337,8 @@ cwc.ui.Tutorial.prototype.startTutorial = function() {
           youtube_videos: (step.videos || []).map((video) =>
             video['youtube_id']
           ),
-          hasCode: step.code && step.code.trim().length > 0,
-          hasTour: !!step.tour,
+          hasCode: step.code && !goog.string.isEmptyOrWhitespace(step.code),
+          hasTour: step.tour ? true : false,
         })),
       }
     );
@@ -680,13 +680,12 @@ cwc.ui.Tutorial.prototype.isEditorDirty_ = function() {
   let editorInstance = this.helper.getInstance('editor');
   let activeStep = this.getActiveStep_();
   let code = editorInstance.getEditorContent(editorInstance.getCurrentView());
-  code = typeof code === 'string' ? code.trim() : '';
 
   // It's always ok to load code into an empty editor
-  if (code.length === 0) {
+  if (goog.string.isEmptyOrWhitespace(code)) {
     return false;
   }
-  if (activeStep && activeStep.code && activeStep.code.trim() === code) {
+  if (activeStep && activeStep.code && activeStep.code.trim() === code.trim()) {
     return false;
   }
   return true;
