@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tutorail for Coding in Chrome.
+ * @fileoverview Tutorial for Coding in Chrome.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -30,8 +30,14 @@
   {@param prefix: string}
   {@param steps: list<?>}
   {@param url: string}
+  {@param allowEdit: bool}
 
   <div id="{$prefix}container">
+    {if $allowEdit}
+      <button type="button" id="{$prefix}edit" class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">edit</i>
+      </button>
+    {/if}
     {if $url}
       <div id="{$prefix}url" class="mdl-typography--caption">
         Full Project: <a href="{$url}" target="_blank" noreferrer noopener>{$url}</a>
@@ -49,6 +55,7 @@
         {/call}
       {/foreach}
     </ol>
+    <div id='{$prefix}editor' class='is-hidden'></div>
     <div id="{$prefix}media-overlay" class='is-hidden'>
       <button type="button" id="{$prefix}media-overlay-close" class="mdl-button mdl-js-button mdl-button--icon">
         <i class="material-icons">arrow_back</i>
@@ -100,25 +107,23 @@
       <div class="{$prefix}description">{$description}</div>
       <div class="{$prefix}media">
         {foreach $image in $images}
-          <button type="button" class="{$prefix}media-expand {$prefix}media-expand" title="Expand image" data-media-type="image">
-            <img data-src="{$image}" alt="" class="{$prefix}media-item {$prefix}image">
-            <i class="material-icons">fullscreen</i>
-          </button>
+          {call .image_button}
+            {param prefix: $prefix /}
+            {param src: $image /}
+          {/call}
         {/foreach}
         {foreach $video in $videos}
-          <button type="button" class="{$prefix}media-expand {$prefix}media-expand {$prefix}media-expand" title="Expand video" data-media-type="video" data-video-url="{$video}">
-            <div class="{$prefix}media-item-video">
-              <i class="material-icons">play_circle_outline</i>
-            </div>
-          </button>
+          {call .video_button}
+            {param prefix: $prefix /}
+            {param src: $video /}
+          {/call}
         {/foreach}
         {if $online}
           {foreach $video in $youtube_videos}
-            <button type="button" class="{$prefix}media-expand {$prefix}media-expand {$prefix}media-expand" title="Expand video" data-media-type="youtube" data-youtube-id="{$video}">
-              <div class="{$prefix}media-item-video">
-                <i class="material-icons">play_circle_outline</i>
-              </div>
-            </button>
+            {call .youtube_button}
+              {param prefix: $prefix /}
+              {param src: $video /}
+            {/call}
           {/foreach}
         {/if}
       </div>
@@ -139,4 +144,65 @@
         </div>
     </div>
   </li>
+{/template}
+
+/**
+ * Image button
+ */
+{template .image_button}
+  {@param prefix: string}
+  {@param src: string}
+  {call .media_button_ data="all"}
+    {param media_type: 'image' /}
+    {param content kind="html"}
+      <img />
+      <i class="material-icons">fullscreen</i>
+    {/param}
+  {/call}
+{/template}
+
+/**
+ * Video button
+ */
+{template .video_button}
+  {@param prefix: string}
+  {@param src: string}
+  {call .media_button_ data="all"}
+    {param media_type: 'video' /}
+    {param content kind="html"}
+      <div>
+        <i class="material-icons">play_circle_outline</i>
+      </div>
+    {/param}
+  {/call}
+{/template}
+
+/**
+ * YouTube button
+ */
+{template .youtube_button}
+  {@param prefix: string}
+  {@param src: string}
+  {call .media_button_ data="all"}
+    {param media_type: 'youtube' /}
+    {param content kind="html"}
+      <img src='https://img.youtube.com/vi/{$src}/0.jpg' />
+      <i class="material-icons">play_circle_outline</i>
+    {/param}
+  {/call}
+{/template}
+
+
+/**
+ * Generic media button
+ */
+{template .media_button_ private="true"}
+  {@param prefix: string}
+  {@param media_type: string}
+  {@param src: string}
+  {@param content: string}
+  <button type="button" class="{$prefix}media-item {$prefix}media-expand {$prefix}media-expand"
+    title="Expand {$media_type}" data-media-type="{$media_type}" data-media-src="{$src}">
+    {$content}
+  </button>
 {/template}

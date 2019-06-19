@@ -193,4 +193,14 @@ closureBuilder.build({
   out: 'genfiles/third_party/external/marked',
 });
 
+/**
+ * cl-editor
+ */
+closureBuilder.build({
+  name: 'clEditor',
+  resources: [
+    'node_modules/cl-editor/dist/index.min.js',
+  ],
+  out: 'genfiles/third_party/external/cl-editor',
+});
 

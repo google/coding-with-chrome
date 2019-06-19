@@ -37,6 +37,7 @@ closureBuilder.build({
     'build/externs/addons.js',
     'build/externs/blockly.js',
     'build/externs/chrome.js',
+    'build/externs/clEditor.js',
     'build/externs/codemirror.js',
     'build/externs/coffeescript.js',
     'build/externs/global.js',

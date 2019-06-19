@@ -1,0 +1,217 @@
+/**
+ * Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author carheden@google.com (Adam Carheden)
+ */
+
+#{$prefix}tutorial-editor {
+  align-items: center;
+  background-color: #fff;
+  bottom: 0;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 34px; /* height of header */
+  overflow: auto;
+}
+
+#{$prefix}tutorial-editor.is-hidden {
+  display: none;
+}
+
+.{$prefix}tutorial-editor-buttons {
+  text-align: center;
+  margin: 1.25em 0;
+}
+.{$prefix}tutorial-editor-button {
+  margin: 5px 0 5px 10px;
+}
+
+#{$prefix}tutorial-editor-content {
+  margin-left: auto;
+  margin-right: auto;
+  width: 80vw;
+  margin-top: 24px;
+  padding-bottom: 50px;
+}
+#{$prefix}tutorial-editor-steps {
+  margin: 24px 0;
+}
+.{$prefix}tutorial-editor-step {
+  margin-bottom: 20px;
+  border-radius: 10px;
+  width: 100%;
+}
+.{$prefix}tutorial-editor-step-title {
+  background-color: #3f51b5;
+  color: white;
+  font-weight: bold;
+  line-height: 3em;
+  padding: 0 20px;
+}
+
+.{$prefix}tutorial-editor-step-field {
+  display: flex;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+.{$prefix}tutorial-editor-step-field-nolabel {
+  text-align: center;
+}
+.{$prefix}tutorial-editor-step-field-wide {
+  flex-direction: column;
+}
+.{$prefix}tutorial-editor-step-field-label {
+  font-weight: bold;
+  flex: 1 1;
+  line-height: 2.25em
+}
+.{$prefix}tutorial-editor-step-field-editor {
+  flex: 1 1;
+  padding-right: 1rem;
+}
+.{$prefix}tutorial-editor-step-field-editor input {
+  font-size: 1em;
+  padding: .25em;
+  width: calc(100% - .5em);
+}
+.{$prefix}tutorial-editor-step-field-wide .{$prefix}tutorial-editor-step-field-editor input {
+  width: unset;
+}
+.{$prefix}tutorial-editor-step-title-number {
+  margin-left: 0.25em;
+}
+.{$prefix}tutorial-editor-step-title-text {
+  margin-left: 0.25em;
+}
+
+/* Reset some properties set by CwC stylesheets to CSS defaults
+ * to make text in cl-editor display correctly.
+ */
+.cl ol, .cl ul {
+  padding-left: 40px;
+}
+
+.cl-content {
+  height: 200px !important;
+}
+.{$prefix}tutorial-editor-step .cl-content {
+  height: 150px !important;
+}
+
+/* Show/hide the step */
+.{$prefix}tutorial-editor-step-expand {
+  display: none;
+}
+.{$prefix}tutorial-editor-step-collapsed .{$prefix}tutorial-editor-step-expand {
+  display: inline;
+}
+.{$prefix}tutorial-editor-step-collapsed .{$prefix}tutorial-editor-step-collapse {
+  display: none;
+}
+.{$prefix}tutorial-editor-step-collapsed {
+  min-height: 0px;
+}
+.{$prefix}tutorial-editor-step-collapsed .{$prefix}tutorial-editor-step-title {
+  background-color: #eee;
+  color: black;
+}
+.{$prefix}tutorial-editor-step-collapsed .mdl-card__media {
+  display:none;
+}
+
+.{$prefix}tutorial-editor-step-media-button-set {
+  display: inline-block;
+  margin-right: 5px;
+  border: 1px solid transparent;
+}
+.{$prefix}tutorial-editor-step-media-button-set:hover {
+  border-color: #ccc;
+}
+.{$prefix}tutorial-editor-step-media-button-delete {
+  padding: 0 3px 0 0;
+  min-width: unset;
+}
+
+.{$prefix}tutorial-editor-step-validate-text {
+  width: 100%;
+  font-size: 1em;
+  font-family: monospace;
+}
+.{$prefix}tutorial-editor-step-toggle-control {
+  display: flex;
+}
+.{$prefix}tutorial-editor-step-toggle {
+  width: unset;
+}
+.{$prefix}tutorial-editor-step-toggle-label {
+  white-space: nowrap;
+}
+
+.{$prefix}tutorial-editor-step-toggle-control {
+  display: flex;
+}
+.{$prefix}tutorial-editor-step-toggle-button {
+  margin: 0 20px 0 10px;
+  width: unset;
+}
+.{$prefix}tutorial-editor-step-toggle-content {
+  display: block;
+}
+/* Toggle labels */
+.{$prefix}tutorial-editor-step-toggle-label-inactive {
+  color: unset;
+}
+.{$prefix}tutorial-editor-step-toggle-label-active {
+  color: grey;
+}
+.{$prefix}tutorial-editor-step-toggle.is-active .{$prefix}tutorial-editor-step-toggle-label-inactive {
+  color: grey;
+}
+.{$prefix}tutorial-editor-step-toggle.is-active .{$prefix}tutorial-editor-step-toggle-label-active {
+  color: unset;
+}
+/* Toggle content */
+.{$prefix}tutorial-editor-step-toggle-content-inactive {
+  display: unset;
+}
+.{$prefix}tutorial-editor-step-toggle-content-active {
+  display: none;
+}
+.{$prefix}tutorial-editor-step-toggle.is-active .{$prefix}tutorial-editor-step-toggle-content-inactive {
+  display: none;
+}
+.{$prefix}tutorial-editor-step-toggle.is-active .{$prefix}tutorial-editor-step-toggle-content-active {
+  display: unset;
+}
+
+.{$prefix}tutorial-editor-step-help-button {
+  min-width: unset;
+  padding: 0 3px;
+}
+
+.{$prefix}tutorial-editor-help-message {
+  max-width: 75vw;
+}
+
+/* Text match success message */
+.{$prefix}tutorial-editor-step-text-match-success-message-container {
+  display: flex;
+}
+.{$prefix}tutorial-editor-step-text-match-success-message-label {
+  white-space: nowrap;
+  margin: auto 0.5em auto 0;
+}

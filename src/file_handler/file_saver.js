@@ -61,8 +61,10 @@ cwc.fileHandler.FileSaver = function(helper) {
  * @param {boolean=} autoDetect Auto detect where to save the file.
  * @export
  */
-cwc.fileHandler.FileSaver.prototype.saveFile = function(autoDetect = false) {
-  this.prepareContent();
+cwc.fileHandler.FileSaver.prototype.saveFile = async function(
+  autoDetect = false) {
+  this.log_.info('saveFile...');
+  await this.prepareContent();
   if (autoDetect && this.gDriveId) {
     this.saveGDriveFile(true);
   } else if (this.fileHandler) {
@@ -76,8 +78,9 @@ cwc.fileHandler.FileSaver.prototype.saveFile = function(autoDetect = false) {
 /**
  * @export
  */
-cwc.fileHandler.FileSaver.prototype.saveFileAs = function() {
-  this.prepareContent();
+cwc.fileHandler.FileSaver.prototype.saveFileAs = async function() {
+  this.log_.info('saveFileAs...');
+  await this.prepareContent();
   this.selectFileToSave(this.filename, this.fileData);
 };
 
@@ -87,10 +90,10 @@ cwc.fileHandler.FileSaver.prototype.saveFileAs = function() {
  *   file dialog.
  * @export
  */
-cwc.fileHandler.FileSaver.prototype.saveGDriveFile = function(save_file) {
-  this.log_.info('Save file', this.filename, 'in Google Drive', this.gDriveId);
+cwc.fileHandler.FileSaver.prototype.saveGDriveFile = async function(save_file) {
+  this.log_.info('Save file in Google Drive', this.gDriveId);
   let gDriveInstance = this.helper.getInstance('gapi').getDrive();
-  this.prepareContent();
+  await this.prepareContent();
   if (save_file) {
     gDriveInstance.saveFile(this.filename, this.fileData, this.gDriveId);
   } else {
@@ -102,10 +105,10 @@ cwc.fileHandler.FileSaver.prototype.saveGDriveFile = function(save_file) {
 /**
  * @export
  */
-cwc.fileHandler.FileSaver.prototype.saveGCloudFile = function() {
-  this.log_.info('Save file', this.filename, 'in Google Cloud');
+cwc.fileHandler.FileSaver.prototype.saveGCloudFile = async function() {
+  this.log_.info('Save file in Google Cloud');
   let gCloudInstance = this.helper.getInstance('gapi').getCloud();
-  this.prepareContent();
+  await this.prepareContent();
   gCloudInstance.publishDialog(this.filename, this.fileData, this.mimeType);
 };
 
@@ -113,7 +116,7 @@ cwc.fileHandler.FileSaver.prototype.saveGCloudFile = function() {
 /**
  * Prepares file and ensures we have the latest editor content.
  */
-cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
+cwc.fileHandler.FileSaver.prototype.prepareContent = async function() {
   this.log_.info('Prepare Content for saving file...');
   let editorInstance = this.helper.getInstance('editor');
   let fileInstance = this.helper.getInstance('file');
@@ -141,6 +144,11 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
           file.setContent(entry, views[entry].getContent());
         }
       }
+    }
+
+    let tutorialInstance = this.helper.getInstance('tutorial');
+    if (tutorialInstance) {
+      await tutorialInstance.prepareForSave();
     }
 
     this.fileData = file.getJSON();

@@ -18,7 +18,7 @@
 
 /**
  * Checks the preview for right triangles
- * @return {Array<Object>}
+ * @return {Object}
  */
 function validate() {
   let getPoints = function(line) {

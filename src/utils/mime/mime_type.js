@@ -107,7 +107,7 @@ cwc.utils.mime.Type = {
   },
   OGG_AUDIO: {
     descr: 'OGG audio',
-    ext: ['.oga'],
+    ext: ['.oga', '.ogg'],
     type: 'audio/ogg',
   },
   WEBM_AUDIO: {
@@ -202,12 +202,12 @@ cwc.utils.mime.Type = {
   },
   MPEG: {
     descr: 'MPEG Video',
-    ext: ['.mpeg'],
+    ext: ['.mpeg', '.mp4'],
     type: 'video/mpeg',
   },
   OGG_VIDEO: {
     descr: 'OGG video',
-    ext: ['.ogv'],
+    ext: ['.ogv', '.ogg'],
     type: 'video/ogg',
   },
   WEBM_VIDEO: {
@@ -241,4 +241,51 @@ cwc.utils.mime.getByType = function(type) {
     }
   }
   return '';
+};
+
+/**
+ * @param {string} mime_prefix
+ * @return {Object}
+ */
+cwc.utils.mime.getFilterByType = function(mime_prefix) {
+  mime_prefix = mime_prefix.toLowerCase() + '/';
+  let mime_types = {};
+  for (let entry in cwc.utils.mime.Type) {
+    if (!Object.prototype.hasOwnProperty.call(cwc.utils.mime.Type, entry)) {
+      continue;
+    }
+    if (cwc.utils.mime.Type[entry].type.toLowerCase().startsWith(mime_prefix)) {
+      mime_types[entry] = cwc.utils.mime.Type[entry];
+    }
+  }
+  return mime_types;
+};
+
+/**
+ * @param {string} mime_prefix
+ * @return {Array<string>}
+ */
+cwc.utils.mime.getExtensionsForType = function(mime_prefix) {
+  let mime_types = cwc.utils.mime.getFilterByType(mime_prefix);
+  let extensions = [];
+  for (let entry in mime_types) {
+    if (!Object.prototype.hasOwnProperty.call(mime_types, entry)) {
+      continue;
+    }
+    extensions = extensions.concat(mime_types[entry].ext);
+  }
+  return extensions;
+};
+
+/**
+ * @param {string} mime_prefix
+ * @return {Object}
+ */
+cwc.utils.mime.getAcceptedTypesEntry = function(mime_prefix) {
+  return {
+    'description': mime_prefix.charAt(0).toUpperCase() + mime_prefix.slice(1),
+    'extensions': cwc.utils.mime.getExtensionsForType(mime_prefix).map((e) => {
+      return e.replace(/^\./, '');
+    }),
+  };
 };

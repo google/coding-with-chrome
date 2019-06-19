@@ -270,7 +270,7 @@ cwc.fileHandler.FileLoader.prototype.loadCWCFile = async function(data,
   let tutorialInstance = this.helper.getInstance('tutorial');
   let tutorialAvailable = file.getTutorial(userLanguage);
   if (tutorialInstance && tutorialAvailable) {
-    tutorialInstance.setTutorial(file.getTutorial(userLanguage));
+    tutorialInstance.setTutorial(file.getTutorial(userLanguage), userLanguage);
   }
 
   // Handle sidebar icons

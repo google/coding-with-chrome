@@ -1,0 +1,78 @@
+/**
+
+ * @fileoverview Tutorial Editor Help messages
+ *
+ * @license Copyright 2019 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mdiehl@workbenchplatform.com (Matt Diehl)
+ * @author carheden@google.com (Adam Carheden)
+ */
+{namespace cwc.soy.ui.tutorial.EditorHelp autoescape="strict"}
+
+
+/**
+ * Example code
+ */
+{template .example_code}
+  {@param prefix: string}
+  {call .help_ data="all"}
+    {param content kind="html"}
+      {msg desc="How code is validated"}@@TUTORIAL_EDITOR__HELP_EXAMPLE_CODE{/msg}
+    {/param}
+  {/call}
+{/template}
+
+/**
+ * Validation
+ */
+{template .validation}
+  {@param prefix: string}
+  {call .help_ data="all"}
+    {param content kind="html"}
+      {msg desc="How code is validated"}@@TUTORIAL_EDITOR__HELP_VALIDATION{/msg}
+    {/param}
+  {/call}
+{/template}
+/**
+ * Match text
+ */
+{template .match_text}
+  {@param prefix: string}
+  {call .help_ data="all"}
+    {param content kind="html"}
+      {msg desc="How code is validated by matching text"}@@TUTORIAL_EDITOR__HELP_MATCH_TEXT{/msg}
+    {/param}
+  {/call}
+{/template}
+/**
+ * Run code
+ */
+{template .run_code}
+  {@param prefix: string}
+  {call .help_ data="all"}
+    {param content kind="html"}
+      {msg desc="How the student's code is validated by running code"}@@TUTORIAL_EDITOR__HELP_RUN_CODE{/msg}
+    {/param}
+  {/call}
+{/template}
+
+/**
+ * Help message to appear in dialog
+ */
+{template .help_ private="true"}
+  {@param prefix: string}
+  {@param content: string}
+  <div class='{$prefix}help-message'>{$content}</div>
+{/template}

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for the sidebar (English).
+ * @fileoverview Tutorial Editor Events
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -15,13 +15,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author mbordihn@google.com (Markus Bordihn)
+ * @author carheden@google.com (Adam Carheden)
  */
-Locales['eng']['SIDEBAR'] = {
-  'ADD_TUTORIAL': 'Add tutorial',
-  'FILE_DESCRIPTION': 'Show file description',
-  'LIBRARY': 'Open file library',
-  'MEDIA': 'Upload and insert media',
-  'TOUR': 'Start/restart tour',
-  'TUTORIAL': 'Start/restart tutorial',
+goog.provide('cwc.ui.tutorial.EditorEvents');
+
+/**
+ * @enum {number}
+ */
+cwc.ui.tutorial.EditorEvents.Type = {
+  CLOSE: 'close',
 };
+
+/**
+ * @param {!bool} save
+ * @param {!Object} source
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.ui.tutorial.EditorEvents.close = function(save, source) {
+  return new cwc.utils.EventData(cwc.ui.tutorial.EditorEvents.Type.CLOSE, save,
+    source);
+};
+
+

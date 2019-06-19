@@ -346,7 +346,11 @@ cwc.fileFormat.File.prototype.setMetadata = function(name, value,
   if (!(namespace in this.metadata_)) {
     this.metadata_[namespace] = {};
   }
-  this.metadata_[namespace][name] = value;
+  if (name) {
+    this.metadata_[namespace][name] = value;
+  } else {
+    this.metadata_[namespace] = value;
+  }
   return this;
 };
 

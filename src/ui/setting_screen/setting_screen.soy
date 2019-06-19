@@ -368,6 +368,14 @@
           {param id: 'workbench-fetch' /}
           {param opt_restart: true /}
         {/call}
+
+        {call .setting_ data="all"}
+          {param title: 'Teacher Mode' /}
+          {param text: 'Allow tutorials to be edited' /}
+          {param type: 'switch' /}
+          {param id: 'teacher-mode' /}
+          {param opt_restart: true /}
+        {/call}
       </ul>
 
       <div class="mdl-card__supporting-text">
