@@ -48,7 +48,7 @@ How to build your own Coding with Chrome App
 Download the source files manual from GitHub or with git by running:
 
 ```bash
-git clone --recursive git://github.com/google/coding-with-chrome.git
+git clone --recursive https://github.com/google/coding-with-chrome.git
 ```
 
 ### Switch into the downloaded folder

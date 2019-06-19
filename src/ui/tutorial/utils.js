@@ -26,6 +26,7 @@ goog.require('goog.html.sanitizer.HtmlSanitizer');
 
 /** @const {string} */
 cwc.ui.TutorialUtils.databaseReferenceKey = 'dbref';
+
 /** @const {string} */
 cwc.ui.TutorialUtils.objectStoreName_ = '__tutorial__';
 
@@ -75,19 +76,21 @@ cwc.ui.TutorialUtils = function(prefix, helper, imagesDb) {
   this.sanitizer_ = new goog.html.sanitizer.HtmlSanitizer();
 };
 
+
 /**
  * @param {cwc.utils.Database} imagesDb
  */
 cwc.ui.TutorialUtils.prototype.initImagesDb = async function(imagesDb) {
   if (imagesDb) {
     this.imagesDb = imagesDb;
-  } else if (!this.imagesDb) {
+  } else {
     this.imagesDb = new cwc.utils.Database('Tutorial')
       .setObjectStoreName(cwc.ui.TutorialUtils.objectStoreName_);
     await this.imagesDb.open({'objectStoreNames':
       [cwc.ui.TutorialUtils.objectStoreName_]});
   }
 };
+
 
 /**
  * Caches a set of binary specs. Adds a database key to any successfully cached
@@ -99,6 +102,7 @@ cwc.ui.TutorialUtils.prototype.cacheMediaSet = async function(specs) {
     await this.cacheMedia(spec);
   }));
 };
+
 
 /**
  * Adds binary spec (json object with either a url or mime type and base64
@@ -125,6 +129,7 @@ cwc.ui.TutorialUtils.prototype.cacheMedia = async function(spec) {
     spec[cwc.ui.TutorialUtils.databaseReferenceKey] = db_key;
   }
 };
+
 
 /**
  * Downloads and caches the url content using the url as the database key.
@@ -157,6 +162,7 @@ cwc.ui.TutorialUtils.prototype.ensureUrlInDb_ = async function(url) {
   return await this.ensureBlobInDb_(url, blob);
 };
 
+
 /**
  * @param {!Object} spec
  * @return {!string|boolean}
@@ -182,6 +188,7 @@ cwc.ui.TutorialUtils.prototype.ensureObjectInDb_ = async function(spec) {
   return await this.ensureBlobInDb_(key, blob, true);
 };
 
+
 /**
  * @param {!string} key
  * @param {!Object} data
@@ -206,8 +213,8 @@ cwc.ui.TutorialUtils.prototype.ensureBlobInDb_ =
 
 /**
  * Filters an array of filenames or URLs for those that are videos
- * @param {Array<Objects>} items
- * @param {bool} cachedOnly
+ * @param {Array<Object>} items
+ * @param {boolean} cachedOnly
  * @return {Array<string>}
  * @export
  */
@@ -216,10 +223,11 @@ cwc.ui.TutorialUtils.prototype.getVideoKeys = function(items,
   return this.getKeys(items.filter(this.isVideo_), cachedOnly);
 };
 
+
 /**
  * Filters an array of filenames or URLs for those that are images
- * @param {Array<Objects>} items
- * @param {bool} cachedOnly
+ * @param {Array<Object>} items
+ * @param {boolean} cachedOnly
  * @return {Array<string>}
  * @export
  */
@@ -230,11 +238,12 @@ cwc.ui.TutorialUtils.prototype.getImageKeys = function(items,
   }), cachedOnly);
 };
 
+
 /**
  * Translates an array of media specs into the database keys, filtering items
  * that have no keys.
- * @param {Array<Objects>} items
- * @param {bool} cachedOnly
+ * @param {Array<Object>} items
+ * @param {boolean} cachedOnly
  * @return {Array<string>}
  * @export
  */
@@ -249,9 +258,10 @@ cwc.ui.TutorialUtils.prototype.getKeys = function(items, cachedOnly = true) {
     });
 };
 
+
 /**
  * @param {object|string} item
- * @return {bool}
+ * @return {boolean}
  * @private
  */
 cwc.ui.TutorialUtils.prototype.isVideo_ = function(item) {
@@ -272,6 +282,7 @@ cwc.ui.TutorialUtils.prototype.isVideo_ = function(item) {
   return false;
 };
 
+
 /**
  * Captures references to elements needed by the media overlay.
  * @private
@@ -288,6 +299,7 @@ cwc.ui.TutorialUtils.prototype.initMediaOverlay_ = function() {
     this.hideMedia_();
   });
 };
+
 
 /**
  * Renders cached media from database to DOM.
@@ -306,6 +318,7 @@ cwc.ui.TutorialUtils.prototype.initMedia_ = function(parentElement) {
     // TODO: display youtube and video thumbnails
   });
 };
+
 
 /**
  * @param {Element} button
@@ -396,6 +409,7 @@ cwc.ui.TutorialUtils.prototype.onMediaClick_ = async function(button) {
   }
 };
 
+
 /**
  * Strips potentially malicious URL bits
  * @param {string} youtubeUrl
@@ -452,11 +466,12 @@ cwc.ui.TutorialUtils.prototype.initStepMediaButtons_ = function(parentElement) {
   });
 };
 
+
 /**
  * Clears references to elements
  */
 cwc.ui.TutorialUtils.prototype.clear = function() {
-  this.imagesDb = false;
+  this.imagesDb = null;
   this.nodeMediaOverlay_ = null;
   this.nodeMediaOverlayClose_ = null;
   this.nodeMediaOverlayContent_ = null;
@@ -464,6 +479,7 @@ cwc.ui.TutorialUtils.prototype.clear = function() {
     URL.revokeObjectURL(this.objectURLs_.pop());
   }
 };
+
 
 /**
  * @param {!Object} textObject
@@ -504,6 +520,7 @@ cwc.ui.TutorialUtils.prototype.sanitizeTextObject = function(textObject) {
   return this.sanitizeHtml(html);
 };
 
+
 /**
  * @param {!string} html
  * @return {!string}
@@ -512,6 +529,7 @@ cwc.ui.TutorialUtils.prototype.sanitizeHtml = function(html) {
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(
     goog.html.SafeHtml.unwrap(this.sanitizer_.sanitize(html)));
 };
+
 
 /**
  * @param {!Object} textObject
