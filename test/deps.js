@@ -235,7 +235,7 @@ goog.addDependency('../../../../src/ui/tutorial/editor/editor.js', ['cwc.ui.tuto
 goog.addDependency('../../../../src/ui/tutorial/editor/events.js', ['cwc.ui.tutorial.EditorEvents'], [], {});
 goog.addDependency('../../../../src/ui/tutorial/tutorial.js', ['cwc.ui.Tutorial'], ['cwc.mode.Type', 'cwc.soy.ui.Tutorial', 'cwc.ui.TutorialUtils', 'cwc.ui.TutorialValidator', 'cwc.ui.tutorial.Editor', 'cwc.ui.tutorial.EditorEvents', 'cwc.utils.Database', 'cwc.utils.Events', 'cwc.utils.Helper', 'cwc.utils.Logger', 'cwc.utils.Resources', 'cwc.utils.mime.Type', 'goog.dom', 'goog.dom.classes', 'goog.events', 'goog.html.SafeHtml', 'goog.soy', 'goog.string', 'goog.style', 'goog.ui.Component', 'soydata.VERY_UNSAFE'], {});
 goog.addDependency('../../../../src/ui/tutorial/utils.js', ['cwc.ui.TutorialUtils'], ['cwc.utils.Database', 'cwc.utils.Helper', 'cwc.utils.Logger', 'goog.html.sanitizer.HtmlSanitizer'], {});
-goog.addDependency('../../../../src/ui/tutorial/validator.js', ['cwc.ui.TutorialValidator'], ['cwc.soy.ui.Tutorial', 'cwc.utils.Events', 'cwc.utils.Helper', 'cwc.utils.Logger', 'goog.dom', 'goog.events'], {});
+goog.addDependency('../../../../src/ui/tutorial/validator.js', ['cwc.ui.TutorialValidator'], ['cwc.soy.ui.Tutorial', 'cwc.utils.Events', 'cwc.utils.Helper', 'cwc.utils.Logger', 'goog.dom', 'goog.events', 'goog.string'], {});
 goog.addDependency('../../../../src/ui/whats_new/whats_new.js', ['cwc.ui.WhatsNew'], ['cwc.soy.ui.WhatsNew', 'cwc.utils.Events', 'cwc.utils.Helper', 'goog.dom'], {});
 goog.addDependency('../../../../src/utils/byte_array.js', ['cwc.utils.ByteArray', 'cwc.utils.ByteArrayTypes'], [], {});
 goog.addDependency('../../../../src/utils/byte_tools.js', ['cwc.utils.ByteTools'], [], {});

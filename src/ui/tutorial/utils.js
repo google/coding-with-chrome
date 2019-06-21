@@ -92,22 +92,31 @@ cwc.ui.TutorialUtils.prototype.initImagesDb = async function(imagesDb) {
 /**
  * Caches a set of binary specs. Adds a database key to any successfully cached
  * specs.
- * @param {Object} specs
+ * @param {Array<Object>} specs
+ * @return {Array<Object>}
  */
 cwc.ui.TutorialUtils.prototype.cacheMediaSet = async function(specs) {
-  await Promise.all(specs.map(async (spec) => {
-    await this.cacheMedia(spec);
+  return await Promise.all(specs.map(async (spec) => {
+    return await this.cacheMedia(spec);
   }));
 };
 
 /**
  * Adds binary spec (json object with either a url or mime type and base64
  * encoded blob) to the cache and adds the database key to the object.
- * @param {Object} spec
+ * @param {Object|string} spec
+ * @return {Object}
  */
 cwc.ui.TutorialUtils.prototype.cacheMedia = async function(spec) {
-  await this.initImagesDb();
+  if (typeof spec == 'string') {
+    let specObj = {
+      'url': spec,
+    };
+    specObj[cwc.ui.TutorialUtils.databaseReferenceKey] = spec;
+    return specObj;
+  }
   let db_key = false;
+  await this.initImagesDb();
   if ('youtube_id' in spec) {
     let youtubeId = await this.getYouTubeVideoId(spec['youtube_id']);
     if (!youtubeId) {
@@ -124,6 +133,7 @@ cwc.ui.TutorialUtils.prototype.cacheMedia = async function(spec) {
   if (db_key) {
     spec[cwc.ui.TutorialUtils.databaseReferenceKey] = db_key;
   }
+  return spec;
 };
 
 /**
