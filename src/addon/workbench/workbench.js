@@ -78,9 +78,6 @@ cwc.addon.Workbench = function(helper) {
  * @private
  */
 cwc.addon.Workbench.prototype.prepare = async function() {
-  if (!this.helper.experimentalEnabled()) {
-    return;
-  }
 
   this.log_.info('Preparing Workbench addon...');
 
