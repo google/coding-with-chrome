@@ -84,6 +84,7 @@ cwc.ui.tutorial.Editor = function(helper, utils) {
   this.utils_ = utils;
 };
 
+
 /**
  * @param {!Object} tutorial
  * @param {Element} container
@@ -134,6 +135,7 @@ cwc.ui.tutorial.Editor.prototype.edit = function(tutorial, container) {
   cwc.ui.Helper.mdlRefresh();
 };
 
+
 /**
  * @param {!Object} tutorial
  * @private
@@ -152,8 +154,9 @@ cwc.ui.tutorial.Editor.prototype.initFields_ = function(tutorial) {
   }
 };
 
+
 /**
- * @param {int} id
+ * @param {number} id
  * @return {Element}
  * @private
  */
@@ -168,9 +171,9 @@ cwc.ui.tutorial.Editor.prototype.getStepElement_ = function(id) {
 
 
 /**
- * @param {int} id
+ * @param {number} id
  * @param {Object} template
- * @param {bool} collapsed
+ * @param {boolean} collapsed
  * @return {Object}
  * @private
  */
@@ -220,8 +223,9 @@ cwc.ui.tutorial.Editor.prototype.initStep_ = function(id, template, collapsed) {
   };
 };
 
+
 /**
- * @param {int} id
+ * @param {number} id
  * @param {Element} stepElement
  * @private
  */
@@ -233,6 +237,7 @@ cwc.ui.tutorial.Editor.prototype.initStepButtons_ = function(id, stepElement) {
   this.initStepDeleteMediaButtons_(id, stepElement);
   this.initStepPositionButtons_(id, stepElement);
 };
+
 
 /**
  * @param {Element} stepElement
@@ -246,6 +251,7 @@ cwc.ui.tutorial.Editor.prototype.initStepValidate_ = function(stepElement,
   this.initStepValidateLoadCodeButton_(validate['code'], stepElement);
   return validate;
 };
+
 
 /**
  * @param {Element} stepElement
@@ -298,6 +304,7 @@ cwc.ui.tutorial.Editor.prototype.initStepValidateToggle_ = function(stepElement,
   return validate;
 };
 
+
 /**
  * @param {Object} codeEditor
  * @param {Element} stepElement
@@ -348,8 +355,9 @@ cwc.ui.tutorial.Editor.prototype.initStepValidateLoadCodeButton_ =
   });
 };
 
+
 /**
- * @param {int} id
+ * @param {number} id
  * @param {Element} stepElement
  * @private
  */
@@ -387,8 +395,9 @@ cwc.ui.tutorial.Editor.prototype.initStepPositionButtons_ =
   });
 };
 
+
 /**
- * @param {int} stepId
+ * @param {number} stepId
  * @param {Element} stepElement
  */
 cwc.ui.tutorial.Editor.prototype.initStepDeleteMediaButtons_ = function(stepId,
@@ -402,8 +411,9 @@ cwc.ui.tutorial.Editor.prototype.initStepDeleteMediaButtons_ = function(stepId,
   });
 };
 
+
 /**
- * @param {int} stepId
+ * @param {number} stepId
  * @param {Element} deleteButton
  */
 cwc.ui.tutorial.Editor.prototype.deleteMedia_ = function(stepId, deleteButton) {
@@ -456,6 +466,7 @@ cwc.ui.tutorial.Editor.prototype.initStepNewMediaButtons_ = function(stepId,
   }
 };
 
+
 /**
  * @param {string} stepId
  * @private
@@ -485,8 +496,9 @@ cwc.ui.tutorial.Editor.prototype.handleStepAttachmentClick_ = function(stepId) {
   });
 };
 
+
 /**
- * @param {Entry} file_entry
+ * @param {Object} file_entry
  * @return {Object}
  * @private
  */
@@ -526,8 +538,9 @@ cwc.ui.tutorial.Editor.prototype.readAttachment_ = async function(file_entry) {
   });
 };
 
+
 /**
- * @param {int} stepId
+ * @param {number} stepId
  * @private
  */
 cwc.ui.tutorial.Editor.prototype.handleStepYoutubeClick_ =
@@ -555,8 +568,9 @@ cwc.ui.tutorial.Editor.prototype.handleStepYoutubeClick_ =
   this.rerender_();
 };
 
+
 /**
- * @param {int} id
+ * @param {number} id
  * @private
  */
 cwc.ui.tutorial.Editor.prototype.deleteStep_ = function(id) {
@@ -565,9 +579,10 @@ cwc.ui.tutorial.Editor.prototype.deleteStep_ = function(id) {
   this.steps_.splice(id, 1);
 };
 
+
 /**
- * @param {int} id1
- * @param {int} id2
+ * @param {number} id1
+ * @param {number} id2
  * @private
  */
 cwc.ui.tutorial.Editor.prototype.swapSteps_ = function(id1, id2) {
@@ -591,6 +606,7 @@ cwc.ui.tutorial.Editor.prototype.swapSteps_ = function(id1, id2) {
   this.rerender_();
 };
 
+
 /**
  * @param {Object} tutorial
  * @private
@@ -601,6 +617,7 @@ cwc.ui.tutorial.Editor.prototype.rerender_ = function(tutorial) {
   }
   this.edit(tutorial);
 };
+
 
 /**
  * @private
@@ -620,8 +637,9 @@ cwc.ui.tutorial.Editor.prototype.newStep_ = function() {
   this.scrollToStep_(tutorial['steps'].length - 1);
 };
 
+
 /**
- * @param {int} id
+ * @param {number} id
  * @private
  */
 cwc.ui.tutorial.Editor.prototype.scrollToStep_ = function(id) {
@@ -636,7 +654,7 @@ cwc.ui.tutorial.Editor.prototype.scrollToStep_ = function(id) {
 /**
  * @param {Element} target
  * @param {Object} content
- * @param {int} height
+ * @param {number} height
  * @return {Object|Element}
  * @private
  */
@@ -749,6 +767,7 @@ cwc.ui.tutorial.Editor.prototype.getCurrentEditorParams_ = function() {
   return params;
 };
 
+
 /**
  * @private
  */
@@ -771,19 +790,16 @@ cwc.ui.tutorial.Editor.prototype.initButtons_ = function() {
     });
   });
 
-  this.initHelpButtons_('example-code',
-    Locales['eng']['TUTORIAL_EDITOR']['EXAMPLE_CODE'],
-      cwc.soy.ui.tutorial.EditorHelp.example_code);
-  this.initHelpButtons_('validation',
-    Locales['eng']['TUTORIAL_EDITOR']['VALIDATION'],
-      cwc.soy.ui.tutorial.EditorHelp.validation);
-  this.initHelpButtons_('match-text',
-    Locales['eng']['TUTORIAL_EDITOR']['MATCH_TEXT'],
-      cwc.soy.ui.tutorial.EditorHelp.match_text);
-  this.initHelpButtons_('run-code',
-    Locales['eng']['TUTORIAL_EDITOR']['RUN_CODE'],
-      cwc.soy.ui.tutorial.EditorHelp.run_code);
+  this.initHelpButtons_('example-code', i18t('@@TUTORIAL_EDITOR__EXAMPLE_CODE'),
+    cwc.soy.ui.tutorial.EditorHelp.example_code);
+  this.initHelpButtons_('validation', i18t('@@TUTORIAL_EDITOR__VALIDATION'),
+    cwc.soy.ui.tutorial.EditorHelp.validation);
+  this.initHelpButtons_('match-text', i18t('@@TUTORIAL_EDITOR__MATCH_TEXT'),
+    cwc.soy.ui.tutorial.EditorHelp.match_text);
+  this.initHelpButtons_('run-code', i18t('@@TUTORIAL_EDITOR__RUN_CODE'),
+    cwc.soy.ui.tutorial.EditorHelp.run_code);
 };
+
 
 /**
  * @param {string} selectorSuffix
@@ -806,6 +822,7 @@ cwc.ui.tutorial.Editor.prototype.initHelpButtons_ = function(selectorSuffix,
   });
 };
 
+
 /**
  * @return {!Object} tutorial
  * @export
@@ -821,6 +838,7 @@ cwc.ui.tutorial.Editor.prototype.getTutorial = function() {
   this.log_.info('Generated tutorial', tutorial);
   return tutorial;
 };
+
 
 /**
  * @param {string} id
@@ -854,6 +872,7 @@ cwc.ui.tutorial.Editor.prototype.getStepForSave_ = function(id) {
   };
 };
 
+
 /**
  * Strips database references. Used when preparing for save.
  * @param {Array<Object>} specs
@@ -866,6 +885,7 @@ cwc.ui.tutorial.Editor.prototype.stripDBRefs_ = function(specs) {
     return spec;
   });
 };
+
 
 /**
  * @param {Object} editor
@@ -885,6 +905,7 @@ cwc.ui.tutorial.Editor.prototype.saveEditor_ = function(editor) {
   };
 };
 
+
 /**
  * @return {!goog.events.EventTarget}
  */
@@ -892,8 +913,9 @@ cwc.ui.tutorial.Editor.prototype.getEventTarget = function() {
   return this.eventTarget_;
 };
 
+
 /**
- * @param {!bool} save
+ * @param {!boolean} save
  * @private
  */
 cwc.ui.tutorial.Editor.prototype.close_ = function(save) {

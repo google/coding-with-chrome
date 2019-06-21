@@ -152,6 +152,7 @@ cwc.ui.Tutorial.prototype.setTutorial = async function(tutorial, language,
   this.startTutorial();
 };
 
+
 /**
  * Returns true if a tutorial has been loaded.
  * @return {boolean}
@@ -160,6 +161,7 @@ cwc.ui.Tutorial.prototype.setTutorial = async function(tutorial, language,
 cwc.ui.Tutorial.prototype.hasTutorial = function() {
   return this.contentSet_;
 };
+
 
 /**
  * @param {string} language
@@ -189,6 +191,7 @@ cwc.ui.Tutorial.prototype.newTutorial = async function(language) {
     ],
   }, language);
 };
+
 
 /**
  * @param {!Object} steps
@@ -273,6 +276,7 @@ cwc.ui.Tutorial.prototype.addStep_ = async function(stepTemplate, id) {
   };
 };
 
+
 /**
  * Renders the tutorial in the sidebar.
  * @export
@@ -340,6 +344,7 @@ cwc.ui.Tutorial.prototype.initUI_ = function() {
   this.setState_(state);
 };
 
+
 /**
  * Initialize edit icon if editing is allowed
  * @private
@@ -369,6 +374,7 @@ cwc.ui.Tutorial.prototype.initEdit_ = function() {
       this.handleEditorClose_.bind(this));
   });
 };
+
 
 /**
  * @param {!Event} e
@@ -469,6 +475,7 @@ cwc.ui.Tutorial.prototype.jumpToStep_ = function(stepID) {
   this.cancelTour_();
 };
 
+
 /**
  * @private
  */
@@ -478,6 +485,7 @@ cwc.ui.Tutorial.prototype.cancelTour_ = function() {
     tour.cancel();
   }
 };
+
 
 /**
  * Scrolls the tutorial to the top of the given step.
@@ -558,6 +566,7 @@ cwc.ui.Tutorial.prototype.setState_ = function(change) {
   }
 };
 
+
 /**
  * Tests if the editor has been modified from the example code
  * @return {!boolean}
@@ -577,6 +586,7 @@ cwc.ui.Tutorial.prototype.isEditorDirty_ = function() {
   }
   return true;
 };
+
 
 /**
  * Prompts to overwrite dirty editor and loads code if user confirms
@@ -626,6 +636,7 @@ cwc.ui.Tutorial.prototype.loadCode_ = function() {
   this.restartValidate_();
 };
 
+
 /**
  * Starts a per-step tour
  * @private
@@ -647,6 +658,7 @@ cwc.ui.Tutorial.prototype.loadTour = function() {
   this.cancelTour_();
   this.tour_.getTour().start();
 };
+
 
 /**
  * Updates the view to reflect the current state
@@ -713,6 +725,7 @@ cwc.ui.Tutorial.prototype.restartValidate_ = function() {
   this.validator_.start();
 };
 
+
 /**
  * @param {string} message
  * @export
@@ -770,6 +783,7 @@ cwc.ui.Tutorial.prototype.clear = function() {
   }
 };
 
+
 /**
  * Exports tutorial to file metadata
  */
@@ -790,8 +804,9 @@ cwc.ui.Tutorial.prototype.prepareForSave = async function() {
   }
 };
 
+
 /**
- * @param {bool} saveDBKeys
+ * @param {boolean} saveDBKeys
  * @return {!string}
  * @private
  */
@@ -811,11 +826,12 @@ cwc.ui.Tutorial.prototype.getJSON_ = async function(saveDBKeys) {
   return json;
 };
 
+
 /**
- * @param {!object} step
- * @param {bool} saveDBKeys
- * @param {int} order
- * @return {!object}
+ * @param {!Object} step
+ * @param {boolean} saveDBKeys
+ * @param {number} order
+ * @return {!Object}
  * @private
  */
 cwc.ui.Tutorial.prototype.getStepJSON_ = async function(step, saveDBKeys,
@@ -838,10 +854,11 @@ cwc.ui.Tutorial.prototype.getStepJSON_ = async function(step, saveDBKeys,
   };
 };
 
+
 /**
- * @param {!object} image
+ * @param {!Object} image
  * @param {!bool} saveDBKeys
- * @return {object|bool}
+ * @return {Object|boolean}
  * @private
  */
 cwc.ui.Tutorial.prototype.serializeImage_ = async function(image, saveDBKeys) {
@@ -878,6 +895,7 @@ cwc.ui.Tutorial.prototype.serializeImage_ = async function(image, saveDBKeys) {
     'data': data,
   };
 };
+
 
 /**
  * @return {!bool}
