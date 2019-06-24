@@ -178,7 +178,7 @@ cwc.ui.Tutorial.prototype.newTutorial = async function(language) {
   await this.setTutorial({
     'description': {
       'mime_type': 'text/plain',
-      'text': '<a href="#">this</a>is this a link',
+      'text': '',
     },
     'steps': [
       {
@@ -243,7 +243,8 @@ cwc.ui.Tutorial.prototype.addStep_ = async function(stepTemplate, id) {
     }
   }
 
-  await this.utils_.cacheMediaSet(stepTemplate['images'] || []);
+  stepTemplate['images'] = await this.utils_.cacheMediaSet(
+    stepTemplate['images'] || []);
 
   let tour = false;
   if (stepTemplate['tour']) {
@@ -306,7 +307,8 @@ cwc.ui.Tutorial.prototype.startTutorial = function() {
           youtube_videos: (step.videos || []).map((video) =>
             video['youtube_id']
           ),
-          hasCode: step.code && !goog.string.isEmptyOrWhitespace(step.code),
+          hasCode: (step.code && !goog.string.isEmptyOrWhitespace(step.code)) ?
+            true : false,
           hasTour: step.tour ? true : false,
         })),
       }
