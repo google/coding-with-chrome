@@ -78,9 +78,7 @@ cwc.addon.Workbench = function(helper) {
  * @private
  */
 cwc.addon.Workbench.prototype.prepare = async function() {
-
   this.log_.info('Preparing Workbench addon...');
-
   await this.projectsDb_.open(this.databaseConfig_);
   await this.imagesDb_.open(this.databaseConfig_);
   this.loader_.loadProjects();
@@ -241,10 +239,8 @@ cwc.addon.Workbench.prototype.loadProjectAsTutorial_ =
  */
 cwc.addon.Workbench.prototype.getExampleCode_ = async function(step, mode) {
   const WB_ATTACHMENTS_KEY = 'others';
-  if (!(WB_ATTACHMENTS_KEY in step)) {
-    return '';
-  }
-  if (!Array.isArray(step[WB_ATTACHMENTS_KEY])) {
+  if (!(WB_ATTACHMENTS_KEY in step) ||
+      !Array.isArray(step[WB_ATTACHMENTS_KEY])) {
     return '';
   }
   let attachments = step[WB_ATTACHMENTS_KEY];
@@ -265,8 +261,7 @@ cwc.addon.Workbench.prototype.getExampleCode_ = async function(step, mode) {
       continue;
     }
     if (!url.pathname.match(/\.cwc(t)?$/i)) {
-      this.log_.info('Ignoring', entry,
-        'because it does not end with a CwC extenson');
+      this.log_.info('Ignoring', entry, 'without a CwC extenson.');
       continue;
     }
     if (code) {
@@ -282,7 +277,7 @@ cwc.addon.Workbench.prototype.getExampleCode_ = async function(step, mode) {
     }
   }
   if (!code) {
-    this.log_.info('No attachments in ', attachments, 'were CwC files');
+    this.log_.info('No attachments in', attachments, 'were CwC files');
     return '';
   }
   return code;
