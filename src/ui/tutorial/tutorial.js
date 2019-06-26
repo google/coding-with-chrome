@@ -23,6 +23,7 @@ goog.provide('cwc.ui.Tutorial');
 
 goog.require('cwc.ui.tutorial.Editor');
 goog.require('cwc.ui.tutorial.EditorEvents');
+goog.require('cwc.mode.Mod');
 goog.require('cwc.mode.Type');
 goog.require('cwc.soy.ui.Tutorial');
 goog.require('cwc.ui.TutorialValidator');
@@ -573,20 +574,76 @@ cwc.ui.Tutorial.prototype.setState_ = function(change) {
  * @private
  */
 cwc.ui.Tutorial.prototype.isEditorDirty_ = function() {
-  let editorInstance = this.helper.getInstance('editor');
   let activeStep = this.getActiveStep_();
-  let code = editorInstance.getEditorContent(editorInstance.getCurrentView());
-
-  // It's always ok to load code into an empty editor
-  if (goog.string.isEmptyOrWhitespace(code)) {
+  if (!(activeStep && activeStep.code)) {
     return false;
   }
-  if (activeStep && activeStep.code && activeStep.code.trim() === code.trim()) {
+  if (cwc.mode.Mod.isBlockly(this.helper.getInstance('file').getMode())) {
+    return this.isBlocklyEditorDirty_(activeStep.code);
+  }
+  return this.isCodeEditorDirty_(activeStep.code);
+};
+
+/**
+ * @param {!string} stepCode
+ * @return {!boolean}
+ * @private
+ */
+cwc.ui.Tutorial.prototype.isCodeEditorDirty_ = function(stepCode) {
+  let editorInstance = this.helper.getInstance('editor');
+  let liveCode = editorInstance.getEditorContent(
+    editorInstance.getCurrentView());
+
+  // It's always ok to load code into an empty editor
+  if (goog.string.isEmptyOrWhitespace(liveCode)) {
+    return false;
+  }
+  if (stepCode.trim() === liveCode.trim()) {
     return false;
   }
   return true;
 };
 
+/**
+ * @param {!string} stepCode
+ * @return {!boolean}
+ * @private
+ */
+cwc.ui.Tutorial.prototype.isBlocklyEditorDirty_ = function(stepCode) {
+  let blocklyInstance = this.helper.getInstance('blockly');
+  let stepCodeJS = '';
+  let tmpElement = goog.dom.createElement('div');
+  // Translate the step's blockly code into JavaScript to compare it with
+  // the current blokly editor's code. This lets us consider the editor dirty
+  // if the code has changed but clean if the user has zoomed or otherwise
+  // moved blocks that doesn't change functionality of the code
+  try {
+    goog.style.setElementShown(tmpElement, false);
+    goog.dom.append(document.body, tmpElement);
+    let tmpWorkspace = Blockly.inject(tmpElement,
+      blocklyInstance.getWorkspace().options);
+    let xmlString = cwc.ui.BlocklyLegacy.parse(stepCode);
+    let xmlDom = Blockly.Xml.textToDom(xmlString);
+    Blockly.Xml.clearWorkspaceAndLoadFromXml(xmlDom, tmpWorkspace);
+    stepCodeJS = Blockly.JavaScript.workspaceToCode(tmpWorkspace);
+  } catch (e) {
+    this.log_.error('Failed to parse blockly code', stepCode,
+      'error was', e);
+    goog.dom.removeNode(tmpElement);
+    return true;
+  }
+  goog.dom.removeNode(tmpElement);
+
+  let liveCode = blocklyInstance.getJavaScript();
+  // It's always ok to overwrite an empty editor
+  if (!liveCode.trim()) {
+    return false;
+  }
+  if (stepCodeJS.trim() == liveCode.trim()) {
+    return false;
+  }
+  return true;
+};
 
 /**
  * Prompts to overwrite dirty editor and loads code if user confirms
@@ -619,7 +676,6 @@ cwc.ui.Tutorial.prototype.loadCodeWithPrompt_ = function() {
 
 
 /**
- * Loads example code into editor
  * @private
  */
 cwc.ui.Tutorial.prototype.loadCode_ = function() {
@@ -627,13 +683,36 @@ cwc.ui.Tutorial.prototype.loadCode_ = function() {
   if (!(activeStep && activeStep.code)) {
     return;
   }
-  let editorInstance = this.helper.getInstance('editor');
-  // TODO: support multiple editor views
-  editorInstance.setEditorContent(activeStep.code,
-    editorInstance.getCurrentView());
-  this.log_.info('Loaded example code into editor', activeStep.code);
+  let file = this.helper.getInstance('file');
+  if (cwc.mode.Mod.isBlockly(file.getMode())) {
+    this.loadBlocklyCode_(activeStep.code);
+  } else {
+    // TODO: Support blockly
+    this.loadTextCode_(activeStep.code);
+  }
   this.solved(false);
   this.restartValidate_();
+};
+
+/**
+ * @param {!string} code
+ * @private
+ */
+cwc.ui.Tutorial.prototype.loadBlocklyCode_ = function(code) {
+  let blocklyInstance = this.helper.getInstance('blockly');
+  blocklyInstance.setContent(code);
+};
+
+/**
+ * @param {!string} code
+ * @private
+ */
+cwc.ui.Tutorial.prototype.loadTextCode_ = function(code) {
+  let editorInstance = this.helper.getInstance('editor');
+  // TODO: support multiple editor views
+  editorInstance.setEditorContent(code,
+    editorInstance.getCurrentView());
+  this.log_.info('Loaded example code into editor', code);
 };
 
 

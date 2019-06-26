@@ -256,13 +256,20 @@ cwc.ui.Blockly.prototype.addView = function(name, xml) {
   if (!xml) {
     return;
   }
+  this.log_.info('Add view', name, '(', xml.length, ')');
+  this.setContent(xml);
+};
+
+/**
+ * @param {string=} xml
+ */
+cwc.ui.Blockly.prototype.setContent = function(xml) {
   let workspace = this.getWorkspace();
   if (workspace) {
-    this.log_.info('Add view', name, '(', xml.length, ')');
     let xmlString = cwc.ui.BlocklyLegacy.parse(xml);
     let xmlDom = Blockly.Xml.textToDom(xmlString);
     try {
-      Blockly.Xml.domToWorkspace(xmlDom, workspace);
+      Blockly.Xml.clearWorkspaceAndLoadFromXml(xmlDom, workspace);
       this.resetZoom();
       workspace.undoStack_ = [];
       workspace.redoStack_ = [];

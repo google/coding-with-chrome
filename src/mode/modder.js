@@ -22,6 +22,7 @@ goog.provide('cwc.mode.Modder');
 
 goog.require('cwc.mode.Config');
 goog.require('cwc.mode.Service');
+goog.require('cwc.mode.Mod');
 goog.require('cwc.mode.Type');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.Logger');
@@ -269,7 +270,7 @@ cwc.mode.Modder.prototype.postModeFileData = function() {
       this.showEditor();
       break;
     default:
-      if (fileInstance.getMode().includes('blockly')) {
+      if (cwc.mode.Mod.isBlockly(fileInstance.getMode())) {
         fileInstance.setUi('blockly');
         this.showBlockly();
       } else {

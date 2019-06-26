@@ -19,12 +19,13 @@
  */
 goog.provide('cwc.ui.tutorial.Editor');
 
+goog.require('cwc.mode.Mod');
+goog.require('cwc.renderer.Helper');
 goog.require('cwc.soy.ui.tutorial.Editor');
 goog.require('cwc.soy.ui.tutorial.EditorHelp');
-goog.require('cwc.ui.tutorial.EditorEvents');
-goog.require('cwc.renderer.Helper');
-goog.require('cwc.ui.TutorialValidator');
 goog.require('cwc.ui.EditorConfig');
+goog.require('cwc.ui.tutorial.EditorEvents');
+goog.require('cwc.ui.TutorialValidator');
 goog.require('cwc.ui.EditorType');
 goog.require('cwc.ui.EditorHint');
 goog.require('cwc.utils.Helper');
@@ -115,6 +116,8 @@ cwc.ui.tutorial.Editor.prototype.edit = function(tutorial, container) {
         text_match_success_message: text_match_success_message,
       };
     }),
+    isBlockly: cwc.mode.Mod.isBlockly(
+      this.helper.getInstance('file').getMode()),
   });
 
   // The temporary steps variable lets us preserve the collapsed state of
@@ -216,6 +219,7 @@ cwc.ui.tutorial.Editor.prototype.initStep_ = function(id, template, collapsed) {
       template.description, 200),
     'images': template['images'],
     'videos': template['videos'],
+    'originalCode': template['code'],
     'code': this.initCodeEditor_(
       stepElement.querySelector(`.${this.prefix}step-example-code`),
       template['code']),
@@ -862,12 +866,17 @@ cwc.ui.tutorial.Editor.prototype.getStepForSave_ = function(id) {
       .querySelector(`.${this.prefix}step-text-match-success-message`);
     validate['message'] = validateTextMessageElement.value;
   }
+  // TODO: Support editing blockly example code
+  let code = step['originalCode'];
+  if (!cwc.mode.Mod.isBlockly(this.helper.getInstance('file').getMode())) {
+    code = step['code'].getValue() || '';
+  }
   return {
     'title': step['title'].value,
     'description': this.saveEditor_(step['description']),
     'images': this.stripDBRefs_(step['images'] || []),
     'videos': this.stripDBRefs_(step['videos'] || []),
-    'code': step['code'].getValue() || '',
+    'code': code,
     'validate': validate,
   };
 };

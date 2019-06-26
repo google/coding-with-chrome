@@ -76,3 +76,11 @@ cwc.mode.Mod.prototype.getMod = function(helper) {
   let Mod = this.mod;
   return new Mod(helper, this.showBlockly);
 };
+
+/**
+ * @param {!cwc.mode.Type} mode
+ * @return {!boolean}
+ */
+cwc.mode.Mod.isBlockly = function(mode) {
+  return mode.includes('blockly');
+};

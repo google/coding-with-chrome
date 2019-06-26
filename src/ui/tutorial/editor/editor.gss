@@ -74,6 +74,9 @@
 .{$prefix}tutorial-editor-step-field-wide {
   flex-direction: column;
 }
+.{$prefix}tutorial-editor-step-field-hidden {
+  display: none;
+}
 .{$prefix}tutorial-editor-step-field-label {
   font-weight: bold;
   flex: 1 1;

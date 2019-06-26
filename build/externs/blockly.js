@@ -129,6 +129,12 @@ Blockly.Xml.textToDom = function(text) {};
 Blockly.Xml.domToWorkspace = function(xml, workspace) {};
 
 /**
+ * @param {!Element} xml XML DOM.
+ * @param {!Blockly.WorkspaceSvg} workspace The workspace.
+ */
+Blockly.Xml.clearWorkspaceAndLoadFromXml = function(xml, workspace) {};
+
+/**
  * @param {!Element} xmlBlock XML block element.
  * @param {!Blockly.WorkspaceSvg} workspace The workspace.
  * @return {!Blockly.Block} The root block created.

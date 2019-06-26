@@ -277,7 +277,8 @@ cwc.addon.Workbench.prototype.getExampleCode_ = async function(step, mode) {
     }
   }
   if (!code) {
-    this.log_.info('No attachments in', attachments, 'were CwC files');
+    this.log_.info('No attachments in', attachments,
+      'were CwC files with the correct type of code', mode);
     return '';
   }
   return code;
@@ -288,18 +289,11 @@ cwc.addon.Workbench.prototype.getExampleCode_ = async function(step, mode) {
  * the code only if the mode of the downladed file matches the mode passed in.
  * @param {!string} url
  * @param {!cwc.mode.Type} expectMode
- * @return {string}
+ * @return {!string}
  * @private
  */
 cwc.addon.Workbench.prototype.loadExampleCodeAttachment_ =
   async function(url, expectMode) {
-  let editorInstance = this.helper.getInstance('editor');
-  if (!editorInstance) {
-    this.log_.error('Not loading', url,
-      'because we don\'t have an editor instance to match it\'s mime type to');
-    return '';
-  }
-  let editorMode = editorInstance.getEditorMode();
   let cwcJson = await cwc.utils.Resources.getUriAsText(url);
   let file;
   try {
@@ -314,26 +308,59 @@ cwc.addon.Workbench.prototype.loadExampleCodeAttachment_ =
       'doesn\'t match the expected mode of', expectMode);
     return '';
   }
-  let code = '';
+
+  if (cwc.mode.Mod.isBlockly(expectMode)) {
+    return this.getBlocklyCodeFromAttachment_(file);
+  } else {
+    return this.getTextCodeFromAttachment_(file);
+  }
+};
+
+/**
+ * Gets code from the first blockly content in a CwC file
+ * @param {!cwc.fileFormat.File} file
+ * @return {!string}
+ * @private
+ */
+cwc.addon.Workbench.prototype.getBlocklyCodeFromAttachment_ = function(file) {
   let contents = file.getContentData();
   for (let entry in contents) {
     if (!Object.prototype.hasOwnProperty.call(contents, entry)) {
       continue;
     }
-    let entryType = contents[entry].getType();
-    if (entryType == editorMode) {
-      if (code) {
-        this.log_.warn('Multiple contents with type', editorMode, 'in', url,
-          '. Ignoring', entry, contents[entry].getContent());
-        continue;
-      }
-      code = contents[entry].getContent();
-    } else {
-      this.log_.info('Skipping content', contents[entry], 'because it\'s type',
-        entryType, 'doesn\'t match the editor entry type of', editorMode);
+    if (contents[entry].getType() == cwc.utils.mime.Type.BLOCKLY.type) {
+      return contents[entry].getContent();
     }
   }
-  return code;
+  return '';
+};
+
+/**
+ * Gets code from the first content in a CwC file that matches the current
+ * editor mode.
+ * @param {!cwc.fileFormat.File} file
+ * @return {!string}
+ * @private
+ */
+cwc.addon.Workbench.prototype.getTextCodeFromAttachment_ = function(file) {
+  let editorInstance = this.helper.getInstance('editor');
+  if (!editorInstance) {
+    this.log_.error('Not loading', file,
+      'because we don\'t have an editor instance to match it\'s mime type to');
+    return '';
+  }
+  let editorMode = editorInstance.getEditorMode();
+
+  let contents = file.getContentData();
+  for (let entry in contents) {
+    if (!Object.prototype.hasOwnProperty.call(contents, entry)) {
+      continue;
+    }
+    if (contents[entry].getType() == editorMode) {
+      return contents[entry].getContent();
+    }
+  }
+  return '';
 };
 
 /**
