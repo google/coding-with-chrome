@@ -562,7 +562,7 @@ cwc.ui.tutorial.Editor.prototype.handleStepYoutubeClick_ =
     step['videos'] = [];
   }
   this.log_.info('Adding YouTube video', url, 'to step', stepId);
-  let spec = {'youtube_id': url};
+  let spec = {'youtube_id': this.utils_.getYouTubeVideoId(url)};
   await this.utils_.cacheMedia(spec);
   step['videos'].push(spec);
   this.rerender_();

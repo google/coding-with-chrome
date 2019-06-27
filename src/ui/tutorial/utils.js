@@ -122,7 +122,7 @@ cwc.ui.TutorialUtils.prototype.cacheMedia = async function(spec) {
   let db_key = false;
   await this.initImagesDb();
   if ('youtube_id' in spec) {
-    let youtubeId = await this.getYouTubeVideoId(spec['youtube_id']);
+    let youtubeId = this.getYouTubeVideoId(spec['youtube_id']);
     if (!youtubeId) {
       return;
     }
@@ -391,7 +391,7 @@ cwc.ui.TutorialUtils.prototype.onMediaClick_ = async function(button) {
     case 'youtube': {
       let content = document.createElement(this.webviewSupport_ ? 'webview' :
         'iframe');
-      let videoId = await this.getYouTubeVideoId(mediaSrc);
+      let videoId = this.getYouTubeVideoId(mediaSrc);
       if (videoId) {
         content.src = `https://www.youtube-nocookie.com/embed/${videoId}/?rel=0&amp;autoplay=0&showinfo=0`;
         this.showMedia_(content);
@@ -425,8 +425,8 @@ cwc.ui.TutorialUtils.prototype.onMediaClick_ = async function(button) {
  * @param {string} youtubeUrl
  * @return {string}
  */
-cwc.ui.TutorialUtils.prototype.getYouTubeVideoId = async function(youtubeUrl) {
-  let videoId = youtubeUrl.replace(/^http(s):\/\/[^/]\/(embed\/?)?/, '');
+cwc.ui.TutorialUtils.prototype.getYouTubeVideoId = function(youtubeUrl) {
+  let videoId = youtubeUrl.replace(/^http(s)?:\/\/[^/]*\/(embed\/)?/, '');
   try {
     let url = new URL(`https://youtu.be/${encodeURI(videoId)}`);
     return url.pathname.toString().replace(/^\//, '');
