@@ -29,6 +29,7 @@
   {@param prefix: string}
   {@param tutorialPrefix: string}
   {@param steps: list<?>}
+  {@param isBlockly: bool}
 
   <div id='{$prefix}content'>
 
@@ -44,6 +45,7 @@
           {param number: index($step) /}
           {param first: isFirst($step) /}
           {param last: isLast($step) /}
+          {param isBlockly: $isBlockly /}
         {/call}
       {/foreach}
     </div>
@@ -116,6 +118,7 @@
   {@param images: list<string>}
   {@param videos: list<string>}
   {@param youtube_videos: list<string>}
+  {@param isBlockly: bool}
   {@param? validate: string}
   {@param? text_match_success_message: string}
 
@@ -231,6 +234,7 @@
         {param field kind="html"}
           <div class='{$prefix}-example-code'></div>
         {/param}
+        {param hidden: $isBlockly /}
       {/call}
 
       {call .field_ data="all"}
@@ -369,8 +373,9 @@
   {@param? label: string}
   {@param? wide: bool}
   {@param field: string}
+  {@param? hidden: bool}
 
-  <div class='{$prefix}-field {if $wide}{$prefix}-field-wide{/if}'>
+  <div class='{$prefix}-field {if $wide}{$prefix}-field-wide{/if} {if $hidden}{$prefix}-field-hidden{/if}'>
     {if $label}<label class='{$prefix}-field-label'>{$label}</label>{/if}
     <div class='{$prefix}-field-editor{if not $label} {$prefix}-field-nolabel{/if}'>{$field}</div>
   </div>
