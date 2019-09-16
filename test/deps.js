@@ -18,7 +18,7 @@ goog.addDependency('../../../../src/config/gdrive.js', ['cwc.config.GDrive'], ['
 goog.addDependency('../../../../src/config/user_config.js', ['cwc.UserConfig', 'cwc.userConfigName', 'cwc.userConfigType'], ['cwc.utils.Database', 'cwc.utils.Logger'], {});
 goog.addDependency('../../../../src/file/file.js', ['cwc.file.File'], ['cwc.utils.mime.getTypeByNameAndContent'], {});
 goog.addDependency('../../../../src/file/files.js', ['cwc.file.Files'], ['cwc.file.File', 'cwc.utils.Logger'], {});
-goog.addDependency('../../../../src/file_format/file_format.js', ['cwc.fileFormat.FILE_HEADER', 'cwc.fileFormat.FILE_VERSION', 'cwc.fileFormat.File'], ['cwc.file.Files', 'cwc.mode.Mod', 'cwc.mode.Type', 'cwc.ui.EditorContent', 'cwc.utils.Logger'], {});
+goog.addDependency('../../../../src/file_format/file_format.js', ['cwc.fileFormat.FILE_HEADER', 'cwc.fileFormat.FILE_VERSION', 'cwc.fileFormat.File'], ['cwc.file.Files', 'cwc.mode.Type', 'cwc.ui.EditorContent', 'cwc.utils.Logger'], {});
 goog.addDependency('../../../../src/file_handler/file_exporter.js', ['cwc.fileHandler.FileExporter'], ['cwc.utils.Helper'], {});
 goog.addDependency('../../../../src/file_handler/file_handler.js', ['cwc.fileHandler.File'], ['cwc.fileFormat.File', 'cwc.fileHandler.File', 'cwc.utils.Helper', 'cwc.utils.Logger'], {});
 goog.addDependency('../../../../src/file_handler/file_loader.js', ['cwc.fileHandler.FileLoader'], ['cwc.fileFormat.File', 'cwc.mode.Config', 'cwc.ui.EditorContent', 'cwc.ui.EditorHint', 'cwc.utils.Logger', 'cwc.utils.Resources', 'cwc.utils.mime.Type', 'cwc.utils.mime.getTypeByNameAndContent'], {});
