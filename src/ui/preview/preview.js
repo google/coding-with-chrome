@@ -21,6 +21,7 @@ goog.provide('cwc.ui.Preview');
 
 goog.require('cwc.Messenger');
 goog.require('cwc.soy.ui.Preview');
+goog.require('cwc.ui.PreviewDialog');
 goog.require('cwc.ui.PreviewStatus');
 goog.require('cwc.ui.PreviewStatusButton');
 goog.require('cwc.ui.PreviewStatusBar');
@@ -110,6 +111,9 @@ cwc.ui.Preview = function(helper) {
 
   /** @private {!cwc.utils.Logger|null} */
   this.log_ = new cwc.utils.Logger(this.name);
+
+  /** @private {cwc.ui.PreviewDialog} */
+  this.dialog_ = null;
 };
 
 
@@ -248,7 +252,55 @@ cwc.ui.Preview.prototype.renderWebview = function() {
   content['setAttribute']('partition', 'preview');
   content['setUserAgentOverride']('CwC sandbox');
   this.previewStatus_.addEventHandlerWebview(content);
+  content.addEventListener('dialog', this.handleDialog_.bind(this));
   return content;
+};
+
+/**
+ * @param {!Event} event
+ */
+cwc.ui.Preview.prototype.handleDialog_ = function(event) {
+  let isPrompt;
+  let type = event['messageType'];
+  let message = event['messageText'];
+  switch (type) {
+    case 'prompt':
+      isPrompt = true;
+      break;
+    case 'alert':
+      isPrompt = false;
+      break;
+    default:
+    this.log_.info('Ignoring unknown dialog type', event[type], 'with message',
+      message);
+    return;
+  }
+  event.preventDefault();
+  this.log_.info('Displaying dialog for', event);
+  let dialog = this.getDialog_();
+  dialog.show(message, isPrompt)
+    .then((answer) => {
+      event['dialog']['ok'](answer);
+      this.log_.info('sent answer', answer, 'to dialog ok()');
+    })
+    .catch((exception) => {
+      this.log_.info('canceling dialog', exception);
+      event['dialog']['cancel']();
+    });
+};
+
+/**
+ * @private
+ * @return {!cwc.ui.PreviewDialog}
+ */
+cwc.ui.Preview.prototype.getDialog_ = function() {
+  if (!this.dialog_) {
+    let prefix = this.prefix + 'dialog';
+    let elementId = prefix;
+    this.dialog_ = new cwc.ui.PreviewDialog(prefix, elementId);
+    this.log_.warn('rendered', this.dialog_);
+  }
+  return this.dialog_;
 };
 
 

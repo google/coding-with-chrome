@@ -1,0 +1,51 @@
+/**
+ * @fileoverview Select screen for Coding in Chrome editor.
+ *
+ * @license Copyright 2019 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author carheden@google.com (Adam Carheden)
+ */
+{namespace cwc.soy.ui.PreviewDialog autoescape="strict"}
+
+
+/**
+ * Dialog local to the preview window
+ */
+{template .dialog}
+  {@param prefix: string}
+  {@param message: string}
+  {@param isPrompt: bool}
+
+  <div class="{$prefix}-container" open='open'>
+
+    <div class='{$prefix}-message'>{$message}</div>
+    {if $isPrompt}
+      <form class='{$prefix}-form'>
+        <input id='{$prefix}-input'></input>
+      </form>
+    {/if}
+
+    <div class='{$prefix}-buttons'>
+      <button id='{$prefix}-ok'>
+        {msg desc="Close dialog affirmativly"}@@GENERAL__OK{/msg}
+      </button>
+      {if $isPrompt}
+        <button id='{$prefix}-cancel'>
+          {msg desc="close dialog without action"}@@GENERAL__CANCEL{/msg}
+        </button>
+      {/if}
+    </div>
+  </div>
+{/template}
