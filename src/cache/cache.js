@@ -131,7 +131,7 @@ cwc.Cache.prototype.addFile = function(name, content = '') {
   if (!content) {
     this.log_.warn('Received empty content for', name);
   }
-  return this.database_.add(name, content);
+  return this.database_.put(name, content);
 };
 
 

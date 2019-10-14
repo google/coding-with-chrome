@@ -24,11 +24,33 @@ describe('Resources', function() {
   let urlPrefix = 'https://raw.githubusercontent.com/' +
     'google/coding-with-chrome/master/';
 
+  /*
+   * Because these functions download from the network, they can fail due to
+   * slow requests. This extends the Jasmine timeout to reduce the frequency
+   * of such failures. Note that this timeout should be longer than the XhrIo
+   * timeout set in cwc/utils/resources.js to ensure failure messages from unit
+   * tests distinguish between timeouts due to network failures from other
+   * failures directly related to our code.
+   */
+  let origTimeout;
+  beforeEach(() => {
+    // eslint-disable-next-line no-undef
+    origTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+    // eslint-disable-next-line no-undef
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 11000;
+  });
+  afterEach(() => {
+    // eslint-disable-next-line no-undef
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = origTimeout;
+  });
+
   it('getUriAsText', function(done) {
     let url = urlPrefix + 'README.md';
      cwc.utils.Resources.getUriAsText(url).then((content) => {
       expect(content.includes('Coding with Chrome')).toEqual(true);
       done();
+    }).catch((exception) => {
+      done.fail(exception);
     });
   });
 
@@ -41,6 +63,8 @@ describe('Resources', function() {
         done();
       };
       reader.readAsText(blob);
+    }).catch((exception) => {
+      done.fail(exception);
     });
   });
 
@@ -49,6 +73,8 @@ describe('Resources', function() {
     cwc.utils.Resources.getUriAsBase64(url).then((content) => {
       expect(content.includes('Q29kaW5nIHdpdGggQ2hyb21l')).toEqual(true);
       done();
+    }).catch((exception) => {
+      done.fail(exception);
     });
   });
 });
