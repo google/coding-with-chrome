@@ -23,12 +23,30 @@ goog.require('goog.net.XhrIo');
 
 
 /**
+ * Async unit tests that download files from github sometimes fail with
+ * a message that Jasmine's timeout was exceeded before done() was called.
+ * The root cause is that the request simply didn't complete quickly enough,
+ * but the error message doesn't indicate that. This function sets the timeout
+ * on network requests used in this module so that they timeout before
+ * Jasmine's timeout is exceeded causing unit tests to display useful error
+ * messages.
+ *
+ * @param {number} timeout
+ * @return {!goog.net.XhrIo}
+ */
+cwc.utils.Resources.getXhrIo = function(timeout = 10000) { // 10 seconds
+    let xhr = new goog.net.XhrIo();
+    xhr.setTimeoutInterval(timeout);
+    return xhr;
+};
+
+/**
  * @param {string} uri
  * @return {Promise}
  */
 cwc.utils.Resources.getUriAsText = function(uri) {
   return new Promise((resolve, reject) => {
-    let xhr = new goog.net.XhrIo();
+    let xhr = cwc.utils.Resources.getXhrIo();
     goog.events.listen(xhr, goog.net.EventType.SUCCESS, function(e) {
       let xhrResponse = /** @type {!goog.net.XhrIo} */ (e.target);
     resolve(xhrResponse.getResponseText() || '');
@@ -45,7 +63,7 @@ cwc.utils.Resources.getUriAsText = function(uri) {
  */
 cwc.utils.Resources.getUriAsBlob = function(uri) {
   return new Promise((resolve, reject) => {
-    let xhr = new goog.net.XhrIo();
+    let xhr = cwc.utils.Resources.getXhrIo();
     xhr.setResponseType(goog.net.XhrIo.ResponseType.BLOB);
     goog.events.listen(xhr, goog.net.EventType.SUCCESS, function(e) {
       let xhrResponse = /** @type {!goog.net.XhrIo} */ (e.target);
@@ -63,7 +81,7 @@ cwc.utils.Resources.getUriAsBlob = function(uri) {
  */
 cwc.utils.Resources.getUriAsBase64 = function(uri) {
   return new Promise((resolve, reject) => {
-    let xhr = new goog.net.XhrIo();
+    let xhr = cwc.utils.Resources.getXhrIo();
     xhr.setResponseType(goog.net.XhrIo.ResponseType.BLOB);
     goog.events.listen(xhr, goog.net.EventType.SUCCESS, function(e) {
       let xhrResponse = /** @type {!goog.net.XhrIo} */ (e.target);
@@ -111,7 +129,7 @@ cwc.utils.Resources.getUriAsJavaScriptTag = function(uri, nodeId) {
  */
 cwc.utils.Resources.getUriAsJson = function(uri) {
   return new Promise((resolve, reject) => {
-    let xhr = new goog.net.XhrIo();
+    let xhr = cwc.utils.Resources.getXhrIo();
     goog.events.listen(xhr, goog.net.EventType.SUCCESS, function(e) {
       let xhrResponse = /** @type {!goog.net.XhrIo} */ (e.target);
       resolve(xhrResponse.getResponseJson() || {});
