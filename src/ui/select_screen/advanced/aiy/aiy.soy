@@ -103,6 +103,7 @@
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
             {param title: 'Joy Detection' /}
             {param text: 'AIY will tell you when you are smiling' /}
+            {param warning: 'Please note that if you connect to the AIY kit, joydemo will be disabled automatically.' /}
             {param opt_link_text: 'Start Smiling' /}
             {param file: 'aiy/vision/joy/joy_detection_demo.cwc' /}
             {param opt_color_class: 'bg-orange' /}
@@ -111,6 +112,7 @@
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
             {param title: 'Image Classification' /}
             {param text: 'AIY will tell you what it sees' /}
+            {param warning: 'Please note that if you connect to the AIY kit, joydemo will be disabled automatically.' /}
             {param opt_link_text: 'Start Classifying' /}
             {param file: 'aiy/vision/image_classification_camera.cwc' /}
             {param opt_color_class: 'bg-orange' /}
