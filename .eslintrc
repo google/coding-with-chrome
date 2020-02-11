@@ -1,0 +1,68 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "google",
+    "plugin:prettier/recommended",
+    "plugin:react/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2019,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "prettier/prettier": ["error"],
+    "no-unused-vars": [
+      2,
+      {
+        "args": "after-used",
+        "argsIgnorePattern": "^opt_",
+        "varsIgnorePattern": "_unused$"
+      }
+    ],
+    "no-console": 0,
+    "camelcase": [0, { "properties": "never" }],
+    "new-cap": [
+      2,
+      {
+        "newIsCapExceptions": [
+          "instance",
+          "command_profile",
+          "fileConfig.file",
+          "CodeMirror.fold.combine"
+        ]
+      }
+    ]
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "serviceworker": true
+  },
+  "globals": {
+    "chrome": true,
+    "window": true,
+    "serviceWorkerOption": true,
+    "VERSION": true,
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "overrides": [
+    {
+      "files": ["**/*_test.js"],
+      "env": {
+        "browser": true,
+        "node": true,
+        "es6": true,
+        "jasmine": true,
+        "serviceworker": true
+      }
+    }
+  ]
+}

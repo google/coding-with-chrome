@@ -1,0 +1,101 @@
+/**
+ * Copyright 2020 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * Coding with Chrome general animations.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+
+/**
+ * Animation class names.
+ */
+ .spin {
+  animation: spin 2s linear infinite;
+}
+
+
+/**
+ * Animation key-frames definition.
+ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInTop {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -125%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-125%, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeInBottom {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 125%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translate3d(125%, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(1turn); }
+}
+
+@keyframes zoom {
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+  50% {
+    transform: scale3d(1.2, 1.2, 1.2);
+  }
+  to {
+    transform: scale3d(1, 1, 1);
+  }
+}

@@ -1,0 +1,132 @@
+/**
+ * Copyright 2020 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * Splashscreen SCSS definitions.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+
+.splash_screen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background-color: #fff;
+  background: linear-gradient(
+    135deg,
+    rgba(200, 200, 200, 1) 0%,
+    rgba(255, 255, 255, 1) 40%,
+    rgba(255, 255, 255, 1) 60%,
+    rgba(200, 200, 200, 1) 100%
+  );
+}
+
+.content {
+  position: absolute;
+  left: 50%;
+  margin-right: -50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.progressText {
+  margin-top: 10px;
+  height: 28px;
+}
+
+.progressTextLog {
+  box-shadow: 10px 10px 15px silver;
+  margin-top: 10px;
+  height: 100px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.progressTextLog li {
+  list-style: none;
+}
+
+/*
+ * Logo animation.
+ */
+ .splash_screen :global .cwc-logo {
+  display: block;
+  margin-bottom: 5px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.splash_screen :global .cwc-logo-screen-level_4 {
+  animation-duration: 2s;
+  animation-fill-mode: both;
+  animation-name: fadeInLeft;
+}
+
+.splash_screen :global .cwc-logo-screen-level_3 {
+  animation-duration: 2s;
+  animation-fill-mode: both;
+  animation-name: fadeInTop;
+}
+
+.splash_screen :global .cwc-logo-screen-level_2 {
+  animation-duration: 2s;
+  animation-fill-mode: both;
+  animation-name: fadeInRight;
+}
+
+.splash_screen :global .cwc-logo-screen-level_1 {
+  animation-duration: 2s;
+  animation-fill-mode: both;
+  animation-name: fadeInBottom;
+}
+
+.splash_screen :global .cwc-logo-screen-symbole,
+.splash_screen :global .cwc-logo-screen-shadow {
+  animation-duration: 1s;
+  animation-delay: 1s;
+  animation-fill-mode: both;
+  animation-name: fadeIn;
+}
+
+.splash_screen :global .cwc-logo-keyboard-level_2 {
+  animation-duration: 1s;
+  animation-delay: 1s;
+  animation-fill-mode: both;
+  animation-name: fadeInLeft;
+}
+
+.splash_screen :global .cwc-logo-keyboard-level_1 {
+  animation-duration: 1s;
+  animation-delay: 1s;
+  animation-fill-mode: both;
+  animation-name: fadeInRight;
+}
+
+.splash_screen :global .cwc-logo-keyboard-shadow {
+  animation-duration: 1s;
+  animation-delay: 1.5s;
+  animation-fill-mode: both;
+  animation-name: fadeIn;
+}
+
+.splash_screen :global .cwc-logo-keyboard-key {
+  animation-duration: 1s;
+  animation-delay: 1s;
+  animation-fill-mode: both;
+  animation-name: fadeInTop;
+}

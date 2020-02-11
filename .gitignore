@@ -1,0 +1,17 @@
+*.profraw
+*.stackdump
+.DS_Store
+.c9
+.idea
+.nyc_output
+.project
+.settings
+OWNERS
+Thumbs.db
+coverage
+debug.log
+dist
+gensoyfiles
+node_modules
+npm-debug.log*
+test/genfiles
