@@ -1,5 +1,5 @@
 /**
- * @fileoverview Stack unit tests.
+ * @fileoverview Stack Entry unit tests.
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
