@@ -21,13 +21,15 @@
 import { EventHandler, ListenerEntry } from './EventHandler';
 
 describe('EventHandler: ListenerEntry', function() {
-  const target = window;
+  const target = document.createElement('div');
   const type = 'click';
-  const listener = () => {
-    return 1;
+  const listener = {
+    test: () => {
+      return 1;
+    }
   };
   const options = { a: 1, b: 2 };
-  const testListener = new ListenerEntry(target, type, listener, options);
+  const testListener = new ListenerEntry(target, type, listener.test, options);
 
   it('Is valid object type', function() {
     expect(typeof testListener).toEqual('object');
@@ -42,7 +44,7 @@ describe('EventHandler: ListenerEntry', function() {
   });
 
   it('.listener', function() {
-    expect(testListener.listener).toEqual(listener);
+    expect(testListener.listener).toEqual(listener.test);
   });
 
   it('.options', function() {
@@ -55,8 +57,10 @@ describe('EventHandler: listen()', function() {
   const prefix = 'test-';
   const testEventHandler = new EventHandler(name, prefix);
   const target = document.createElement('div');
-  const listener = () => {
-    return 1;
+  const listener = {
+    test: () => {
+      return 1;
+    }
   };
 
   it('constructor', function() {
@@ -71,10 +75,17 @@ describe('EventHandler: listen()', function() {
     expect(testEventHandler.prefix).toEqual(prefix);
   });
 
+  it('.listen() : listenerKey', function() {
+    const Key = testEventHandler.listen(target, 'click', listener.test);
+    expect(Key).toEqual(testEventHandler.getLength());
+    const Key2 = testEventHandler.listen(target, 'click', listener.test);
+    expect(Key2).toEqual(testEventHandler.getLength());
+  });
+
   it('.listen()', function() {
-    const listenerKey = testEventHandler.listen(target, 'test', listener);
-    expect(listenerKey).toEqual(0);
-    const listenerKey2 = testEventHandler.listen(target, 'test2', listener);
-    expect(listenerKey2).toEqual(1);
+    spyOn(listener, 'test');
+    testEventHandler.listen(target, 'click', listener.test);
+    target.click();
+    expect(listener.test).toHaveBeenCalled();
   });
 });

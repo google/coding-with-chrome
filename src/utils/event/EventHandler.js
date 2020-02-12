@@ -65,7 +65,7 @@ export class EventHandler {
    *
    * @param {!EventTarget|string} src
    * @param {string} type Event type or array of event types.
-   * @param {function(?)} listener Callback method
+   * @param {function(?):?|{handleEvent:function(?):?}|null} listener
    * @param {boolean=} capture
    * @param {boolean} once Remove listener after first call.
    * @param {boolean} passive Disable preventDefault().
@@ -103,7 +103,7 @@ export class EventHandler {
   }
 
   /**
-   * @param {String} listener_key Unique key
+   * @param {number} listener_key Unique key
    */
   unlisten(listener_key) {
     const listenerData = this.listener_[listener_key];
@@ -112,6 +112,13 @@ export class EventHandler {
     }
     const { target, type, listener, options } = listenerData;
     target.removeEventListener(type, listener, options);
-    delete this.listener_(listener_key);
+    delete this.listener_[listener_key];
+  }
+
+  /**
+   * @return {number}
+   */
+  getLength() {
+    return this.listener_.length - 1;
   }
 }
