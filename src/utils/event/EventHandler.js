@@ -1,5 +1,5 @@
 /**
- * @fileoverview Event Handler.
+ * @fileoverview Event Listener.
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -18,23 +18,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-/**
- * Represents a single listener for a specific target.
- */
-export class ListenerEntry {
-  /**
-   * @param {!EventTarget} target
-   * @param {string} type
-   * @param {function} listener
-   * @param {Object} options
-   */
-  constructor(target, type, listener, options) {
-    this.target = target;
-    this.type = type;
-    this.listener = listener;
-    this.options = options;
-  }
-}
+import { EventListenerEntry } from './EventListenerEntry';
 
 /**
  * Simplified Event Handler
@@ -61,7 +45,7 @@ export class EventHandler {
 
   /**
    * Adds an event listener for a specific event on a native event
-   * target (such as a DOM element) or an object that has implemented
+   * target (such as a DOM element) or an object that has implemented.
    *
    * @param {!EventTarget|string} src
    * @param {string} type Event type or array of event types.
@@ -72,34 +56,44 @@ export class EventHandler {
    * @return {number|null} Unique key
    */
   listen(src, type, listener, capture = false, once = false, passive = false) {
-    let eventTarget = null;
-    if (typeof src === 'string' || src instanceof String) {
-      eventTarget = document.getElementById(this.prefix + src);
-      if (!eventTarget) {
-        console.error('Unable to find listener element', this.prefix + src);
-        return null;
-      }
-    } else {
-      eventTarget = src;
-    }
-    if (!eventTarget) {
-      console.error('Undefined listener event target!', eventTarget);
-      return null;
-    }
-    if (typeof listener !== 'function') {
-      console.error('Listener is not a function!', listener);
-    }
     const options = {
       capture: capture,
       once: once,
       passive: passive
     };
-    eventTarget.addEventListener(type, listener, options);
-    return (
-      this.listener_.push(
-        new ListenerEntry(eventTarget, type, listener, options)
-      ) - 1
+    const eventData = new EventListenerEntry(
+      src,
+      type,
+      listener,
+      options,
+      this.prefix
     );
+    const { target } = eventData;
+    target.addEventListener(type, listener, options);
+    return this.listener_.push(eventData) - 1;
+  }
+
+  /**
+   * Adds an event listener only once for a specific event on a native event
+   * target (such as a DOM element) or an object that has implemented.
+   *
+   * @param {!EventTarget|string} src
+   * @param {string} type Event type or array of event types.
+   * @param {function(?):?|{handleEvent:function(?):?}|null} listener
+   * @param {boolean=} capture
+   * @param {boolean} once Remove listener after first call.
+   * @param {boolean} passive Disable preventDefault().
+   * @return {number|null} Unique key
+   */
+  listenOnce(
+    src,
+    type,
+    listener,
+    capture = false,
+    once = true,
+    passive = false
+  ) {
+    return this.listen(src, type, listener, capture, once, passive);
   }
 
   /**
@@ -108,7 +102,7 @@ export class EventHandler {
   unlisten(listener_key) {
     const listenerData = this.listener_[listener_key];
     if (!listenerData) {
-      console.error('Unknown listener key!', listener_key);
+      throw new Error(`Unknown listener key: ${listener_key}!`);
     }
     const { target, type, listener, options } = listenerData;
     target.removeEventListener(type, listener, options);

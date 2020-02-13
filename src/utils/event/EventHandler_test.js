@@ -18,39 +18,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import { EventHandler, ListenerEntry } from './EventHandler';
-
-describe('EventHandler: ListenerEntry', function() {
-  const target = document.createElement('div');
-  const type = 'click';
-  const listener = {
-    test: () => {
-      return 1;
-    }
-  };
-  const options = { a: 1, b: 2 };
-  const testListener = new ListenerEntry(target, type, listener.test, options);
-
-  it('Is valid object type', function() {
-    expect(typeof testListener).toEqual('object');
-  });
-
-  it('.target', function() {
-    expect(testListener.target).toEqual(target);
-  });
-
-  it('.type', function() {
-    expect(testListener.type).toEqual(type);
-  });
-
-  it('.listener', function() {
-    expect(testListener.listener).toEqual(listener.test);
-  });
-
-  it('.options', function() {
-    expect(testListener.options).toEqual(options);
-  });
-});
+import { EventHandler } from './EventHandler';
 
 describe('EventHandler: listen()', function() {
   const name = 'Test EventHandler';
@@ -65,6 +33,11 @@ describe('EventHandler: listen()', function() {
 
   it('constructor', function() {
     expect(typeof testEventHandler).toEqual('object');
+  });
+
+  it('constructor (default)', function() {
+    expect(typeof new EventHandler()).toEqual('object');
+    expect(typeof new EventHandler(null)).toEqual('object');
   });
 
   it('.name', function() {
@@ -87,5 +60,28 @@ describe('EventHandler: listen()', function() {
     testEventHandler.listen(target, 'click', listener.test);
     target.click();
     expect(listener.test).toHaveBeenCalled();
+  });
+
+  it('.listenOnce()', function() {
+    spyOn(listener, 'test');
+    testEventHandler.listenOnce(target, 'click', listener.test);
+    target.click();
+    target.click();
+    expect(listener.test).toHaveBeenCalledTimes(1);
+  });
+
+  it('.unlisten()', function() {
+    spyOn(listener, 'test').calls.reset();
+    const testEvent = testEventHandler.listen(target, 'click', listener.test);
+    target.click();
+    testEventHandler.unlisten(testEvent);
+    target.click();
+    expect(listener.test).toHaveBeenCalledTimes(1);
+  });
+
+  it('.unlisten() - Error', function() {
+    expect(() => {
+      testEventHandler.unlisten(Math.random());
+    }).toThrowError(/Unknown listener key/);
   });
 });
