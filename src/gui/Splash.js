@@ -27,7 +27,9 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { Version } from '../config/Config';
 import { StackQueue } from '../utils/stack/StackQueue';
+// @ts-ignore
 import Logo from '../../assets/svg/logo.svg';
+// @ts-ignore
 import styles from './Splash.scss';
 
 /**
@@ -68,7 +70,7 @@ export class Splash {
 
   /**
    * @param {String} name
-   * @param {Function} func
+   * @param {Function=} func
    */
   addStep(name, func) {
     if (func) {
@@ -107,6 +109,7 @@ export class Splash {
   set progressText(text) {
     console.log('Set Progress text to', text);
     const elapsedTime = Number.parseFloat(
+      // @ts-ignore
       (new Date() - this.startTime) / 1000
     ).toFixed(3);
     const progressPer = Math.round(this.progress);

@@ -46,7 +46,7 @@
     "chrome": true,
     "window": true,
     "serviceWorkerOption": true,
-    "VERSION": true,
+    "VERSION": true
   },
   "settings": {
     "react": {

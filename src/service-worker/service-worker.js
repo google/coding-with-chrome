@@ -1,5 +1,5 @@
 /**
- * @fileoverview Webpack prod config
+ * @fileoverview Service Worker for the Coding with Chrome suite.
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -18,10 +18,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-// @ts-ignore
-import webpackConfig from './webpack.config.babel';
-import merge from 'webpack-merge';
+import { CacheWorker } from './CacheWorker';
 
-module.exports = merge(webpackConfig, {
-  mode: 'production'
-});
+const CacheServiceWorker = new CacheWorker();
+CacheServiceWorker.register();

@@ -80,7 +80,7 @@ describe('StackEntry: PROMISE', function() {
   const func = function(data) {
     return data['a'] + data['b'];
   };
-  const value = { a: 11, b: 12 };
+  const value = Math.random();
   const callback = function(test) {
     return test;
   };

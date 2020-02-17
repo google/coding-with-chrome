@@ -56,20 +56,22 @@ export class EventHandler {
    * @return {number|null} Unique key
    */
   listen(src, type, listener, capture = false, once = false, passive = false) {
-    const options = {
-      capture: capture,
-      once: once,
-      passive: passive
-    };
     const eventData = new EventListenerEntry(
       src,
       type,
-      listener,
-      options,
+      this.scope ? listener.bind(this.scope) : listener,
+      {
+        capture: capture,
+        once: once,
+        passive: passive
+      },
       this.prefix
     );
-    const { target } = eventData;
-    target.addEventListener(type, listener, options);
+    eventData.target.addEventListener(
+      eventData.type,
+      eventData.listener,
+      eventData.options
+    );
     return this.listener_.push(eventData) - 1;
   }
 

@@ -25,19 +25,23 @@ export class EventListenerEntry {
   /**
    * @param {!EventTarget|string} target
    * @param {string} type
-   * @param {function} listener
+   * @param {function(?):?|{handleEvent:function(?):?}} listener
    * @param {Object} options
    * @param {string} prefix
    */
   constructor(target, type, listener, options, prefix = '') {
     /**  @type {!EventTarget} */
     this.target = undefined;
+
     /** @type {string} */
     this.type = type;
-    /** @type {function} */
+
+    /** @type {function(?):?|{handleEvent:function(?):?}} */
     this.listener = listener;
+
     /** @type {Object} */
     this.options = options;
+
     if (typeof target === 'string' || target instanceof String) {
       this.target = document.getElementById(prefix + target);
       if (!this.target) {

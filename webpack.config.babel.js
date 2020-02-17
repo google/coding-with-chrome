@@ -74,6 +74,7 @@ module.exports = {
       template: './src/index.html'
     }),
     new webpack.DefinePlugin({
+      // @ts-ignore
       VERSION: JSON.stringify(require('./package.json').version)
     }),
     new WebpackPwaManifest({
@@ -90,7 +91,7 @@ module.exports = {
       ]
     }),
     new ServiceWorkerWebpackPlugin({
-      entry: path.join(__dirname, 'src/service-worker.js'),
+      entry: path.join(__dirname, 'src/service-worker/service-worker.js'),
       filename: 'service-worker.js'
     }),
     new FaviconsWebpackPlugin({

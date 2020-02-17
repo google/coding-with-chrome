@@ -1,5 +1,5 @@
 /**
- * @fileoverview Webpack prod config
+ * @fileoverview Event Types.
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -18,10 +18,35 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-// @ts-ignore
-import webpackConfig from './webpack.config.babel';
-import merge from 'webpack-merge';
+/**
+ * Constants for event names.
+ * @enum {String}
+ */
+export const EventType = {
+  // Mouse events
+  CLICK: 'click',
+  RIGHTCLICK: 'rightclick',
+  DBLCLICK: 'dblclick',
+  MOUSEDOWN: 'mousedown',
+  MOUSEUP: 'mouseup',
+  MOUSEOVER: 'mouseover',
+  MOUSEOUT: 'mouseout',
+  MOUSEMOVE: 'mousemove',
+  MOUSEENTER: 'mouseenter',
+  MOUSELEAVE: 'mouseleave',
 
-module.exports = merge(webpackConfig, {
-  mode: 'production'
-});
+  // Forms events
+  CHANGE: 'change',
+  RESET: 'reset',
+  SELECT: 'select',
+  SUBMIT: 'submit',
+  INPUT: 'input',
+
+  // Misc Events
+  ERROR: 'error',
+
+  // Service Worker Events
+  INSTALL: 'install',
+  ACTIVATE: 'activate',
+  FETCH: 'fetch'
+};

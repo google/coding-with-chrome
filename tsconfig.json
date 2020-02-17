@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {},
+  "exclude": ["node_modules"],
+  "allowJs": true,
+  "checkJs": true,
+  "files": [
+    "global.d.ts"
+  ]
+}

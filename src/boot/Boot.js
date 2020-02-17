@@ -30,15 +30,15 @@ export function boot() {
   console.log('Booting Coding with Chrome suite', Version);
   console.log('Initialize platform ...');
   if ('serviceWorker' in navigator) {
-    runtime.register().then(
+    runtime.register({ scope: './' }).then(
       function(registration) {
         console.log(
           'ServiceWorker registration successful with scope: ',
           registration.scope
         );
       },
-      function(err) {
-        console.log('ServiceWorker registration failed: ', err);
+      function(error) {
+        console.log('ServiceWorker registration failed: ', error);
       }
     );
   }

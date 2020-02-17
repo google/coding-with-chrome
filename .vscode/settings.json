@@ -6,4 +6,13 @@
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
   "javascript.implicitProjectConfig.checkJs": true,
+  "cSpell.words": [
+    "bootscript",
+    "option",
+    "rightclick",
+    "service",
+    "sourcemap",
+    "splashscreen",
+    "worker"
+  ],
 }

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Service Worker for the Coding with Chrome suite.
+ * @fileoverview Typescript global Type definitions.
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -18,25 +18,8 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-let assetsCache = {};
+ /** ServiceWorkerWebpackPlugin */
+declare const serviceWorkerOption;
 
-setInterval(() => {
-  if (assetsCache !== serviceWorkerOption.assets) {
-    assetsCache = serviceWorkerOption.assets;
-    console.log('New assets', assetsCache);
-  }
-}, 1000);
-
-self.addEventListener('install', function(event) {
-  console.log('Install service worker ...');
-  event.waitUntil(
-    caches.open('v1').then(function(cache) {
-      return cache.addAll(serviceWorkerOption.assets);
-    })
-  );
-});
-
-self.addEventListener('fetch', function(event) {
-  console.log('Fetch request', event);
-  event.respondWith(caches.match(event.request));
-});
+/** Version from package.json */
+declare const VERSION;
