@@ -32,4 +32,3 @@ Locales['hin']['WELCOME_SCREEN'] = {
   'SHOW_ON_STARTUP': 'स्टार्टअप पर स्क्रीन दिखाएं',
   'SHOW_ON_STARTUP_NOTE': 'आप सेटिंग मेनू में किसी भी समय अपनी पसंद बदल सकते हैं',
   };
-  
