@@ -18,10 +18,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-// @ts-ignore
 import webpackConfig from './webpack.config.babel';
-// @ts-ignore
-import assetsConfig from './assets.config.babel';
 import merge from 'webpack-merge';
 
 const devConfig = merge(webpackConfig, {
@@ -32,4 +29,4 @@ const devConfig = merge(webpackConfig, {
   }
 });
 
-module.exports = [assetsConfig, devConfig];
+module.exports = devConfig;

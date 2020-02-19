@@ -1,9 +1,23 @@
 {
-  "compilerOptions": {},
-  "exclude": ["node_modules"],
-  "allowJs": true,
-  "checkJs": true,
+  "compilerOptions": {
+    "target": "es6",
+    "allowJs": true,
+    "checkJs": true,
+    "moduleResolution": "node",
+    "alwaysStrict": true,
+    "strictNullChecks": false,
+    "emitDeclarationOnly": true,
+    "declaration": true,
+    "outDir": "types",
+    "removeComments": false
+  },
   "files": [
+    "src/index.js",
     "global.d.ts"
+  ],
+  "exclude": [
+    "build",
+    "node_modules",
+    "types"
   ]
 }

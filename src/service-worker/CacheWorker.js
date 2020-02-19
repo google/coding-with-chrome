@@ -104,9 +104,7 @@ export class CacheWorker {
    *
    */
   checkForChangedAssets() {
-    // @ts-ignore
     if (this.assetsCache !== serviceWorkerOption.assets) {
-      // @ts-ignore
       this.assetsCache = serviceWorkerOption.assets;
       console.log('Update assets to', this.assetsCache);
     }

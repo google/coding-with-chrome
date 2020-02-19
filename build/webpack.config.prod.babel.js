@@ -18,14 +18,11 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-// @ts-ignore
 import webpackConfig from './webpack.config.babel';
-// @ts-ignore
-import assetsConfig from './assets.config.babel';
 import merge from 'webpack-merge';
 
 const prodConfig = merge(webpackConfig, {
   mode: 'production'
 });
 
-module.exports = [assetsConfig, prodConfig];
+module.exports = prodConfig;

@@ -18,6 +18,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
+import CopyPlugin from 'copy-webpack-plugin';
 import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ImageminPlugin from 'imagemin-webpack-plugin';
@@ -32,7 +33,7 @@ module.exports = {
   output: {
     path: path.resolve('./dist'),
     publicPath: '/',
-    filename: 'bundle.js'
+    filename: '[name].bundle.js'
   },
   module: {
     rules: [
@@ -77,7 +78,6 @@ module.exports = {
       template: './src/index.html'
     }),
     new webpack.DefinePlugin({
-      // @ts-ignore
       VERSION: JSON.stringify(require('./../package.json').version)
     }),
     new WebpackPwaManifest({
@@ -86,10 +86,16 @@ module.exports = {
       description: 'Educational Coding Development Environment',
       start_url: 'index.html',
       display: 'standalone',
+      background_color: '#fff',
+      theme_color: 'red',
       icons: [
         {
           src: path.resolve('assets/svg/logo.svg'),
-          sizes: [96, 128, 192, 256, 384, 512]
+          sizes: [96, 128, 256, 384]
+        },
+        {
+          src: path.resolve('assets/icons/1024x1024.png'),
+          sizes: [192, 512]
         }
       ]
     }),
@@ -97,13 +103,26 @@ module.exports = {
       entry: path.join(__dirname, '../src/service-worker/service-worker.js'),
       filename: 'service-worker.js'
     }),
+    new CopyPlugin([
+      {
+        from: path.resolve('./assets/css'),
+        to: path.resolve('./dist/assets/css')
+      },
+      {
+        from: path.resolve('./assets/svg'),
+        to: path.resolve('./dist/assets/svg')
+      }
+    ]),
     new FaviconsWebpackPlugin({
       logo: path.resolve('assets/svg/logo.svg'),
-      inject: true
+      outputPath: 'assets/favicons',
+      inject: false
     }),
     new ImageminPlugin({
-      disable: process.env.NODE_ENV !== 'production',
-      test: /\.(jpe?g|png|gif|svg)$/i
+      test: /\.(jpe?g|png|gif|svg)$/i,
+      pngquant: {
+        quality: '95-100'
+      }
     })
   ]
 };

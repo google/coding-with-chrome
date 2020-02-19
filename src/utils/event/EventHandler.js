@@ -60,11 +60,7 @@ export class EventHandler {
       src,
       type,
       this.scope ? listener.bind(this.scope) : listener,
-      {
-        capture: capture,
-        once: once,
-        passive: passive
-      },
+      { capture: capture, once: once, passive: passive },
       this.prefix
     );
     eventData.target.addEventListener(
