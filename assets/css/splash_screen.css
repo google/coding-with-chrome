@@ -15,12 +15,12 @@
  */
 
 /*
- * Splashscreen SCSS definitions.
+ * Splashscreen CSS definitions.
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-.splash_screen {
+ #cwc-splash-screen {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -35,7 +35,7 @@
   );
 }
 
-.content {
+#cwc-splash-screen .content {
   position: absolute;
   left: 50%;
   margin-right: -50%;
@@ -43,12 +43,12 @@
   transform: translate(-50%, -50%);
 }
 
-.progressText {
+#cwc-splash-screen .progressText {
   margin-top: 10px;
   height: 28px;
 }
 
-.progressTextLog {
+#cwc-splash-screen .progressTextLog {
   box-shadow: 10px 10px 15px silver;
   margin-top: 10px;
   height: 100px;
@@ -57,74 +57,74 @@
   flex-direction: column-reverse;
 }
 
-.progressTextLog li {
+#cwc-splash-screen .progressTextLog li {
   list-style: none;
 }
 
 /*
  * Logo animation.
  */
- .splash_screen :global .cwc-logo {
+#cwc-splash-screen .cwc-logo {
   display: block;
   margin-bottom: 5px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.splash_screen :global .cwc-logo-screen-level_4 {
+#cwc-splash-screen .cwc-logo-screen-level_4 {
   animation-duration: 2s;
   animation-fill-mode: both;
   animation-name: fadeInLeft;
 }
 
-.splash_screen :global .cwc-logo-screen-level_3 {
+#cwc-splash-screen .cwc-logo-screen-level_3 {
   animation-duration: 2s;
   animation-fill-mode: both;
   animation-name: fadeInTop;
 }
 
-.splash_screen :global .cwc-logo-screen-level_2 {
+#cwc-splash-screen .cwc-logo-screen-level_2 {
   animation-duration: 2s;
   animation-fill-mode: both;
   animation-name: fadeInRight;
 }
 
-.splash_screen :global .cwc-logo-screen-level_1 {
+#cwc-splash-screen .cwc-logo-screen-level_1 {
   animation-duration: 2s;
   animation-fill-mode: both;
   animation-name: fadeInBottom;
 }
 
-.splash_screen :global .cwc-logo-screen-symbol,
-.splash_screen :global .cwc-logo-screen-shadow {
+#cwc-splash-screen .cwc-logo-screen-symbol,
+#cwc-splash-screen .cwc-logo-screen-shadow {
   animation-duration: 1s;
   animation-delay: 1s;
   animation-fill-mode: both;
   animation-name: fadeIn;
 }
 
-.splash_screen :global .cwc-logo-keyboard-level_2 {
+#cwc-splash-screen .cwc-logo-keyboard-level_2 {
   animation-duration: 1s;
   animation-delay: 1s;
   animation-fill-mode: both;
   animation-name: fadeInLeft;
 }
 
-.splash_screen :global .cwc-logo-keyboard-level_1 {
+#cwc-splash-screen .cwc-logo-keyboard-level_1 {
   animation-duration: 1s;
   animation-delay: 1s;
   animation-fill-mode: both;
   animation-name: fadeInRight;
 }
 
-.splash_screen :global .cwc-logo-keyboard-shadow {
+#cwc-splash-screen .cwc-logo-keyboard-shadow {
   animation-duration: 1s;
   animation-delay: 1.5s;
   animation-fill-mode: both;
   animation-name: fadeIn;
 }
 
-.splash_screen :global .cwc-logo-keyboard-key {
+#cwc-splash-screen .cwc-logo-keyboard-key {
   animation-duration: 1s;
   animation-delay: 1s;
   animation-fill-mode: both;

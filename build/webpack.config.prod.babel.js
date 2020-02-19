@@ -1,5 +1,5 @@
 /**
- * @fileoverview Webpack dev config
+ * @fileoverview Webpack prod config
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -18,13 +18,14 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
+// @ts-ignore
 import webpackConfig from './webpack.config.babel';
+// @ts-ignore
+import assetsConfig from './assets.config.babel';
 import merge from 'webpack-merge';
 
-module.exports = merge(webpackConfig, {
-  mode: 'development',
-  devtool: 'inline-source-map',
-  devServer: {
-    contentBase: './dist'
-  }
+const prodConfig = merge(webpackConfig, {
+  mode: 'production'
 });
+
+module.exports = [assetsConfig, prodConfig];

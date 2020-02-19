@@ -1,5 +1,5 @@
 /**
- * @fileoverview Webpack prod config
+ * @fileoverview Local Web Server Configuration
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -18,10 +18,10 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-// @ts-ignore
-import webpackConfig from './webpack.config.babel';
-import merge from 'webpack-merge';
-
-module.exports = merge(webpackConfig, {
-  mode: 'production'
-});
+module.exports = {
+  port: 8080,
+  https: false,
+  http2: false,
+  compress: true,
+  directory: 'dist'
+};

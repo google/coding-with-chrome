@@ -22,7 +22,7 @@ import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import WebpackPwaManifest from 'webpack-pwa-manifest';
 import webpack from 'webpack';
-import webpackConfig from '../webpack.config.babel.js';
+import webpackConfig from '../build/webpack.config.babel.js';
 import path from 'path';
 
 // Cleanup existing webpack config for unit tests.

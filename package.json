@@ -19,9 +19,10 @@
     "@babel/preset-env": "^7.8.4",
     "@babel/preset-react": "^7.8.3",
     "@babel/register": "^7.8.3",
-    "@material-ui/core": "^4.9.2",
+    "@material-ui/core": "^4.9.3",
     "@svgr/webpack": "^5.1.0",
     "babel-loader": "^8.0.6",
+    "copy-webpack-plugin": "^5.1.1",
     "cross-env": "^7.0.0",
     "css-loader": "^3.4.2",
     "eslint": "^6.8.0",
@@ -31,7 +32,7 @@
     "eslint-plugin-react": "^7.18.3",
     "favicons-webpack-plugin": "^3.0.1",
     "html-webpack-plugin": "^4.0.0-beta.11",
-    "http-server": "^0.12.1",
+    "imagemin-webpack-plugin": "^2.4.2",
     "istanbul-instrumenter-loader": "^3.0.1",
     "karma": "^4.4.1",
     "karma-chrome-launcher": "^3.1.0",
@@ -41,6 +42,7 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^4.0.2",
+    "local-web-server": "^4.0.0",
     "node-sass": "^4.13.1",
     "prettier": "^1.19.1",
     "react": "^16.12.0",
@@ -63,8 +65,8 @@
     "test:units": "karma start test/unit_tests.conf",
     "lint": "npm run lint:javascript",
     "lint:javascript": "eslint .",
-    "start": "webpack-dev-server --config webpack.config.dev.babel.js",
-    "start:prod": "npm run build && http-server dist",
-    "build": "webpack --config webpack.config.prod.babel.js"
+    "start": "webpack-dev-server --config build/webpack.config.dev.babel.js",
+    "start:prod": "npm run build && ws",
+    "build": "webpack --config build/webpack.config.prod.babel.js"
   }
 }

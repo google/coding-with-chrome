@@ -1,5 +1,5 @@
 /**
- * @fileoverview Main Script for the Coding with Chrome suite.
+ * @fileoverview Webpack dev config
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -18,6 +18,18 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import { boot } from './boot/Boot';
+// @ts-ignore
+import webpackConfig from './webpack.config.babel';
+// @ts-ignore
+import assetsConfig from './assets.config.babel';
+import merge from 'webpack-merge';
 
-boot();
+const devConfig = merge(webpackConfig, {
+  mode: 'development',
+  devtool: 'inline-source-map',
+  devServer: {
+    contentBase: './dist'
+  }
+});
+
+module.exports = [assetsConfig, devConfig];

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Main Script for the Coding with Chrome suite.
+ * @fileoverview Webpack assets config
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -18,6 +18,27 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import { boot } from './boot/Boot';
+import CopyPlugin from 'copy-webpack-plugin';
+import ImageminPlugin from 'imagemin-webpack-plugin';
+import path from 'path';
 
-boot();
+module.exports = {
+  entry: './src/assets.js',
+  mode: 'production',
+  plugins: [
+    new CopyPlugin([
+      {
+        from: path.resolve('./assets/css'),
+        to: path.resolve('./dist/assets/css')
+      },
+      {
+        from: path.resolve('./assets/svg'),
+        to: path.resolve('./dist/assets/svg')
+      }
+    ]),
+    new ImageminPlugin({
+      disable: process.env.NODE_ENV !== 'production',
+      test: /\.(jpe?g|png|gif|svg)$/i
+    })
+  ]
+};

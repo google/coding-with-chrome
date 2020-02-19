@@ -27,6 +27,7 @@ import { Version } from '../config/Config';
  */
 export function boot() {
   const SplashScreen = new Splash();
+  SplashScreen.show();
   console.log('Booting Coding with Chrome suite', Version);
   console.log('Initialize platform ...');
   if ('serviceWorker' in navigator) {
@@ -43,28 +44,12 @@ export function boot() {
     );
   }
   console.log('Showing splash screen');
-  SplashScreen.show();
   SplashScreen.addStep('Loading Coding with Chrome Suite ...');
-  SplashScreen.addStep('Step 1', () => {
-    return new Promise(resolve => {
-      setTimeout(resolve, 500);
-    });
-  });
-  SplashScreen.addStep('Step 2', () => {
-    return new Promise(resolve => {
-      setTimeout(resolve, 500);
-    });
-  });
-  SplashScreen.addStep('Step 3', () => {
-    return new Promise(resolve => {
-      setTimeout(resolve, 500);
-    });
-  });
-  console.log('Switch run level ...');
-  console.log('Initialize built-in drivers ...');
-  console.log('Mount file-system ...');
-  console.log('Starting built-in services ...');
-  console.log('Loading shell ...');
-  console.log('Start Run-level ...');
+  SplashScreen.addStep('Switch run level ...');
+  SplashScreen.addStep('Initialize built-in drivers ...');
+  SplashScreen.addStep('Mount file-system ...');
+  SplashScreen.addStep('Starting built-in services ...');
+  SplashScreen.addStep('Loading shell ...');
+  SplashScreen.addStep('Start Run-level ...');
   SplashScreen.execute();
 }

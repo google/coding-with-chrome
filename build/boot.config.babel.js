@@ -1,5 +1,5 @@
 /**
- * @fileoverview Main Script for the Coding with Chrome suite.
+ * @fileoverview Webpack boot config
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -18,6 +18,4 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import { boot } from './boot/Boot';
-
-boot();
+module.exports = {};

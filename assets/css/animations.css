@@ -23,10 +23,9 @@
 /**
  * Animation class names.
  */
- .spin {
+.spin {
   animation: spin 2s linear infinite;
 }
-
 
 /**
  * Animation key-frames definition.
@@ -85,7 +84,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(1turn); }
+  to {
+    transform: rotate(1turn);
+  }
 }
 
 @keyframes zoom {

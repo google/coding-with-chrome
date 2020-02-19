@@ -22,15 +22,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Box from '@material-ui/core/Box';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { Version } from '../config/Config';
 import { StackQueue } from '../utils/stack/StackQueue';
-// @ts-ignore
-import Logo from '../../assets/svg/logo.svg';
-// @ts-ignore
-import styles from './Splash.scss';
 
 /**
  * Splash Screen class
@@ -63,8 +58,12 @@ export class Splash {
    */
   render() {
     ReactDOM.render(
-      template(this),
-      document.getElementById('cwc-splash-screen')
+      templateProgress(this),
+      document.querySelector('#cwc-splash-screen > div.content > div.progress')
+    );
+    ReactDOM.render(
+      templateVersion(),
+      document.querySelector('#cwc-splash-screen > div.version')
     );
   }
 
@@ -134,28 +133,25 @@ export class Splash {
   }
 }
 
-const template = data => {
+const templateProgress = data => {
   return (
-    <Box className={styles.splash_screen}>
-      <CssBaseline />
-      <Box className={styles.info}></Box>
-      <Box className={styles.content}>
-        <Box className={styles.logo}>
-          <Logo />
-        </Box>
-        <Box className={styles.progress}>
-          <LinearProgress variant="determinate" value={data.currentProgress} />
-        </Box>
-        <Box className={styles.progressText}>{data.progressText}</Box>
-        <Box className={styles.progressTextLog}>
-          <ul>
-            {data.progressTextLog.map((text, index) => {
-              return <li key={index}> {text} </li>;
-            })}
-          </ul>
-        </Box>
+    <Box className=".splash_screen">
+      <Box className="info"></Box>
+      <Box className="progress">
+        <LinearProgress variant="determinate" value={data.currentProgress} />
       </Box>
-      <Box className={styles.version}>Coding with Chrome Suite {Version}</Box>
+      <Box className="progressText">{data.progressText}</Box>
+      <Box className="progressTextLog">
+        <ul>
+          {data.progressTextLog.map((text, index) => {
+            return <li key={index}> {text} </li>;
+          })}
+        </ul>
+      </Box>
     </Box>
   );
+};
+
+const templateVersion = () => {
+  return <Box className="version">Coding with Chrome Suite {Version}</Box>;
 };

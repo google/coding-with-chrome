@@ -18,10 +18,12 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import ServiceWorkerWebpackPlugin from 'serviceworker-webpack-plugin';
 import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import ImageminPlugin from 'imagemin-webpack-plugin';
+import ServiceWorkerWebpackPlugin from 'serviceworker-webpack-plugin';
 import WebpackPwaManifest from 'webpack-pwa-manifest';
+
 import path from 'path';
 import webpack from 'webpack';
 
@@ -52,6 +54,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
+        exclude: /assets/,
         use: ['style-loader', 'css-loader']
       },
       {
@@ -75,7 +78,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       // @ts-ignore
-      VERSION: JSON.stringify(require('./package.json').version)
+      VERSION: JSON.stringify(require('./../package.json').version)
     }),
     new WebpackPwaManifest({
       name: 'Coding with Chrome Suite',
@@ -91,12 +94,16 @@ module.exports = {
       ]
     }),
     new ServiceWorkerWebpackPlugin({
-      entry: path.join(__dirname, 'src/service-worker/service-worker.js'),
+      entry: path.join(__dirname, '../src/service-worker/service-worker.js'),
       filename: 'service-worker.js'
     }),
     new FaviconsWebpackPlugin({
       logo: path.resolve('assets/svg/logo.svg'),
       inject: true
+    }),
+    new ImageminPlugin({
+      disable: process.env.NODE_ENV !== 'production',
+      test: /\.(jpe?g|png|gif|svg)$/i
     })
   ]
 };
