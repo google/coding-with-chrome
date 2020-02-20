@@ -19,21 +19,43 @@
  */
 
 import CopyPlugin from 'copy-webpack-plugin';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ImageminPlugin from 'imagemin-webpack-plugin';
 import ServiceWorkerWebpackPlugin from 'serviceworker-webpack-plugin';
 import WebpackPwaManifest from 'webpack-pwa-manifest';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
 import path from 'path';
 import webpack from 'webpack';
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    main: './src/index.js',
+    'bundle.min.css': [
+      path.resolve('./assets/css/animations.css'),
+      path.resolve('./assets/css/base.css'),
+      path.resolve('./assets/css/splash_screen.css')
+    ]
+  },
   output: {
     path: path.resolve('./dist'),
     publicPath: '/',
-    filename: '[name].bundle.js'
+    filename: '[name].[contenthash].js'
+  },
+  optimization: {
+    moduleIds: 'hashed',
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    }
   },
   module: {
     rules: [
@@ -43,20 +65,17 @@ module.exports = {
         use: ['babel-loader']
       },
       {
-        test: /\.svg$/,
-        use: [
-          {
-            loader: '@svgr/webpack',
-            options: {
-              svgo: false
-            }
-          }
-        ]
-      },
-      {
         test: /\.css$/,
         exclude: /assets/,
         use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.css$/,
+        include: /assets/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
+        })
       },
       {
         test: /\.scss$/,
@@ -70,10 +89,15 @@ module.exports = {
           },
           'sass-loader'
         ]
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: ['file-loader']
       }
     ]
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html'
     }),
@@ -105,10 +129,6 @@ module.exports = {
     }),
     new CopyPlugin([
       {
-        from: path.resolve('./assets/css'),
-        to: path.resolve('./dist/assets/css')
-      },
-      {
         from: path.resolve('./assets/svg'),
         to: path.resolve('./dist/assets/svg')
       }
@@ -123,6 +143,7 @@ module.exports = {
       pngquant: {
         quality: '95-100'
       }
-    })
+    }),
+    new ExtractTextPlugin('./assets/bundle.min.css')
   ]
 };

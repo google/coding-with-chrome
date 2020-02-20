@@ -18,6 +18,7 @@
   "exclude": [
     "build",
     "node_modules",
+    "test",
     "types"
   ]
 }

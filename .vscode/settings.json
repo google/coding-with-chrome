@@ -8,11 +8,18 @@
   "javascript.implicitProjectConfig.checkJs": true,
   "cSpell.words": [
     "bootscript",
+    "browserconfig",
+    "contenthash",
+    "msapplication",
+    "mstile",
+    "offsetblur",
     "option",
     "rightclick",
     "service",
     "sourcemap",
     "splashscreen",
-    "worker"
+    "worker",
+    "xlink",
+    "yandex"
   ],
 }
