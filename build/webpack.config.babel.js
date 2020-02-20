@@ -19,7 +19,6 @@
  */
 
 import CopyPlugin from 'copy-webpack-plugin';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ImageminPlugin from 'imagemin-webpack-plugin';
@@ -32,12 +31,7 @@ import webpack from 'webpack';
 
 module.exports = {
   entry: {
-    main: './src/index.js',
-    'bundle.min.css': [
-      path.resolve('./assets/css/animations.css'),
-      path.resolve('./assets/css/base.css'),
-      path.resolve('./assets/css/splash_screen.css')
-    ]
+    main: './src/index.js'
   },
   output: {
     path: path.resolve('./dist'),
@@ -68,14 +62,6 @@ module.exports = {
         test: /\.css$/,
         exclude: /assets/,
         use: ['style-loader', 'css-loader']
-      },
-      {
-        test: /\.css$/,
-        include: /assets/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader'
-        })
       },
       {
         test: /\.scss$/,
@@ -143,7 +129,6 @@ module.exports = {
       pngquant: {
         quality: '95-100'
       }
-    }),
-    new ExtractTextPlugin('./assets/bundle.min.css')
+    })
   ]
 };

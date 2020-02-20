@@ -133,6 +133,10 @@ export class Splash {
   }
 }
 
+/**
+ * @param {Object} data
+ * @return {*}
+ */
 const templateProgress = data => {
   return (
     <Box className=".splash_screen">
@@ -152,6 +156,9 @@ const templateProgress = data => {
   );
 };
 
+/**
+ * @return {*}
+ */
 const templateVersion = () => {
   return <Box className="version">Coding with Chrome Suite {Version}</Box>;
 };

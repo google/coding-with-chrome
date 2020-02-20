@@ -3,13 +3,15 @@
     "target": "es6",
     "allowJs": true,
     "checkJs": true,
+    "jsx": "react",
     "moduleResolution": "node",
     "alwaysStrict": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "emitDeclarationOnly": true,
     "declaration": true,
     "outDir": "types",
-    "removeComments": false
+    "removeComments": false,
+    "allowSyntheticDefaultImports": true
   },
   "files": [
     "src/index.js",

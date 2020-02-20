@@ -97,7 +97,7 @@ export class CacheWorker {
    * @return {Array}
    */
   getAssets() {
-    return ['/', '/assets/bundle.min.css', ...this.assetsCache];
+    return ['/', ...this.assetsCache];
   }
 
   /**
