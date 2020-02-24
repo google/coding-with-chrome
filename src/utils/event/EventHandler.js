@@ -95,16 +95,16 @@ export class EventHandler {
   }
 
   /**
-   * @param {number} listener_key Unique key
+   * @param {number} listenerKey Unique key
    */
-  unlisten(listener_key) {
-    const listenerData = this.listener_[listener_key];
+  unlisten(listenerKey) {
+    const listenerData = this.listener_[listenerKey];
     if (!listenerData) {
-      throw new Error(`Unknown listener key: ${listener_key}!`);
+      throw new Error(`Unknown listener key: ${listenerKey}!`);
     }
     const { target, type, listener, options } = listenerData;
     target.removeEventListener(type, listener, options);
-    delete this.listener_[listener_key];
+    delete this.listener_[listenerKey];
   }
 
   /**

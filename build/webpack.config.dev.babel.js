@@ -21,8 +21,7 @@
 import webpackConfig from './webpack.config.babel';
 import merge from 'webpack-merge';
 
-const devConfig = merge(webpackConfig, {
-  mode: 'development',
+const devConfig = merge(webpackConfig(), {
   devtool: 'inline-source-map',
   devServer: {
     contentBase: './dist'

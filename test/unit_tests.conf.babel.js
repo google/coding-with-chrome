@@ -26,16 +26,17 @@ import webpackConfig from '../build/webpack.config.babel.js';
 import path from 'path';
 
 // Cleanup existing webpack config for unit tests.
-delete webpackConfig.entry;
-delete webpackConfig.output;
-webpackConfig.plugins = webpackConfig.plugins
+const webpackConfigGeneral = webpackConfig();
+delete webpackConfigGeneral.entry;
+delete webpackConfigGeneral.output;
+webpackConfigGeneral.plugins = webpackConfigGeneral.plugins
   .filter(p => !(p instanceof FaviconsWebpackPlugin))
   .filter(p => !(p instanceof HtmlWebpackPlugin))
   .filter(p => !(p instanceof WebpackPwaManifest))
   .filter(p => !(p instanceof webpack.DefinePlugin));
-webpackConfig.mode = 'development';
-webpackConfig.devtool = 'inline-source-map';
-webpackConfig.module.rules.push({
+webpackConfigGeneral.mode = 'development';
+webpackConfigGeneral.devtool = 'inline-source-map';
+webpackConfigGeneral.module.rules.push({
   enforce: 'pre',
   exclude: /node_modules|\.spec\.js|_test\.js$/,
   include: path.resolve('src/'),
@@ -62,8 +63,8 @@ export default config => {
     },
     reporters: ['mocha', 'coverage-istanbul'],
     webpack: {
-      module: webpackConfig.module,
-      plugins: webpackConfig.plugins
+      module: webpackConfigGeneral.module,
+      plugins: webpackConfigGeneral.plugins
     },
     coverageIstanbulReporter: {
       fixWebpackSourcePaths: true,

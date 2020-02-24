@@ -1,5 +1,5 @@
 /**
- * @fileoverview Main Script for the Coding with Chrome suite.
+ * @fileoverview General config for Coding in Chrome.
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -18,6 +18,15 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import { boot } from './boot/Boot';
-
-boot();
+/**
+ * User config class
+ */
+export class UserConfig {
+  /**
+   * @param {Object} stackQueueInstance
+   * @constructor
+   */
+  constructor() {
+    console.log('Loading User config ...');
+  }
+}

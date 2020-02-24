@@ -18,8 +18,8 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
- /** ServiceWorkerWebpackPlugin */
-declare const serviceWorkerOption;
+/** ServiceWorkerWebpackPlugin */
+declare const serviceWorkerOption: object;
 
 /** Version from package.json */
-declare const VERSION;
+declare const VERSION: string;

@@ -58,226 +58,7 @@
     <meta name="msapplication-config" content="/assets/favicons/browserconfig.xml" />
     <link rel="yandex-tableau-widget" href="/assets/favicons/yandex-browser-manifest.json" />
     <style>
-      /* General style definitions. */
-      html {
-        box-sizing: border-box;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-
-      *,
-      *::before,
-      *::after {
-        box-sizing: inherit;
-      }
-
-      strong,
-      b {
-        font-weight: bolder;
-      }
-
-      body {
-        color: rgba(0, 0, 0, 0.87);
-        margin: 0;
-        padding: 0;
-        font-size: 0.875rem;
-        font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-        font-weight: 400;
-        line-height: 1.43;
-        letter-spacing: 0.01071em;
-        background-color: #fafafa;
-      }
-
-      @media print {
-        body {
-          background-color: #fff;
-        }
-      }
-
-      body::backdrop {
-        background-color: #fafafa;
-      }
-
-      /* Animation class names. */
-      .spin {
-        animation: spin 2s linear infinite;
-      }
-
-      /* Animation key-frames definition. */
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      @keyframes fadeInTop {
-        from {
-          opacity: 0;
-          transform: translate3d(0, -125%, 0);
-        }
-        to {
-          opacity: 1;
-          transform: translate3d(0, 0, 0);
-        }
-      }
-
-      @keyframes fadeInLeft {
-        from {
-          opacity: 0;
-          transform: translate3d(-125%, 0, 0);
-        }
-        to {
-          opacity: 1;
-          transform: translate3d(0, 0, 0);
-        }
-      }
-
-      @keyframes fadeInBottom {
-        from {
-          opacity: 0;
-          transform: translate3d(0, 125%, 0);
-        }
-        to {
-          opacity: 1;
-          transform: translate3d(0, 0, 0);
-        }
-      }
-
-      @keyframes fadeInRight {
-        from {
-          opacity: 0;
-          transform: translate3d(125%, 0, 0);
-        }
-        to {
-          opacity: 1;
-          transform: translate3d(0, 0, 0);
-        }
-      }
-
-      @keyframes spin {
-        to {
-          transform: rotate(1turn);
-        }
-      }
-
-      @keyframes zoom {
-        from {
-          transform: scale3d(1, 1, 1);
-        }
-        50% {
-          transform: scale3d(1.2, 1.2, 1.2);
-        }
-        to {
-          transform: scale3d(1, 1, 1);
-        }
-      }
-
-      /* Splashscreen CSS definitions. */
-      #cwc-splash-screen {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        z-index: 1000;
-        background-color: #fff;
-        background: linear-gradient(135deg, rgba(200, 200, 200, 1) 0%, rgba(255, 255, 255, 1) 40%, rgba(255, 255, 255, 1) 60%, rgba(200, 200, 200, 1) 100%);
-      }
-
-      #cwc-splash-screen .content {
-        position: absolute;
-        left: 50%;
-        margin-right: -50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-      }
-
-      #cwc-splash-screen .progressText {
-        margin-top: 10px;
-        height: 28px;
-      }
-
-      #cwc-splash-screen .progressTextLog {
-        box-shadow: 10px 10px 15px silver;
-        margin-top: 10px;
-        height: 100px;
-        overflow-y: scroll;
-        display: flex;
-        flex-direction: column-reverse;
-      }
-
-      #cwc-splash-screen .progressTextLog li {
-        list-style: none;
-      }
-
-      /* Logo animation. */
-      #cwc-splash-screen .cwc-logo {
-        display: block;
-        margin-bottom: 5px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      #cwc-splash-screen .cwc-logo-screen-level_4 {
-        animation-duration: 2s;
-        animation-fill-mode: both;
-        animation-name: fadeInLeft;
-      }
-
-      #cwc-splash-screen .cwc-logo-screen-level_3 {
-        animation-duration: 2s;
-        animation-fill-mode: both;
-        animation-name: fadeInTop;
-      }
-
-      #cwc-splash-screen .cwc-logo-screen-level_2 {
-        animation-duration: 2s;
-        animation-fill-mode: both;
-        animation-name: fadeInRight;
-      }
-
-      #cwc-splash-screen .cwc-logo-screen-level_1 {
-        animation-duration: 2s;
-        animation-fill-mode: both;
-        animation-name: fadeInBottom;
-      }
-
-      #cwc-splash-screen .cwc-logo-screen-symbol,
-      #cwc-splash-screen .cwc-logo-screen-shadow {
-        animation-duration: 1s;
-        animation-delay: 1s;
-        animation-fill-mode: both;
-        animation-name: fadeIn;
-      }
-
-      #cwc-splash-screen .cwc-logo-keyboard-level_2 {
-        animation-duration: 1s;
-        animation-delay: 1s;
-        animation-fill-mode: both;
-        animation-name: fadeInLeft;
-      }
-
-      #cwc-splash-screen .cwc-logo-keyboard-level_1 {
-        animation-duration: 1s;
-        animation-delay: 1s;
-        animation-fill-mode: both;
-        animation-name: fadeInRight;
-      }
-
-      #cwc-splash-screen .cwc-logo-keyboard-shadow {
-        animation-duration: 1s;
-        animation-delay: 1.5s;
-        animation-fill-mode: both;
-        animation-name: fadeIn;
-      }
-
-      #cwc-splash-screen .cwc-logo-keyboard-key {
-        animation-duration: 1s;
-        animation-delay: 1s;
-        animation-fill-mode: both;
-        animation-name: fadeInTop;
-      }
+      <%= compilation.assets['boot.css'].source() %>
     </style>
   </head>
   <body>
@@ -315,11 +96,24 @@
           </svg>
         </div>
         <noscript>Please enable JavaScript to continue using this application.</noscript>
-        <div class="progress"></div>
+        <div class="progress">
+          <div class="info"></div>
+          <div class="progress-bar">
+            <div class="progress-bar-progress"></div>
+          </div>
+          <div class="progress-text"></div>
+          <div class="progress-text-log">
+            <ul></ul>
+          </div>
+        </div>
       </div>
-      <div class="version"></div>
+      <div class="version">Coding with Chrome</div>
     </div>
 
     <main id="cwc-content"></main>
+
+    <% for (let jsIndex = 0; jsIndex < htmlWebpackPlugin.files.js.length; jsIndex++) { %>
+      <script src="<%= htmlWebpackPlugin.files.js[jsIndex] %>"></script>
+    <% } %>
   </body>
 </html>

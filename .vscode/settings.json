@@ -5,7 +5,6 @@
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
-  "javascript.implicitProjectConfig.checkJs": true,
   "cSpell.words": [
     "Bordihn",
     "Markus",
@@ -14,6 +13,7 @@
     "contenthash",
     "favicons",
     "fileoverview",
+    "lcov",
     "msapplication",
     "mstile",
     "offsetblur",

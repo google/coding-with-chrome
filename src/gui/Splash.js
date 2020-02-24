@@ -18,12 +18,6 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-
-import Box from '@material-ui/core/Box';
-import LinearProgress from '@material-ui/core/LinearProgress';
-
 import { Version } from '../config/Config';
 import { StackQueue } from '../utils/stack/StackQueue';
 
@@ -37,12 +31,30 @@ export class Splash {
    */
   constructor(stackQueueInstance = new StackQueue(false)) {
     this.currentProgress = 0;
-    this.currentProgressText = '';
     this.progressSize = 0;
     this.progressStep = 1;
-    this.progressTextLog = [];
     this.stackQueue = stackQueueInstance;
-    this.startTime = new Date();
+    this.startTime = Date.now();
+
+    /** @type {node} */
+    this.nodeVersion = document.querySelector(
+      '#cwc-splash-screen > div.version'
+    );
+
+    /** @type {node} */
+    this.nodeProgressBar = document.querySelector(
+      '#cwc-splash-screen > div.content > div.progress > div.progress-bar > div'
+    );
+
+    /** @type {node} */
+    this.nodeProgressText = document.querySelector(
+      '#cwc-splash-screen > div.content > div.progress > div.progress-text'
+    );
+
+    /** @type {node} */
+    this.nodeProgressTextLog = document.querySelector(
+      '#cwc-splash-screen > div.content > div.progress > div.progress-text-log > ul'
+    );
   }
 
   /**
@@ -57,14 +69,9 @@ export class Splash {
    * Render splash screen.
    */
   render() {
-    ReactDOM.render(
-      templateProgress(this),
-      document.querySelector('#cwc-splash-screen > div.content > div.progress')
-    );
-    ReactDOM.render(
-      templateVersion(),
-      document.querySelector('#cwc-splash-screen > div.version')
-    );
+    if (this.nodeVersion) {
+      this.nodeVersion.textContent = `Coding with Chrome Suite ${Version}`;
+    }
   }
 
   /**
@@ -92,7 +99,9 @@ export class Splash {
   set progress(progress) {
     console.log('Set Progress to', progress);
     this.currentProgress = progress;
-    this.render();
+    if (this.nodeProgressBar) {
+      this.nodeProgressBar.style.transform = `translateX(-${100 - progress}%)`;
+    }
   }
 
   /**
@@ -107,14 +116,16 @@ export class Splash {
    */
   set progressText(text) {
     console.log('Set Progress text to', text);
-    const elapsedTime = Number.parseFloat(
-      // @ts-ignore
-      (new Date() - this.startTime) / 1000
-    ).toFixed(3);
-    const progressPer = Math.round(this.progress);
-    this.currentProgressText = text;
-    this.progressTextLog.push(`[${progressPer}%] (${elapsedTime} sec) ${text}`);
-    this.render();
+    if (this.nodeProgressText) {
+      this.nodeProgressText.textContent = `${text}`;
+    }
+    if (this.nodeProgressTextLog) {
+      const elapsedTime = (Date.now() - this.startTime) / 1000;
+      const logEntry = document.createElement('li');
+      const progressPer = Math.round(this.progress);
+      logEntry.textContent = `[${progressPer}%] (${elapsedTime} sec) ${text}`;
+      this.nodeProgressTextLog.appendChild(logEntry);
+    }
   }
 
   /**
@@ -132,33 +143,3 @@ export class Splash {
     this.stackQueue.start();
   }
 }
-
-/**
- * @param {Object} data
- * @return {*}
- */
-const templateProgress = data => {
-  return (
-    <Box className=".splash_screen">
-      <Box className="info"></Box>
-      <Box className="progress">
-        <LinearProgress variant="determinate" value={data.currentProgress} />
-      </Box>
-      <Box className="progressText">{data.progressText}</Box>
-      <Box className="progressTextLog">
-        <ul>
-          {data.progressTextLog.map((text, index) => {
-            return <li key={index}> {text} </li>;
-          })}
-        </ul>
-      </Box>
-    </Box>
-  );
-};
-
-/**
- * @return {*}
- */
-const templateVersion = () => {
-  return <Box className="version">Coding with Chrome Suite {Version}</Box>;
-};

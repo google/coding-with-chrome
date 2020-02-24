@@ -22,16 +22,21 @@ import CopyPlugin from 'copy-webpack-plugin';
 import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ImageminPlugin from 'imagemin-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import ServiceWorkerWebpackPlugin from 'serviceworker-webpack-plugin';
 import WebpackPwaManifest from 'webpack-pwa-manifest';
+import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import ExcludeAssetsPlugin from 'webpack-exclude-assets-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
 import path from 'path';
 import webpack from 'webpack';
 
-module.exports = {
+module.exports = (mode = 'development') => ({
+  mode: mode,
   entry: {
-    main: './src/index.js'
+    boot: ['./src/boot.js', './assets/css/boot.css']
   },
   output: {
     path: path.resolve('./dist'),
@@ -39,6 +44,8 @@ module.exports = {
     filename: '[name].[contenthash].js'
   },
   optimization: {
+    minimize: mode != 'development',
+    minimizer: [new TerserPlugin({}), new OptimizeCssAssetsPlugin({})],
     moduleIds: 'hashed',
     runtimeChunk: 'single',
     splitChunks: {
@@ -60,8 +67,17 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        exclude: /assets/,
-        use: ['style-loader', 'css-loader']
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: (resourcePath, context) => {
+                return path.relative(path.dirname(resourcePath), context) + '/';
+              }
+            }
+          },
+          'css-loader'
+        ]
       },
       {
         test: /\.scss$/,
@@ -84,8 +100,15 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].css'
+    }),
     new HtmlWebpackPlugin({
-      template: './src/index.html'
+      template: './src/index.html',
+      inject: false
+    }),
+    new ExcludeAssetsPlugin({
+      path: ['boot.css']
     }),
     new webpack.DefinePlugin({
       VERSION: JSON.stringify(require('./../package.json').version)
@@ -131,4 +154,4 @@ module.exports = {
       }
     })
   ]
-};
+});

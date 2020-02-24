@@ -2,9 +2,13 @@
   "extends": [
     "eslint:recommended",
     "google",
-    "plugin:prettier/recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
   ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "parserOptions": {
     "ecmaVersion": 2019,
     "sourceType": "module",
@@ -34,7 +38,8 @@
           "CodeMirror.fold.combine"
         ]
       }
-    ]
+    ],
+    "@typescript-eslint/explicit-function-return-type": "off"
   },
   "env": {
     "browser": true,
@@ -62,6 +67,12 @@
         "es6": true,
         "jasmine": true,
         "serviceworker": true
+      }
+    },
+    {
+      "files": ["build/**/*.js"],
+      "rules": {
+        "@typescript-eslint/camelcase": "off"
       }
     }
   ]

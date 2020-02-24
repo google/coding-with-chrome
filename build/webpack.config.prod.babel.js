@@ -21,7 +21,7 @@
 import webpackConfig from './webpack.config.babel';
 import merge from 'webpack-merge';
 
-const prodConfig = merge(webpackConfig, {
+const prodConfig = merge(webpackConfig('production'), {
   mode: 'production'
 });
 

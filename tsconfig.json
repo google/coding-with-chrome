@@ -14,8 +14,8 @@
     "allowSyntheticDefaultImports": true
   },
   "files": [
+    "global.d.ts",
     "src/index.js",
-    "global.d.ts"
   ],
   "exclude": [
     "build",

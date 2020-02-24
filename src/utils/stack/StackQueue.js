@@ -30,7 +30,7 @@ export class StackQueue {
    */
   constructor(autostart = true) {
     /** @type {number|string} */
-    this.default_group = 'default';
+    this.defaultGroup = 'default';
 
     /** @type {boolean} */
     this.autoStart = Boolean(autostart);
@@ -88,7 +88,7 @@ export class StackQueue {
    * @export
    */
   clear() {
-    this.stack_[this.default_group] = [];
+    this.stack_[this.defaultGroup] = [];
     this.run = false;
   }
 
@@ -127,7 +127,7 @@ export class StackQueue {
    * @return {?StackEntry}
    * @export
    */
-  getNext(group = this.default_group) {
+  getNext(group = this.defaultGroup) {
     if (this.getSize(group) > 0) {
       return this.stack_[group].shift();
     }
@@ -138,7 +138,7 @@ export class StackQueue {
    * @param {number|string=} group
    * @return {number}
    */
-  getSize(group = this.default_group) {
+  getSize(group = this.defaultGroup) {
     return this.stack_[group] && this.stack_[group].length;
   }
 
@@ -148,7 +148,7 @@ export class StackQueue {
    * @param {number|string=} group
    * @private
    */
-  addStack_(stackEntry, group = this.default_group) {
+  addStack_(stackEntry, group = this.defaultGroup) {
     if (!(group in this.stack_)) {
       this.stack_[group] = [];
     }
@@ -167,13 +167,13 @@ export class StackQueue {
       return;
     }
     if (
-      !(this.default_group in this.stack_) ||
-      this.stack_[this.default_group].length <= 0
+      !(this.defaultGroup in this.stack_) ||
+      this.stack_[this.defaultGroup].length <= 0
     ) {
       this.active = false;
       return;
     }
-    const task = this.stack_[this.default_group].shift();
+    const task = this.stack_[this.defaultGroup].shift();
     const func = task.getFunc();
     switch (task.getType()) {
       // Normal command handling.
