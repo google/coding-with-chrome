@@ -20,8 +20,8 @@
     "@babel/preset-react": "^7.8.3",
     "@babel/register": "^7.8.3",
     "@material-ui/core": "^4.9.4",
-    "@typescript-eslint/eslint-plugin": "^2.20.0",
-    "@typescript-eslint/parser": "^2.20.0",
+    "@typescript-eslint/eslint-plugin": "^2.21.0",
+    "@typescript-eslint/parser": "^2.21.0",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.1.1",
@@ -51,7 +51,7 @@
     "prettier": "^1.19.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "sass": "^1.25.0",
+    "sass": "^1.26.0",
     "sass-loader": "^8.0.2",
     "serviceworker-webpack-plugin": "^1.0.1",
     "style-loader": "^1.1.3",
@@ -74,6 +74,7 @@
     "lint:javascript": "eslint .",
     "start": "webpack-dev-server --config build/webpack.config.dev.babel.js",
     "start:prod": "npm run build && ws",
-    "build": "webpack --config build/webpack.config.prod.babel.js"
+    "build": "webpack --config build/webpack.config.prod.babel.js",
+    "sync": "git pull & npm install & npm prune && npm update"
   }
 }

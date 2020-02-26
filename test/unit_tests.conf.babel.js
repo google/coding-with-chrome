@@ -27,15 +27,11 @@ import path from 'path';
 
 // Cleanup existing webpack config for unit tests.
 const webpackConfigGeneral = webpackConfig();
-delete webpackConfigGeneral.entry;
-delete webpackConfigGeneral.output;
 webpackConfigGeneral.plugins = webpackConfigGeneral.plugins
   .filter(p => !(p instanceof FaviconsWebpackPlugin))
   .filter(p => !(p instanceof HtmlWebpackPlugin))
   .filter(p => !(p instanceof WebpackPwaManifest))
   .filter(p => !(p instanceof webpack.DefinePlugin));
-webpackConfigGeneral.mode = 'development';
-webpackConfigGeneral.devtool = 'inline-source-map';
 webpackConfigGeneral.module.rules.push({
   enforce: 'pre',
   exclude: /node_modules|\.spec\.js|_test\.js$/,
@@ -63,6 +59,8 @@ export default config => {
     },
     reporters: ['mocha', 'coverage-istanbul'],
     webpack: {
+      devtool: 'inline-source-map',
+      mode: 'development',
       module: webpackConfigGeneral.module,
       plugins: webpackConfigGeneral.plugins
     },
