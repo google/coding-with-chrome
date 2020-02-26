@@ -21,6 +21,8 @@
 import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import WebpackPwaManifest from 'webpack-pwa-manifest';
+import Puppeteer from 'puppeteer';
+import PuppeteerFirefox from 'puppeteer-firefox';
 import webpack from 'webpack';
 import webpackConfig from '../build/webpack.config.babel.js';
 import path from 'path';
@@ -43,11 +45,15 @@ webpackConfigGeneral.module.rules.push({
   }
 });
 
+// Configure Browser support
+process.env.CHROME_BIN = Puppeteer.executablePath();
+process.env.FIREFOX_BIN = PuppeteerFirefox.executablePath();
+
 // Karma Test Config
 export default config => {
   config.set({
     basePath: '../',
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless', 'FirefoxHeadless'],
     autoWatch: false,
     colors: true,
     failOnEmptyTestSuite: false,

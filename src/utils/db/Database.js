@@ -270,6 +270,13 @@ export class Database {
   }
 
   /**
+   * @return {string}
+   */
+  getObjectStoreName() {
+    return this.defaultObjectStore_;
+  }
+
+  /**
    * @param {number!} version
    * @return {THIS}
    * @template THIS

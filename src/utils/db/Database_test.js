@@ -24,4 +24,26 @@ describe('Database', function() {
     const db = new Database('test');
     expect(typeof db).toEqual('object');
   });
+
+  it('.setObjectStoreName', function() {
+    const db = new Database('test').setObjectStoreName('__test__');
+    expect(db.getObjectStoreName()).toEqual('__test__');
+  });
+
+  it('.open', function(done) {
+    const db = new Database('test');
+    db.open().then(result => {
+      expect(typeof result).toEqual('object');
+      done();
+    });
+  });
+
+  it('.put', function(done) {
+    const db = new Database('test');
+    db.open().then(() => {
+      db.put('test', 1234).then(() => {
+        done();
+      });
+    });
+  });
 });
