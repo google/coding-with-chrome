@@ -31,17 +31,17 @@ describe('Database', function() {
   });
 
   it('.open', function(done) {
-    const db = new Database('test');
+    const db = new Database('test_open');
     db.open().then(result => {
       expect(typeof result).toEqual('object');
       done();
     });
   });
 
-  it('.put', function(done) {
-    const db = new Database('test');
+  it('.add', function(done) {
+    const db = new Database('test_add');
     db.open().then(() => {
-      db.put('test', 1234).then(() => {
+      db.add('test', 1234).then(() => {
         done();
       });
     });

@@ -74,7 +74,12 @@ export class Database {
         }
         this.database_ = dbRequest.result;
         this.version_ = this.database_.version;
-        console.info('Open database with version', this.version_);
+        console.info(
+          'Open database',
+          this.name_,
+          'with version',
+          this.version_
+        );
         resolve(this.database_);
       };
       dbRequest['onerror'] = e => {

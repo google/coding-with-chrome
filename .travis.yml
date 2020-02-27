@@ -6,10 +6,5 @@ language: node_js
 node_js:
   - stable
 
-addons:
-  apt:
-    update: true
-    packages: libstdc++6
-
 script:
   - npm test

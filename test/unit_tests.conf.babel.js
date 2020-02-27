@@ -21,8 +21,6 @@
 import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import WebpackPwaManifest from 'webpack-pwa-manifest';
-import Puppeteer from 'puppeteer';
-import PuppeteerFirefox from 'puppeteer-firefox';
 import webpack from 'webpack';
 import webpackConfig from '../build/webpack.config.babel.js';
 import path from 'path';
@@ -36,7 +34,7 @@ webpackConfigGeneral.plugins = webpackConfigGeneral.plugins
   .filter(p => !(p instanceof webpack.DefinePlugin));
 webpackConfigGeneral.module.rules.push({
   enforce: 'pre',
-  exclude: /node_modules|\.spec\.js|_test\.js$/,
+  exclude: /node_modules|_test\.js$/,
   include: path.resolve('src/'),
   test: /\.js$|\.jsx$/,
   use: {
@@ -45,25 +43,28 @@ webpackConfigGeneral.module.rules.push({
   }
 });
 
-// Configure Browser support
-process.env.CHROME_BIN = Puppeteer.executablePath();
-process.env.FIREFOX_BIN = PuppeteerFirefox.executablePath();
-
 // Karma Test Config
 export default config => {
   config.set({
     basePath: '../',
-    browsers: ['ChromeHeadless', 'FirefoxHeadless'],
+    browsers: ['Chromium', 'Firefox', 'WebKit'],
     autoWatch: false,
     colors: true,
     failOnEmptyTestSuite: false,
     singleRun: true,
     frameworks: ['jasmine'],
-    files: [{ pattern: 'src/**/*_test.js', watched: false }],
+    files: [
+      {
+        pattern: 'src/**/*_test.js',
+        included: true,
+        served: true,
+        watched: false
+      }
+    ],
     preprocessors: {
       'src/**/*_test.js': ['webpack']
     },
-    reporters: ['mocha', 'coverage-istanbul'],
+    reporters: ['mocha', 'coverage'],
     webpack: {
       devtool: 'inline-source-map',
       mode: 'development',
@@ -71,8 +72,17 @@ export default config => {
       plugins: webpackConfigGeneral.plugins
     },
     coverageIstanbulReporter: {
+      combineBrowserReports: true,
       fixWebpackSourcePaths: true,
       reports: ['lcov', 'text', 'html']
+    },
+    coverageReporter: {
+      // specify a common output directory
+      dir: 'coverage',
+      subdir: function(browser) {
+        return browser.toLowerCase().split(/[ /-]/)[0];
+      },
+      reporters: [{ type: 'html' }, { type: 'lcov' }, { type: 'text' }]
     }
   });
 };
