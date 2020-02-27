@@ -50,9 +50,8 @@
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "playwright": "^0.11.1",
     "prettier": "^1.19.1",
-    "puppeteer": "^2.1.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
     "sass": "^1.26.1",
     "sass-loader": "^8.0.2",
     "serviceworker-webpack-plugin": "^1.0.1",
@@ -77,6 +76,6 @@
     "start": "webpack-dev-server --config build/webpack.config.dev.babel.js",
     "start:prod": "npm run build && ws",
     "build": "webpack --config build/webpack.config.prod.babel.js",
-    "sync": "git pull & npm install & npm prune && npm update"
+    "sync": "git pull & npm install & npm prune && npm update && npm audit fix"
   }
 }

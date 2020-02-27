@@ -43,6 +43,15 @@ webpackConfigGeneral.module.rules.push({
   }
 });
 
+// Display unhandled rejections and process errors.
+process.on('unhandledRejection', reason => {
+  console.error(reason);
+});
+process.on('infrastructure_error', error => {
+  console.error('infrastructure_error', error);
+  process.exit(1);
+});
+
 // Karma Test Config
 export default config => {
   config.set({
