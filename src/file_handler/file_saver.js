@@ -174,7 +174,6 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = async function() {
  */
 cwc.fileHandler.FileSaver.prototype.addFileExtension = function(
     filename, extension = cwc.utils.mime.Type.CWC.ext[0]) {
-  console.log('addFileExtension', filename);
   if (!filename) {
     this.log_.error('Invalid filename', filename, 'for', extension);
     return;
@@ -250,6 +249,7 @@ cwc.fileHandler.FileSaver.prototype.fileWriterHandler = function(
     }
     fileInstance.setFileHandler(file_entry);
     fileInstance.setUnsavedChange(false);
+    fileInstance.setFilename(filename);
     helperInstance.showSuccess('Saved file ' + filename + ' successful.');
   };
   writer.onerror = function(opt_event) {
