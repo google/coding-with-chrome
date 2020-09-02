@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "private": true,
   "devDependencies": {
-    "bestzip": "^1.1.6",
+    "bestzip": "^2.1.7",
     "cl-editor": "^1.4.0",
     "closure-builder": "^2.3.8",
     "command-line-usage": "^5.0.5",
