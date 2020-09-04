@@ -1,5 +1,5 @@
 /**
- * @fileoverview Webpack prod config
+ * @fileoverview Simple File System tests.
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -17,13 +17,24 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+import { FileSystem } from './FileSystem';
 
-import webpackConfig from './webpack.config.babel';
-import merge from 'webpack-merge';
+describe('FileSystem', function() {
+  it('constructor', function() {
+    const fileSystem = new FileSystem();
+    expect(typeof fileSystem).toBe('object');
+  });
 
-const prodConfig = merge(webpackConfig('production'), {
-  devtool: 'none',
-  mode: 'production'
+  it('.mount', function() {
+    const fileSystem = new FileSystem();
+    fileSystem.mount('/tmp');
+  });
+
+  it('.mkdir', function() {
+    const fileSystem = new FileSystem();
+    fileSystem.mount('/tmp');
+    fileSystem.mkdir('/tmp/test1');
+    fileSystem.mkdir('/tmp/test2');
+    fileSystem.mkdir('/tmp/test3');
+  });
 });
-
-module.exports = prodConfig;

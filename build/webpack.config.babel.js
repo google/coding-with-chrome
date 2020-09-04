@@ -19,15 +19,15 @@
  */
 
 import CopyPlugin from 'copy-webpack-plugin';
+import ExcludeAssetsPlugin from 'webpack-exclude-assets-plugin';
 import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ImageminPlugin from 'imagemin-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import ServiceWorkerWebpackPlugin from 'serviceworker-webpack-plugin';
-import WebpackPwaManifest from 'webpack-pwa-manifest';
 import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import ServiceWorkerWebpackPlugin from 'serviceworker-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
-import ExcludeAssetsPlugin from 'webpack-exclude-assets-plugin';
+import WebpackPwaManifest from 'webpack-pwa-manifest';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
 import path from 'path';
@@ -66,7 +66,7 @@ module.exports = (mode = 'development') => ({
         use: ['babel-loader']
       },
       {
-        test: /\.css$/,
+        test: /\.css$/i,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -80,7 +80,7 @@ module.exports = (mode = 'development') => ({
         ]
       },
       {
-        test: /\.scss$/,
+        test: /\.scss$/i,
         loaders: [
           'style-loader',
           {
@@ -101,7 +101,7 @@ module.exports = (mode = 'development') => ({
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name].css'
+      moduleFilename: ({ name }) => `${name.replace('/js/', '/css/')}.css`
     }),
     new HtmlWebpackPlugin({
       template: './src/index.html',

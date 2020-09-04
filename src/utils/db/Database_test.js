@@ -46,4 +46,135 @@ describe('Database', function() {
       });
     });
   });
+
+  it('.add (group)', function(done) {
+    const db = new Database('test_add_group');
+    db.open({
+      objectStoreNames: ['__test__1__', '__test__2__', '__test__3__']
+    }).then(() => {
+      db.add('test', 1234, '__test__2__').then(() => {
+        done();
+      });
+    });
+  });
+
+  it('.add (group) failed', function(done) {
+    const db = new Database('test_add_group_failed');
+    db.open({
+      objectStoreNames: ['__test__1__', '__test__2__', '__test__3__']
+    }).then(() => {
+      db.add('test', 1234, '__test__4__').then(null, error => {
+        console.error(error);
+        done();
+      });
+    });
+  });
+
+  it('.get', function(done) {
+    const db = new Database('test_get');
+    const dbValue = Math.random();
+    db.open().then(() => {
+      db.add('test', dbValue).then(() => {
+        db.get('test').then(value => {
+          expect(value).toEqual(dbValue);
+          done();
+        });
+      });
+    });
+  });
+
+  it('.get not existing name', function(done) {
+    const db = new Database('test_get_failed');
+    const dbValue = Math.random();
+    db.open().then(() => {
+      db.add('test', dbValue).then(() => {
+        db.get('test2').then(value => {
+          expect(value).toEqual(undefined);
+          done();
+        });
+      });
+    });
+  });
+
+  it('.getAll', function(done) {
+    const db = new Database('test_get_all');
+    db.open()
+      .then(() => db.add('test1', 1))
+      .then(() => db.add('test2', 2))
+      .then(() => db.add('test3', 3))
+      .then(() => db.add('test4', 4))
+      .then(() => db.add('test5', 5))
+      .then(() => {
+        db.getAll().then(value => {
+          expect(value).toEqual([1, 2, 3, 4, 5]);
+          done();
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  });
+
+  it('.getAllKeys', function(done) {
+    const db = new Database('test_get_all_keys');
+    db.open()
+      .then(() => db.add('test1', 1))
+      .then(() => db.add('test2', 2))
+      .then(() => db.add('test3', 3))
+      .then(() => db.add('test4', 4))
+      .then(() => db.add('test5', 5))
+      .then(() => {
+        db.getAllKeys().then(value => {
+          expect(value).toEqual(['test1', 'test2', 'test3', 'test4', 'test5']);
+          done();
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  });
+
+  it('.getAllWithKeys', function(done) {
+    const db = new Database('test_get_all_with_keys');
+    const result = new Map([
+      ['test1', 1],
+      ['test2', 2],
+      ['test3', 3]
+    ]);
+    db.open()
+      .then(() => db.add('test1', 1))
+      .then(() => db.add('test2', 2))
+      .then(() => db.add('test3', 3))
+      .then(() => {
+        db.getAllWithKeys().then(value => {
+          expect(value).toEqual(result);
+          done();
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  });
+
+  it('.delete', function(done) {
+    const db = new Database('test_delete');
+    const result = new Map([
+      ['test1', 1],
+      ['test3', 3]
+    ]);
+    db.open()
+      .then(() => db.add('test1', 1))
+      .then(() => db.add('test2', 2))
+      .then(() => db.add('test3', 3))
+      .then(() => db.delete('test2'))
+      .then(() => {
+        db.getAllWithKeys().then(value => {
+          expect(value).toEqual(result);
+          done();
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  });
 });

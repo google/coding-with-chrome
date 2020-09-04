@@ -25,5 +25,6 @@ export const StackType = {
   CMD: 'cmd',
   DELAY: 'delay',
   PROMISE: 'promise',
+  PROMISE_RAISE_ERROR: 'promise_raise_error',
   UNKNOWN: ''
 };

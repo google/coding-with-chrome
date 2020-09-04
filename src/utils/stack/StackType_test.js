@@ -21,7 +21,7 @@
 import { StackType } from './StackType';
 
 describe('StackType', function() {
-  it('Is valid object type', function() {
+  it('Type: Is valid object type', function() {
     expect(typeof StackType).toEqual('object');
   });
 
@@ -35,6 +35,10 @@ describe('StackType', function() {
 
   it('Type: PROMISE', function() {
     expect(StackType.PROMISE).toEqual('promise');
+  });
+
+  it('Type: PROMISE_RAISE_ERROR', function() {
+    expect(StackType.PROMISE_RAISE_ERROR).toEqual('promise_raise_error');
   });
 
   it('Type: UNKNOWN', function() {

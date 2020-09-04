@@ -1,21 +1,22 @@
 {
   "compilerOptions": {
-    "target": "es6",
     "allowJs": true,
-    "checkJs": true,
-    "jsx": "react",
-    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "alwaysStrict": true,
-    "strictNullChecks": true,
-    "emitDeclarationOnly": true,
+    "checkJs": true,
     "declaration": true,
+    "emitDeclarationOnly": true,
+    "jsx": "react",
+    "module": "es2020",
+    "moduleResolution": "node",
     "outDir": "types",
     "removeComments": false,
-    "allowSyntheticDefaultImports": true
+    "strictNullChecks": true,
+    "target": "es2020"
   },
   "files": [
     "global.d.ts",
-    "src/index.js",
+    "src/boot.js",
   ],
   "exclude": [
     "build",

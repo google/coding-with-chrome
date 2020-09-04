@@ -68,7 +68,7 @@ export class StackQueue {
   }
 
   /**
-   * Add promise command to the stack queue.
+   * Add promise command to the stack queue and ignore error, if any.
    * @param {!Function} command
    * @param {?Function=} callback
    * @param {number|string=} group
@@ -78,6 +78,22 @@ export class StackQueue {
     if (command && command instanceof Function) {
       this.addStack_(
         new StackEntry(StackType.PROMISE, command, '', callback),
+        group
+      );
+    }
+  }
+
+  /**
+   * Add promise command to the stack queue and raise error, if any.
+   * @param {!Function} command
+   * @param {?Function=} callback
+   * @param {number|string=} group
+   * @export
+   */
+  addPromiseRaiseError(command, callback, group) {
+    if (command && command instanceof Function) {
+      this.addStack_(
+        new StackEntry(StackType.PROMISE_RAISE_ERROR, command, '', callback),
         group
       );
     }
@@ -196,14 +212,14 @@ export class StackQueue {
         );
         break;
 
-      // Promise command handling.
+      // Promise command handling, ignore error.
       case StackType.PROMISE:
         this.run = true;
         func()
-          .then(e => {
+          .then(result => {
             const callback = task.getCallback();
             if (callback) {
-              callback(e);
+              callback(result);
             }
             this.run = false;
             this.handleQueue_();
@@ -211,6 +227,25 @@ export class StackQueue {
           .catch(() => {
             this.run = false;
             this.handleQueue_();
+          });
+        break;
+
+      // Promise command handling. raise error.
+      case StackType.PROMISE_RAISE_ERROR:
+        this.run = true;
+        func()
+          .then(result => {
+            const callback = task.getCallback();
+            if (callback) {
+              callback(result);
+            }
+            this.run = false;
+            this.handleQueue_();
+          })
+          .catch(error => {
+            this.run = false;
+            this.handleQueue_();
+            throw error;
           });
         break;
 

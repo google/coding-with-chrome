@@ -56,12 +56,23 @@
     <meta name="msapplication-TileColor" content="#fff" />
     <meta name="msapplication-TileImage" content="/assets/favicons/mstile-144x144.png" />
     <meta name="msapplication-config" content="/assets/favicons/browserconfig.xml" />
+    <meta name="description" content="Coding with Chrome Suite" />
     <link rel="yandex-tableau-widget" href="/assets/favicons/yandex-browser-manifest.json" />
-    <style>
-      <%= compilation.assets['boot.css'].source() %>
-    </style>
+    <!-- prettier-ignore-start -->
+    <% for (let cssIndex = 0; cssIndex < htmlWebpackPlugin.files.css.length; cssIndex++) { %>
+      <% if (htmlWebpackPlugin.files.css[cssIndex] == '/boot.css') { %>
+        <style>
+          <%= compilation.assets['boot.css'].source() %>
+        </style>
+      <% } else { %>
+        <link rel="preload" href="<%= htmlWebpackPlugin.files.css[cssIndex] %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[cssIndex] %>"></noscript>
+      <% } %>
+    <% } %>
+    <!-- prettier-ignore-end -->
   </head>
   <body>
+    <div id="cwc-terminal"></div>
     <div id="cwc-splash-screen">
       <div class="content">
         <div class="logo">

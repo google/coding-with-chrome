@@ -77,6 +77,9 @@ export class CacheWorker {
    * @param {*} event
    */
   fetch(event) {
+    if (event.request && event.request.url.startsWith('chrome-extension://')) {
+      return;
+    }
     console.log('Fetch request', event);
     event.respondWith(
       caches.open(this.version).then(function(cache) {

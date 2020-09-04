@@ -49,6 +49,10 @@ export class Database {
    * @return {Promise}
    */
   open(config = this.config_) {
+    if (!('indexedDB' in window)) {
+      console.error(`This browser doesn't support IndexedDB`);
+      return;
+    }
     const formerConfig = this.config_;
     let objectStoreNames = [this.defaultObjectStore_];
     if (config) {
@@ -99,6 +103,39 @@ export class Database {
   }
 
   /**
+   * @param {!string} command
+   * @param {string} group
+   * @param  {...any} params
+   * @return {Promise}
+   */
+  execute(command, group, ...params) {
+    return new Promise((resolve, reject) => {
+      if (!this.existObjectStore_(group)) {
+        reject(Error(`Object store ${group} does not exists in database!`));
+        return;
+      }
+      this.open().then(() => {
+        console.log(
+          `[${this.name_}:${group ||
+            this.defaultObjectStore_}] Executing ${command}(${params})`
+        );
+        const request = ['get', 'getAll', 'getAllKeys'].includes(command)
+          ? this.getObjectStoreReadOnly_(group)[command](...params)
+          : this.getObjectStore_(group)[command](...params);
+        request['onsuccess'] = () => {
+          resolve(request.result);
+        };
+        request['onerror'] = e => {
+          reject(Error(`Failed to execute ${name}: ${e}`));
+        };
+        request['onabort'] = () => {
+          reject(Error(`Transaction to execute ${name} aborted!`));
+        };
+      });
+    });
+  }
+
+  /**
    * Adds a new record, if not already exists.
    * @param {string} name
    * @param {!string|number} content
@@ -106,17 +143,7 @@ export class Database {
    * @return {Promise}
    */
   add(name, content, group) {
-    return new Promise((resolve, reject) => {
-      this.open().then(() => {
-        console.info('Add', name, group ? ' in group ' + group : '');
-        const request = this.getObjectStore_(group)['add'](content, name);
-        request.onsuccess = resolve;
-        request.onerror = () => {
-          console.error('Failed to add', name, 'to group', group);
-          reject(Error(`Failed to add ${name} to group ${group} group`));
-        };
-      });
-    });
+    return this.execute('add', group, content, name);
   }
 
   /**
@@ -125,22 +152,7 @@ export class Database {
    * @return {Promise}
    */
   clear(group = this.defaultObjectStore_) {
-    return new Promise((resolve, reject) => {
-      this.open().then(() => {
-        if (this.existObjectStore_(group)) {
-          console.info('Clear group', group);
-          const request = this.getObjectStore_(group)['clear']();
-          request.onsuccess = resolve;
-          request.onerror = () => {
-            console.warn('Failed to clear database');
-            reject(Error('Failed to clear database'));
-          };
-        } else {
-          console.warn('ObjectStore', group, 'does not exists!');
-          resolve();
-        }
-      });
-    });
+    return this.execute('clear', group, group);
   }
 
   /**
@@ -151,17 +163,7 @@ export class Database {
    * @return {Promise}
    */
   put(name, content, group) {
-    return new Promise((resolve, reject) => {
-      this.open().then(() => {
-        console.info('Put', name, group ? ' in group ' + group : '');
-        const request = this.getObjectStore_(group)['put'](content, name);
-        request.onsuccess = resolve;
-        request.onerror = () => {
-          console.error('Failed to put', name, 'to group', group);
-          reject(Error(`'Failed to put ${name} to group ${group}!`));
-        };
-      });
-    });
+    return this.execute('put', group, content, name);
   }
 
   /**
@@ -170,20 +172,7 @@ export class Database {
    * @return {Promise}
    */
   get(name, group) {
-    if (!name) {
-      console.error('Invalid name', name, '!');
-    }
-    return new Promise((resolve, reject) => {
-      this.open().then(() => {
-        const result = this.getObjectStoreReadOnly_(group)['get'](name);
-        result['onsuccess'] = e => {
-          resolve(e.target.result);
-        };
-        result['onerror'] = e => {
-          reject(e);
-        };
-      });
-    });
+    return this.execute('get', group, name);
   }
 
   /**
@@ -193,18 +182,7 @@ export class Database {
    * @return {Promise}
    */
   getAll(group, query, count) {
-    return new Promise((resolve, reject) => {
-      const result = this.getObjectStoreReadOnly_(group)['getAll'](
-        query,
-        count
-      );
-      result['onsuccess'] = e => {
-        resolve(e.target.result);
-      };
-      result['onerror'] = e => {
-        reject(e);
-      };
-    });
+    return this.execute('getAll', group, query, count);
   }
 
   /**
@@ -214,18 +192,7 @@ export class Database {
    * @return {Promise}
    */
   getAllKeys(group, query, count) {
-    return new Promise((resolve, reject) => {
-      const result = this.getObjectStoreReadOnly_(group)['getAllKeys'](
-        query,
-        count
-      );
-      result['onsuccess'] = e => {
-        resolve(e.target.result);
-      };
-      result['onerror'] = e => {
-        reject(e);
-      };
-    });
+    return this.execute('getAllKeys', group, query, count);
   }
 
   /**
@@ -253,15 +220,7 @@ export class Database {
    * @return {Promise}
    */
   delete(name, group) {
-    return new Promise((resolve, reject) => {
-      const result = this.getObjectStore_(group)['delete'](name);
-      result['onsuccess'] = e => {
-        resolve(e.target.result);
-      };
-      result['onerror'] = e => {
-        reject(e);
-      };
-    });
+    return this.execute('delete', group, name);
   }
 
   /**
@@ -304,6 +263,9 @@ export class Database {
    * @private
    */
   getObjectStore_(group = this.defaultObjectStore_) {
+    if (!this.existObjectStore_(group)) {
+      console.error(`Object store ${group} does not exists in database!`);
+    }
     return this.database_['transaction'](group, 'readwrite')['objectStore'](
       group
     );
@@ -315,6 +277,9 @@ export class Database {
    * @private
    */
   getObjectStoreReadOnly_(group = this.defaultObjectStore_) {
+    if (!this.existObjectStore_(group)) {
+      console.error(`Object store ${group} does not exists in database!`);
+    }
     return this.database_['transaction'](group, 'readonly')['objectStore'](
       group
     );

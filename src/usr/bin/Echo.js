@@ -1,5 +1,5 @@
 /**
- * @fileoverview Webpack prod config
+ * @fileoverview usr/bin/echo for the Coding with Chrome suite.
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -18,12 +18,29 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import webpackConfig from './webpack.config.babel';
-import merge from 'webpack-merge';
+import { App } from '../../kernel/App';
 
-const prodConfig = merge(webpackConfig('production'), {
-  devtool: 'none',
-  mode: 'production'
-});
+/**
+ * Echo class.
+ */
+export class Echo extends App {
+  /**
+   * @param {?} environment
+   * @param {?} terminal
+   * @constructor
+   */
+  constructor(environment = null, terminal = null) {
+    super(environment, terminal);
+  }
 
-module.exports = prodConfig;
+  /**
+   * @param {string} text
+   * @return {Promise}
+   */
+  run(text) {
+    return new Promise(resolve => {
+      this.terminal.writeResponse(text.trim());
+      resolve();
+    });
+  }
+}

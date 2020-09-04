@@ -1,5 +1,5 @@
 /**
- * @fileoverview Webpack prod config
+ * @fileoverview usr/bin/env for the Coding with Chrome suite.
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -18,12 +18,33 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import webpackConfig from './webpack.config.babel';
-import merge from 'webpack-merge';
+import { App } from '../../kernel/App';
 
-const prodConfig = merge(webpackConfig('production'), {
-  devtool: 'none',
-  mode: 'production'
-});
+/**
+ * Env class.
+ */
+export class Env extends App {
+  /**
+   * @param {?} environment
+   * @param {?} terminal
+   * @constructor
+   */
+  constructor(environment = null, terminal = null) {
+    super(environment, terminal);
+  }
 
-module.exports = prodConfig;
+  /**
+   * @param {string} args
+   * @return {Promise}
+   */
+  run(args) {
+    return new Promise(resolve => {
+      if (!args) {
+        for (const [name, value] of Object.entries(this.env.environment)) {
+          this.terminal.writeResponse(`${name}=${value}`);
+        }
+      }
+      resolve();
+    });
+  }
+}

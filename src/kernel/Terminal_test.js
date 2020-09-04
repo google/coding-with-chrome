@@ -1,5 +1,5 @@
 /**
- * @fileoverview Webpack prod config
+ * @fileoverview Virtual Terminal for the kernel tests.
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -17,13 +17,11 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+import { Terminal } from './Terminal';
 
-import webpackConfig from './webpack.config.babel';
-import merge from 'webpack-merge';
-
-const prodConfig = merge(webpackConfig('production'), {
-  devtool: 'none',
-  mode: 'production'
+describe('Terminal', function() {
+  it('constructor', function() {
+    const terminal = new Terminal();
+    expect(typeof terminal).toEqual('object');
+  });
 });
-
-module.exports = prodConfig;

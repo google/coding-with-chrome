@@ -1,5 +1,5 @@
 /**
- * @fileoverview Webpack prod config
+ * @fileoverview usr/bin/ls for the Coding with Chrome suite.
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -18,12 +18,20 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import webpackConfig from './webpack.config.babel';
-import merge from 'webpack-merge';
-
-const prodConfig = merge(webpackConfig('production'), {
-  devtool: 'none',
-  mode: 'production'
-});
-
-module.exports = prodConfig;
+/**
+ * Ls class.
+ */
+export class Ls {
+  /**
+   * @param {?} args
+   * @param {?} env
+   * @param {?} terminal
+   * @return {Promise}
+   */
+  handler(args, env, terminal) {
+    return new Promise(resolve => {
+      terminal.writeResponse(args);
+      resolve();
+    });
+  }
+}

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Webpack prod config
+ * @fileoverview MountPoint for virtual file system.
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -18,12 +18,8 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import webpackConfig from './webpack.config.babel';
-import merge from 'webpack-merge';
-
-const prodConfig = merge(webpackConfig('production'), {
-  devtool: 'none',
-  mode: 'production'
-});
-
-module.exports = prodConfig;
+export const MountEntryOptions = {
+  exec: true,
+  nouser: true,
+  readwrite: true
+};

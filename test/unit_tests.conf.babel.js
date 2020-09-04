@@ -71,7 +71,7 @@ export default config => {
       }
     ],
     preprocessors: {
-      'src/**/*_test.js': ['webpack']
+      'src/**/*_test.js': ['webpack', 'sourcemap']
     },
     reporters: ['mocha', 'coverage'],
     webpack: {
@@ -80,13 +80,16 @@ export default config => {
       module: webpackConfigGeneral.module,
       plugins: webpackConfigGeneral.plugins
     },
+    webpackMiddleware: {
+      noInfo: true,
+      stats: 'errors-only'
+    },
     coverageIstanbulReporter: {
       combineBrowserReports: true,
       fixWebpackSourcePaths: true,
       reports: ['lcov', 'text', 'html']
     },
     coverageReporter: {
-      // specify a common output directory
       dir: 'coverage',
       subdir: function(browser) {
         return browser.toLowerCase().split(/[ /-]/)[0];

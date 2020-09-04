@@ -31,27 +31,36 @@ export class Splash {
    */
   constructor(stackQueueInstance = new StackQueue(false)) {
     this.currentProgress = 0;
+
+    /** @type {string} */
+    this.currentProgressText = '';
+
     this.progressSize = 0;
     this.progressStep = 1;
+
+    /** @type {StackQueue} */
     this.stackQueue = stackQueueInstance;
     this.startTime = Date.now();
 
-    /** @type {node} */
+    /** @type {HTMLElement|null} */
+    this.node = document.querySelector('#cwc-splash-screen');
+
+    /** @type {HTMLElement|null} */
     this.nodeVersion = document.querySelector(
       '#cwc-splash-screen > div.version'
     );
 
-    /** @type {node} */
+    /** @type {HTMLElement|null} */
     this.nodeProgressBar = document.querySelector(
       '#cwc-splash-screen > div.content > div.progress > div.progress-bar > div'
     );
 
-    /** @type {node} */
+    /** @type {HTMLElement|null} */
     this.nodeProgressText = document.querySelector(
       '#cwc-splash-screen > div.content > div.progress > div.progress-text'
     );
 
-    /** @type {node} */
+    /** @type {HTMLElement|null} */
     this.nodeProgressTextLog = document.querySelector(
       '#cwc-splash-screen > div.content > div.progress > div.progress-text-log > ul'
     );
@@ -61,8 +70,21 @@ export class Splash {
    * Shows the splash screen.
    */
   show() {
-    console.log('Showing Splashscreen ...');
-    this.render();
+    if (this.node) {
+      console.log('Showing Splashscreen ...');
+      this.node.style.display = 'block';
+      this.render();
+    }
+  }
+
+  /**
+   * Hides the splash screen.
+   */
+  hide() {
+    if (this.node) {
+      console.log('Hiding Splashscreen ...');
+      this.node.style.display = 'none';
+    }
   }
 
   /**
@@ -77,13 +99,17 @@ export class Splash {
   /**
    * @param {String} name
    * @param {Function=} func
+   * @param {Function=} scope
    */
-  addStep(name, func) {
+  addStep(name, func, scope) {
     if (func) {
-      this.stackQueue.addPromise(() => {
+      this.stackQueue.addPromiseRaiseError(() => {
         this.progress = (100 / this.progressSize) * this.progressStep++;
         this.progressText = name;
-        return func();
+        if (scope) {
+          return func.call(scope);
+        }
+        return func.call(func);
       });
     } else {
       this.stackQueue.addCommand(() => {

@@ -107,6 +107,38 @@ describe('StackEntry: PROMISE', function() {
   });
 });
 
+describe('StackEntry: PROMISE_RAISE_ERROR', function() {
+  const type = StackType.PROMISE_RAISE_ERROR;
+  const func = function(data) {
+    return data['a'] + data['b'];
+  };
+  const value = Math.random();
+  const callback = function(test) {
+    return test;
+  };
+  const stackEntry = new StackEntry(type, func, value, callback);
+
+  it('Is valid object type', function() {
+    expect(typeof stackEntry).toEqual('object');
+  });
+
+  it('.getCallback()', function() {
+    expect(stackEntry.getCallback()).toEqual(callback);
+  });
+
+  it('.getFunc()', function() {
+    expect(stackEntry.getFunc()).toEqual(func);
+  });
+
+  it('.getType()', function() {
+    expect(stackEntry.getType()).toEqual(type);
+  });
+
+  it('.getValue()', function() {
+    expect(stackEntry.getValue()).toEqual(value);
+  });
+});
+
 describe('StackEntry: Unknown', function() {
   const type = '';
   const stackEntry = new StackEntry(type);

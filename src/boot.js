@@ -19,8 +19,9 @@
  */
 
 import { Splash } from './gui/Splash';
-import runtime from 'serviceworker-webpack-plugin/lib/runtime';
 import { Version } from './config/Config';
+
+import runtime from 'serviceworker-webpack-plugin/lib/runtime';
 
 /**
  * Boot sequence.
@@ -30,19 +31,36 @@ const SplashScreen = new Splash();
 console.log('Showing splash screen');
 SplashScreen.show();
 console.log('Initialize platform ...');
-if ('serviceWorker' in navigator) {
-  runtime.register({ scope: './' }).then(
-    function(registration) {
-      console.log(
-        'ServiceWorker registration successful with scope: ',
-        registration.scope
+SplashScreen.addStep('Preparing Service Worker', () => {
+  return new Promise(resolve => {
+    if ('serviceWorker' in navigator) {
+      runtime.register({ scope: './' }).then(
+        function(registration) {
+          console.log(
+            'ServiceWorker registration successful with scope: ',
+            registration.scope
+          );
+        },
+        /**
+         * @param {any} error
+         */
+        function(error) {
+          console.log('ServiceWorker registration failed: ', error);
+        }
       );
-    },
-    function(error) {
-      console.log('ServiceWorker registration failed: ', error);
     }
-  );
-}
+    resolve();
+  });
+});
+SplashScreen.addStep('Loading kernel ...', () => {
+  return new Promise(resolve => {
+    import(/* webpackChunkName: "kernel" */ './kernel/Kernel').then(module => {
+      module.kernel.boot();
+      resolve();
+    });
+  });
+});
+SplashScreen.addStep('Loading Coding with Chrome Suite ...');
 SplashScreen.addStep('Loading User Config ...', () => {
   return new Promise(resolve => {
     import(/* webpackChunkName: "user_config" */ './config/UserConfig').then(
@@ -53,11 +71,29 @@ SplashScreen.addStep('Loading User Config ...', () => {
     );
   });
 });
-SplashScreen.addStep('Loading Coding with Chrome Suite ...');
 SplashScreen.addStep('Switch run level ...');
 SplashScreen.addStep('Initialize built-in drivers ...');
 SplashScreen.addStep('Mount file-system ...');
 SplashScreen.addStep('Starting built-in services ...');
 SplashScreen.addStep('Loading shell ...');
 SplashScreen.addStep('Start Run-level ...');
+SplashScreen.addStep('Loading Terminal ...', () => {
+  return new Promise(resolve => {
+    import(/* webpackChunkName: "terminal" */ './gui/Terminal').then(module => {
+      const terminalGui = new module.TerminalGui();
+      terminalGui.show();
+      resolve();
+    });
+  });
+});
+SplashScreen.addStep(
+  'Done.',
+  () => {
+    return new Promise(resolve => {
+      setTimeout(SplashScreen.hide.bind(SplashScreen), 1000);
+      resolve();
+    });
+  },
+  SplashScreen
+);
 SplashScreen.execute();
