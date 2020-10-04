@@ -48,7 +48,12 @@ export class TerminalGui extends Terminal {
       scrollback: 1000,
       tabStopWidth: 8
     });
+
+    /** @type {string} */
     this.command = '';
+
+    /** @type {boolean} */
+    this.isDoubleTab = false;
   }
 
   /**
@@ -72,7 +77,7 @@ export class TerminalGui extends Terminal {
   }
 
   /**
-   * @param {event} event
+   * @param {object} event
    */
   input(event) {
     if (this.locked) {
@@ -80,17 +85,30 @@ export class TerminalGui extends Terminal {
     }
     console.log('key', event);
     if (event.domEvent.key == 'Enter') {
-      if (this.command) {
+      if (this.command == 'reset') {
+        this.terminal.reset();
+        this.shell.prompt();
+      } else if (this.command.trim() == '') {
+        this.shell.prompt();
+      } else if (this.command) {
         const [command, args] = this.command.split(/ (.*)/);
         this.shell.handleCommand(command, args);
-        this.command = '';
       }
-      this.terminal.prompt();
+      this.command = '';
+      this.isDoubleTab = false;
     } else if (event.domEvent.key == 'Backspace') {
       if (this.command.length > 0) {
         this.terminal.write('\b \b');
         this.command = this.command.substring(0, this.command.length - 1);
       }
+    } else if (event.domEvent.key == 'Tab') {
+      const [command, args] = this.command.split(/ (.*)/);
+      this.shell.handleAutocomplete(command, args, this.isDoubleTab);
+      this.isDoubleTab = true;
+    } else if (event.domEvent.key == 'ArrowUp') {
+      // pass
+    } else if (event.domEvent.key == 'ArrowDown') {
+      // pass
     } else if (event.key) {
       this.command += event.key;
       this.terminal.write(event.key);
@@ -100,7 +118,14 @@ export class TerminalGui extends Terminal {
   /**
    * @param {string} text
    */
-  writeResponse(text) {
+  write(text) {
     this.terminal.write('\r\n' + text);
+  }
+
+  /**
+   * @param {string} text
+   */
+  append(text) {
+    this.terminal.write(text);
   }
 }

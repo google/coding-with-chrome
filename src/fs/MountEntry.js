@@ -98,6 +98,15 @@ export class MountEntry {
   }
 
   /**
+   * @param {*} path
+   * @param {*} options
+   * @return {boolean}
+   */
+  existFile(path, options = {}) {
+    return this.getCommand('existFile')(path, options);
+  }
+
+  /**
    * @param {string} path
    * @param {Object} options
    * @return {*}
@@ -129,12 +138,30 @@ export class MountEntry {
   }
 
   /**
+   * @param {string} path
+   * @param {Object} options
+   * @return {*}
+   */
+  listFiles(path, options = {}) {
+    return this.getCommand('listFiles')(path, options);
+  }
+
+  /**
    * @param {*} path
    * @param {*} options
    * @return {boolean}
    */
-  existFile(path, options = {}) {
-    return this.getCommand('existFile')(path, options);
+  existFolder(path, options = {}) {
+    return this.getCommand('existFolder')(path, options);
+  }
+
+  /**
+   * @param {string} path
+   * @param {Object} options
+   * @return {*}
+   */
+  listFolders(path, options = {}) {
+    return this.getCommand('listFolders')(path, options);
   }
 
   /**
@@ -167,11 +194,15 @@ export class MountEntry {
    */
   getPath(path) {
     let result = '';
-    if (path.startsWith(this.path)) {
+    if (path == this.path) {
+      result = '/';
+    } else if (path.startsWith(this.path)) {
       result = path.substring(this.path.length);
     }
     if (!result) {
-      throw new Error('Unable to resolve target path for: ' + path);
+      throw new Error(
+        `Unable to resolve target path for ${path} within ${this.path}`
+      );
     }
     return result;
   }

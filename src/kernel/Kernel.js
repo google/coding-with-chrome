@@ -39,10 +39,10 @@ export class Kernel {
     /** @type {*} */
     this.process = processManager.registerProcess(this);
 
-    /** @type {FileSystem} */
+    /** @private {FileSystem} */
     this.fileSystem = new FileSystem(this);
 
-    /** @type {Memory} */
+    /** @private {Memory} */
     this.kernelMemory = new Memory();
     this.kernelMemory.add('tty', 0);
 
@@ -80,13 +80,13 @@ export class Kernel {
    * @return {string}
    */
   requestTty() {
-    const tty = this.kernelMemory.get('tty') + 1;
+    const tty = this.kernelMemory.get('tty') || 0 + 1;
     this.kernelMemory.add('tty', tty);
     return 'tty' + Number(tty);
   }
 
   /**
-   * @return {FileSystem}
+   * @return {*}
    */
   requestFileSystem() {
     return this.fileSystem.fileSystem;
@@ -96,7 +96,7 @@ export class Kernel {
    * @return {string}
    */
   requestHostname() {
-    return this.kernelMemory.get('hostname');
+    return String(this.kernelMemory.get('hostname'));
   }
 }
 

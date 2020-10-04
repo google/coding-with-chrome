@@ -89,6 +89,7 @@ describe('MountEntry', function() {
 
   it('.getPath', function() {
     const mountEntry = new MountEntry('/test', null);
+    expect(mountEntry.getPath('/test')).toBe('/');
     expect(mountEntry.getPath('/test/a')).toBe('/a');
     expect(mountEntry.getPath('/test/b')).toBe('/b');
     expect(mountEntry.getPath('/test/c')).toBe('/c');

@@ -27,10 +27,10 @@ export class Env {
    * @constructor
    */
   constructor(user = 'guest') {
-    /** @private {!Object} */
+    /** @type {!Object} */
     this.features = {};
 
-    /** @private {!Object} */
+    /** @type {!Object} */
     this.environment = {};
 
     this.prepare(user);
@@ -51,13 +51,10 @@ export class Env {
   }
 
   /**
-   * @param {string} path
+   * @return {string}
    */
-  set PWD(path) {
-    if (this.environment.PWD) {
-      this.setEnv('OLDPWD', this.environment.PWD);
-    }
-    this.setEnv('PWD', path);
+  get OLDPWD() {
+    return this.environment.OLDPWD;
   }
 
   /**
@@ -65,6 +62,13 @@ export class Env {
    */
   get USER() {
     return this.environment.USER;
+  }
+
+  /**
+   * @return {string}
+   */
+  get HOME() {
+    return this.environment.HOME;
   }
 
   /**
@@ -95,6 +99,16 @@ export class Env {
   }
 
   /**
+   * @param {string} path
+   */
+  setPWD(path) {
+    if (this.environment.PWD) {
+      this.setEnv('OLDPWD', this.environment.PWD);
+    }
+    this.setEnv('PWD', path);
+  }
+
+  /**
    * @return {null|array}
    */
   getPath() {
@@ -115,14 +129,14 @@ export class Env {
       this.setFeature('serviceWorker', 'serviceWorker' in navigator);
       console.log('Detected Features', this.feature);
 
+      this.setEnv('HOME', `/home/${user}`);
       this.setEnv('LANG', navigator['language'] || 'en-EN');
-      this.setEnv('PWD', `home/${user}`);
       this.setEnv('OLDPWD', '');
-      this.setEnv('USER', `${user}`);
-      this.setEnv('TERM', 'xterm-256color');
       this.setEnv('PATH', '/sbin:/bin');
-      this.setEnv('HOME', `home/${user}`);
+      this.setEnv('PWD', `/home/${user}`);
       this.setEnv('SHELL', '/bin/shell');
+      this.setEnv('TERM', 'xterm-256color');
+      this.setEnv('USER', `${user}`);
       console.log('Detected Environment', this.environment);
 
       resolve();

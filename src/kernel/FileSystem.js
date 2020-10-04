@@ -21,8 +21,11 @@
 import { FileSystem as FileSystemHandler } from '../fs/FileSystem';
 import { processManager as StaticProcessManager } from './Process';
 
+import { Cd } from '../usr/bin/Cd';
 import { Echo } from '../usr/bin/Echo';
 import { Env } from '../usr/bin/Env';
+import { Ls } from '../usr/bin/ls';
+import { Pwd } from '../usr/bin/pwd';
 import { Tty } from '../usr/bin/Tty';
 
 /**
@@ -57,15 +60,18 @@ export class FileSystem {
   }
 
   /**
-   * Prepare essential system binaries under /sbin
+   * Prepare essential system binaries under /sbin and /bin
    */
   prepareSystemBinaries() {
     this.fileSystem.mount('/sbin');
     this.fileSystem.remount('/sbin', { readwrite: false });
 
     this.fileSystem.mount('/bin');
+    this.fileSystem.writeFile('/bin/cd', Cd);
     this.fileSystem.writeFile('/bin/echo', Echo);
     this.fileSystem.writeFile('/bin/env', Env);
+    this.fileSystem.writeFile('/bin/ls', Ls);
+    this.fileSystem.writeFile('/bin/pwd', Pwd);
     this.fileSystem.writeFile('/bin/tty', Tty);
   }
 
@@ -75,6 +81,7 @@ export class FileSystem {
   prepareHomes() {
     this.fileSystem.mount('/home');
     this.fileSystem.mkdir('/home/guest');
+    this.fileSystem.mkdir('/home/guest/documents');
     this.fileSystem.writeFile('/home/guest/README');
   }
 

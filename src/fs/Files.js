@@ -170,6 +170,19 @@ export class Files {
   }
 
   /**
+   * @param {*} path
+   * @return {*}
+   */
+  listFiles(path) {
+    if (this.existFolder(path)) {
+      return Path.findPathInObject(path, this.dirs)['___files___'];
+    } else if (this.existFile(path)) {
+      return this.getParentPath(path, true)['___files___'];
+    }
+    return null;
+  }
+
+  /**
    * @param {string} path
    * @return {File|Executable}
    */
@@ -190,6 +203,27 @@ export class Files {
       throw new Error('No such file with id ' + fileId);
     }
     return this.files.get(fileId);
+  }
+
+  /**
+   * @param {*} path
+   * @return {*}
+   */
+  listFolders(path) {
+    let folderList = null;
+    if (this.existFolder(path)) {
+      folderList = Path.findPathInObject(path, this.dirs);
+    } else if (this.existFile(path)) {
+      folderList = this.getParentPath(path, true);
+    } else {
+      return null;
+    }
+    if (folderList) {
+      const filteredFolderList = Object.assign({}, folderList);
+      delete filteredFolderList['___files___'];
+      return filteredFolderList;
+    }
+    return null;
   }
 
   /**

@@ -1,5 +1,5 @@
 /**
- * @fileoverview usr/bin/ls for the Coding with Chrome suite.
+ * @fileoverview /bin/ls for the Coding with Chrome suite.
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -18,20 +18,83 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
+import { App } from '../../kernel/App';
+import { Path } from '../../fs/Path';
+
 /**
  * Ls class.
  */
-export class Ls {
+export class Ls extends App {
   /**
-   * @param {?} args
-   * @param {?} env
+   * @param {?} environment
    * @param {?} terminal
+   * @constructor
+   */
+  constructor(environment = null, terminal = null) {
+    super(environment, terminal, 'ls');
+
+    // Register FileSystem from kernel
+    this.fileSystem = terminal ? terminal.kernel.requestFileSystem() : null;
+
+    this.help = `Usage: ls [OPTION]... [FILE]...
+
+    --help     display this help and exit
+    --version  output version information and exit`;
+  }
+
+  /**
+   * @param {string} input
+   * @param {Array} args
+   * @param {Map} options
    * @return {Promise}
    */
-  handler(args, env, terminal) {
+  run(input = '', args = [], options = new Map()) {
     return new Promise(resolve => {
-      terminal.writeResponse(args);
+      const path = args[0];
+      const { fileList, folderList } = this.list(path);
+      console.log(fileList, folderList);
+      if (fileList == null && folderList == null) {
+        this.write(`ls: cannot access '${path}': No such file or directory`);
+      } else {
+        const formatedList = this.formatList(fileList, folderList);
+        if (formatedList) {
+          this.write(formatedList);
+        }
+      }
       resolve();
     });
+  }
+
+  /**
+   * @param {string} path
+   * @return {Object}
+   */
+  list(path = this.env.PWD) {
+    const listPath = path.startsWith('/')
+      ? path
+      : Path.join(this.env.PWD, path);
+    const fileList = this.fileSystem.listFiles(listPath);
+    const folderList = this.fileSystem.listFolders(listPath);
+    return {
+      fileList: fileList,
+      folderList: folderList
+    };
+  }
+
+  /**
+   * @param {Object} fileList
+   * @param {Object} folderList
+   * @return {string}
+   */
+  formatList(fileList, folderList) {
+    const folderNames = [];
+    for (const [key, value] of Object.entries(folderList)) {
+      folderNames.push(`\x1B[1;34m${key}\x1B[0m`);
+    }
+    const fileNames = [];
+    for (const [key, value] of Object.entries(fileList)) {
+      fileNames.push(key);
+    }
+    return folderNames.concat(fileNames).join('\t');
   }
 }

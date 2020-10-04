@@ -106,4 +106,42 @@ describe('Path', function() {
     expect(Path.parentDirname('/a/b/c/d')).toBe('c');
     expect(Path.parentDirname('/a/b/c/d/e')).toBe('d');
   });
+
+  it('.join', function() {
+    expect(Path.join()).toBe('');
+    expect(Path.join('/etc')).toBe('/etc');
+    expect(Path.join('/', 'etc')).toBe('/etc');
+    expect(Path.join('a', 'b')).toBe('a/b');
+    expect(Path.join('/a/b/c', 'd')).toBe('/a/b/c/d');
+    expect(Path.join('/a', '..')).toBe('/');
+    expect(Path.join('/a/b/..')).toBe('/a');
+    expect(Path.join('/a/b', '..')).toBe('/a');
+    expect(Path.join('/a/b/../c')).toBe('/a/c');
+    expect(Path.join('/a/b', '..', 'c')).toBe('/a/c');
+    expect(Path.join('/', '..')).toBe('/');
+    expect(Path.join('/', '..', '..')).toBe('/');
+    expect(Path.join('/home', '..')).toBe('/');
+  });
+
+  it('.normalize', function() {
+    expect(Path.normalize()).toBe('');
+    expect(Path.normalize('/etc')).toBe('/etc');
+    expect(Path.normalize('a/b')).toBe('a/b');
+    expect(Path.normalize('/a/b/c/d')).toBe('/a/b/c/d');
+    expect(Path.normalize('/a/..')).toBe('/');
+    expect(Path.normalize('/a/b/..')).toBe('/a');
+    expect(Path.normalize('/a/b/../c')).toBe('/a/c');
+    expect(Path.normalize('/a/b/../c/../d')).toBe('/a/d');
+    expect(Path.normalize('/..')).toBe('/');
+    expect(Path.normalize('/../..')).toBe('/');
+    expect(Path.normalize('/../../..')).toBe('/');
+  });
+
+  it('.isAbsolute', function() {
+    expect(Path.isAbsolute()).toBeFalse();
+    expect(Path.isAbsolute('/etc')).toBeTrue();
+    expect(Path.isAbsolute('/a/b/c')).toBeTrue();
+    expect(Path.isAbsolute('etc')).toBeFalse();
+    expect(Path.isAbsolute('a/b/c')).toBeFalse();
+  });
 });

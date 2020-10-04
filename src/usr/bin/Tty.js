@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tty for the Coding with Chrome suite.
+ * @fileoverview /bin/tty for the Coding with Chrome suite.
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -30,15 +30,18 @@ export class Tty extends App {
    * @constructor
    */
   constructor(environment = null, terminal = null) {
-    super(environment, terminal);
+    super(environment, terminal, 'tty');
   }
 
   /**
+   * @param {string} input
+   * @param {Array} args
+   * @param {Map} options
    * @return {Promise}
    */
-  run() {
+  run(input = '', args = [], options = new Map()) {
     return new Promise(resolve => {
-      this.terminal.writeResponse(`/dev/${this.terminal.tty}`);
+      this.write(`/dev/${this.terminal.tty}`);
       resolve();
     });
   }

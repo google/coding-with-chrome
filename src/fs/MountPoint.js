@@ -86,20 +86,6 @@ export class MountPoint {
 
   /**
    * @param {string} path
-   * @param {string|function} data
-   * @param {Object} options
-   * @return {Promise}
-   */
-  writeFile(path, data = '', options = {}) {
-    const mount = this.getMount(path);
-    if (mount) {
-      return mount.writeFile(mount.getPath(path), data, options);
-    }
-    return Promise.reject(new Error('No valid mount point for ' + path));
-  }
-
-  /**
-   * @param {string} path
    * @param {Object} options
    * @return {Promise}
    */
@@ -135,6 +121,68 @@ export class MountPoint {
     if (mount) {
       const targetPath = mount.getPath(path);
       return mount.getFile(targetPath, options);
+    }
+    return null;
+  }
+
+  /**
+   * @param {string} path
+   * @param {string|function} data
+   * @param {Object} options
+   * @return {Promise}
+   */
+  writeFile(path, data = '', options = {}) {
+    const mount = this.getMount(path);
+    if (mount) {
+      return mount.writeFile(mount.getPath(path), data, options);
+    }
+    return Promise.reject(new Error('No valid mount point for ' + path));
+  }
+
+  /**
+   * @param {string} path
+   * @param {Object} options
+   * @return {*}
+   */
+  listFiles(path, options = {}) {
+    if (path == '/') {
+      return {};
+    }
+    const mount = this.get(path);
+    if (mount) {
+      const targetPath = mount.getPath(path);
+      return mount.listFiles(targetPath, options);
+    }
+    return null;
+  }
+
+  /**
+   * @param {string} path
+   * @param {Object} options
+   * @return {boolean}
+   */
+  existFolder(path, options = {}) {
+    const mount = this.get(path);
+    if (mount) {
+      const targetPath = mount.getPath(path);
+      return mount.existFolder(targetPath, options);
+    }
+    return false;
+  }
+
+  /**
+   * @param {string} path
+   * @param {Object} options
+   * @return {*}
+   */
+  listFolders(path, options = {}) {
+    if (path == '/') {
+      return this.mounts;
+    }
+    const mount = this.get(path);
+    if (mount) {
+      const targetPath = mount.getPath(path);
+      return mount.listFolders(targetPath, options);
     }
     return null;
   }

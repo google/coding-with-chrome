@@ -32,6 +32,13 @@ export class Path {
   /**
    * @return {string}
    */
+  static root() {
+    return '/';
+  }
+
+  /**
+   * @return {string}
+   */
   static delimiter() {
     return ':';
   }
@@ -139,6 +146,61 @@ export class Path {
    * @return {string}
    */
   static join(...segments) {
-    return segments.join(this.sep());
+    if (!segments) {
+      return '';
+    }
+    const path = [];
+    segments.forEach(fragment => {
+      if (fragment.includes(this.sep())) {
+        Array.prototype.push.apply(path, fragment.split(this.sep()));
+      } else {
+        path.push(fragment);
+      }
+    });
+
+    return this.normalize(path.join(this.sep()));
+  }
+
+  /**
+   * @param  {string} path
+   * @return {string}
+   */
+  static normalize(path = '') {
+    const pathSegments = path.split(this.sep());
+    const startsWithRoot = path.startsWith(this.root());
+    if (startsWithRoot) {
+      pathSegments.splice(0, 1);
+    }
+    pathSegments.forEach((fragment, index) => {
+      if (fragment == '..') {
+        pathSegments[index] = '';
+        if (pathSegments[index - 1] !== undefined) {
+          pathSegments[index - 1] = '';
+        }
+      }
+    });
+
+    const normalizedPathSegments = [];
+    pathSegments.forEach(fragment => {
+      if (fragment) {
+        normalizedPathSegments.push(fragment);
+      }
+    });
+    const result = normalizedPathSegments.join(this.sep());
+    if (startsWithRoot) {
+      return this.root() + result;
+    }
+    return result;
+  }
+
+  /**
+   * @param  {string} path
+   * @return {boolean}
+   */
+  static isAbsolute(path = '') {
+    if (path.startsWith(this.root())) {
+      return true;
+    }
+    return false;
   }
 }

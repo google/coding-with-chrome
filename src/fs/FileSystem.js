@@ -56,16 +56,6 @@ export class FileSystem {
 
   /**
    * @param {string} path
-   * @param {string|function} data
-   * @param {Object} options
-   * @return {*}
-   */
-  writeFile(path, data = '', options = {}) {
-    return this.mountPoint.writeFile(path, data, options);
-  }
-
-  /**
-   * @param {string} path
    * @param {Object} options
    * @return {boolean}
    */
@@ -80,5 +70,50 @@ export class FileSystem {
    */
   getFile(path, options = {}) {
     return this.mountPoint.getFile(path, options);
+  }
+
+  /**
+   * @param {string} path
+   * @param {string|function} data
+   * @param {Object} options
+   * @return {*}
+   */
+  writeFile(path, data = '', options = {}) {
+    return this.mountPoint.writeFile(path, data, options);
+  }
+
+  /**
+   * @param {string} path
+   * @param {object} options
+   * @return {*}
+   */
+  listFiles(path, options = {}) {
+    return this.mountPoint.listFiles(path, options);
+  }
+
+  /**
+   * @param {string} path
+   * @param {Object} options
+   * @return {boolean}
+   */
+  existFolder(path, options = {}) {
+    return this.mountPoint.existFolder(path, options);
+  }
+
+  /**
+   * @param {string} path
+   * @param {object} options
+   * @return {*}
+   */
+  listFolders(path, options = {}) {
+    return this.mountPoint.listFolders(path, options);
+  }
+
+  /**
+   * @param {string} path
+   * @return {boolean}
+   */
+  existMount(path) {
+    return this.mountPoint.exist(path);
   }
 }

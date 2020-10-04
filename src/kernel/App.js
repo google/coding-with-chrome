@@ -28,9 +28,10 @@ export class App {
   /**
    * @param {*} environment
    * @param {*} terminal
+   * @param {string} name
    * @constructor
    */
-  constructor(environment = new Env(), terminal = null) {
+  constructor(environment = new Env(), terminal = null, name = '') {
     /** @type {Env} */
     this.env = environment;
 
@@ -45,6 +46,15 @@ export class App {
 
     /** @type {boolean} */
     this.registered = false;
+
+    /** @type {string} */
+    this.name = name;
+
+    /** @type {string} */
+    this.help = `Usage: ${this.name} [OPTION]... [ARGS]...`;
+
+    /** @type {string} */
+    this.version = '1.0';
   }
 
   /**
@@ -62,10 +72,102 @@ export class App {
   }
 
   /**
-   * @param {string} args
+   * @param {string} input
+   * @param {Array} args
+   * @param {Map} options
+   * @return {Promise}
    */
-  run(args) {
-    console.log('Run command with', args);
+  runHandler(input = '', args = [], options = new Map()) {
+    if (options.has('help')) {
+      return this.showHelp();
+    } else if (options.has('version')) {
+      return this.showVersion();
+    } else {
+      return this.run(input, args, options);
+    }
+  }
+
+  /**
+   * @param {string} input
+   * @param {Array} args
+   * @param {Map} options
+   * @return {Promise}
+   */
+  run(input = '', args = [], options = new Map()) {
+    return new Promise(resolve => {
+      this.write(`Run command with ${args} ${options} ${input}`);
+      resolve();
+    });
+  }
+
+  /**
+   * @param {string} input
+   * @param {Array} args
+   * @param {boolean} isDoubleTab
+   * @return {Promise}
+   */
+  autocompleteHandler(input = '', args = [], isDoubleTab = false) {
+    return new Promise(resolve => {
+      this.append('a');
+      this.write(`Autocomplete command with ${args} ${isDoubleTab} ${input}`);
+      resolve();
+    });
+  }
+
+  /**
+   * @return {Promise}
+   */
+  showHelp() {
+    return new Promise(resolve => {
+      this.writeText(this.help);
+      resolve();
+    });
+  }
+
+  /**
+   * @return {Promise}
+   */
+  showVersion() {
+    return new Promise(resolve => {
+      this.write('Version: ...');
+      resolve();
+    });
+  }
+
+  /**
+   * @param {string} text
+   */
+  write(text) {
+    if (this.terminal) {
+      this.terminal.write(text);
+    } else {
+      console.log(text);
+    }
+  }
+
+  /**
+   * @param {string} text
+   */
+  append(text) {
+    if (this.terminal) {
+      this.terminal.append(text);
+    } else {
+      console.log(text);
+    }
+  }
+
+  /**
+   * @param {string} text
+   */
+  writeln(text) {
+    this.write(`${text}\n`);
+  }
+
+  /**
+   * @param {string} text
+   */
+  writeText(text) {
+    this.write(text.replace(/\r?\n|\r/g, '\n\r'));
   }
 
   /**

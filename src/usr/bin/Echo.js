@@ -1,5 +1,5 @@
 /**
- * @fileoverview usr/bin/echo for the Coding with Chrome suite.
+ * @fileoverview /bin/echo for the Coding with Chrome suite.
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -30,16 +30,18 @@ export class Echo extends App {
    * @constructor
    */
   constructor(environment = null, terminal = null) {
-    super(environment, terminal);
+    super(environment, terminal, 'echo');
   }
 
   /**
-   * @param {string} text
+   * @param {string} input
+   * @param {Array} args
+   * @param {Map} options
    * @return {Promise}
    */
-  run(text) {
+  run(input = '', args = [], options = new Map()) {
     return new Promise(resolve => {
-      this.terminal.writeResponse(text.trim());
+      this.write(input.trim());
       resolve();
     });
   }

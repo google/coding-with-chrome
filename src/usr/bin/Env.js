@@ -1,5 +1,5 @@
 /**
- * @fileoverview usr/bin/env for the Coding with Chrome suite.
+ * @fileoverview /bin/env for the Coding with Chrome suite.
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -30,18 +30,20 @@ export class Env extends App {
    * @constructor
    */
   constructor(environment = null, terminal = null) {
-    super(environment, terminal);
+    super(environment, terminal, 'env');
   }
 
   /**
-   * @param {string} args
+   * @param {string} input
+   * @param {Array} args
+   * @param {Map} options
    * @return {Promise}
    */
-  run(args) {
+  run(input = '', args = [], options = new Map()) {
     return new Promise(resolve => {
-      if (!args) {
+      if (!args[0]) {
         for (const [name, value] of Object.entries(this.env.environment)) {
-          this.terminal.writeResponse(`${name}=${value}`);
+          this.write(`${name}=${value}`);
         }
       }
       resolve();
