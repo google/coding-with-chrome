@@ -5,8 +5,13 @@ alt="Available in the Chrome Web Store">](https://chrome.google.com/webstore/det
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/c523df13ccc1f326dc65/maintainability)](https://codeclimate.com/github/google/coding-with-chrome/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/c523df13ccc1f326dc65/test_coverage)](https://codeclimate.com/github/google/coding-with-chrome/test_coverage)
-[![Build Status](https://travis-ci.org/google/coding-with-chrome.svg?branch=master)](https://travis-ci.org/google/coding-with-chrome)
+[![Build Status](https://travis-ci.org/google/coding-with-chrome.svg?branch=chrome-app-v6.x)](https://travis-ci.org/google/coding-with-chrome)
 <img src="/static_files/images/cwc_logo.png" align="right" alt="Coding with Chrome">
+
+**NOTE:** This repository is deprecated and no longer maintained by our community. We are keeping it here for historical purposes and access to legacy documentation.
+All further work will be done on the upcoming __Coding with Chrome Suite__ instead.
+
+If you do need to contribute to this legacy repository, please follow the contributing guidelines below.
 
 * [Licensing](#licensing)
 * [Install Coding with Chrome](#install-coding-with-chrome)
