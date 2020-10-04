@@ -179,6 +179,13 @@ cwc.ui.Gui.prototype.setFullscreen = function(fullscreen = true) {
  * @param {string} title Title to display in the gui.
  */
 cwc.ui.Gui.prototype.setTitle = function(title) {
+  // Disable setting title for non-CWC files.
+  let fileInstance = this.helper.getInstance('file');
+  if (this.nodeTitle && fileInstance && !fileInstance.getFile()) {
+    this.nodeTitle.disabled = true;
+  } else {
+    this.nodeTitle.removeAttribute('disabled');
+  }
   this.showTitle(title);
   if (title && this.nodeTitle && title !== undefined) {
     this.nodeTitle.value = title;

@@ -220,6 +220,10 @@ cwc.fileHandler.File.prototype.getFileTour = function(language) {
  */
 cwc.fileHandler.File.prototype.setFilename = function(filename) {
   this.filename_ = filename;
+  // Non-CWC files don't have title metadata, so always set to filename.
+  if (!this.file_) {
+    this.setFileTitle(filename);
+  }
 };
 
 
