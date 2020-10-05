@@ -1,6 +1,6 @@
 {
   "name": "coding-with-chrome",
-  "version": "10.0.0",
+  "version": "10.0.0a",
   "description": "Educational Coding Development Environment",
   "repository": {
     "type": "git",
@@ -12,7 +12,9 @@
     "url": "https://github.com/google/coding-with-chrome/issues"
   },
   "homepage": "https://github.com/google/coding-with-chrome#readme",
-  "dependencies": {},
+  "dependencies": {
+    "xterm": "^4.9.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@babel/node": "^7.10.5",
@@ -65,8 +67,7 @@
     "webpack-dev-server": "^3.11.0",
     "webpack-exclude-assets-plugin": "^0.1.1",
     "webpack-merge": "^4.2.2",
-    "webpack-pwa-manifest": "^4.2.0",
-    "xterm": "^4.9.0"
+    "webpack-pwa-manifest": "^4.2.0"
   },
   "scripts": {
     "pretest": "npm run lint",

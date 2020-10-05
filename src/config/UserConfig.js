@@ -23,7 +23,6 @@
  */
 export class UserConfig {
   /**
-   * @param {Object} stackQueueInstance
    * @constructor
    */
   constructor() {
