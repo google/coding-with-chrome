@@ -1,6 +1,4 @@
 /**
- * @fileoverview Path for virtual file system.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Path for virtual file system.
  */
 
 /**
@@ -150,7 +152,7 @@ export class Path {
       return '';
     }
     const path = [];
-    segments.forEach(fragment => {
+    segments.forEach((fragment) => {
       if (fragment.includes(this.sep())) {
         Array.prototype.push.apply(path, fragment.split(this.sep()));
       } else {
@@ -181,7 +183,7 @@ export class Path {
     });
 
     const normalizedPathSegments = [];
-    pathSegments.forEach(fragment => {
+    pathSegments.forEach((fragment) => {
       if (fragment) {
         normalizedPathSegments.push(fragment);
       }

@@ -1,6 +1,4 @@
 /**
- * @fileoverview /bin/ls for the Coding with Chrome suite.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview /bin/ls for the Coding with Chrome suite.
  */
 
 import { App } from '../../kernel/App';
@@ -49,7 +51,7 @@ export class Ls extends App {
    * @return {Promise}
    */
   run(input = '', args = [], options = new Map()) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const path = args[0];
       const { fileList, folderList } = this.list(path);
       console.log(fileList, folderList);
@@ -77,7 +79,7 @@ export class Ls extends App {
     const folderList = this.fileSystem.listFolders(listPath);
     return {
       fileList: fileList,
-      folderList: folderList
+      folderList: folderList,
     };
   }
 

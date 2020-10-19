@@ -1,6 +1,4 @@
 /**
- * @fileoverview Executable tests.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,28 +12,32 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Executable tests.
  */
 import { Executable } from './Executable';
 
-describe('Executable', function() {
-  it('constructor', function() {
-    const executable = new Executable(function() {
+describe('Executable', function () {
+  it('constructor', function () {
+    const executable = new Executable(function () {
       return 1;
     });
     expect(typeof executable).toEqual('object');
   });
 
-  it('.type', function() {
-    const executable = new Executable(function() {
+  it('.type', function () {
+    const executable = new Executable(function () {
       return 1;
     });
     expect(executable.type).toEqual('application/x-binary');
   });
 
-  it('.getId', function() {
-    const testFunction = function() {
+  it('.getId', function () {
+    const testFunction = function () {
       return 1;
     };
     const executable = new Executable(testFunction);
@@ -50,20 +52,20 @@ describe('Executable', function() {
     expect(executable.getId() !== executable4.getId()).toBeTrue();
   });
 
-  it('.setName', function() {
+  it('.setName', function () {
     const file = new Executable('', 'test123');
     expect(file.getName()).toEqual('test123');
     file.setName('123test');
     expect(file.getName()).toEqual('123test');
   });
 
-  it('.getName', function() {
+  it('.getName', function () {
     const file = new Executable('', 'test123');
     expect(file.name).toEqual(file.getName());
   });
 
-  it('.setData', function() {
-    const testFunction = function() {
+  it('.setData', function () {
+    const testFunction = function () {
       return 1;
     };
     const executable = new Executable(null);
@@ -72,21 +74,21 @@ describe('Executable', function() {
     expect(executable.getData() == testFunction).toBeTrue();
   });
 
-  it('.getAsText', function(done) {
+  it('.getAsText', function (done) {
     const executable = new Executable('test123');
     executable.setData('123');
-    executable.getAsText().then(result => {
+    executable.getAsText().then((result) => {
       expect(result).toBe(executable.binaryPlaceholder);
       done();
     });
     expect(executable.getData()).toEqual(executable.executable);
   });
 
-  it('.getJSON', function(done) {
+  it('.getJSON', function (done) {
     const executable = new Executable('', 'test123');
     executable.setData('');
     executable.id = 'b742ae95-e24e049b-f8b48d12-71655fad';
-    executable.getJSON().then(result => {
+    executable.getJSON().then((result) => {
       expect(result).toEqual(`{
   "data": "[binary data]",
   "id": "b742ae95-e24e049b-f8b48d12-71655fad",

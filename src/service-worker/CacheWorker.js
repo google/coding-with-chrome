@@ -1,6 +1,4 @@
 /**
- * @fileoverview Service Worker Cache.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Service Worker Cache.
  */
 
 import { EventHandler } from '../utils/event/EventHandler';
@@ -29,13 +31,9 @@ export class CacheWorker {
    * @constructor
    */
   constructor() {
-    this.assetsCache = [];
     this.events = new EventHandler('Service Worker: Cache', '', this);
     this.registered = false;
     this.version = 'v1';
-
-    this.checkForChangedAssets();
-    setInterval(this.checkForChangedAssets.bind(this), 1000);
   }
 
   /**
@@ -61,15 +59,9 @@ export class CacheWorker {
 
   /**
    * Install event.
-   * @param {*} event
    */
-  install(event) {
+  install() {
     console.log('Install Cache Service Worker ...');
-    event.waitUntil(
-      caches.open(this.version).then(cache => {
-        return cache.addAll(this.getAssets());
-      })
-    );
   }
 
   /**
@@ -82,11 +74,11 @@ export class CacheWorker {
     }
     console.log('Fetch request', event);
     event.respondWith(
-      caches.open(this.version).then(function(cache) {
-        return cache.match(event.request).then(function(response) {
+      caches.open(this.version).then(function (cache) {
+        return cache.match(event.request).then(function (response) {
           return (
             response ||
-            fetch(event.request).then(function(response) {
+            fetch(event.request).then(function (response) {
               cache.put(event.request, response.clone());
               return response;
             })
@@ -94,22 +86,5 @@ export class CacheWorker {
         });
       })
     );
-  }
-
-  /**
-   * @return {Array}
-   */
-  getAssets() {
-    return ['/', ...this.assetsCache];
-  }
-
-  /**
-   *
-   */
-  checkForChangedAssets() {
-    if (this.assetsCache !== serviceWorkerOption.assets) {
-      this.assetsCache = serviceWorkerOption.assets;
-      console.log('Update assets to', this.assetsCache);
-    }
   }
 }

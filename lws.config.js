@@ -23,5 +23,5 @@ module.exports = {
   https: false,
   http2: false,
   compress: true,
-  directory: 'dist'
+  directory: 'dist',
 };

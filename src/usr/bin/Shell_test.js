@@ -1,6 +1,4 @@
 /**
- * @fileoverview Shell tests.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,13 +12,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Shell tests.
  */
 import { Shell } from './Shell';
 
-describe('Shell', function() {
-  it('.handleInput (test)', function() {
+describe('Shell', function () {
+  it('.handleInput (test)', function () {
     const shell = new Shell();
     const input = 'test';
     const { args, options } = shell.handleInput(input);
@@ -28,7 +30,7 @@ describe('Shell', function() {
     expect(options.size).toBe(0);
   });
 
-  it('.handleInput (--help)', function() {
+  it('.handleInput (--help)', function () {
     const shell = new Shell();
     const input = '--help';
     const { args, options } = shell.handleInput(input);
@@ -37,7 +39,7 @@ describe('Shell', function() {
     expect(options.has('help')).toBe(true);
   });
 
-  it('.handleInput (--help test123 --version test321)', function() {
+  it('.handleInput (--help test123 --version test321)', function () {
     const shell = new Shell();
     const input = '--help test123 --version test321';
     const { args, options } = shell.handleInput(input);

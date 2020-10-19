@@ -1,6 +1,4 @@
 /**
- * @fileoverview Stack Queue.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Stack Queue.
  */
 
 import { StackType } from './StackType';
@@ -204,7 +206,7 @@ export class StackQueue {
       case StackType.DELAY:
         this.run = true;
         setTimeout(
-          function() {
+          function () {
             this.run = false;
             this.handleQueue_();
           }.bind(this),
@@ -216,7 +218,7 @@ export class StackQueue {
       case StackType.PROMISE:
         this.run = true;
         func()
-          .then(result => {
+          .then((result) => {
             const callback = task.getCallback();
             if (callback) {
               callback(result);
@@ -234,7 +236,7 @@ export class StackQueue {
       case StackType.PROMISE_RAISE_ERROR:
         this.run = true;
         func()
-          .then(result => {
+          .then((result) => {
             const callback = task.getCallback();
             if (callback) {
               callback(result);
@@ -242,7 +244,7 @@ export class StackQueue {
             this.run = false;
             this.handleQueue_();
           })
-          .catch(error => {
+          .catch((error) => {
             this.run = false;
             this.handleQueue_();
             throw error;

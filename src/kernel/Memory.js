@@ -1,6 +1,4 @@
 /**
- * @fileoverview Memory for kernel.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Memory for kernel.
  */
 
 /**
@@ -37,9 +39,8 @@ export class Memory {
   add(key, value, time = 0) {
     this.memory[key] = {
       value: value,
-      time: time ? new Date().getTime() + time * 1000 : 0
+      time: time ? new Date().getTime() + time * 1000 : 0,
     };
-    console.log('.add', this.memory[key]);
   }
 
   /**

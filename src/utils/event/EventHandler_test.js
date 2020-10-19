@@ -1,6 +1,4 @@
 /**
- * @fileoverview Event Handler unit tests.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,14 +12,18 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Event Handler unit tests.
  */
 
 import { EventHandler } from './EventHandler';
 import { EventType } from './EventType';
 
-describe('EventHandler', function() {
+describe('EventHandler', function () {
   const name = 'Test EventHandler';
   const prefix = 'test-';
   const testEventHandler = new EventHandler(name, prefix);
@@ -29,27 +31,27 @@ describe('EventHandler', function() {
   const listener = {
     test: () => {
       return 1;
-    }
+    },
   };
 
-  it('constructor', function() {
+  it('constructor', function () {
     expect(typeof testEventHandler).toEqual('object');
   });
 
-  it('constructor (default)', function() {
+  it('constructor (default)', function () {
     expect(typeof new EventHandler()).toEqual('object');
     expect(typeof new EventHandler(null)).toEqual('object');
   });
 
-  it('.name', function() {
+  it('.name', function () {
     expect(testEventHandler.name).toEqual(name);
   });
 
-  it('.prefix', function() {
+  it('.prefix', function () {
     expect(testEventHandler.prefix).toEqual(prefix);
   });
 
-  it('.listen() : listenerKey', function() {
+  it('.listen() : listenerKey', function () {
     const Key = testEventHandler.listen(target, EventType.CLICK, listener.test);
     expect(Key).toEqual(testEventHandler.getLength());
     const Key2 = testEventHandler.listen(
@@ -60,14 +62,14 @@ describe('EventHandler', function() {
     expect(Key2).toEqual(testEventHandler.getLength());
   });
 
-  it('.listen()', function() {
+  it('.listen()', function () {
     spyOn(listener, 'test').calls.reset();
     testEventHandler.listen(target, EventType.CLICK, listener.test);
     target.click();
     expect(listener.test).toHaveBeenCalled();
   });
 
-  it('.listenOnce()', function() {
+  it('.listenOnce()', function () {
     spyOn(listener, 'test').calls.reset();
     testEventHandler.listenOnce(target, EventType.CLICK, listener.test);
     target.click();
@@ -75,7 +77,7 @@ describe('EventHandler', function() {
     expect(listener.test).toHaveBeenCalledTimes(1);
   });
 
-  it('.unlisten()', function() {
+  it('.unlisten()', function () {
     spyOn(listener, 'test').calls.reset();
     const testEvent = testEventHandler.listen(
       target,
@@ -88,14 +90,14 @@ describe('EventHandler', function() {
     expect(listener.test).toHaveBeenCalledTimes(1);
   });
 
-  it('.unlisten() - Error', function() {
+  it('.unlisten() - Error', function () {
     expect(() => {
       testEventHandler.unlisten(Math.random());
     }).toThrowError(/Unknown listener key/);
   });
 });
 
-describe('EventHandler with scope', function() {
+describe('EventHandler with scope', function () {
   const name = 'Test EventHandler';
   const prefix = 'test-';
   const testEventHandler = new EventHandler(name, prefix, self);
@@ -103,10 +105,10 @@ describe('EventHandler with scope', function() {
   const listener = {
     test: () => {
       return 1;
-    }
+    },
   };
 
-  it('.listen() : listenerKey', function() {
+  it('.listen() : listenerKey', function () {
     const Key = testEventHandler.listen(target, EventType.CLICK, listener.test);
     expect(Key).toEqual(testEventHandler.getLength());
     const Key2 = testEventHandler.listen(
@@ -117,14 +119,14 @@ describe('EventHandler with scope', function() {
     expect(Key2).toEqual(testEventHandler.getLength());
   });
 
-  it('.listen()', function() {
+  it('.listen()', function () {
     spyOn(listener, 'test').calls.reset();
     testEventHandler.listen(target, EventType.CLICK, listener.test);
     target.click();
     expect(listener.test).toHaveBeenCalled();
   });
 
-  it('.listenOnce()', function() {
+  it('.listenOnce()', function () {
     spyOn(listener, 'test').calls.reset();
     testEventHandler.listenOnce(target, EventType.CLICK, listener.test);
     target.click();
@@ -132,7 +134,7 @@ describe('EventHandler with scope', function() {
     expect(listener.test).toHaveBeenCalledTimes(1);
   });
 
-  it('.unlisten()', function() {
+  it('.unlisten()', function () {
     spyOn(listener, 'test').calls.reset();
     const testEvent = testEventHandler.listen(
       target,
@@ -145,7 +147,7 @@ describe('EventHandler with scope', function() {
     expect(listener.test).toHaveBeenCalledTimes(1);
   });
 
-  it('.unlisten() - Error', function() {
+  it('.unlisten() - Error', function () {
     expect(() => {
       testEventHandler.unlisten(Math.random());
     }).toThrowError(/Unknown listener key/);

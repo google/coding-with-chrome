@@ -1,6 +1,4 @@
 /**
- * @fileoverview /bin/shell for the Coding with Chrome suite.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview /bin/shell for the Coding with Chrome suite.
  */
 
 import { App } from '../../kernel/App';
@@ -88,7 +90,7 @@ export class Shell extends App {
     // Replace $... strings with ENV equivalent
     let normalizedInput = input;
     if (input.includes('$')) {
-      normalizedInput = input.replace(/\$\w+/g, match => {
+      normalizedInput = input.replace(/\$\w+/g, (match) => {
         return String(this.env.getEnv(match) || '');
       });
     }
@@ -111,7 +113,7 @@ export class Shell extends App {
     return {
       input: normalizedInput,
       args: args,
-      options: options
+      options: options,
     };
   }
 
@@ -151,7 +153,7 @@ export class Shell extends App {
           this.terminal.unlock();
           this.prompt();
         })
-        .catch(error => {
+        .catch((error) => {
           this.writeln(`${command.name}: Runtime Error => ${error}`);
           console.error(`${command.name}:`, error);
           this.terminal.unlock();
@@ -178,7 +180,7 @@ export class Shell extends App {
           this.terminal.unlock();
           this.prompt();
         })
-        .catch(error => {
+        .catch((error) => {
           this.writeln(`${command.name}: Runtime Error => ${error}`);
           console.error(`${command.name}:`, error);
           this.terminal.unlock();

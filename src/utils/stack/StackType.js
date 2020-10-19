@@ -1,6 +1,4 @@
 /**
- * @fileoverview Stack Type.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Stack Type.
  */
 
 /**
@@ -26,5 +28,5 @@ export const StackType = {
   DELAY: 'delay',
   PROMISE: 'promise',
   PROMISE_RAISE_ERROR: 'promise_raise_error',
-  UNKNOWN: ''
+  UNKNOWN: '',
 };

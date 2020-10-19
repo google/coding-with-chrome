@@ -1,6 +1,4 @@
 /**
- * @fileoverview Terminal GUI for the Coding with Chrome suite.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Terminal GUI for the Coding with Chrome suite.
  */
 
 import { Shell } from '../usr/bin/Shell';
@@ -46,7 +48,7 @@ export class TerminalGui extends Terminal {
       cursorBlink: true,
       fontFamily: 'Ubuntu Mono, courier-new, courier, monospace',
       scrollback: 1000,
-      tabStopWidth: 8
+      tabStopWidth: 8,
     });
 
     /** @type {string} */
@@ -70,7 +72,7 @@ export class TerminalGui extends Terminal {
       `Hello \x1B[1;3;31m${this.shell.env.USER}\x1B[0m from ${this.tty}`
     );
     this.terminal.prompt = this.shell.prompt.bind(this.shell);
-    this.terminal.onKey(key => {
+    this.terminal.onKey((key) => {
       this.input(key);
     });
     this.shell.prompt();

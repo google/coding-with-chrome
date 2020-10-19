@@ -1,6 +1,4 @@
 /**
- * @fileoverview Virtual file system for the kernel.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview ENV for the Coding with Chrome suite.
  */
 
 import { FileSystem as FileSystemHandler } from '../fs/FileSystem';
@@ -50,7 +52,7 @@ export class FileSystem {
    * @return {Promise}
    */
   prepare() {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       console.log('Preparing virtual file system with pid', this.process.pid);
       this.prepareTemps();
       this.prepareSystemBinaries();

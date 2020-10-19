@@ -1,6 +1,4 @@
 /**
- * @fileoverview Database handler.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Database handler.
  */
 
 /**
@@ -86,13 +88,13 @@ export class Database {
         );
         resolve(this.database_);
       };
-      dbRequest['onerror'] = e => {
+      dbRequest['onerror'] = (e) => {
         console.error(e);
         reject(e);
       };
-      dbRequest['onupgradeneeded'] = e => {
+      dbRequest['onupgradeneeded'] = (e) => {
         const database = e.target.result;
-        objectStoreNames.forEach(objetStoreName => {
+        objectStoreNames.forEach((objetStoreName) => {
           if (!database['objectStoreNames'].contains(objetStoreName)) {
             console.info('Create Object Store', objetStoreName);
             database['createObjectStore'](objetStoreName);
@@ -116,8 +118,9 @@ export class Database {
       }
       this.open().then(() => {
         console.log(
-          `[${this.name_}:${group ||
-            this.defaultObjectStore_}] Executing ${command}(${params})`
+          `[${this.name_}:${
+            group || this.defaultObjectStore_
+          }] Executing ${command}(${params})`
         );
         const request = ['get', 'getAll', 'getAllKeys'].includes(command)
           ? this.getObjectStoreReadOnly_(group)[command](...params)
@@ -125,7 +128,7 @@ export class Database {
         request['onsuccess'] = () => {
           resolve(request.result);
         };
-        request['onerror'] = e => {
+        request['onerror'] = (e) => {
           reject(Error(`Failed to execute ${name}: ${e}`));
         };
         request['onabort'] = () => {

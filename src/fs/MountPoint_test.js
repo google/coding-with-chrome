@@ -1,6 +1,4 @@
 /**
- * @fileoverview MountPoint tests.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,42 +12,47 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * @author mbordihn@google.com (Markus Bordihn)
  */
+
+/**
+ * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview MountPoint tests.
+ */
+
 import { MountPoint } from './MountPoint';
 import { Files } from './Files';
 
-describe('MountPoint', function() {
-  it('.mount (/) - Error', function() {
+describe('MountPoint', function () {
+  it('.mount (/) - Error', function () {
     const mountPoint = new MountPoint();
-    expect(function() {
+    expect(function () {
       mountPoint.mount('/', null);
     }).toThrow();
   });
 
-  it('.mount (missing /) - Error', function() {
+  it('.mount (missing /) - Error', function () {
     const mountPoint = new MountPoint();
-    expect(function() {
+    expect(function () {
       mountPoint.mount('test', null);
     }).toThrow();
   });
 
-  it('.mount (same mount point) - Error', function() {
+  it('.mount (same mount point) - Error', function () {
     const mountPoint = new MountPoint();
     mountPoint.mount('/test', null);
-    expect(function() {
+    expect(function () {
       mountPoint.mount('/test', null);
     }).toThrow();
   });
 
-  it('.mount (/test)', function() {
+  it('.mount (/test)', function () {
     const mountPoint = new MountPoint();
     mountPoint.mount('/test', null);
     expect(mountPoint.exist('/test')).toBe(true);
   });
 
-  it('.mount (/test /test/a /test/b)', function() {
+  it('.mount (/test /test/a /test/b)', function () {
     const mountPoint = new MountPoint();
     mountPoint.mount('/test', null);
     mountPoint.mount('/test/a', null);
@@ -60,7 +63,7 @@ describe('MountPoint', function() {
     expect(mountPoint.exist('/test/c')).toBe(false);
   });
 
-  it('.umount', function() {
+  it('.umount', function () {
     const mountPoint = new MountPoint();
     mountPoint.mount('/test', null);
     expect(mountPoint.exist('/test')).toBe(true);
@@ -70,7 +73,7 @@ describe('MountPoint', function() {
     expect(mountPoint.exist('/test2')).toBe(false);
   });
 
-  it('.get', function() {
+  it('.get', function () {
     const mountPoint = new MountPoint();
     const mountTarget = function test() {
       return 'Hello World';
@@ -80,7 +83,7 @@ describe('MountPoint', function() {
     expect(mountPoint.get('/test').target).toBe(mountTarget);
   });
 
-  it('.get (indirect)', function() {
+  it('.get (indirect)', function () {
     const mountPoint = new MountPoint();
     mountPoint.mount('/test', null);
     expect(mountPoint.get('/test/a').path).toBe('/test');
@@ -89,7 +92,7 @@ describe('MountPoint', function() {
     expect(mountPoint.get('/test/a/b/c').path).toBe('/test');
   });
 
-  it('.getMount', function() {
+  it('.getMount', function () {
     const mountPoint = new MountPoint();
     const mountTarget = function test() {
       return 'Hello World';
@@ -99,7 +102,7 @@ describe('MountPoint', function() {
     expect(mountPoint.getMount('/test').target).toBe(mountTarget);
   });
 
-  it('.getTarget', function() {
+  it('.getTarget', function () {
     const mountPoint = new MountPoint();
     const mountTarget = function test() {
       return 'Hello World';
@@ -108,7 +111,7 @@ describe('MountPoint', function() {
     expect(mountPoint.getTarget('/test')).toBe(mountTarget);
   });
 
-  it('.mkdir', function() {
+  it('.mkdir', function () {
     const mountPoint = new MountPoint();
     const mountTarget = new Files();
     mountPoint.mount('/test', mountTarget);
@@ -121,7 +124,7 @@ describe('MountPoint', function() {
     expect(mountPoint.exec('/test/d', 'exist')).toBeFalse;
   });
 
-  it('.writeFile', function() {
+  it('.writeFile', function () {
     const mountPoint = new MountPoint();
     const mountTarget = new Files();
     mountPoint.mount('/test', mountTarget);

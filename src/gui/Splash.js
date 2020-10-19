@@ -1,6 +1,4 @@
 /**
- * @fileoverview Splashscreen for the Coding with Chrome suite.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Splashscreen for the Coding with Chrome suite.
  */
 
 import { Version } from '../config/Config';
@@ -26,10 +28,10 @@ import { StackQueue } from '../utils/stack/StackQueue';
  */
 export class Splash {
   /**
-   * @param {Object} stackQueueInstance
+   * @param {HTMLElement} node
    * @constructor
    */
-  constructor(stackQueueInstance = new StackQueue(false)) {
+  constructor(node) {
     this.currentProgress = 0;
 
     /** @type {string} */
@@ -39,30 +41,28 @@ export class Splash {
     this.progressStep = 1;
 
     /** @type {StackQueue} */
-    this.stackQueue = stackQueueInstance;
+    this.stackQueue = new StackQueue(false);
     this.startTime = Date.now();
 
-    /** @type {HTMLElement|null} */
-    this.node = document.querySelector('#cwc-splash-screen');
+    /** @type {HTMLElement} */
+    this.node = node;
 
     /** @type {HTMLElement|null} */
-    this.nodeVersion = document.querySelector(
-      '#cwc-splash-screen > div.version'
+    this.nodeVersion = this.node.querySelector('div.version');
+
+    /** @type {HTMLElement|null} */
+    this.nodeProgressBar = this.node.querySelector(
+      'div.content > div.progress > div.progress-bar > div'
     );
 
     /** @type {HTMLElement|null} */
-    this.nodeProgressBar = document.querySelector(
-      '#cwc-splash-screen > div.content > div.progress > div.progress-bar > div'
+    this.nodeProgressText = this.node.querySelector(
+      'div.content > div.progress > div.progress-text'
     );
 
     /** @type {HTMLElement|null} */
-    this.nodeProgressText = document.querySelector(
-      '#cwc-splash-screen > div.content > div.progress > div.progress-text'
-    );
-
-    /** @type {HTMLElement|null} */
-    this.nodeProgressTextLog = document.querySelector(
-      '#cwc-splash-screen > div.content > div.progress > div.progress-text-log > ul'
+    this.nodeProgressTextLog = this.node.querySelector(
+      'div.content > div.progress > div.progress-text-log > ul'
     );
   }
 
@@ -123,7 +123,7 @@ export class Splash {
    * @param {number} progress
    */
   set progress(progress) {
-    console.log('Set Progress to', progress);
+    console.debug('Set Progress to', progress);
     this.currentProgress = progress;
     if (this.nodeProgressBar) {
       this.nodeProgressBar.style.transform = `translateX(-${100 - progress}%)`;
@@ -141,7 +141,7 @@ export class Splash {
    * @param {String} text
    */
   set progressText(text) {
-    console.log('Set Progress text to', text);
+    console.debug('Set Progress text to', text);
     if (this.nodeProgressText) {
       this.nodeProgressText.textContent = `${text}`;
     }

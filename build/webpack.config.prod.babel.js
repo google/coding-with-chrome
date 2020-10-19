@@ -1,6 +1,4 @@
 /**
- * @fileoverview Webpack prod config
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,16 +12,16 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Webpack prod config
  */
 
 import webpackConfig from './webpack.config.babel';
-import merge from 'webpack-merge';
 
-const prodConfig = merge(webpackConfig('production'), {
-  devtool: 'none',
-  mode: 'production'
-});
+const prodConfig = webpackConfig('production');
 
 module.exports = prodConfig;

@@ -1,6 +1,4 @@
 /**
- * @fileoverview App Wrapper for the Coding with Chrome suite.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview App Wrapper for the Coding with Chrome suite.
  */
 
 import { Env } from './Env';
@@ -94,7 +96,7 @@ export class App {
    * @return {Promise}
    */
   run(input = '', args = [], options = new Map()) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.write(`Run command with ${args} ${options} ${input}`);
       resolve();
     });
@@ -107,7 +109,7 @@ export class App {
    * @return {Promise}
    */
   autocompleteHandler(input = '', args = [], isDoubleTab = false) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.append('a');
       this.write(`Autocomplete command with ${args} ${isDoubleTab} ${input}`);
       resolve();
@@ -118,7 +120,7 @@ export class App {
    * @return {Promise}
    */
   showHelp() {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.writeText(this.help);
       resolve();
     });
@@ -128,7 +130,7 @@ export class App {
    * @return {Promise}
    */
   showVersion() {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.write('Version: ...');
       resolve();
     });

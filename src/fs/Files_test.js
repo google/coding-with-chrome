@@ -1,6 +1,4 @@
 /**
- * @fileoverview Files tests.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,18 +12,23 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * @author mbordihn@google.com (Markus Bordihn)
  */
+
+/**
+ * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Files tests.
+ */
+
 import { Files } from './Files';
 
-describe('Files', function() {
-  it('constructor', function() {
+describe('Files', function () {
+  it('constructor', function () {
     const files = new Files();
     expect(typeof files).toBe('object');
   });
 
-  it('.addFolder', function() {
+  it('.addFolder', function () {
     const files = new Files();
     files.addFolder('/etc');
     files.addFolder('/home');
@@ -47,27 +50,27 @@ describe('Files', function() {
     expect(files.existFolder('/home/user2/b')).toBeTrue();
   });
 
-  it('.addFolder (expected errors)', function() {
+  it('.addFolder (expected errors)', function () {
     const files = new Files();
-    expect(function() {
+    expect(function () {
       files.addFolder('etc');
     }).toThrow();
-    expect(function() {
+    expect(function () {
       files.addFolder('/');
     }).toThrow();
-    expect(function() {
+    expect(function () {
       files.addFolder('/home/user1');
     }).toThrow();
-    expect(function() {
+    expect(function () {
       files.addFolder('/___files___');
     }).toThrow();
-    expect(function() {
+    expect(function () {
       files.addFolder('/home');
       files.addFolder('/home');
     }).toThrow();
   });
 
-  it('.writeFile', function() {
+  it('.writeFile', function () {
     const files = new Files();
     files.writeFile('/test');
     expect(files.exist('/test')).toBeTrue();
@@ -75,7 +78,7 @@ describe('Files', function() {
     expect(files.existFile('/test')).toBeTrue();
   });
 
-  it('.writeFile (/subfolder)', function() {
+  it('.writeFile (/subfolder)', function () {
     const files = new Files();
     files.addFolder('/subfolder');
     files.writeFile('/subfolder/test');
@@ -84,50 +87,50 @@ describe('Files', function() {
     expect(files.existFile('/subfolder/test')).toBeTrue();
   });
 
-  it('.writeFile (expect errors)', function() {
+  it('.writeFile (expect errors)', function () {
     const files = new Files();
     files.addFolder('/subfolder');
-    expect(function() {
+    expect(function () {
       files.writeFile('test');
     }).toThrow();
-    expect(function() {
+    expect(function () {
       files.writeFile('/');
     }).toThrow();
-    expect(function() {
+    expect(function () {
       files.writeFile('/subfolder');
     }).toThrow();
-    expect(function() {
+    expect(function () {
       files.writeFile('/subfolder2/test');
     }).toThrow();
-    expect(function() {
+    expect(function () {
       files.writeFile('/subfolder/test', '1', { overwrite: false });
       files.writeFile('/subfolder/test', '2', { overwrite: false });
     }).toThrow();
   });
 
-  it('.writeFile (overwrite)', function(done) {
+  it('.writeFile (overwrite)', function (done) {
     const files = new Files();
     files.writeFile('/test', '1');
     files.writeFile('/test', '2');
-    files.readFile('/test').then(result => {
+    files.readFile('/test').then((result) => {
       expect(result).toBe('2');
       done();
     });
   });
 
-  it('.writeFile (function)', function(done) {
+  it('.writeFile (function)', function (done) {
     const files = new Files();
-    const testFunction = function(text) {
+    const testFunction = function (text) {
       return text;
     };
     files.writeFile('/test', testFunction);
-    files.readFile('/test').then(result => {
+    files.readFile('/test').then((result) => {
       expect(result).toBe(testFunction);
       done();
     });
   });
 
-  it('.getFile', function() {
+  it('.getFile', function () {
     const files = new Files();
     const newFile = files.writeFile('/test');
     expect(files.exist('/test')).toBeTrue();
@@ -136,7 +139,7 @@ describe('Files', function() {
     expect(files.getFile('/test')).toBe(newFile);
   });
 
-  it('.getFile (/subfolder)', function() {
+  it('.getFile (/subfolder)', function () {
     const files = new Files();
     files.addFolder('/subfolder');
     const newFile = files.writeFile('/subfolder/test');
@@ -146,9 +149,9 @@ describe('Files', function() {
     expect(files.getFile('/subfolder/test')).toBe(newFile);
   });
 
-  it('.getFile (function)', function() {
+  it('.getFile (function)', function () {
     const files = new Files();
-    const testFunction = function(text) {
+    const testFunction = function (text) {
       return text;
     };
     const newFile = files.writeFile('/test', testFunction);
@@ -158,7 +161,7 @@ describe('Files', function() {
     expect(files.getFile('/test')).toBe(newFile);
   });
 
-  it('.readFile', function(done) {
+  it('.readFile', function (done) {
     const files = new Files();
     const fileContent = 'Hello World!';
     const newFile = files.writeFile('/test', fileContent);
@@ -166,7 +169,7 @@ describe('Files', function() {
     expect(files.existFolder('/test')).toBeFalse();
     expect(files.existFile('/test')).toBeTrue();
     expect(files.getFile('/test')).toBe(newFile);
-    files.readFile('/test').then(result => {
+    files.readFile('/test').then((result) => {
       expect(result).toBe(fileContent);
       done();
     });

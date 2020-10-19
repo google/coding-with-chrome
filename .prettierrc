@@ -1,4 +1,5 @@
 {
+  "endOfLine":"auto",
   "printWidth": 80,
   "singleQuote": true,
   "overrides": [

@@ -1,6 +1,4 @@
 /**
- * @fileoverview File instance for virtual file system for the kernel.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview File instance for virtual file system for the kernel.
  */
 
 import { FileContent } from './FileContent';
@@ -23,10 +25,10 @@ import { FileContent } from './FileContent';
 /**
  * @return {string}
  */
-const generateId = function() {
+const generateId = function () {
   let result = '';
   const ids = window.crypto.getRandomValues(new Uint32Array(4));
-  ids.forEach(id => {
+  ids.forEach((id) => {
     result += '-' + id.toString(16);
   });
   return result.substr(1);
@@ -41,7 +43,7 @@ export const FileType = {
   FILE: 2,
   SYMBOLIC_LINK: 3,
   DEVICE: 4,
-  SOCKET: 5
+  SOCKET: 5,
 };
 
 /**
@@ -174,7 +176,7 @@ export class File {
       name: this.name,
       size: this.size,
       type: this.type,
-      version: this.version
+      version: this.version,
     };
   }
 

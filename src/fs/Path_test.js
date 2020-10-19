@@ -1,6 +1,4 @@
 /**
- * @fileoverview Path tests.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,33 +12,37 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Path tests.
  */
 import { Path } from './Path';
 
-describe('Path', function() {
-  it('.sep', function() {
+describe('Path', function () {
+  it('.sep', function () {
     expect(Path.sep()).toEqual('/');
   });
 
-  it('.delimiter', function() {
+  it('.delimiter', function () {
     expect(Path.delimiter()).toEqual(':');
   });
 
-  it('.split', function() {
+  it('.split', function () {
     expect(Path.split('/home')).toEqual(['/', 'home']);
     expect(Path.split('/home/user')).toEqual(['/', 'home', 'user']);
     expect(Path.split('/home/user/file')).toEqual([
       '/',
       'home',
       'user',
-      'file'
+      'file',
     ]);
     console.log(Path.split('/home/user/file'));
   });
 
-  it('.basename', function() {
+  it('.basename', function () {
     expect(Path.basename('/etc')).toBe('etc');
     expect(Path.basename('/home')).toBe('home');
     expect(Path.basename('/home/user')).toBe('user');
@@ -48,7 +50,7 @@ describe('Path', function() {
     expect(Path.basename('/home/user/b')).toBe('b');
   });
 
-  it('.closet (direct)', function() {
+  it('.closet (direct)', function () {
     const paths = ['/home', '/home/user', '/home/user/a', '/home/user/b'];
     expect(Path.closest('/etc', paths)).toBe('');
     expect(Path.closest('/home', paths)).toBe('/home');
@@ -62,7 +64,7 @@ describe('Path', function() {
     expect(Path.closest('/home/user/b/', paths)).toBe('/home/user/b');
   });
 
-  it('.closet (indirect)', function() {
+  it('.closet (indirect)', function () {
     const paths = ['/home', '/home/user', '/home/user/a', '/home/user/b'];
     expect(Path.closest('/etc', paths)).toBe('');
     expect(Path.closest('/home/root', paths)).toBe('/home');
@@ -71,7 +73,7 @@ describe('Path', function() {
     expect(Path.closest('/home/user/c', paths)).toBe('/home/user');
   });
 
-  it('.dirname', function() {
+  it('.dirname', function () {
     expect(Path.dirname('/etc')).toBe('/');
     expect(Path.dirname('/a')).toBe('/');
     expect(Path.dirname('/a/b')).toBe('/a');
@@ -80,12 +82,12 @@ describe('Path', function() {
     expect(Path.dirname('/a/b/c/d/e')).toBe('/a/b/c/d');
   });
 
-  it('.findPathInObject', function() {
+  it('.findPathInObject', function () {
     const obj = {
       '/': {
         a: { a1: 'a1', a2: 'a2' },
-        b: { b1: 'b1', b2: 'b2' }
-      }
+        b: { b1: 'b1', b2: 'b2' },
+      },
     };
     expect(Path.findPathInObject('/', obj)).toBe(obj['/']);
     expect(Path.findPathInObject('/a', obj)).toBe(obj['/']['a']);
@@ -98,7 +100,7 @@ describe('Path', function() {
     expect(Path.findPathInObject('/c/c1', obj)).toBe(null);
   });
 
-  it('.parentDirname', function() {
+  it('.parentDirname', function () {
     expect(Path.parentDirname('/etc')).toBe('');
     expect(Path.parentDirname('/a')).toBe('');
     expect(Path.parentDirname('/a/b')).toBe('a');
@@ -107,7 +109,7 @@ describe('Path', function() {
     expect(Path.parentDirname('/a/b/c/d/e')).toBe('d');
   });
 
-  it('.join', function() {
+  it('.join', function () {
     expect(Path.join()).toBe('');
     expect(Path.join('/etc')).toBe('/etc');
     expect(Path.join('/', 'etc')).toBe('/etc');
@@ -123,7 +125,7 @@ describe('Path', function() {
     expect(Path.join('/home', '..')).toBe('/');
   });
 
-  it('.normalize', function() {
+  it('.normalize', function () {
     expect(Path.normalize()).toBe('');
     expect(Path.normalize('/etc')).toBe('/etc');
     expect(Path.normalize('a/b')).toBe('a/b');
@@ -137,7 +139,7 @@ describe('Path', function() {
     expect(Path.normalize('/../../..')).toBe('/');
   });
 
-  it('.isAbsolute', function() {
+  it('.isAbsolute', function () {
     expect(Path.isAbsolute()).toBeFalse();
     expect(Path.isAbsolute('/etc')).toBeTrue();
     expect(Path.isAbsolute('/a/b/c')).toBeTrue();

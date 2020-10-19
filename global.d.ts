@@ -19,7 +19,7 @@
  */
 
 /** ServiceWorkerWebpackPlugin */
-declare const serviceWorkerOption: object;
+declare const serviceWorkerOption: Record<string, unknown>;
 
 /** Version from package.json */
 declare const VERSION: string;

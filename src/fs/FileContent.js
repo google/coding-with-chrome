@@ -1,6 +1,4 @@
 /**
- * @fileoverview Virtual file system for the kernel.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Virtual file system for the kernel.
  */
 
 /**
@@ -30,9 +32,9 @@ export class FileContent {
     if (typeof blobObject.text === 'function') {
       return blobObject.text();
     }
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const reader = new FileReader();
-      reader.onload = function() {
+      reader.onload = function () {
         resolve(reader.result);
       };
       reader.readAsText(blobObject);
@@ -44,8 +46,8 @@ export class FileContent {
    * @return {Promise}
    */
   static blobToBase64(blobObject) {
-    return new Promise(resolve => {
-      FileContent.blobToText(blobObject).then(text => {
+    return new Promise((resolve) => {
+      FileContent.blobToText(blobObject).then((text) => {
         resolve(btoa(text));
       });
     });
@@ -99,7 +101,7 @@ export class FileContent {
    */
   static urlEncodedToBlob(data, type) {
     return new Blob([FileContent.textToArrayBuffer(decodeURIComponent(data))], {
-      type: type
+      type: type,
     });
   }
 
@@ -117,7 +119,7 @@ export class FileContent {
       content = data;
     }
     return new Blob([FileContent.textToArrayBuffer(content)], {
-      type: type
+      type: type,
     });
   }
 

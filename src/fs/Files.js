@@ -1,6 +1,4 @@
 /**
- * @fileoverview Virtual file system for the kernel.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Virtual file system for the kernel.
  */
 
 import { Executable } from './Executable';
@@ -33,8 +35,8 @@ export class Files {
     /** @type {Object} */
     this.dirs = {
       '/': {
-        ___files___: {}
-      }
+        ___files___: {},
+      },
     };
 
     /** @type {Map} */
@@ -66,12 +68,12 @@ export class Files {
     }
     if (path.lastIndexOf('/') <= 0) {
       this.getRoot()[folderName] = {
-        ___files___: {}
+        ___files___: {},
       };
       return;
     }
     this.getParentPath(path, true)[folderName] = {
-      ___files___: {}
+      ___files___: {},
     };
   }
 

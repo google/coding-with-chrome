@@ -1,6 +1,4 @@
 /**
- * @fileoverview Memory tests.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,13 +12,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Memory tests.
  */
 import { Memory } from './Memory';
 
-describe('Memory', function() {
-  it('.set (string)', function() {
+describe('Memory', function () {
+  it('.set (string)', function () {
     const testMemory = new Memory();
     expect(testMemory.getSize()).toEqual(0);
     testMemory.add('1', 'result1');
@@ -31,7 +33,7 @@ describe('Memory', function() {
     expect(testMemory.get('2')).toEqual('result2');
   });
 
-  it('.set (string with expiration)', function() {
+  it('.set (string with expiration)', function () {
     const testMemory = new Memory();
     expect(testMemory.getSize()).toEqual(0);
     testMemory.add('1', 'result1', -1);
@@ -40,7 +42,7 @@ describe('Memory', function() {
     expect(testMemory.get('2')).toEqual('result2');
   });
 
-  it('.set (number)', function() {
+  it('.set (number)', function () {
     const testMemory = new Memory();
     expect(testMemory.getSize()).toEqual(0);
     testMemory.add('1', 1);
@@ -51,7 +53,7 @@ describe('Memory', function() {
     expect(testMemory.get('2')).toEqual(2);
   });
 
-  it('.set (number with expiration)', function() {
+  it('.set (number with expiration)', function () {
     const testMemory = new Memory();
     expect(testMemory.getSize()).toEqual(0);
     testMemory.add('1', 1, -1);

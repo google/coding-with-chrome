@@ -1,6 +1,4 @@
 /**
- * @fileoverview Simple File System tests.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,23 +12,27 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Simple File System tests.
  */
 import { FileSystem } from './FileSystem';
 
-describe('FileSystem', function() {
-  it('constructor', function() {
+describe('FileSystem', function () {
+  it('constructor', function () {
     const fileSystem = new FileSystem();
     expect(typeof fileSystem).toBe('object');
   });
 
-  it('.mount', function() {
+  it('.mount', function () {
     const fileSystem = new FileSystem();
     fileSystem.mount('/tmp');
   });
 
-  it('.mkdir', function() {
+  it('.mkdir', function () {
     const fileSystem = new FileSystem();
     fileSystem.mount('/tmp');
     fileSystem.mkdir('/tmp/test1');

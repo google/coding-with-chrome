@@ -1,7 +1,5 @@
 /* eslint-disable require-jsdoc */
 /**
- * @fileoverview MountEntry tests.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,20 +13,24 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview MountEntry tests.
  */
 import { MountEntry } from './MountEntry';
 
-describe('MountEntry', function() {
-  it('constructor', function() {
+describe('MountEntry', function () {
+  it('constructor', function () {
     const mountEntry = new MountEntry('/test', null);
     expect(typeof mountEntry).toBe('object');
     expect(mountEntry.path).toBe('/test');
     expect(mountEntry.target).toBe(null);
   });
 
-  it('.executeCommand', function() {
+  it('.executeCommand', function () {
     class MountTarget {
       static a() {
         return 'hello';
@@ -51,7 +53,7 @@ describe('MountEntry', function() {
     expect(mountEntry.executeCommand('c', '3', '1')).toBe('c31');
   });
 
-  it('.getCommand', function() {
+  it('.getCommand', function () {
     class MountTarget {
       static a() {
         return 'hello';
@@ -71,23 +73,23 @@ describe('MountEntry', function() {
     expect(mountEntry.getCommand('c')()).toBe('hello world!');
   });
 
-  it('.getTarget', function() {
+  it('.getTarget', function () {
     const mountTarget = {
-      a: function() {
+      a: function () {
         return 'hello';
       },
-      b: function() {
+      b: function () {
         return 'world';
       },
-      c: function() {
+      c: function () {
         return this.a() + ' ' + this.b();
-      }
+      },
     };
     const mountEntry = new MountEntry('/test', mountTarget);
     expect(mountEntry.getTarget()).toBe(mountTarget);
   });
 
-  it('.getPath', function() {
+  it('.getPath', function () {
     const mountEntry = new MountEntry('/test', null);
     expect(mountEntry.getPath('/test')).toBe('/');
     expect(mountEntry.getPath('/test/a')).toBe('/a');

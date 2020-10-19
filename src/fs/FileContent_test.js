@@ -1,6 +1,4 @@
 /**
- * @fileoverview Files tests.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,13 +12,18 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * @author mbordihn@google.com (Markus Bordihn)
  */
+
+/**
+ * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Files tests.
+ */
+
 import { FileContent } from './FileContent';
 
-describe('FileContent', function() {
-  it('arrayBufferToText', function() {
+describe('FileContent', function () {
+  it('arrayBufferToText', function () {
     const dataText = 'abc';
     const dataBuffer = new ArrayBuffer(dataText.length);
     const dataView = new Uint8Array(dataBuffer);
@@ -30,7 +33,7 @@ describe('FileContent', function() {
     expect(FileContent.arrayBufferToText(dataBuffer)).toBe(dataText);
   });
 
-  it('.blobToText', function(done) {
+  it('.blobToText', function (done) {
     const dataText = 'abc';
     const dataBuffer = new ArrayBuffer(dataText.length);
     const dataView = new Uint8Array(dataBuffer);
@@ -39,73 +42,73 @@ describe('FileContent', function() {
     dataView[2] = dataText.charCodeAt(2);
     const blobObject = new Blob([dataBuffer], { type: 'text/plain' });
     expect(blobObject.type).toBe('text/plain');
-    FileContent.blobToText(blobObject).then(text => {
+    FileContent.blobToText(blobObject).then((text) => {
       expect(text).toBe('abc');
       done();
     });
   });
 
-  it('.toBlob (text)', function(done) {
+  it('.toBlob (text)', function (done) {
     const blobText = FileContent.toBlob('test');
     expect(blobText.type).toBe('text/plain');
     expect(blobText.size).toBe(4);
-    FileContent.blobToText(blobText).then(text => {
+    FileContent.blobToText(blobText).then((text) => {
       expect(text).toBe('test');
       done();
     });
   });
 
-  it('.toBlob (blob)', function() {
+  it('.toBlob (blob)', function () {
     const blobNative = FileContent.toBlob(new Blob([], { type: 'text/plain' }));
     expect(blobNative.type).toBe('text/plain');
   });
 
-  it('.toBlob (data url)', function(done) {
+  it('.toBlob (data url)', function (done) {
     const blobBase64 = FileContent.toBlob(
       'data:text/plain;base64,SGVsbG8gV29ybGQ='
     );
     expect(blobBase64.type).toBe('text/plain');
-    FileContent.blobToText(blobBase64).then(text => {
+    FileContent.blobToText(blobBase64).then((text) => {
       expect(text).toBe('Hello World');
       done();
     });
   });
 
-  it('.base64ToBlob', function(done) {
+  it('.base64ToBlob', function (done) {
     const blobBase64 = FileContent.base64ToBlob(
       'SGVsbG8gV29ybGQ=',
       'text/plain'
     );
     expect(blobBase64.type).toBe('text/plain');
-    FileContent.blobToText(blobBase64).then(text => {
+    FileContent.blobToText(blobBase64).then((text) => {
       expect(text).toBe('Hello World');
       done();
     });
   });
 
-  it('dataURLToBlob (base64)', function(done) {
+  it('dataURLToBlob (base64)', function (done) {
     const blobBase64 = FileContent.dataURLToBlob(
       'data:text/plain;base64,SGVsbG8gV29ybGQ='
     );
     expect(blobBase64.type).toBe('text/plain');
-    FileContent.blobToText(blobBase64).then(text => {
+    FileContent.blobToText(blobBase64).then((text) => {
       expect(text).toBe('Hello World');
       done();
     });
   });
 
-  it('dataURLToBlob (url encode)', function(done) {
+  it('dataURLToBlob (url encode)', function (done) {
     const blobURLEncode = FileContent.dataURLToBlob(
       'data:text/plain,Hello%20World!'
     );
     expect(blobURLEncode.type).toBe('text/plain');
-    FileContent.blobToText(blobURLEncode).then(text => {
+    FileContent.blobToText(blobURLEncode).then((text) => {
       expect(text).toBe('Hello World!');
       done();
     });
   });
 
-  it('urlEncodedToBlob', function() {
+  it('urlEncodedToBlob', function () {
     const blobURLEncode = FileContent.urlEncodedToBlob(
       'Hello%20World!',
       'text/plain'
@@ -113,7 +116,7 @@ describe('FileContent', function() {
     expect(blobURLEncode.type).toBe('text/plain');
   });
 
-  it('textToArrayBuffer', function() {
+  it('textToArrayBuffer', function () {
     const dataText = 'Hello World';
     const dataBuffer = FileContent.textToArrayBuffer(dataText);
     expect(FileContent.arrayBufferToText(dataBuffer)).toBe(dataText);

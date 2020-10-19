@@ -1,6 +1,4 @@
 /**
- * @fileoverview ENV for the Coding with Chrome suite.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview ENV for the Coding with Chrome suite.
  */
 
 /**
@@ -124,7 +126,7 @@ export class Env {
    * @return {Promise}
    */
   prepare(user = 'guest') {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       console.log('Gathering system information ...');
       this.setFeature('serviceWorker', 'serviceWorker' in navigator);
       console.log('Detected Features', this.feature);
@@ -150,7 +152,7 @@ export class Env {
    * @return {Promise}
    */
   handler(args, env, terminal) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       if (args) {
         return;
       } else {

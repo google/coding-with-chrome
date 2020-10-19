@@ -1,6 +1,4 @@
 /**
- * @fileoverview File tests.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,25 +12,29 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview File tests.
  */
 import { File } from './File';
 
-describe('File', function() {
-  it('constructor', function() {
+describe('File', function () {
+  it('constructor', function () {
     const file = new File('test123');
     expect(typeof file).toEqual('object');
   });
 
-  it('.type', function() {
+  it('.type', function () {
     const jpegFile = new File('data:image/jpeg;base64,Li4uLi4=', 'test.jpg');
     const pngFile = new File('data:image/png;base64,Li4uLi4=', 'test.png');
     expect(jpegFile.type).toEqual('image/jpeg');
     expect(pngFile.type).toEqual('image/png');
   });
 
-  it('.getId', function() {
+  it('.getId', function () {
     const file = new File('test123');
     const file1 = new File('test123');
     const file2 = new File('test123');
@@ -45,41 +47,41 @@ describe('File', function() {
     expect(file.getId() !== file4.getId()).toBeTrue();
   });
 
-  it('.setName', function() {
+  it('.setName', function () {
     const file = new File('', 'test123');
     expect(file.getName()).toEqual('test123');
     file.setName('123test');
     expect(file.getName()).toEqual('123test');
   });
 
-  it('.getName', function() {
+  it('.getName', function () {
     const file = new File('', 'test123');
     expect(file.name).toEqual(file.getName());
   });
 
-  it('.setData', function() {
+  it('.setData', function () {
     const file = new File('test123');
     const data = Math.random();
     file.setData(data);
     expect(file.getData()).toEqual(file.data);
   });
 
-  it('.getAsText', function(done) {
+  it('.getAsText', function (done) {
     const file = new File('test123');
     const data = Math.random() + 'test';
     file.setData(data);
-    file.getAsText().then(result => {
+    file.getAsText().then((result) => {
       expect(result).toBe(data);
       done();
     });
     expect(file.getData()).toEqual(file.data);
   });
 
-  it('.getJSON', function(done) {
+  it('.getJSON', function (done) {
     const file = new File('', 'test123');
     file.setData('Hello World');
     file.id = 'b742ae95-e24e049b-f8b48d12-71655fad';
-    file.getJSON().then(result => {
+    file.getJSON().then((result) => {
       expect(result).toEqual(`{
   "data": "Hello World",
   "id": "b742ae95-e24e049b-f8b48d12-71655fad",

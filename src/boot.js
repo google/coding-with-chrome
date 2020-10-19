@@ -1,6 +1,4 @@
 /**
- * @fileoverview Bootscript for the Coding with Chrome suite.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,47 +12,37 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * @author mbordihn@google.com (Markus Bordihn)
  */
 
+/**
+ * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Bootscript for the Coding with Chrome suite.
+ */
+
+import { screen } from './gui/Screen';
 import { Splash } from './gui/Splash';
 import { Version } from './config/Config';
-
-import runtime from 'serviceworker-webpack-plugin/lib/runtime';
 
 /**
  * Boot sequence.
  */
 console.log('Booting Coding with Chrome suite', Version);
-const SplashScreen = new Splash();
-console.log('Showing splash screen');
-SplashScreen.show();
+console.log('Init Screen and showing splash screen');
+screen.init();
+const SplashScreen = new Splash(screen.add('splash-screen', 'Splash Screen'));
 console.log('Initialize platform ...');
-SplashScreen.addStep('Preparing Service Worker', () => {
-  return new Promise(resolve => {
-    if ('serviceWorker' in navigator) {
-      runtime.register({ scope: './' }).then(
-        function(registration) {
-          console.log(
-            'ServiceWorker registration successful with scope: ',
-            registration.scope
-          );
-        },
-        /**
-         * @param {any} error
-         */
-        function(error) {
-          console.log('ServiceWorker registration failed: ', error);
-        }
-      );
-    }
-    resolve();
+SplashScreen.addStep('Loading Service Worker ...', () => {
+  return new Promise((resolve) => {
+    import('./service-worker/InstallWorker').then((module) => {
+      new module.InstallWorker().register();
+      resolve();
+    });
   });
 });
 SplashScreen.addStep('Loading kernel ...', () => {
-  return new Promise(resolve => {
-    import(/* webpackChunkName: "kernel" */ './kernel/Kernel').then(module => {
+  return new Promise((resolve) => {
+    import('./kernel/Kernel').then((module) => {
       module.kernel.boot();
       resolve();
     });
@@ -62,13 +50,11 @@ SplashScreen.addStep('Loading kernel ...', () => {
 });
 SplashScreen.addStep('Loading Coding with Chrome Suite ...');
 SplashScreen.addStep('Loading User Config ...', () => {
-  return new Promise(resolve => {
-    import(/* webpackChunkName: "user_config" */ './config/UserConfig').then(
-      module => {
-        new module.UserConfig();
-        resolve();
-      }
-    );
+  return new Promise((resolve) => {
+    import('./config/UserConfig').then((module) => {
+      new module.UserConfig();
+      resolve();
+    });
   });
 });
 SplashScreen.addStep('Switch run level ...');
@@ -78,22 +64,31 @@ SplashScreen.addStep('Starting built-in services ...');
 SplashScreen.addStep('Loading shell ...');
 SplashScreen.addStep('Start Run-level ...');
 SplashScreen.addStep('Loading Terminal ...', () => {
-  return new Promise(resolve => {
-    import(/* webpackChunkName: "terminal" */ './gui/Terminal').then(module => {
+  return new Promise((resolve) => {
+    import('./gui/Terminal').then((module) => {
       const terminalGui = new module.TerminalGui();
-      terminalGui.show();
+      terminalGui.show(screen.add('terminal', 'Root Terminal'));
+      screen.hide('terminal');
       resolve();
     });
   });
 });
-SplashScreen.addStep(
-  'Done.',
-  () => {
-    return new Promise(resolve => {
-      setTimeout(SplashScreen.hide.bind(SplashScreen), 1000);
+SplashScreen.addStep('Loading App ...', () => {
+  return new Promise((resolve) => {
+    import('./components/App/index.js').then((module) => {
+      module.render(screen.add('app', 'Main app'));
+      screen.hide('app');
       resolve();
     });
-  },
-  SplashScreen
-);
+  });
+});
+SplashScreen.addStep('Done.', () => {
+  return new Promise((resolve) => {
+    screen.show('splash-screen');
+    setTimeout(() => {
+      screen.hide('splash-screen');
+    }, 1000);
+    resolve();
+  });
+});
 SplashScreen.execute();

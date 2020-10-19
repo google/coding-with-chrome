@@ -17,7 +17,6 @@
     }
   },
   "rules": {
-    "prettier/prettier": ["error"],
     "no-unused-vars": [
       2,
       {
@@ -39,7 +38,8 @@
         ]
       }
     ],
-    "@typescript-eslint/explicit-function-return-type": "off"
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off"
   },
   "env": {
     "browser": true,
@@ -51,6 +51,7 @@
     "chrome": true,
     "window": true,
     "serviceWorkerOption": true,
+    "APP_ASSETS": true,
     "VERSION": true
   },
   "settings": {
@@ -80,6 +81,13 @@
       "rules": {
         "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": "off"
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": ["error"],
+        "@typescript-eslint/explicit-module-boundary-types": ["error"]
       }
     }
   ]

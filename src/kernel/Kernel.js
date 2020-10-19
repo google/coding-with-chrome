@@ -1,6 +1,4 @@
 /**
- * @fileoverview Kernel for the Coding with Chrome suite.
- *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @fileoverview Kernel for the Coding with Chrome suite.
  */
 
 import { Env } from './Env';
@@ -60,7 +62,7 @@ export class Kernel {
    * @return {promise}
    */
   boot() {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       console.log('Preparing kernel with version', this.version, '...');
 
       // Internal Kernel Memory
