@@ -26,8 +26,8 @@ import { processManager as StaticProcessManager } from './Process';
 import { Cd } from '../usr/bin/Cd';
 import { Echo } from '../usr/bin/Echo';
 import { Env } from '../usr/bin/Env';
-import { Ls } from '../usr/bin/ls';
-import { Pwd } from '../usr/bin/pwd';
+import { Ls } from '../usr/bin/Ls';
+import { Pwd } from '../usr/bin/Pwd';
 import { Tty } from '../usr/bin/Tty';
 
 /**
