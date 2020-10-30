@@ -51,7 +51,7 @@ export default (config) => {
     preprocessors: {
       'src/**/*_test.js': ['webpack', 'sourcemap'],
     },
-    reporters: ['mocha', 'coverage'],
+    reporters: ['mocha', 'coverage-istanbul'],
     webpack: webpackConfig,
     webpackMiddleware: {
       noInfo: true,
@@ -60,14 +60,13 @@ export default (config) => {
     coverageIstanbulReporter: {
       combineBrowserReports: true,
       fixWebpackSourcePaths: true,
-      reports: ['lcov', 'text', 'html'],
-    },
-    coverageReporter: {
-      dir: 'coverage',
-      subdir: function (browser) {
-        return browser.toLowerCase().split(/[ /-]/)[0];
+      skipFilesWithNoCoverage: true,
+      'report-config': {
+        html: {
+          subdir: 'html',
+        },
       },
-      reporters: [{ type: 'html' }, { type: 'lcov' }, { type: 'text' }],
+      reports: ['html', 'lcovonly', 'text'],
     },
   });
 };
