@@ -22,10 +22,9 @@
 
 import { StackQueue } from './StackQueue';
 
-describe('StackQueue (autostart)', function () {
-  let stackQueueTest = new StackQueue();
+describe('StackQueue', function () {
+  let stackQueueTest = new StackQueue(false);
   let counter = 0;
-  let timestamp;
   const counterFunc = function () {
     counter = counter + 1;
   };
@@ -34,7 +33,79 @@ describe('StackQueue (autostart)', function () {
     expect(typeof stackQueueTest).toEqual('object');
   });
 
-  it('start', function () {
+  it('clear()', function (done) {
+    stackQueueTest = new StackQueue(false);
+    expect(stackQueueTest.getSize()).toEqual(0);
+    stackQueueTest.addCommand(counterFunc);
+    stackQueueTest.addCommand(counterFunc);
+    stackQueueTest.addCommand(counterFunc);
+    stackQueueTest.addCommand(counterFunc);
+    stackQueueTest.addCommand(counterFunc);
+    expect(stackQueueTest.getSize()).toEqual(5);
+    stackQueueTest.clear();
+    expect(stackQueueTest.getSize()).toEqual(0);
+    done();
+  });
+
+  it('getNext()', function (done) {
+    stackQueueTest = new StackQueue(false);
+    expect(stackQueueTest.getNext()).toEqual(null);
+    stackQueueTest.addCommand(counterFunc);
+    stackQueueTest.addCommand(counterFunc);
+    stackQueueTest.addCommand(counterFunc);
+    expect(stackQueueTest.getNext()).not.toEqual(null);
+    expect(stackQueueTest.getNext()).not.toEqual(null);
+    expect(stackQueueTest.getNext()).not.toEqual(null);
+    expect(stackQueueTest.getNext()).toEqual(null);
+    done();
+  });
+
+  it('getSize()', function (done) {
+    stackQueueTest = new StackQueue(false);
+    expect(stackQueueTest.getSize()).toEqual(0);
+    stackQueueTest.addCommand(counterFunc);
+    expect(stackQueueTest.getSize()).toEqual(1);
+    stackQueueTest.addCommand(counterFunc);
+    expect(stackQueueTest.getSize()).toEqual(2);
+    stackQueueTest.addCommand(counterFunc);
+    expect(stackQueueTest.getSize()).toEqual(3);
+    stackQueueTest.addCommand(counterFunc);
+    expect(stackQueueTest.getSize()).toEqual(4);
+    stackQueueTest.addCommand(counterFunc);
+    expect(stackQueueTest.getSize()).toEqual(5);
+    stackQueueTest.clear();
+    expect(stackQueueTest.getSize()).toEqual(0);
+    done();
+  });
+
+  it('handleQueue_()', function (done) {
+    stackQueueTest = new StackQueue(false);
+    stackQueueTest.addCommand(counterFunc);
+    stackQueueTest.handleQueue_();
+    stackQueueTest.handleQueue_();
+    done();
+  });
+});
+
+describe('StackQueue (autostart)', function () {
+  let stackQueueTest = new StackQueue();
+  let counter = 0;
+  let timestamp;
+  const counterFunc = function () {
+    counter = counter + 1;
+  };
+  const counterFuncPromise = function () {
+    return new Promise((resolve) => {
+      counter = counter + 1;
+      resolve();
+    });
+  };
+
+  it('constructor', function () {
+    expect(typeof stackQueueTest).toEqual('object');
+  });
+
+  it('start()', function () {
     stackQueueTest = new StackQueue();
     counter = 0;
     expect(counter).toEqual(0);
@@ -42,7 +113,7 @@ describe('StackQueue (autostart)', function () {
     expect(counter).toEqual(0);
   });
 
-  it('addCommand', function (done) {
+  it('addCommand()', function (done) {
     stackQueueTest = new StackQueue();
     stackQueueTest.start();
     counter = 0;
@@ -58,7 +129,39 @@ describe('StackQueue (autostart)', function () {
     });
   });
 
-  it('addDelay', function (done) {
+  it('addPromise()', function (done) {
+    stackQueueTest = new StackQueue();
+    stackQueueTest.start();
+    counter = 0;
+    expect(counter).toEqual(0);
+    stackQueueTest.addPromise(counterFuncPromise);
+    stackQueueTest.addPromise(counterFuncPromise);
+    stackQueueTest.addPromise(counterFuncPromise);
+    stackQueueTest.addPromise(counterFuncPromise);
+    stackQueueTest.addPromise(counterFuncPromise);
+    stackQueueTest.addCommand(function () {
+      expect(counter).toEqual(5);
+      done();
+    });
+  });
+
+  it('addPromiseRaiseError()', function (done) {
+    stackQueueTest = new StackQueue();
+    stackQueueTest.start();
+    counter = 0;
+    expect(counter).toEqual(0);
+    stackQueueTest.addPromiseRaiseError(counterFuncPromise);
+    stackQueueTest.addPromiseRaiseError(counterFuncPromise);
+    stackQueueTest.addPromiseRaiseError(counterFuncPromise);
+    stackQueueTest.addPromiseRaiseError(counterFuncPromise);
+    stackQueueTest.addPromiseRaiseError(counterFuncPromise);
+    stackQueueTest.addCommand(function () {
+      expect(counter).toEqual(5);
+      done();
+    });
+  });
+
+  it('addDelay()', function (done) {
     stackQueueTest = new StackQueue();
     counter = 0;
     timestamp = Date.now();
@@ -90,7 +193,7 @@ describe('StackQueue (autostart)', function () {
     expect(counter).toEqual(1);
   });
 
-  it('stop', function (done) {
+  it('stop()', function (done) {
     stackQueueTest = new StackQueue();
     counter = 4;
     timestamp = Date.now();
@@ -133,7 +236,7 @@ describe('StackQueue (no autostart)', function () {
     expect(typeof stackQueueTest).toEqual('object');
   });
 
-  it('addCommand', function (done) {
+  it('addCommand()', function (done) {
     stackQueueTest = new StackQueue(false);
     counter = 0;
     expect(counter).toEqual(0);
@@ -146,7 +249,7 @@ describe('StackQueue (no autostart)', function () {
     done();
   });
 
-  it('start', function (done) {
+  it('start()', function (done) {
     stackQueueTest = new StackQueue(false);
     counter = 0;
     stackQueueTest.addCommand(counterFunc);
@@ -162,7 +265,7 @@ describe('StackQueue (no autostart)', function () {
     });
   });
 
-  it('addDelay', function (done) {
+  it('addDelay()', function (done) {
     stackQueueTest = new StackQueue(false);
     counter = 0;
     timestamp = Date.now();
@@ -194,7 +297,7 @@ describe('StackQueue (no autostart)', function () {
     stackQueueTest.start();
   });
 
-  it('stop', function (done) {
+  it('stop()', function (done) {
     stackQueueTest = new StackQueue(false);
     counter = 4;
     expect(counter).toEqual(4);

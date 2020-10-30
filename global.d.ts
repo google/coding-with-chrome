@@ -21,5 +21,11 @@
 /** ServiceWorkerWebpackPlugin */
 declare const serviceWorkerOption: Record<string, unknown>;
 
+/** Assets Array for Cache Worker */
+declare const APP_ASSETS: [string];
+
+/** Devmode from Webpack config */
+declare const DEVMODE: boolean;
+
 /** Version from package.json */
 declare const VERSION: string;

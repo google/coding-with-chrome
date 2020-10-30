@@ -29,7 +29,9 @@ export class InstallWorker {
    */
   constructor() {
     /** @type{Array} */
-    this.assets = window ? window.APP_ASSETS : [] || [];
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    this.assets = globalThis.APP_ASSETS || [];
     console.log('Install Service Worker ...');
   }
 
@@ -51,9 +53,11 @@ export class InstallWorker {
             console.error('ServiceWorker registration failed: ', error);
           }
         );
+    } else {
+      console.warn('Unable to setup ServiceWorker!');
     }
 
-    if ('caches' in window) {
+    if ('caches' in window && this.assets) {
       console.log('Adding assets to local browser cache...');
       caches.open('v1').then((cache) => {
         console.log(cache.matchAll(''));
@@ -72,6 +76,8 @@ export class InstallWorker {
           }
         );
       });
+    } else {
+      console.warn('Unable to setup local browser cache!');
     }
   }
 }

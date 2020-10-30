@@ -48,11 +48,12 @@
     "serviceworker": true
   },
   "globals": {
+    "DEVMODE": false,
+    "VERSION": false,
     "chrome": true,
-    "window": true,
+    "globalThis": false,
     "serviceWorkerOption": true,
-    "APP_ASSETS": true,
-    "VERSION": true
+    "window": true,
   },
   "settings": {
     "react": {

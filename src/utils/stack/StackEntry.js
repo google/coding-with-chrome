@@ -37,7 +37,7 @@ export class StackEntry {
     this.type_ = type || StackType.UNKNOWN;
 
     /** @private {?Function|undefined} */
-    this.func_ = func;
+    this.func_ = func || undefined;
 
     /** @private {string|number} */
     this.value_ = value;
@@ -72,5 +72,16 @@ export class StackEntry {
    */
   getValue() {
     return this.value_;
+  }
+
+  /**
+   * @param {*} args
+   * @return {*}
+   */
+  execute(args = undefined) {
+    if (this.func_) {
+      return this.func_(args);
+    }
+    return undefined;
   }
 }

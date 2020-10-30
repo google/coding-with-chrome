@@ -49,6 +49,10 @@ describe('StackEntry: CMD', function () {
   it('.getValue()', function () {
     expect(stackEntry.getValue()).toEqual('');
   });
+
+  it('.execute()', function () {
+    expect(stackEntry.execute({ a: 1, b: 2 })).toEqual(3);
+  });
 });
 
 describe('StackEntry: DELAY', function () {
@@ -65,7 +69,7 @@ describe('StackEntry: DELAY', function () {
   });
 
   it('.getFunc()', function () {
-    expect(stackEntry.getFunc()).toEqual(null);
+    expect(stackEntry.getFunc()).toEqual(undefined);
   });
 
   it('.getType()', function () {
@@ -74,6 +78,10 @@ describe('StackEntry: DELAY', function () {
 
   it('.getValue()', function () {
     expect(stackEntry.getValue()).toEqual(value);
+  });
+
+  it('.execute()', function () {
+    expect(stackEntry.execute()).toEqual(undefined);
   });
 });
 

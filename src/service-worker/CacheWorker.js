@@ -43,6 +43,7 @@ export class CacheWorker {
     if (this.registered) {
       return;
     }
+    console.log('Register Cache Service Worker ...');
     this.events.listen(self, EventType.ACTIVATE, this.activate);
     this.events.listen(self, EventType.INSTALL, this.install);
     this.events.listen(self, EventType.FETCH, this.fetch);

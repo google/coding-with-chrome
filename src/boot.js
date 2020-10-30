@@ -31,6 +31,7 @@ console.log('Booting Coding with Chrome suite', Version);
 console.log('Init Screen and showing splash screen');
 screen.init();
 const SplashScreen = new Splash(screen.add('splash-screen', 'Splash Screen'));
+screen.pin('splash-screen');
 console.log('Initialize platform ...');
 SplashScreen.addStep('Loading Service Worker ...', () => {
   return new Promise((resolve) => {
@@ -48,7 +49,6 @@ SplashScreen.addStep('Loading kernel ...', () => {
     });
   });
 });
-SplashScreen.addStep('Loading Coding with Chrome Suite ...');
 SplashScreen.addStep('Loading User Config ...', () => {
   return new Promise((resolve) => {
     import('./config/UserConfig').then((module) => {
@@ -61,8 +61,6 @@ SplashScreen.addStep('Switch run level ...');
 SplashScreen.addStep('Initialize built-in drivers ...');
 SplashScreen.addStep('Mount file-system ...');
 SplashScreen.addStep('Starting built-in services ...');
-SplashScreen.addStep('Loading shell ...');
-SplashScreen.addStep('Start Run-level ...');
 SplashScreen.addStep('Loading Terminal ...', () => {
   return new Promise((resolve) => {
     import('./gui/Terminal').then((module) => {
@@ -73,6 +71,7 @@ SplashScreen.addStep('Loading Terminal ...', () => {
     });
   });
 });
+SplashScreen.addStep('Start Run-level ...');
 SplashScreen.addStep('Loading App ...', () => {
   return new Promise((resolve) => {
     import('./components/App/index.js').then((module) => {
@@ -80,15 +79,6 @@ SplashScreen.addStep('Loading App ...', () => {
       screen.hide('app');
       resolve();
     });
-  });
-});
-SplashScreen.addStep('Done.', () => {
-  return new Promise((resolve) => {
-    screen.show('splash-screen');
-    setTimeout(() => {
-      screen.hide('splash-screen');
-    }, 1000);
-    resolve();
   });
 });
 SplashScreen.execute();

@@ -24,8 +24,19 @@
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
     <meta name="description" content="Coding with Chrome Suite" />
+    <% for (let item in htmlWebpackPlugin.files.css) { %>
+     <% if (htmlWebpackPlugin.files.css[item] == '/css/boot.css') { %>
+    <style>
+      <%= compilation.assets['css/boot.css'].source() %>
+    </style>
+     <% } else { %>
+    <link rel="preload" href="<%= htmlWebpackPlugin.files.css[item] %>" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[item] %>" /></noscript>
+     <% } %>
+    <% } %>
     <script>
-      const window.APP_ASSETS = ['/',<% for (key in compilation.assets) { %>'<%= key %>', <% } %>];
+      globalThis.BOOT_TIME = Date.now();
+      globalThis.APP_ASSETS = ['/',<% for (key in compilation.assets) { %>'<%= key %>', <% } %>];
     </script>
     <% if (process.env.NODE_ENV === 'production') { %>
     <script>
@@ -34,21 +45,14 @@
       }
     </script>
     <% } %>
-    <% for (let cssIndex = 0; cssIndex < htmlWebpackPlugin.files.css.length; cssIndex++) { %> <% if (htmlWebpackPlugin.files.css[cssIndex] == '/boot.css') { %>
-    <style>
-      <%= compilation.assets['boot.css'].source() %>
-    </style>
-    <% } else { %>
-    <link rel="preload" href="<%= htmlWebpackPlugin.files.css[cssIndex] %>" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript><link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[cssIndex] %>" /></noscript>
-    <% } %> <% } %>
   </head>
   <body>
     <div id="cwc-screen">
       <div id="cwc-screen-splash-screen" class="cwc-splash-screen">
         <div class="content">
+          <h2 class="title">Coding with Chrome</h2>
           <div class="logo">
-            <svg class="cwc-logo" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="400" height="300" version="1.1" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 6350 7620" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <svg class="cwc-logo" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="300" height="225" version="1.1" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 6350 7620" xmlns:xlink="http://www.w3.org/1999/xlink">
               <filter id="dropShadow">
                 <feGaussianBlur in="SourceAlpha" stdDeviation="20" />
                 <feOffset dx="80" dy="80" result="offsetblur" />
@@ -90,12 +94,12 @@
             </div>
           </div>
         </div>
-        <div class="version">Coding with Chrome</div>
+        <div class="version"></div>
       </div>
     </div>
 
-    <% for (let jsIndex = 0; jsIndex < htmlWebpackPlugin.files.js.length; jsIndex++) { %> <% if (htmlWebpackPlugin.files.js[jsIndex] == '/service-worker.js') { %> <% } else { %>
-    <script src="<%= htmlWebpackPlugin.files.js[jsIndex] %>"></script>
+    <% for (let item in htmlWebpackPlugin.files.js) { %> <% if (htmlWebpackPlugin.files.js[item] == '/service-worker.js') { %> <% } else { %>
+    <script src="<%= htmlWebpackPlugin.files.js[item] %>"></script>
     <% } %> <% } %>
   </body>
 </html>

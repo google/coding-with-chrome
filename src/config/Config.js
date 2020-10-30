@@ -29,6 +29,12 @@ export const Default = {
 };
 
 /**
+ * If development mode enabled.
+ * @type {boolean}
+ */
+export const DevMode = typeof DEVMODE !== 'undefined' ? DEVMODE : false;
+
+/**
  * Version information from package.json.
  * @type {string}
  */

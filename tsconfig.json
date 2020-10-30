@@ -22,6 +22,6 @@
     "build",
     "node_modules",
     "test",
-    "types"
+    "types",
   ]
 }

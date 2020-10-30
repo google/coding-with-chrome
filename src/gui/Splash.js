@@ -20,8 +20,10 @@
  * @fileoverview Splashscreen for the Coding with Chrome suite.
  */
 
-import { Version } from '../config/Config';
+import { DevMode, Version } from '../config/Config';
 import { StackQueue } from '../utils/stack/StackQueue';
+
+import './Splash.css';
 
 /**
  * Splash Screen class
@@ -32,6 +34,7 @@ export class Splash {
    * @constructor
    */
   constructor(node) {
+    /** @type {number} */
     this.currentProgress = 0;
 
     /** @type {string} */
@@ -42,7 +45,9 @@ export class Splash {
 
     /** @type {StackQueue} */
     this.stackQueue = new StackQueue(false);
-    this.startTime = Date.now();
+
+    /** @type {number} */
+    this.startTime = globalThis.BOOT_TIME || Date.now();
 
     /** @type {HTMLElement} */
     this.node = node;
@@ -64,6 +69,10 @@ export class Splash {
     this.nodeProgressTextLog = this.node.querySelector(
       'div.content > div.progress > div.progress-text-log > ul'
     );
+
+    if (node) {
+      this.render();
+    }
   }
 
   /**
@@ -71,7 +80,7 @@ export class Splash {
    */
   show() {
     if (this.node) {
-      console.log('Showing Splashscreen ...');
+      console.debug('Showing Splashscreen ...');
       this.node.style.display = 'block';
       this.render();
     }
@@ -82,7 +91,7 @@ export class Splash {
    */
   hide() {
     if (this.node) {
-      console.log('Hiding Splashscreen ...');
+      console.debug('Hiding Splashscreen ...');
       this.node.style.display = 'none';
     }
   }
@@ -92,8 +101,10 @@ export class Splash {
    */
   render() {
     if (this.nodeVersion) {
-      this.nodeVersion.textContent = `Coding with Chrome Suite ${Version}`;
+      this.nodeVersion.textContent = `${DevMode ? 'Dev' : 'Prod'} v${Version}`;
     }
+    this.progress = 0;
+    this.progressText = 'Starting ...';
   }
 
   /**
@@ -120,18 +131,20 @@ export class Splash {
   }
 
   /**
-   * @param {number} progress
+   * @param {number} progress 0 - 100
    */
   set progress(progress) {
-    console.debug('Set Progress to', progress);
-    this.currentProgress = progress;
+    this.currentProgress = Number(parseFloat(String(progress)).toFixed(0));
+    console.debug('Set Progress to', this.currentProgress);
     if (this.nodeProgressBar) {
-      this.nodeProgressBar.style.transform = `translateX(-${100 - progress}%)`;
+      this.nodeProgressBar.style.transform = `translateX(-${
+        100 - this.currentProgress
+      }%)`;
     }
   }
 
   /**
-   * @return {number}
+   * @return {number} 0 - 100
    */
   get progress() {
     return this.currentProgress;
@@ -146,10 +159,9 @@ export class Splash {
       this.nodeProgressText.textContent = `${text}`;
     }
     if (this.nodeProgressTextLog) {
-      const elapsedTime = (Date.now() - this.startTime) / 1000;
+      const elapsedTime = Date.now() - this.startTime;
       const logEntry = document.createElement('li');
-      const progressPer = Math.round(this.progress);
-      logEntry.textContent = `[${progressPer}%] (${elapsedTime} sec) ${text}`;
+      logEntry.textContent = `[${this.progress}%] ${text} (${elapsedTime} msec)`;
       this.nodeProgressTextLog.appendChild(logEntry);
     }
   }
@@ -165,6 +177,11 @@ export class Splash {
    *
    */
   execute() {
+    this.addStep('Done.', () => {
+      return new Promise((resolve) => {
+        resolve();
+      });
+    });
     this.progressSize = this.stackQueue.getSize();
     this.stackQueue.start();
   }

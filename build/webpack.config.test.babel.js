@@ -38,6 +38,7 @@ testConfig.module.rules.push({
   enforce: 'pre',
   exclude: /node_modules|_test\.js$/,
 });
+testConfig.devtool = 'eval-source-map';
 delete testConfig.output.filename;
 
 module.exports = testConfig;

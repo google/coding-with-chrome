@@ -7,11 +7,13 @@
   "files.insertFinalNewline": true,
   "cSpell.words": [
     "Bordihn",
+    "DEVMODE",
     "Markus",
     "bootscript",
     "browserconfig",
     "contenthash",
     "devtool",
+    "devtools",
     "favicons",
     "fileoverview",
     "instrumenter",
@@ -46,5 +48,5 @@
     "*.yml",
     ".vscode",
     "node_modules"
-  ]
+  ],
 }

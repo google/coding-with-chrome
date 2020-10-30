@@ -54,9 +54,7 @@ export class StackQueue {
    * @export
    */
   addCommand(command, group) {
-    if (command && command instanceof Function) {
-      this.addStack_(new StackEntry(StackType.CMD, command), group);
-    }
+    this.addStack_(new StackEntry(StackType.CMD, command), group);
   }
 
   /**
@@ -77,12 +75,10 @@ export class StackQueue {
    * @export
    */
   addPromise(command, callback, group) {
-    if (command && command instanceof Function) {
-      this.addStack_(
-        new StackEntry(StackType.PROMISE, command, '', callback),
-        group
-      );
-    }
+    this.addStack_(
+      new StackEntry(StackType.PROMISE, command, '', callback),
+      group
+    );
   }
 
   /**
@@ -157,7 +153,7 @@ export class StackQueue {
    * @return {number}
    */
   getSize(group = this.defaultGroup) {
-    return this.stack_[group] && this.stack_[group].length;
+    return (this.stack_[group] && this.stack_[group].length) || 0;
   }
 
   /**
@@ -184,20 +180,16 @@ export class StackQueue {
     if (!this.active || this.run) {
       return;
     }
-    if (
-      !(this.defaultGroup in this.stack_) ||
-      this.stack_[this.defaultGroup].length <= 0
-    ) {
+    const task = this.getNext();
+    if (!task) {
       this.active = false;
       return;
     }
-    const task = this.stack_[this.defaultGroup].shift();
-    const func = task.getFunc();
     switch (task.getType()) {
       // Normal command handling.
       case StackType.CMD:
         this.run = true;
-        func();
+        task.execute();
         this.run = false;
         this.handleQueue_();
         break;
@@ -205,19 +197,17 @@ export class StackQueue {
       // Delay command handling.
       case StackType.DELAY:
         this.run = true;
-        setTimeout(
-          function () {
-            this.run = false;
-            this.handleQueue_();
-          }.bind(this),
-          task.getValue()
-        );
+        setTimeout(() => {
+          this.run = false;
+          this.handleQueue_();
+        }, Number(task.getValue()));
         break;
 
       // Promise command handling, ignore error.
       case StackType.PROMISE:
         this.run = true;
-        func()
+        task
+          .execute()
           .then((result) => {
             const callback = task.getCallback();
             if (callback) {
@@ -235,7 +225,8 @@ export class StackQueue {
       // Promise command handling. raise error.
       case StackType.PROMISE_RAISE_ERROR:
         this.run = true;
-        func()
+        task
+          .execute()
           .then((result) => {
             const callback = task.getCallback();
             if (callback) {

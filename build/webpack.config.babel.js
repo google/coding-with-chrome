@@ -21,11 +21,11 @@
  */
 
 import CopyPlugin from 'copy-webpack-plugin';
-import ExcludeAssetsPlugin from 'webpack-exclude-assets-plugin';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import HtmlMinimizerPlugin from 'html-minimizer-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ImageminPlugin from 'imagemin-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import WebpackPwaManifest from 'webpack-pwa-manifest';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
@@ -35,14 +35,16 @@ import webpack from 'webpack';
 
 module.exports = (mode = 'development') => ({
   mode: mode,
-  devServer:
-    mode == 'development'
-      ? {
-          contentBase: path.join(__dirname, 'dist'),
-          compress: true,
-          overlay: true,
-        }
-      : {},
+  devServer: {
+    compress: true,
+    contentBase: path.join(__dirname, 'dist'),
+    headers: {
+      'Cache-Control': 'max-age=0',
+      'X-Mode': mode,
+    },
+    overlay: mode == 'development',
+    watchContentBase: mode == 'development',
+  },
   entry: {
     boot: ['./src/boot.js', './assets/css/boot.css'],
     serviceWorker: ['./src/service-worker/service-worker.js'],
@@ -62,19 +64,27 @@ module.exports = (mode = 'development') => ({
   optimization: {
     emitOnErrors: true,
     minimize: mode != 'development',
-    minimizer: [new TerserPlugin({}), new OptimizeCssAssetsPlugin({})],
+    minimizer: [
+      new TerserPlugin({}),
+      new CssMinimizerPlugin(),
+      new HtmlMinimizerPlugin(),
+    ],
   },
   devtool: mode == 'development' ? 'inline-source-map' : false,
+  resolve: {
+    symlinks: false,
+  },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
+        include: path.join(__dirname, '..', 'src'),
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'babel-loader',
           options: {
-            plugins: ['@babel/plugin-transform-runtime'],
             presets: ['@babel/preset-env'],
+            plugins: ['@babel/plugin-transform-runtime'],
           },
         },
       },
@@ -83,13 +93,14 @@ module.exports = (mode = 'development') => ({
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
+            options: {},
+          },
+          {
+            loader: 'css-loader',
             options: {
-              publicPath: (resourcePath, context) => {
-                return path.relative(path.dirname(resourcePath), context) + '/';
-              },
+              modules: { auto: true },
             },
           },
-          'css-loader',
         ],
       },
       {
@@ -99,11 +110,15 @@ module.exports = (mode = 'development') => ({
           {
             loader: 'css-loader',
             options: {
-              modules: true,
+              modules: { auto: true },
             },
           },
           'sass-loader',
         ],
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: ['file-loader'],
       },
       {
         test: /\.(eot|ttf|otf)$/,
@@ -120,14 +135,10 @@ module.exports = (mode = 'development') => ({
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].[contenthash].css',
-      chunkFilename: 'css/[id].[contenthash].css',
-    }),
-    new ExcludeAssetsPlugin({
-      path: ['boot.css'],
+      filename: 'css/[name].css',
     }),
     new webpack.DefinePlugin({
-      DEV: mode === 'development',
+      DEVMODE: mode === 'development',
       VERSION: JSON.stringify(process.env.npm_package_version),
     }),
     new WebpackPwaManifest({
@@ -148,6 +159,11 @@ module.exports = (mode = 'development') => ({
           src: path.resolve('assets/icons/coding_with_chrome.png'),
           sizes: [192, 512],
           destination: path.join('icons'),
+        },
+        {
+          src: path.resolve('assets/icons/maskable_icon.png'),
+          size: '1046x1046',
+          purpose: 'maskable',
         },
       ],
     }),

@@ -41,6 +41,12 @@ export class Screen {
 
     /** @type {string} */
     this.prefix = 'cwc-screen-';
+
+    /** @type {string} */
+    this.currentScreen = '';
+
+    /** @type {string} */
+    this.pinnedScreen = '';
   }
 
   /**
@@ -102,15 +108,21 @@ export class Screen {
   }
 
   /**
-   * @param {*} id
+   * @param {string} id
    */
   show(id) {
     if (!this.screen.has(id)) {
       return;
     }
+    if (this.currentScreen == id) {
+      return;
+    }
     for (const [nodeId, node] of this.screen) {
       if (nodeId == id) {
-        node.style.display = 'block';
+        if (node.style.display !== 'block') {
+          node.style.display = 'block';
+        }
+        this.currentScreen = id;
       } else if (node.style.display !== 'none') {
         node.style.display = 'none';
       }
@@ -118,7 +130,7 @@ export class Screen {
   }
 
   /**
-   * @param {*} id
+   * @param {string} id
    */
   hide(id) {
     const node = this.screen.get(id);
@@ -127,10 +139,13 @@ export class Screen {
     }
     console.debug('Hide screen', id, node);
     node.style.display = 'none';
+    if (this.pinnedScreen) {
+      this.show(this.pinnedScreen);
+    }
   }
 
   /**
-   * @param {*} id
+   * @param {string} id
    */
   remove(id) {
     const node = this.screen.get(id);
@@ -139,9 +154,24 @@ export class Screen {
     }
     console.debug('Remove screen', id, node);
     this.screen.delete(id);
+    if (this.pinnedScreen == id) {
+      this.pinnedScreen = '';
+    }
     if (this.node) {
       this.node.removeChild(node);
     }
+  }
+
+  /**
+   * @param {string} id
+   */
+  pin(id) {
+    if (!this.screen.has(id)) {
+      return;
+    }
+    console.debug('Pin screen', id);
+    this.pinnedScreen = id;
+    this.show(id);
   }
 }
 
