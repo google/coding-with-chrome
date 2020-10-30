@@ -1,7 +1,7 @@
 # Coding with Chrome Suite
 
-[![Build Status](https://travis-ci.org/google/coding-with-chrome.svg?branch=main)](https://travis-ci.org/google/coding-with-chrome)
-<img src="/assets/png/logo.png" align="right" alt="Coding with Chrome">
+[![Actions Status](https://github.com/google/coding-with-chrome/workflows/Tests/badge.svg)](https://github.com/google/coding-with-chrome/actions?query=workflow%3ATests)
+[![Actions Status](https://github.com/google/coding-with-chrome/workflows/Lint/badge.svg)](https://github.com/google/coding-with-chrome/actions?query=workflow%3ALint)
 
 **NOTE:**
 This repository is used for the the upcoming **Coding with Chrome Suite** version.
