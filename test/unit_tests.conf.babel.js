@@ -22,7 +22,7 @@ import webpackConfig from '../build/webpack.config.test.babel.js';
 
 // Display unhandled rejections and process errors.
 process.on('unhandledRejection', (reason) => {
-  console.error(reason);
+  console.error('unhandledRejection', reason);
 });
 process.on('infrastructure_error', (error) => {
   console.error('infrastructure_error', error);

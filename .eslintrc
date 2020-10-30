@@ -5,7 +5,8 @@
     "plugin:react/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:compat/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
@@ -30,12 +31,7 @@
     "new-cap": [
       2,
       {
-        "newIsCapExceptions": [
-          "instance",
-          "command_profile",
-          "fileConfig.file",
-          "CodeMirror.fold.combine"
-        ]
+        "newIsCapExceptions": []
       }
     ],
     "@typescript-eslint/explicit-function-return-type": "off",
@@ -44,7 +40,7 @@
   "env": {
     "browser": true,
     "node": true,
-    "es6": true,
+    "es2020": true,
     "serviceworker": true
   },
   "globals": {
@@ -53,7 +49,7 @@
     "chrome": true,
     "globalThis": false,
     "serviceWorkerOption": true,
-    "window": true,
+    "window": true
   },
   "settings": {
     "react": {
@@ -66,7 +62,7 @@
       "env": {
         "browser": true,
         "node": true,
-        "es6": true,
+        "es2020": true,
         "jasmine": true,
         "serviceworker": true
       }

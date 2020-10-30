@@ -101,16 +101,17 @@ describe('Database', function () {
     });
   });
 
-  it('.get not existing name', function (done) {
+  it('.get (not existing name)', function (done) {
     const db = new Database('test_get_failed');
-    const dbValue = Math.random();
     db.open().then(() => {
-      db.add('test', dbValue).then(() => {
-        db.get('test2').then((value) => {
+      db.get('test2')
+        .then((value) => {
           expect(value).toEqual(undefined);
           done();
+        })
+        .catch((error) => {
+          console.error(error);
         });
-      });
     });
   });
 

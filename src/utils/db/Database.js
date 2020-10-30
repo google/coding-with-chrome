@@ -59,8 +59,8 @@ export class Database {
     let objectStoreNames = [this.defaultObjectStore_];
     if (config) {
       this.config_ = config;
-      if (config['objectStoreNames']) {
-        objectStoreNames = objectStoreNames.concat(config['objectStoreNames']);
+      if (config.objectStoreNames) {
+        objectStoreNames = objectStoreNames.concat(config.objectStoreNames);
       }
     }
     return new Promise((resolve, reject) => {
@@ -74,7 +74,7 @@ export class Database {
       }
 
       const dbRequest = indexedDB.open(this.name_, this.version_);
-      dbRequest['onsuccess'] = () => {
+      dbRequest.onsuccess = () => {
         if (this.database_) {
           return resolve(this.database_);
         }
@@ -88,16 +88,16 @@ export class Database {
         );
         resolve(this.database_);
       };
-      dbRequest['onerror'] = (e) => {
+      dbRequest.onerror = (e) => {
         console.error(e);
         reject(e);
       };
-      dbRequest['onupgradeneeded'] = (e) => {
+      dbRequest.onupgradeneeded = (e) => {
         const database = e.target.result;
         objectStoreNames.forEach((objetStoreName) => {
-          if (!database['objectStoreNames'].contains(objetStoreName)) {
+          if (!database.objectStoreNames.contains(objetStoreName)) {
             console.info('Create Object Store', objetStoreName);
-            database['createObjectStore'](objetStoreName);
+            database.createObjectStore(objetStoreName);
           }
         });
       };
@@ -122,16 +122,17 @@ export class Database {
             group || this.defaultObjectStore_
           }] Executing ${command}(${params})`
         );
+        /* jshint -W014 */
         const request = ['get', 'getAll', 'getAllKeys'].includes(command)
           ? this.getObjectStoreReadOnly_(group)[command](...params)
           : this.getObjectStore_(group)[command](...params);
-        request['onsuccess'] = () => {
+        request.onsuccess = () => {
           resolve(request.result);
         };
-        request['onerror'] = (e) => {
+        request.onerror = (e) => {
           reject(Error(`Failed to execute ${name}: ${e}`));
         };
-        request['onabort'] = () => {
+        request.onabort = () => {
           reject(Error(`Transaction to execute ${name} aborted!`));
         };
       });
@@ -269,9 +270,7 @@ export class Database {
    * @private
    */
   getObjectStore_(group = this.defaultObjectStore_) {
-    return this.database_['transaction'](group, 'readwrite')['objectStore'](
-      group
-    );
+    return this.database_.transaction(group, 'readwrite').objectStore(group);
   }
 
   /**
@@ -280,9 +279,7 @@ export class Database {
    * @private
    */
   getObjectStoreReadOnly_(group = this.defaultObjectStore_) {
-    return this.database_['transaction'](group, 'readonly')['objectStore'](
-      group
-    );
+    return this.database_.transaction(group, 'readonly').objectStore(group);
   }
 
   /**
@@ -291,6 +288,6 @@ export class Database {
    * @private
    */
   existObjectStore_(group = this.defaultObjectStore_) {
-    return this.database_ && this.database_['objectStoreNames'].contains(group);
+    return this.database_ && this.database_.objectStoreNames.contains(group);
   }
 }
