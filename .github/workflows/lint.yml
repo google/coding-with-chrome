@@ -22,7 +22,7 @@ jobs:
         node-version: 14.x
 
     - name: Install linters
-      run: npm install --no-package-lock --only=prod eslint eslint-config-google eslint-config-prettier eslint-plugin-prettier eslint-plugin-react prettier
+      run: npm install --no-package-lock --no-optional eslint eslint-config-google eslint-config-prettier eslint-plugin-prettier eslint-plugin-react prettier typescript @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser
 
     - name: Run linters
       run: npm run lint
