@@ -150,7 +150,7 @@ export class Database {
   }
 
   /**
-   * Updates given record, or inserts a new record if not already exist.
+   * Clearing all records of the given group.
    * @param {string=} group
    * @return {Promise}
    */
@@ -249,7 +249,10 @@ export class Database {
    * @template THIS
    */
   setVersion(version) {
-    this.version_ = version;
+    const versionNumber = Math.round(Number(version));
+    if (Number.isInteger(versionNumber)) {
+      this.version_ = versionNumber;
+    }
     return this;
   }
 
@@ -266,9 +269,6 @@ export class Database {
    * @private
    */
   getObjectStore_(group = this.defaultObjectStore_) {
-    if (!this.existObjectStore_(group)) {
-      console.error(`Object store ${group} does not exists in database!`);
-    }
     return this.database_['transaction'](group, 'readwrite')['objectStore'](
       group
     );
@@ -280,9 +280,6 @@ export class Database {
    * @private
    */
   getObjectStoreReadOnly_(group = this.defaultObjectStore_) {
-    if (!this.existObjectStore_(group)) {
-      console.error(`Object store ${group} does not exists in database!`);
-    }
     return this.database_['transaction'](group, 'readonly')['objectStore'](
       group
     );

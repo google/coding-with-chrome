@@ -72,6 +72,22 @@ describe('Database', function () {
     });
   });
 
+  it('.put', function (done) {
+    const db = new Database('test_put');
+    db.open()
+      .then(() => {
+        db.put('test', 1234).then();
+      })
+      .then(() => {
+        db.put('test', 4321).then();
+      })
+      .then(() => {
+        db.put('test2', 1234).then(() => {
+          done();
+        });
+      });
+  });
+
   it('.get', function (done) {
     const db = new Database('test_get');
     const dbValue = Math.random();
@@ -178,5 +194,45 @@ describe('Database', function () {
       .catch((error) => {
         console.error(error);
       });
+  });
+
+  it('.clear', function (done) {
+    const db = new Database('test_clear');
+    db.open()
+      .then(() => db.add('test1', 1))
+      .then(() => db.add('test2', 2))
+      .then(() => db.add('test3', 3))
+      .then(() => db.clear())
+      .then(() => {
+        db.getAllKeys().then((value) => {
+          expect(value).toEqual([]);
+          done();
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });
+
+  it('.setVersion', function () {
+    const db = new Database('test_open');
+    db.setVersion(1);
+    expect(db.version_).toEqual(1);
+    db.setVersion('1.4');
+    expect(db.version_).toEqual(1);
+    db.setVersion('2.44444444444444');
+    expect(db.version_).toEqual(2);
+    db.setVersion('2a');
+    expect(db.version_).toEqual(2);
+  });
+
+  it('.getVersion', function () {
+    const db = new Database('test_open');
+    db.setVersion(1);
+    expect(db.getVersion()).toEqual(1);
+    db.setVersion('1.4');
+    expect(db.getVersion()).toEqual(1);
+    db.setVersion('2.44444444444444');
+    expect(db.getVersion()).toEqual(2);
   });
 });
