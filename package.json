@@ -13,8 +13,6 @@
   },
   "homepage": "https://github.com/google/coding-with-chrome#readme",
   "dependencies": {
-    "html-minimizer-webpack-plugin": "^1.0.1",
-    "xterm": "^4.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
@@ -39,6 +37,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.5",
     "file-loader": "^6.2.0",
+    "html-minimizer-webpack-plugin": "^1.0.1",
     "html-webpack-plugin": "^5.0.0-alpha.7",
     "imagemin-webpack-plugin": "^2.4.2",
     "istanbul-instrumenter-loader": "^3.0.1",
@@ -69,7 +68,8 @@
     "webpack-cli": "^4.1.0",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^5.2.0",
-    "webpack-pwa-manifest": "^4.2.0"
+    "webpack-pwa-manifest": "^4.2.0",
+    "xterm": "^4.9.0"
   },
   "scripts": {
     "pretest": "npm run lint",
