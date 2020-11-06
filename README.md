@@ -2,6 +2,7 @@
 
 [![Actions Status](https://github.com/google/coding-with-chrome/workflows/Tests/badge.svg)](https://github.com/google/coding-with-chrome/actions?query=workflow%3ATests)
 [![Actions Status](https://github.com/google/coding-with-chrome/workflows/Lint/badge.svg)](https://github.com/google/coding-with-chrome/actions?query=workflow%3ALint)
+[![codecov](https://codecov.io/gh/google/coding-with-chrome/branch/main/graph/badge.svg?token=FZmp5u7mO9)](https://codecov.io/gh/google/coding-with-chrome)
 
 **NOTE:**
 This repository is used for the the upcoming **Coding with Chrome Suite** version.
