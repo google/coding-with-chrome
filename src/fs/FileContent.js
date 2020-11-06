@@ -25,7 +25,7 @@
  */
 export class FileContent {
   /**
-   * @param {Blob} blobObject
+   * @param {!Blob} blobObject
    * @return {Promise}
    */
   static blobToText(blobObject) {
@@ -42,7 +42,7 @@ export class FileContent {
   }
 
   /**
-   * @param {Blob} blobObject
+   * @param {!Blob} blobObject
    * @return {Promise}
    */
   static blobToBase64(blobObject) {
@@ -54,7 +54,7 @@ export class FileContent {
   }
 
   /**
-   * @param {*} blobObject
+   * @param {!Blob} blobObject
    * @return {ReadableStream}
    */
   static blobToStream(blobObject) {
@@ -62,7 +62,7 @@ export class FileContent {
   }
 
   /**
-   * @param {Blob|String|Array|Number} data
+   * @param {!Blob|String|Array|Number|function} data
    * @return {Blob}
    */
   static toBlob(data) {
@@ -78,11 +78,14 @@ export class FileContent {
     if (typeof data === 'number') {
       return new Blob([String(data)], { type: 'text/plain' });
     }
+    if (typeof data == 'function') {
+      return new Blob([data.toString()], { type: 'application/x-binary' });
+    }
     return new Blob();
   }
 
   /**
-   * @param {string} data
+   * @param {!string} data
    * @return {Blob}
    */
   static dataURLToBlob(data) {
@@ -95,8 +98,8 @@ export class FileContent {
   }
 
   /**
-   * @param {string} data
-   * @param {string} type
+   * @param {!string} data
+   * @param {!string} type
    * @return {Blob}
    */
   static urlEncodedToBlob(data, type) {
@@ -106,8 +109,8 @@ export class FileContent {
   }
 
   /**
-   * @param {string} data
-   * @param {string} type
+   * @param {!string} data
+   * @param {!string} type
    * @return {Blob}
    */
   static base64ToBlob(data, type) {
@@ -124,7 +127,7 @@ export class FileContent {
   }
 
   /**
-   * @param {string} text
+   * @param {!string} text
    * @return {ArrayBuffer}
    */
   static textToArrayBuffer(text) {
@@ -132,7 +135,7 @@ export class FileContent {
   }
 
   /**
-   * @param {ArrayBuffer} data
+   * @param {!ArrayBuffer} data
    * @return {string}
    */
   static arrayBufferToText(data) {

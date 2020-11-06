@@ -142,24 +142,24 @@ export class Shell extends App {
    * @param {Map} options
    */
   executeCommand(path, input = '', args = [], options = new Map()) {
-    const file = this.fileSystem.getFile(path);
-    if (file) {
-      this.terminal.lock();
-      const CommandInstance = file.getData();
-      const command = new CommandInstance(this.env, this.terminal);
-      command
-        .runHandler(input, args, options)
-        .then(() => {
-          this.terminal.unlock();
-          this.prompt();
-        })
-        .catch((error) => {
-          this.writeln(`${command.name}: Runtime Error => ${error}`);
-          console.error(`${command.name}:`, error);
-          this.terminal.unlock();
-          this.prompt();
-        });
+    const FileExecutable = this.fileSystem.getFile(path).getExecutable();
+    if (!FileExecutable) {
+      return;
     }
+    this.terminal.lock();
+    const command = new FileExecutable(this.env, this.terminal);
+    command
+      .runHandler(input, args, options)
+      .then(() => {
+        this.terminal.unlock();
+        this.prompt();
+      })
+      .catch((error) => {
+        this.writeln(`${command.name}: Runtime Error => ${error}`);
+        console.error(`${command.name}:`, error);
+        this.terminal.unlock();
+        this.prompt();
+      });
   }
 
   /**
@@ -169,24 +169,24 @@ export class Shell extends App {
    * @param {boolean} isDoubleTab
    */
   executeAutocomplete(path, input = '', args = [], isDoubleTab = false) {
-    const file = this.fileSystem.getFile(path);
-    if (file) {
-      this.terminal.lock();
-      const CommandInstance = file.getData();
-      const command = new CommandInstance(this.env, this.terminal);
-      command
-        .autocompleteHandler(input, args, isDoubleTab)
-        .then(() => {
-          this.terminal.unlock();
-          this.prompt();
-        })
-        .catch((error) => {
-          this.writeln(`${command.name}: Runtime Error => ${error}`);
-          console.error(`${command.name}:`, error);
-          this.terminal.unlock();
-          this.prompt();
-        });
+    const FileExecutable = this.fileSystem.getFile(path).getExecutable();
+    if (!FileExecutable) {
+      return;
     }
+    this.terminal.lock();
+    const command = new FileExecutable(this.env, this.terminal);
+    command
+      .autocompleteHandler(input, args, isDoubleTab)
+      .then(() => {
+        this.terminal.unlock();
+        this.prompt();
+      })
+      .catch((error) => {
+        this.writeln(`${command.name}: Runtime Error => ${error}`);
+        console.error(`${command.name}:`, error);
+        this.terminal.unlock();
+        this.prompt();
+      });
   }
 
   /**

@@ -20,9 +20,19 @@
  * @fileoverview Virtual file system for the kernel.
  */
 
-import { Executable } from './Executable';
 import { File } from './File';
 import { Path } from './Path';
+
+/**
+ * Content types.
+ */
+export const ContentType = {
+  BASE64: 'base64',
+  BINARY: 'binary',
+  EXECUTABLE: 'executable',
+  STREAM: 'stream',
+  TEXT: 'text',
+};
 
 /**
  * Virtual file class.
@@ -113,28 +123,27 @@ export class Files {
    * @param {Object} options
    * @return {Promise|ReadableStream}
    */
-  readFile(path, options = { type: 'text' }) {
+  readFile(path, options = { type: ContentType.TEXT }) {
     const file = this.getFile(path);
-    if (file.type === 'application/x-binary') {
-      return file.getAsBinary();
-    }
     switch (options.type) {
-      case 'stream':
+      case ContentType.STREAM:
         return file.getAsStream();
-      case 'base64':
+      case ContentType.BASE64:
         return file.getAsBase64();
-      case 'binary':
+      case ContentType.BINARY:
         return file.getAsBinary();
+      case ContentType.EXECUTABLE:
+        return file.getAsExecutable();
       default:
         return file.getAsText();
     }
   }
 
   /**
-   * @param {string} path
-   * @param {string|function} data
-   * @param {Object} options
-   * @return {File|Executable}
+   * @param {!string} path
+   * @param {string|function|Blob|Array=} data
+   * @param {Object=} options
+   * @return {File}
    */
   writeFile(path, data = '', options = { overwrite: true, append: false }) {
     if (!path.startsWith('/')) {
@@ -151,16 +160,12 @@ export class Files {
         throw new Error('File ' + path + ' already exist!');
       }
       const file = this.getFile(path);
-      file.setData(data);
-      return file;
+      return file.setData(data);
     }
 
-    // Create new executable or file entry.
+    // Create new file entry.
     const fileName = Path.basename(path);
-    const file =
-      typeof data === 'function'
-        ? new Executable(data, fileName)
-        : new File(data, fileName);
+    const file = new File(data, fileName);
     if (path.lastIndexOf('/') <= 0) {
       this.getRoot()['___files___'][fileName] = file.getId();
       this.files.set(file.getId(), file);
@@ -186,7 +191,7 @@ export class Files {
 
   /**
    * @param {string} path
-   * @return {File|Executable}
+   * @return {File}
    */
   getFile(path) {
     if (!this.existFile(path)) {
@@ -198,7 +203,7 @@ export class Files {
 
   /**
    * @param {string} fileId
-   * @return {File|Executable}
+   * @return {File}
    */
   getFileById(fileId) {
     if (!this.files.has(fileId)) {
@@ -222,7 +227,7 @@ export class Files {
     }
     if (folderList) {
       const filteredFolderList = Object.assign({}, folderList);
-      delete filteredFolderList['___files___'];
+      delete filteredFolderList.___files___;
       return filteredFolderList;
     }
     return null;

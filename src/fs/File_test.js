@@ -66,6 +66,15 @@ describe('File', function () {
     expect(file.getData()).toEqual(file.data);
   });
 
+  it('.setData (executable)', function () {
+    const testFunction = function () {
+      return 1;
+    };
+    const file = new File('test123');
+    file.setData(testFunction);
+    expect(file.executable).toEqual(testFunction);
+  });
+
   it('.getAsText', function (done) {
     const file = new File('test123');
     const data = Math.random() + 'test';
@@ -77,6 +86,18 @@ describe('File', function () {
     expect(file.getData()).toEqual(file.data);
   });
 
+  it('.getAsText (executable)', function (done) {
+    const testFunction = function () {
+      return 1;
+    };
+    const file = new File('test123');
+    file.setData(testFunction);
+    file.getAsText().then((result) => {
+      expect(result).toBe(testFunction.toString());
+      done();
+    });
+  });
+
   it('.getJSON', function (done) {
     const file = new File('', 'test123');
     file.setData('Hello World');
@@ -85,9 +106,31 @@ describe('File', function () {
       expect(result).toEqual(`{
   "data": "Hello World",
   "id": "b742ae95-e24e049b-f8b48d12-71655fad",
+  "modified": ${file.lastModified},
   "name": "test123",
   "size": 11,
   "type": "text/plain",
+  "version": 1
+}`);
+      done();
+    });
+  });
+
+  it('.getJSON (executable)', function (done) {
+    const testFunction = function () {
+      return 1;
+    };
+    const file = new File('', 'test123');
+    file.setData(testFunction);
+    file.id = 'b742ae95-e24e049b-f8b48d12-71655fdd';
+    file.getJSON().then((result) => {
+      expect(result).toEqual(`{
+  "data": "function testFunction() {\\n      return 1;\\n    }",
+  "id": "b742ae95-e24e049b-f8b48d12-71655fdd",
+  "modified": ${file.lastModified},
+  "name": "test123",
+  "size": 47,
+  "type": "application/x-binary",
   "version": 1
 }`);
       done();

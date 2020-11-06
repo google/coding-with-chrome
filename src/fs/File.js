@@ -39,7 +39,7 @@ const generateId = function () {
  */
 export const FileType = {
   NONE: 0,
-  DIRECTORY: 1,
+  BINARY: 1,
   FILE: 2,
   SYMBOLIC_LINK: 3,
   DEVICE: 4,
@@ -51,14 +51,17 @@ export const FileType = {
  */
 export class File {
   /**
-   * @param {Blob|Array|String} data
-   * @param {string} name
-   * @param {number} lastModified
+   * @param {Blob|Array|String|function=} data
+   * @param {string=} name
+   * @param {object=} options
    * @constructor
    */
-  constructor(data = '', name = 'unnamed', lastModified = Date.now()) {
+  constructor(data = '', name = 'unnamed', options = {}) {
     /** @type {Blob} */
     this.data = FileContent.toBlob(data);
+
+    /** @type {function=} */
+    this.executable = typeof data == 'function' ? data : undefined;
 
     /** @type {string} */
     this.id = generateId();
@@ -66,8 +69,11 @@ export class File {
     /** @type {string} */
     this.filename = name;
 
+    /** @type {object} */
+    this.options = options;
+
     /** @type {number} */
-    this.lastModifiedDate = lastModified;
+    this.lastModifiedDate = Date.now();
 
     /** @type {number} */
     this.version = 1;
@@ -123,15 +129,27 @@ export class File {
   }
 
   /**
-   * @param {Blob|Array|String} data
+   * @return {function|undefined}
    */
-  setData(data) {
-    this.data = FileContent.toBlob(data);
-    this.lastModifiedDate = Date.now();
+  getExecutable() {
+    return this.executable;
   }
 
   /**
-   * @param {string} name
+   * @param {!Blob|Array|string|function} data
+   * @return {this}
+   */
+  setData(data) {
+    if (typeof data == 'function') {
+      this.executable = data;
+    }
+    this.data = FileContent.toBlob(data);
+    this.lastModifiedDate = Date.now();
+    return this;
+  }
+
+  /**
+   * @param {!string} name
    */
   setName(name) {
     this.filename = name;
@@ -154,8 +172,26 @@ export class File {
   /**
    * @return {Promise}
    */
+  getAsExecutable() {
+    return new Promise((resolve) => {
+      resolve(this.executable);
+    });
+  }
+
+  /**
+   * @return {Promise}
+   */
   getAsText() {
     return FileContent.blobToText(this.data);
+  }
+
+  /**
+   * @return {Promise}
+   */
+  getAsBinary() {
+    return new Promise((resolve) => {
+      resolve(this.data);
+    });
   }
 
   /**
@@ -173,6 +209,7 @@ export class File {
     return {
       data: content,
       id: this.id,
+      modified: this.lastModifiedDate,
       name: this.name,
       size: this.size,
       type: this.type,

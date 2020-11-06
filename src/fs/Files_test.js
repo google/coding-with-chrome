@@ -20,7 +20,7 @@
  * @fileoverview Files tests.
  */
 
-import { Files } from './Files';
+import { Files, ContentType } from './Files';
 
 describe('Files', function () {
   it('constructor', function () {
@@ -124,7 +124,7 @@ describe('Files', function () {
       return text;
     };
     files.writeFile('/test', testFunction);
-    files.readFile('/test').then((result) => {
+    files.readFile('/test', { type: ContentType.EXECUTABLE }).then((result) => {
       expect(result).toBe(testFunction);
       done();
     });

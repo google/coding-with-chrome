@@ -19,10 +19,9 @@
  *
  * @fileoverview Webpack test config
  */
-
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import WebpackPwaManifest from 'webpack-pwa-manifest';
-import webpackConfig from './webpack.config.babel';
+import webpackConfig from './webpack.config.babel.js';
 
 // Cleanup existing webpack config for unit tests.
 const testConfig = webpackConfig();

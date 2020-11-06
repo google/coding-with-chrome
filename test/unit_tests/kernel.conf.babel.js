@@ -1,5 +1,5 @@
 /**
- * @fileoverview Unit tests config for the Coding with Chrome suite.
+ * @fileoverview Unit tests config for the kernel.
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -18,7 +18,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import webpackConfig from '../build/webpack.config.test.babel.js';
+import webpackConfig from '../../build/webpack.config.test.babel.js';
 
 // Display unhandled rejections and process errors.
 process.on('unhandledRejection', (reason) => {
@@ -32,7 +32,7 @@ process.on('infrastructure_error', (error) => {
 // Karma Test Config
 export default (config) => {
   config.set({
-    basePath: '../',
+    basePath: '../../',
     browsers: ['Chromium', 'Firefox', 'WebKit'],
     autoWatch: false,
     colors: true,
@@ -40,16 +40,15 @@ export default (config) => {
     singleRun: true,
     frameworks: ['jasmine'],
     files: [
-      'dist/boot.js',
       'dist/commons.js',
       'dist/runtime.js',
       {
-        pattern: 'src/**/*_test.js',
+        pattern: 'src/kernel/*_test.js',
         watched: false,
       },
     ],
     preprocessors: {
-      'src/**/*_test.js': ['webpack', 'sourcemap'],
+      'src/kernel/*_test.js': ['webpack', 'sourcemap'],
     },
     reporters: ['mocha', 'coverage-istanbul'],
     webpack: webpackConfig,
