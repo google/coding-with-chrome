@@ -35,7 +35,7 @@ export class App {
    */
   constructor(environment = new Env(), terminal = null, name = '') {
     /** @type {Env} */
-    this.env = environment;
+    this.env = environment || new Env();
 
     /** @type {*} */
     this.terminal = terminal;
@@ -74,6 +74,24 @@ export class App {
   }
 
   /**
+   * @param {Env} env
+   * @return {this}
+   */
+  registerEnv(env) {
+    this.env = env;
+    return this;
+  }
+
+  /**
+   * @param {*} terminal
+   * @return {this}
+   */
+  registerTerminal(terminal) {
+    this.terminal = terminal;
+    return this;
+  }
+
+  /**
    * @param {string} input
    * @param {Array} args
    * @param {Map} options
@@ -98,21 +116,21 @@ export class App {
   run(input = '', args = [], options = new Map()) {
     return new Promise((resolve) => {
       this.write(`Run command with ${args} ${options} ${input}`);
-      resolve();
+      resolve({ input, args, options });
     });
   }
 
   /**
    * @param {string} input
    * @param {Array} args
-   * @param {boolean} isDoubleTab
+   * @param {Map} options
    * @return {Promise}
    */
-  autocompleteHandler(input = '', args = [], isDoubleTab = false) {
+  autocomplete(input = '', args = [], options = new Map()) {
     return new Promise((resolve) => {
       this.append('a');
-      this.write(`Autocomplete command with ${args} ${isDoubleTab} ${input}`);
-      resolve();
+      this.write(`Autocomplete command with ${args} ${options} ${input}`);
+      resolve({ input, args, options });
     });
   }
 
@@ -122,7 +140,7 @@ export class App {
   showHelp() {
     return new Promise((resolve) => {
       this.writeText(this.help);
-      resolve();
+      resolve(this.help);
     });
   }
 
@@ -131,8 +149,9 @@ export class App {
    */
   showVersion() {
     return new Promise((resolve) => {
-      this.write('Version: ...');
-      resolve();
+      const versionString = `Version: ${this.version}`;
+      this.write(versionString);
+      resolve(versionString);
     });
   }
 

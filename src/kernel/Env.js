@@ -114,7 +114,7 @@ export class Env {
    * @return {null|array}
    */
   getPath() {
-    const path = String(this.getEnv('PATH'));
+    const path = this.environment.PATH;
     if (path) {
       return path.split(':');
     }
@@ -140,24 +140,6 @@ export class Env {
       this.setEnv('TERM', 'xterm-256color');
       this.setEnv('USER', `${user}`);
       console.log('Detected Environment', this.environment);
-
-      resolve();
-    });
-  }
-
-  /**
-   * @param {?} args
-   * @param {?} env
-   * @param {?} terminal
-   * @return {Promise}
-   */
-  handler(args, env, terminal) {
-    return new Promise((resolve) => {
-      if (args) {
-        return;
-      } else {
-        terminal.writeResponse(Object.entries(this.environment));
-      }
       resolve();
     });
   }

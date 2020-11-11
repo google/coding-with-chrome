@@ -58,9 +58,9 @@ export class Ls extends App {
       if (fileList == null && folderList == null) {
         this.write(`ls: cannot access '${path}': No such file or directory`);
       } else {
-        const formatedList = this.formatList(fileList, folderList);
-        if (formatedList) {
-          this.write(formatedList);
+        const formattedList = this.formatList(fileList, folderList);
+        if (formattedList) {
+          this.write(formattedList);
         }
       }
       resolve();

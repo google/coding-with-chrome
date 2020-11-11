@@ -174,9 +174,11 @@ export class Shell extends App {
       return;
     }
     this.terminal.lock();
+    const options = new Map();
+    options.set('doubleTab', isDoubleTab);
     const command = new FileExecutable(this.env, this.terminal);
     command
-      .autocompleteHandler(input, args, isDoubleTab)
+      .autocomplete(input, args, options)
       .then(() => {
         this.terminal.unlock();
         this.prompt();
@@ -191,6 +193,7 @@ export class Shell extends App {
 
   /**
    * @param {*} terminal
+   * @return {this}
    */
   registerTerminal(terminal) {
     console.log('Register terminal', terminal, 'for', this.process.pid);
@@ -198,9 +201,10 @@ export class Shell extends App {
     if (!this.tty) {
       this.tty = terminal.tty;
     }
-    if (this.process.pid) {
+    if (terminal.process.pid) {
       this.updateProcessManager(terminal.process.pid);
     }
+    return this;
   }
 
   /**
