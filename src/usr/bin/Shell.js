@@ -44,13 +44,6 @@ export class Shell extends App {
   }
 
   /**
-   * Prepare Terminal
-   */
-  init() {
-    this.write('Preparing Shell ...');
-  }
-
-  /**
    * @param {string} command
    * @param {string} userInput
    */
@@ -149,6 +142,7 @@ export class Shell extends App {
     this.terminal.lock();
     const command = new FileExecutable(this.env, this.terminal);
     command
+      .initHandler()
       .runHandler(input, args, options)
       .then(() => {
         this.terminal.unlock();

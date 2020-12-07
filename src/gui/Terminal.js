@@ -51,9 +51,6 @@ export class TerminalGui extends Terminal {
       tabStopWidth: 8,
     });
 
-    /** @type {string} */
-    this.command = '';
-
     /** @type {boolean} */
     this.isDoubleTab = false;
   }
@@ -64,7 +61,7 @@ export class TerminalGui extends Terminal {
    */
   show(targetElement = document.getElementById('cwc-terminal')) {
     if (!targetElement) {
-      console.log('Unable to find target element:', targetElement);
+      console.error('Unable to find target element:', targetElement);
       return;
     }
     this.terminal.open(targetElement);

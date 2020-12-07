@@ -50,6 +50,7 @@ export class Terminal {
     /** @type {boolean} */
     this.locked = false;
 
+    /** @type {string} */
     this.command = '';
   }
 

@@ -31,10 +31,10 @@ describe('Kernel: App', function () {
     expect(app.name).toEqual('test app');
   });
 
-  it('.init()', function () {
+  it('.initHandler()', function () {
     const app = new App();
     expect(app.initialized).toEqual(false);
-    app.init();
+    app.initHandler();
     expect(app.initialized).toEqual(true);
   });
 
@@ -65,7 +65,7 @@ describe('Kernel: App', function () {
   it('.runHandler(--help)', function () {
     const app = new App();
     app.runHandler('test', [], new Map([['help']])).then((result) => {
-      expect(result).toEqual('Usage:  [OPTION]... [ARGS]...');
+      expect(result).toEqual(`Usage: ${app.name} [OPTION]... [ARGS]...`);
     });
   });
 
@@ -113,7 +113,7 @@ describe('Kernel: App', function () {
       output = text;
     };
     app.showHelp();
-    expect(output).toEqual('Usage:  [OPTION]... [ARGS]...');
+    expect(output).toEqual(`Usage: ${app.name} [OPTION]... [ARGS]...`);
   });
 
   it('.showVersion()', function () {

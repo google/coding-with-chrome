@@ -26,4 +26,25 @@ describe('Terminal', function () {
     const terminal = new Terminal();
     expect(typeof terminal).toEqual('object');
   });
+
+  it('writeResponse()', function () {
+    const terminal = new Terminal();
+    terminal.writeResponse('test 123');
+    expect(typeof terminal).toEqual('object');
+  });
+
+  it('lock()', function () {
+    const terminal = new Terminal();
+    expect(terminal.locked).toEqual(false);
+    terminal.lock();
+    expect(terminal.locked).toEqual(true);
+  });
+
+  it('unlock()', function () {
+    const terminal = new Terminal();
+    terminal.locked = true;
+    expect(terminal.locked).toEqual(true);
+    terminal.unlock();
+    expect(terminal.locked).toEqual(false);
+  });
 });

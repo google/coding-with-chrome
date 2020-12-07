@@ -17,25 +17,36 @@
 /**
  * @author mbordihn@google.com (Markus Bordihn)
  *
- * @fileoverview Desktop screen for the Coding with Chrome suite.
+ * @fileoverview Panel for the desktop screen.
  */
 
 import React from 'react';
 
-import { Panel } from './Panel';
-import { Launcher } from './Launcher';
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
 import styles from './style.module.css';
 
 /**
  *
  */
-export class DesktopApp extends React.PureComponent {
+export class Panel extends React.PureComponent {
   /**
    * @param {*} props
    */
   constructor(props) {
     super(props);
+    this.state = { drawer: false };
+    this.handleDrawerToggle = this.handleDrawerToggle.bind(this);
+  }
+
+  /** */
+  handleDrawerToggle() {
+    this.setState({
+      drawer: !this.state.drawer,
+    });
   }
 
   /**
@@ -44,11 +55,14 @@ export class DesktopApp extends React.PureComponent {
   render() {
     return (
       <React.StrictMode>
-        <div className={styles.desktop}>
-          <Panel />
-          <Launcher />
-          <div id="terminal"></div>
-        </div>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="h6" className={styles.title}>
+              Coding with Chrome
+            </Typography>
+            <Button color="inherit">Login</Button>
+          </Toolbar>
+        </AppBar>
       </React.StrictMode>
     );
   }

@@ -61,16 +61,6 @@ SplashScreen.addStep('Switch run level ...');
 SplashScreen.addStep('Initialize built-in drivers ...');
 SplashScreen.addStep('Mount file-system ...');
 SplashScreen.addStep('Starting built-in services ...');
-SplashScreen.addStep('Loading Terminal ...', () => {
-  return new Promise((resolve) => {
-    import('./gui/Terminal').then((module) => {
-      const terminalGui = new module.TerminalGui();
-      terminalGui.show(screen.add('terminal', 'Root Terminal'));
-      screen.hide('terminal');
-      resolve();
-    });
-  });
-});
 SplashScreen.addStep('Start Run-level ...');
 SplashScreen.addStep('Loading App ...', () => {
   return new Promise((resolve) => {
@@ -79,6 +69,13 @@ SplashScreen.addStep('Loading App ...', () => {
       screen.hide('app');
       resolve();
     });
+  });
+});
+SplashScreen.addStep('Cleanup ...', () => {
+  return new Promise((resolve) => {
+    screen.remove('splash-screen');
+    screen.show('app');
+    resolve();
   });
 });
 SplashScreen.execute();

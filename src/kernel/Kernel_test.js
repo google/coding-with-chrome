@@ -17,39 +17,19 @@
 /**
  * @author mbordihn@google.com (Markus Bordihn)
  *
- * @fileoverview Desktop screen for the Coding with Chrome suite.
+ * @fileoverview Kernel tests.
  */
+import { Kernel } from './Kernel';
 
-import React from 'react';
-
-import { Panel } from './Panel';
-import { Launcher } from './Launcher';
-
-import styles from './style.module.css';
-
-/**
- *
- */
-export class DesktopApp extends React.PureComponent {
-  /**
-   * @param {*} props
-   */
-  constructor(props) {
-    super(props);
-  }
-
-  /**
-   * @return {Object}
-   */
-  render() {
-    return (
-      <React.StrictMode>
-        <div className={styles.desktop}>
-          <Panel />
-          <Launcher />
-          <div id="terminal"></div>
-        </div>
-      </React.StrictMode>
-    );
-  }
-}
+describe('Memory', function () {
+  it('.requestTty()', function () {
+    const kernel = new Kernel();
+    expect(kernel.kernelMemory.get('tty')).toEqual(0);
+    expect(kernel.requestTty()).toEqual('tty1');
+    expect(kernel.requestTty()).toEqual('tty2');
+    expect(kernel.requestTty()).toEqual('tty3');
+    expect(kernel.requestTty()).toEqual('tty4');
+    expect(kernel.requestTty()).toEqual('tty5');
+    expect(kernel.kernelMemory.get('tty')).toEqual(5);
+  });
+});

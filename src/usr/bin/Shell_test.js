@@ -22,6 +22,15 @@
 import { Shell } from './Shell';
 
 describe('Shell', function () {
+  it('constructor', function () {
+    const shell = new Shell();
+    expect(typeof shell).toEqual('object');
+    expect(typeof shell.env).toEqual('object');
+    expect(shell.terminal).toEqual(null);
+    expect(shell.name).toEqual('shell');
+    expect(shell.tty).toEqual(1000);
+  });
+
   it('.handleInput (test)', function () {
     const shell = new Shell();
     const input = 'test';

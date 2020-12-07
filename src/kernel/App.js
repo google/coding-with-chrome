@@ -50,7 +50,7 @@ export class App {
     this.registered = false;
 
     /** @type {string} */
-    this.name = name;
+    this.name = name || `app${Math.floor(Math.random() * 9999)}`;
 
     /** @type {string} */
     this.help = `Usage: ${this.name} [OPTION]... [ARGS]...`;
@@ -60,10 +60,23 @@ export class App {
   }
 
   /**
-   * Init
+   * @return {this}
+   */
+  initHandler() {
+    if (this.initialized) {
+      return this;
+    }
+    console.debug(`Initialize of ${this.name} ...`);
+    this.init();
+    this.initialized = true;
+    return this;
+  }
+
+  /**
+   * @return {this}
    */
   init() {
-    this.initialized = true;
+    return this;
   }
 
   /**

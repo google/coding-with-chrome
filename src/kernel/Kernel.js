@@ -82,7 +82,7 @@ export class Kernel {
    * @return {string}
    */
   requestTty() {
-    const tty = this.kernelMemory.get('tty') || 0 + 1;
+    const tty = Number(this.kernelMemory.get('tty') || 0) + 1;
     this.kernelMemory.add('tty', tty);
     return 'tty' + Number(tty);
   }

@@ -35,6 +35,7 @@ import webpack from 'webpack';
 
 module.exports = (mode = 'development') => ({
   mode: mode,
+  target: 'web',
   devServer: {
     compress: true,
     contentBase: path.join(__dirname, 'dist'),
