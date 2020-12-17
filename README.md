@@ -8,7 +8,7 @@
 This repository is used for the the upcoming **Coding with Chrome Suite** version.
 
 If you are looking for the **Chrome App** version, please go to the
-[chrome-app-v6.x repository](1) instead.
+[chrome-app-v6.x repository][1] instead.
 
 - [Licensing](#licensing)
 - [Credits](#credits)
@@ -37,5 +37,5 @@ Apache License, Version 2.0 see [LICENSE.md](LICENSE.md)
 
 Coding with Chrome is made possible by other [open source software](NOTICE.md).
 
-[1]: https://github.com/google/coding-with-chrome/tree/chrome-app-v6.x
-[2]: https://cla.developers.google.com/
+[1]:https://github.com/google/coding-with-chrome/tree/chrome-app-v6.x
+[2]:https://cla.developers.google.com/
