@@ -31,7 +31,7 @@ testConfig.plugins = testConfig.plugins
 testConfig.module.rules.push({
   test: /\.js$|\.jsx$/,
   use: {
-    loader: 'istanbul-instrumenter-loader',
+    loader: '@jsdevtools/coverage-istanbul-loader',
     options: { esModules: true },
   },
   enforce: 'pre',
