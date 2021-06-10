@@ -25,7 +25,7 @@ jobs:
       run: npm ci
 
     - name: Setup Playwright
-      uses: microsoft/playwright-github-action@v1
+      run: npx playwright install-deps
 
     - name: Run unit tests
       run: npm run test:units
