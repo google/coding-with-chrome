@@ -30,7 +30,7 @@ testConfig.plugins = testConfig.plugins
   .filter((p) => !(p instanceof WebpackPwaManifest));
 testConfig.module.rules.push({
   test: /\.js$|\.jsx$/,
-  use: ['@jsdevtools/coverage-istanbul-loader', 'babel-loader'],
+  use: ['@jsdevtools/coverage-istanbul-loader'],
   enforce: 'pre',
   exclude: /node_modules|_test\.js$/,
 });

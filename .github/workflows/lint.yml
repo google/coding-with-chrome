@@ -19,7 +19,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: 14.x
+        node-version: 16
 
     - name: Install linters
       run: npm install --no-package-lock --no-optional eslint eslint-config-google eslint-config-prettier eslint-plugin-prettier eslint-plugin-react eslint-plugin-compat@latest prettier typescript @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser

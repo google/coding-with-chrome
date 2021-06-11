@@ -40,8 +40,6 @@ export default (config) => {
     singleRun: true,
     frameworks: ['jasmine'],
     files: [
-      'dist/commons.js',
-      'dist/runtime.js',
       {
         pattern: 'src/**/*_test.js',
         watched: false,
