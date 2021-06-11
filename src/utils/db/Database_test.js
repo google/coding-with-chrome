@@ -21,6 +21,16 @@
  */
 import { Database } from './Database';
 
+beforeAll(() => {
+  indexedDB.databases().then((dbs) =>
+    dbs.forEach((db) => {
+      if (db.name.startsWith('test')) {
+        indexedDB.deleteDatabase(db.name);
+      }
+    })
+  );
+});
+
 describe('Database', function () {
   it('constructor', function () {
     const db = new Database('test');

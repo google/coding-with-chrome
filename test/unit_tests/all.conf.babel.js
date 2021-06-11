@@ -29,18 +29,21 @@ process.on('infrastructure_error', (error) => {
   process.exit(1);
 });
 
+// Setup ENV with Playwright
+import playwright from 'playwright';
+process.env.CHROMIUM_BIN = playwright.chromium.executablePath();
+process.env.FIREFOX_BIN = playwright.firefox.executablePath();
+process.env.SAFARI_BIN = playwright.webkit.executablePath();
+
 // Karma Test Config
 export default (config) => {
   config.set({
     basePath: '../..',
     browserConsoleLogOptions: { level: 'warn' },
-    browserDisconnectTimeout: 10000,
-    browserDisconnectTolerance: 1,
-    browserNoActivityTimeout: 60000,
-    browsers: ['Chromium', 'Firefox', 'WebKit'],
-    captureTimeout: 60000,
+    browsers: ['ChromiumHeadless', 'FirefoxHeadless', 'Safari'],
     client: {
       useIframe: false,
+      captureConsole: false,
     },
     autoWatch: false,
     singleRun: true,

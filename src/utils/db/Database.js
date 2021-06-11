@@ -70,7 +70,7 @@ export class Database {
 
       if (typeof indexedDB === 'undefined') {
         console.error('IndexDB is unsupported!');
-        return reject(Error('IndexDB is unsupported!'));
+        return reject(new Error('IndexDB is unsupported!'));
       }
 
       const dbRequest = indexedDB.open(this.name_, this.version_);
@@ -89,7 +89,7 @@ export class Database {
         resolve(this.database_);
       };
       dbRequest.onerror = (e) => {
-        console.error(e);
+        console.error('Unable to open database ${this.name_} with error:', e);
         reject(e);
       };
       dbRequest.onupgradeneeded = (e) => {
@@ -113,7 +113,7 @@ export class Database {
   execute(command, group, ...params) {
     return new Promise((resolve, reject) => {
       if (!this.existObjectStore_(group)) {
-        reject(Error(`Object store ${group} does not exists in database!`));
+        reject(new Error(`Object store ${group} does not exists in database!`));
         return;
       }
       this.open().then(() => {
@@ -130,10 +130,16 @@ export class Database {
           resolve(request.result);
         };
         request.onerror = (e) => {
-          reject(Error(`Failed to execute ${name}: ${e}`));
+          reject(
+            new Error(
+              `Failed to execute transaction "${command}" for ${this.name_} with "${params}": ${e.target.error}`
+            )
+          );
         };
         request.onabort = () => {
-          reject(Error(`Transaction to execute ${name} aborted!`));
+          reject(
+            new Error(`Transaction "${command}" for ${this.name_} aborted!`)
+          );
         };
       });
     });
