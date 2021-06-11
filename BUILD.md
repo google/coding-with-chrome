@@ -46,6 +46,15 @@ Enter the "coding-with-chrome" directory and get the required packages by:
 npm install
 ```
 
+### Install Windows Build Tools (required on Windows)
+
+If you using Windows, please make sure that the Windows Build Tools are
+installed by running the following command with administrative rights:
+
+```bash
+npm install -g windows-build-tools
+```
+
 ### Start the actual app
 
 ```bash

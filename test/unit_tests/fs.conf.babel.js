@@ -32,11 +32,17 @@ process.on('infrastructure_error', (error) => {
 // Karma Test Config
 export default (config) => {
   config.set({
-    basePath: '../../',
+    basePath: '../..',
+    browserConsoleLogOptions: { level: 'warn' },
+    browserDisconnectTimeout: 10000,
+    browserDisconnectTolerance: 1,
+    browserNoActivityTimeout: 60000,
     browsers: ['Chromium', 'Firefox', 'WebKit'],
+    captureTimeout: 60000,
+    client: {
+      useIframe: false,
+    },
     autoWatch: false,
-    colors: true,
-    failOnEmptyTestSuite: false,
     singleRun: true,
     frameworks: ['jasmine'],
     files: [
