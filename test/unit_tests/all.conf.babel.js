@@ -33,14 +33,14 @@ process.on('infrastructure_error', (error) => {
 import playwright from 'playwright';
 process.env.CHROMIUM_BIN = playwright.chromium.executablePath();
 process.env.FIREFOX_BIN = playwright.firefox.executablePath();
-process.env.SAFARI_BIN = playwright.webkit.executablePath();
+process.env.WEBKIT_HEADLESS_BIN = playwright.webkit.executablePath();
 
 // Karma Test Config
 export default (config) => {
   config.set({
     basePath: '../..',
     browserConsoleLogOptions: { level: 'warn' },
-    browsers: ['ChromiumHeadless', 'FirefoxHeadless', 'Safari'],
+    browsers: ['ChromiumHeadless', 'FirefoxHeadless', 'WebkitHeadless'],
     client: {
       useIframe: false,
       captureConsole: false,
