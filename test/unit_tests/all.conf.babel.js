@@ -41,10 +41,6 @@ export default (config) => {
     basePath: '../..',
     browserConsoleLogOptions: { level: 'warn' },
     browsers: ['ChromiumHeadless', 'FirefoxHeadless', 'WebkitHeadless'],
-    client: {
-      useIframe: false,
-      captureConsole: false,
-    },
     autoWatch: false,
     singleRun: true,
     frameworks: ['jasmine'],
