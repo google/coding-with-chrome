@@ -1,7 +1,7 @@
 # Coding with Chrome Suite
 
-[![Actions Status](https://github.com/google/coding-with-chrome/workflows/Tests/badge.svg)](https://github.com/google/coding-with-chrome/actions?query=workflow%3ATests)
-[![Actions Status](https://github.com/google/coding-with-chrome/workflows/Lint/badge.svg)](https://github.com/google/coding-with-chrome/actions?query=workflow%3ALint)
+[![Actions Status](https://github.com/google/coding-with-chrome/workflows/Unit%20Tests/badge.svg)](https://github.com/google/coding-with-chrome/actions/workflows/unit_tests.yml)
+[![Actions Status](https://github.com/google/coding-with-chrome/workflows/Lint/badge.svg)](https://github.com/google/coding-with-chrome/actions/workflows/lint.yml)
 [![codecov](https://codecov.io/gh/google/coding-with-chrome/branch/main/graph/badge.svg?token=FZmp5u7mO9)](https://codecov.io/gh/google/coding-with-chrome)
 
 **NOTE:**
