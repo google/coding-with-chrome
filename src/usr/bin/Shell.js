@@ -49,7 +49,7 @@ export class Shell extends App {
    */
   handleCommand(command, userInput = '') {
     console.log('Command', command, userInput);
-    const localCommand = this.searchCommand(command);
+    const localCommand = this.getCommand(command);
     if (localCommand) {
       const { input, args, options } = this.handleInput(userInput);
       this.executeCommand(localCommand, input, args, options);
@@ -65,13 +65,17 @@ export class Shell extends App {
    */
   handleAutocomplete(command, userInput = '', isDoubleTab = false) {
     console.log('Autocomplete', command, isDoubleTab, userInput);
-    const localCommand = this.searchCommand(command);
+    let localCommand = this.getCommand(command);
     if (localCommand) {
       const { input, args, options } = this.handleInput(userInput);
       if (options && !args) {
         return;
       }
       this.executeAutocomplete(localCommand, input, args, isDoubleTab);
+    } else if (command) {
+      console.log('Looking for command started with', command);
+      localCommand = this.getCommandStartedWith(command);
+      console.log('Found possible command', localCommand);
     }
   }
 
@@ -114,7 +118,25 @@ export class Shell extends App {
    * @param {string} command
    * @return {null|string}
    */
-  searchCommand(command) {
+  getCommand(command) {
+    const searchPaths = this.env.getPath();
+    if (!command || !this.fileSystem || !searchPaths) {
+      return null;
+    }
+    for (const searchPath of searchPaths) {
+      const searchCommand = Path.join(searchPath, command);
+      if (this.fileSystem.existFile(searchCommand)) {
+        return searchCommand;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * @param {string} command
+   * @return {null|string}
+   */
+  getCommandStartedWith(command) {
     const searchPaths = this.env.getPath();
     if (!command || !this.fileSystem || !searchPaths) {
       return null;

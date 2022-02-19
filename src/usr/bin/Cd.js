@@ -66,7 +66,7 @@ export class Cd extends App {
         } else if (this.fileSystem.existFolder(path)) {
           this.env.setPWD(path);
         } else if (this.fileSystem.existFile(path)) {
-          this.write(`cd: '${args[0]}': No a directory`);
+          this.write(`cd: '${args[0]}': Not a directory`);
         } else {
           this.write(`cd: '${args[0]}': No such file or directory`);
         }
