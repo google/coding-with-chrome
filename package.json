@@ -13,7 +13,7 @@
   },
   "homepage": "https://github.com/google/coding-with-chrome#readme",
   "dependencies": {
-    "npm": "^8.5.1"
+    "npm": "^8.11.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.3",
