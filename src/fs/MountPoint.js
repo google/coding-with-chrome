@@ -61,7 +61,7 @@ export class MountPoint {
    * @param {string} path
    */
   umount(path) {
-    console.log('Unmount mounpoint', this.mounts[path], 'for', path);
+    console.log('Unmount mount point', this.mounts[path], 'for', path);
     delete this.mounts[path];
   }
 

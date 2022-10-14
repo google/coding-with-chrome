@@ -21,7 +21,7 @@
  */
 import { Kernel } from './Kernel';
 
-describe('Memory', function () {
+describe('Kernel', function () {
   it('.requestTty()', function () {
     const kernel = new Kernel();
     expect(kernel.kernelMemory.get('tty')).toEqual(0);
@@ -31,5 +31,13 @@ describe('Memory', function () {
     expect(kernel.requestTty()).toEqual('tty4');
     expect(kernel.requestTty()).toEqual('tty5');
     expect(kernel.kernelMemory.get('tty')).toEqual(5);
+  });
+
+  it('.boot', function (done) {
+    const kernel = new Kernel();
+    kernel.boot().then((result) => {
+      expect(result).toBe(true);
+      done();
+    });
   });
 });

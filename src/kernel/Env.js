@@ -123,7 +123,7 @@ export class Env {
 
   /**
    * @param {string} user
-   * @return {Promise}
+   * @return {Promise<void>}
    */
   prepare(user = 'guest') {
     return new Promise((resolve) => {

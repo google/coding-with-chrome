@@ -22,11 +22,14 @@
 
 import React from 'react';
 
-import AppsIcon from '@material-ui/icons/Apps';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import Tooltip from '@material-ui/core/Tooltip';
-import { Console, DragVerticalVariant } from 'mdi-material-ui';
+import AppsIcon from '@mui/icons-material/Apps';
+import CodeIcon from '@mui/icons-material/Code';
+import IconButton from '@mui/material/IconButton';
+import Paper from '@mui/material/Paper';
+import TerminalIcon from '@mui/icons-material/Terminal';
+import Tooltip from '@mui/material/Tooltip';
+import UnfoldLessIcon from '@mui/icons-material/UnfoldLess';
+import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 
 import styles from './style.module.css';
 
@@ -45,7 +48,7 @@ export class Launcher extends React.PureComponent {
     this.openTerminal = this.openTerminal.bind(this);
   }
 
-  /** */
+  /** Handle Drawer Toggle */
   handleDrawerToggle() {
     this.setState({
       ...this.state,
@@ -53,21 +56,29 @@ export class Launcher extends React.PureComponent {
     });
   }
 
-  /** */
+  /** Toggle Launcher Window */
   handleLauncherToggle() {
     this.setState({
       ...this.state,
       launcher: !this.state.launcher,
     });
-    console.log(this.state);
   }
 
-  /** */
+  /** Open Editor */
+  openEditor() {
+    console.debug('Open Editor');
+    import('../../../gui/Editor').then((module) => {
+      const editorGui = new module.EditorGui();
+      editorGui.open(document.getElementById('editor'));
+    });
+  }
+
+  /** Open Terminal */
   openTerminal() {
-    console.log('Open Terminal');
+    console.debug('Open Terminal');
     import('../../../gui/Terminal').then((module) => {
       const terminalGui = new module.TerminalGui();
-      terminalGui.show(document.getElementById('terminal'));
+      terminalGui.open(document.getElementById('terminal'));
     });
   }
 
@@ -91,6 +102,18 @@ export class Launcher extends React.PureComponent {
           >
             <AppsIcon />
           </IconButton>
+
+          <Tooltip title="Open Editor">
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="File"
+              onClick={this.openEditor}
+            >
+              <CodeIcon />
+            </IconButton>
+          </Tooltip>
+
           <Tooltip title="Open Terminal">
             <IconButton
               edge="start"
@@ -98,14 +121,14 @@ export class Launcher extends React.PureComponent {
               aria-label="Terminal"
               onClick={this.openTerminal}
             >
-              <Console />
+              <TerminalIcon />
             </IconButton>
           </Tooltip>
           <div
             className={styles.expandArea}
             onClick={this.handleLauncherToggle}
           >
-            <DragVerticalVariant />
+            {this.state.launcher ? <UnfoldLessIcon /> : <UnfoldMoreIcon />}
           </div>
         </Paper>
       </React.StrictMode>

@@ -178,9 +178,11 @@ export class Splash {
    */
   execute() {
     this.addStep('Done.', () => {
-      return new Promise((resolve) => {
-        resolve();
-      });
+      return /** @type {Promise<void>} */ (
+        new Promise((resolve) => {
+          resolve();
+        })
+      );
     });
     this.progressSize = this.stackQueue.getSize();
     this.stackQueue.start();

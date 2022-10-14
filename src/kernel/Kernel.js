@@ -59,7 +59,7 @@ export class Kernel {
   }
 
   /**
-   * @return {promise}
+   * @return {Promise}
    */
   boot() {
     return new Promise((resolve) => {
@@ -74,7 +74,7 @@ export class Kernel {
       this.fileSystem.prepare();
       this.terminal = new Terminal(this);
       this.shell = new Shell(undefined, this.terminal);
-      resolve();
+      resolve(true);
     });
   }
 

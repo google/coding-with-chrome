@@ -55,6 +55,7 @@ export class Shell extends App {
       this.executeCommand(localCommand, input, args, options);
     } else {
       this.write(command + ': command not found');
+      this.prompt();
     }
   }
 
@@ -137,14 +138,24 @@ export class Shell extends App {
    * @return {null|string}
    */
   getCommandStartedWith(command) {
+    // Early return, if we know the command.
+    const searchCommand = this.getCommand(command);
+    if (searchCommand) {
+      return searchCommand;
+    }
+
+    // Search for command starting in the file system in the search paths.
     const searchPaths = this.env.getPath();
     if (!command || !this.fileSystem || !searchPaths) {
       return null;
     }
     for (const searchPath of searchPaths) {
-      const searchCommand = Path.join(searchPath, command);
-      if (this.fileSystem.existFile(searchCommand)) {
-        return searchCommand;
+      const filesInSearchPath = this.fileSystem.listFiles(searchPath);
+      for (const fileName of filesInSearchPath) {
+        const commandName = fileName.split('/').pop();
+        if (commandName && commandName.includes(command)) {
+          return commandName;
+        }
       }
     }
     return null;

@@ -141,8 +141,9 @@ export class App {
    */
   autocomplete(input = '', args = [], options = new Map()) {
     return new Promise((resolve) => {
-      this.append('a');
-      this.write(`Autocomplete command with ${args} ${options} ${input}`);
+      this.write(
+        `Autocomplete command ${this.name} with ${args} ${options} ${input}`
+      );
       resolve({ input, args, options });
     });
   }

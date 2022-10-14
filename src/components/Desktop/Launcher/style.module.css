@@ -69,7 +69,7 @@
 
 .expandArea :global(.MuiSvgIcon-root) {
   color: #ccc;
-  left: -7px;
+  left: -8px;
   position: absolute;
   top: 39%;
 }

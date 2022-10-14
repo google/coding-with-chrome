@@ -24,7 +24,6 @@ import CopyPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import HtmlMinimizerPlugin from 'html-minimizer-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import ImageminPlugin from 'imagemin-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import WebpackPwaManifest from 'webpack-pwa-manifest';
@@ -38,13 +37,13 @@ module.exports = (mode = 'development') => ({
   target: 'web',
   devServer: {
     compress: true,
-    contentBase: path.join(__dirname, 'dist'),
     headers: {
       'Cache-Control': 'max-age=0',
       'X-Mode': mode,
     },
-    overlay: mode == 'development',
-    watchContentBase: mode == 'development',
+    liveReload: mode == 'development',
+    open: mode == 'development',
+    static: path.join(__dirname, '..', 'static'),
   },
   entry: {
     boot: ['./src/boot.js', './assets/css/boot.css'],
@@ -52,7 +51,7 @@ module.exports = (mode = 'development') => ({
   },
   output: {
     publicPath: '/',
-    path: path.join(__dirname, '..', '/dist'),
+    path: path.join(__dirname, '..', 'dist'),
     filename: (pathData) => {
       if (pathData.chunk.name === 'serviceWorker') {
         return 'service-worker.js';
@@ -183,12 +182,6 @@ module.exports = (mode = 'development') => ({
           to: './assets/svg',
         },
       ],
-    }),
-    new ImageminPlugin({
-      test: /\.(jpe?g|png|gif|svg)$/i,
-      pngquant: {
-        quality: '95-100',
-      },
     }),
     new HtmlWebpackPlugin({
       template: './src/index.html',

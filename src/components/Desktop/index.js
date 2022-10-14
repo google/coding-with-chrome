@@ -47,6 +47,7 @@ export class DesktopApp extends React.PureComponent {
         <div className={styles.desktop}>
           <Panel />
           <Launcher />
+          <div id="editor"></div>
           <div id="terminal"></div>
         </div>
       </React.StrictMode>

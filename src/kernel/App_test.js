@@ -34,8 +34,10 @@ describe('Kernel: App', function () {
   it('.initHandler()', function () {
     const app = new App();
     expect(app.initialized).toEqual(false);
-    app.initHandler();
+    const result = app.initHandler();
     expect(app.initialized).toEqual(true);
+    expect(app).toEqual(result);
+    expect(app).toEqual(app.initHandler());
   });
 
   it('.register()', function () {

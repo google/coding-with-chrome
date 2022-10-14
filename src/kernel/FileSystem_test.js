@@ -1,5 +1,5 @@
 /**
- * @license Copyright 2020 The Coding with Chrome Authors.
+ * @license Copyright 2022 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,21 @@
 /**
  * @author mbordihn@google.com (Markus Bordihn)
  *
- * @fileoverview Webpack dev config
+ * @fileoverview FileSystem tests.
  */
+import { FileSystem } from './FileSystem';
 
-import webpackConfig from './webpack.config.babel';
+describe('FileSystem', function () {
+  it('constructor', function () {
+    const fileSystem = new FileSystem();
+    expect(typeof fileSystem).toBe('object');
+  });
 
-const devConfig = webpackConfig('development');
-
-module.exports = devConfig;
+  it('.prepare', function (done) {
+    const fileSystem = new FileSystem();
+    fileSystem.prepare().then((result) => {
+      expect(result).toBe(true);
+      done();
+    });
+  });
+});

@@ -56,10 +56,10 @@ export class TerminalGui extends Terminal {
   }
 
   /**
-   * Shows Terminal
+   * Open Terminal
    * @param {HTMLElement|null} targetElement
    */
-  show(targetElement = document.getElementById('cwc-terminal')) {
+  open(targetElement = document.getElementById('cwc-terminal')) {
     if (!targetElement) {
       console.error('Unable to find target element:', targetElement);
       return;
@@ -68,11 +68,20 @@ export class TerminalGui extends Terminal {
     this.terminal.writeln(
       `Hello \x1B[1;3;31m${this.shell.env.USER}\x1B[0m from ${this.tty}`
     );
-    this.terminal.prompt = this.shell.prompt.bind(this.shell);
+    // this.terminal.prompt = this.shell.prompt.bind(this.shell);
     this.terminal.onKey((key) => {
       this.input(key);
     });
     this.shell.prompt();
+  }
+
+  /**
+   * Close Terminal
+   */
+  close() {
+    if (this.terminal) {
+      this.terminal.dispose();
+    }
   }
 
   /**
@@ -82,7 +91,7 @@ export class TerminalGui extends Terminal {
     if (this.locked) {
       return;
     }
-    console.log('key', event);
+    console.debug('Terminal input event:', event);
     if (event.domEvent.key == 'Enter') {
       if (this.command == 'reset') {
         this.terminal.reset();
@@ -101,9 +110,19 @@ export class TerminalGui extends Terminal {
         this.command = this.command.substring(0, this.command.length - 1);
       }
     } else if (event.domEvent.key == 'Tab') {
-      const [command, args] = this.command.split(/ (.*)/);
-      this.shell.handleAutocomplete(command, args, this.isDoubleTab);
-      this.isDoubleTab = true;
+      if (this.command.includes(' ')) {
+        // Handle auto-complete support for the command itself.
+        const [command, args] = this.command.split(/ (.*)/);
+        this.shell.handleAutocomplete(command, args, this.isDoubleTab);
+        this.isDoubleTab = true;
+      } else {
+        // Handle auto-complete for possible known commands.
+        const possibleCommand = this.shell.getCommandStartedWith(this.command);
+        if (possibleCommand) {
+          this.terminal.write(' ');
+          this.command = this.command + ' ';
+        }
+      }
     } else if (event.domEvent.key == 'ArrowUp') {
       // pass
     } else if (event.domEvent.key == 'ArrowDown') {

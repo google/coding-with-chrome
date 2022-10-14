@@ -1,5 +1,5 @@
 /**
- * @license Copyright 2020 The Coding with Chrome Authors.
+ * @license Copyright 2022 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,22 +17,22 @@
 /**
  * @author mbordihn@google.com (Markus Bordihn)
  *
- * @fileoverview /bin/echo for the Coding with Chrome suite.
+ * @fileoverview /bin/tty for the Coding with Chrome suite.
  */
 
 import { App } from '../../kernel/App';
 
 /**
- * Echo class.
+ * Env class.
  */
-export class Echo extends App {
+export class Exit extends App {
   /**
    * @param {?} environment
    * @param {?} terminal
    * @constructor
    */
   constructor(environment = null, terminal = null) {
-    super(environment, terminal, 'echo');
+    super(environment, terminal, 'exit');
   }
 
   /**
@@ -43,7 +43,10 @@ export class Echo extends App {
    */
   run(input = '', args = [], options = new Map()) {
     return new Promise((resolve) => {
-      this.write(input.trim());
+      this.write('logout');
+      if (this.terminal) {
+        this.terminal.close();
+      }
       resolve();
     });
   }

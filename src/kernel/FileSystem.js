@@ -26,6 +26,7 @@ import { processManager as StaticProcessManager } from './Process';
 import { Cd } from '../usr/bin/Cd';
 import { Echo } from '../usr/bin/Echo';
 import { Env } from '../usr/bin/Env';
+import { Exit } from '../usr/bin/Exit';
 import { Ls } from '../usr/bin/Ls';
 import { Pwd } from '../usr/bin/Pwd';
 import { Tty } from '../usr/bin/Tty';
@@ -57,7 +58,7 @@ export class FileSystem {
       this.prepareTemps();
       this.prepareSystemBinaries();
       this.prepareHomes();
-      resolve();
+      resolve(true);
     });
   }
 
@@ -72,6 +73,7 @@ export class FileSystem {
     this.fileSystem.writeFile('/bin/cd', Cd);
     this.fileSystem.writeFile('/bin/echo', Echo);
     this.fileSystem.writeFile('/bin/env', Env);
+    this.fileSystem.writeFile('/bin/exit', Exit);
     this.fileSystem.writeFile('/bin/ls', Ls);
     this.fileSystem.writeFile('/bin/pwd', Pwd);
     this.fileSystem.writeFile('/bin/tty', Tty);

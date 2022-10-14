@@ -39,7 +39,7 @@ export class Pwd extends App {
    * @param {string} input
    * @param {Array} args
    * @param {Map} options
-   * @return {Promise}
+   * @return {Promise<void>}
    */
   run(input = '', args = [], options = new Map()) {
     return new Promise((resolve) => {
