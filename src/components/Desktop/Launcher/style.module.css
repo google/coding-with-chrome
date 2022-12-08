@@ -15,6 +15,7 @@
  */
 
 .launcher {
+  background-color: rgba(255,255,255,0.9) !important;
   width: 65px;
   margin: 0;
   position: absolute;

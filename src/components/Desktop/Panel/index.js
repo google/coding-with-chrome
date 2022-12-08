@@ -56,7 +56,7 @@ export class Panel extends React.PureComponent {
     return (
       <React.StrictMode>
         <AppBar position="static">
-          <Toolbar>
+          <Toolbar className={styles.toolbar}>
             <Typography variant="h6" className={styles.title}>
               Coding with Chrome
             </Typography>

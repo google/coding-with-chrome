@@ -32,6 +32,7 @@ import UnfoldLessIcon from '@mui/icons-material/UnfoldLess';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 
 import styles from './style.module.css';
+import { WindowManager } from '../WindowManager';
 
 /**
  *
@@ -51,7 +52,6 @@ export class Launcher extends React.PureComponent {
   /** Handle Drawer Toggle */
   handleDrawerToggle() {
     this.setState({
-      ...this.state,
       drawer: !this.state.drawer,
     });
   }
@@ -59,7 +59,6 @@ export class Launcher extends React.PureComponent {
   /** Toggle Launcher Window */
   handleLauncherToggle() {
     this.setState({
-      ...this.state,
       launcher: !this.state.launcher,
     });
   }
@@ -67,18 +66,17 @@ export class Launcher extends React.PureComponent {
   /** Open Editor */
   openEditor() {
     console.debug('Open Editor');
-    import('../../../gui/Editor').then((module) => {
-      const editorGui = new module.EditorGui();
-      editorGui.open(document.getElementById('editor'));
-    });
   }
 
   /** Open Terminal */
   openTerminal() {
     console.debug('Open Terminal');
     import('../../../gui/Terminal').then((module) => {
-      const terminalGui = new module.TerminalGui();
-      terminalGui.open(document.getElementById('terminal'));
+      WindowManager.test((node) => {
+        console.info('test', node);
+        const terminalGui = new module.TerminalGui();
+        terminalGui.open(node);
+      });
     });
   }
 

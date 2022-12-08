@@ -104,6 +104,7 @@ export class Screen {
     } else {
       this.show(id);
     }
+
     return screenElement;
   }
 

@@ -21,12 +21,14 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import * as ReactDOM from 'react-dom/client';
+
 import { DesktopApp } from './../Desktop';
 
 /**
  * @param {HTMLElement} node
  */
 export function render(node) {
-  ReactDOM.render(<DesktopApp />, node);
+  const root = ReactDOM.createRoot(node);
+  root.render(<DesktopApp />);
 }
