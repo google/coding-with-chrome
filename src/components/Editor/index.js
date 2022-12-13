@@ -27,8 +27,6 @@ import 'ace-builds/src-noconflict/mode-java';
 import 'ace-builds/src-noconflict/theme-github';
 import 'ace-builds/src-noconflict/ext-language_tools';
 
-import WinBox from 'react-winbox';
-
 /**
  *
  */
@@ -54,24 +52,14 @@ export class Editor extends React.PureComponent {
   render() {
     return (
       <React.StrictMode>
-        <WinBox
-          title="editor"
-          width={500}
-          height={400}
-          x="center"
-          y={30}
-          noClose={false}
-        >
-          <AceEditor
-            ref={this.editor}
-            mode="java"
-            theme="github"
-            onChange={this.onChange.bind(this)}
-            name="editor"
-            editorProps={{ $blockScrolling: true }}
-          />
-        </WinBox>
-        ,
+        <AceEditor
+          ref={this.editor}
+          mode="java"
+          theme="github"
+          onChange={this.onChange.bind(this)}
+          name="editor"
+          editorProps={{ $blockScrolling: true }}
+        />
       </React.StrictMode>
     );
   }

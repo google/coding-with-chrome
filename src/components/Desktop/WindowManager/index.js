@@ -30,37 +30,141 @@ import WinBox from 'react-winbox';
 export class WindowManager extends React.PureComponent {
   static component;
 
+  static windowsMap = new Map();
+
+  static lastXPosition = 20;
+
+  static lastYPosition = 50;
+
+  static WINDOW_PREFIX = 'window_';
+
+  static DEFAULT_WINDOW_OPTIONS = {
+    title: 'Unnamed',
+    width: 500,
+    height: 300,
+    x: 'center',
+    y: 50,
+    noClose: false,
+  };
+
   /**
-   * @param {*} infos
+   * @param {string} title
+   * @return {Promise<Element>}
    */
-  static addWindow(infos) {
-    console.info('Adding window ...', infos, WindowManager.component);
+  static addNewWindow(title) {
+    return WindowManager.addWindow({
+      ...WindowManager.DEFAULT_WINDOW_OPTIONS,
+      title: title,
+    });
   }
 
   /**
-   * @param {function} callback
+   * @param {*} infos
+   * @return {Promise<HTMLElement>}
    */
-  static test(callback) {
-    console.info('Adding test window ...', WindowManager.component);
+  static addWindow(infos) {
+    const windowId = WindowManager.getWindowId(
+      infos.id || 'unnamed_' + Math.random().toString(36).substring(2, 5)
+    );
+    const existingWindow = WindowManager.getWindowNode(windowId);
+    return new Promise((resolve, reject) => {
+      if (existingWindow) {
+        if (existingWindow instanceof HTMLElement) {
+          console.warn(
+            `Will use existing window with id ${windowId}:`,
+            existingWindow
+          );
+          resolve(existingWindow);
+        } else {
+          reject(
+            new Error(`Existing element for ${windowId} is no HTMLElement!`)
+          );
+        }
+        return;
+      }
+      console.info(`Adding new window ${windowId} with:`, infos);
+
+      // Define new windows attributes.
+      WindowManager.windowsMap.set(windowId, {
+        id: windowId,
+        title: infos.title,
+        width: 500,
+        height: 300,
+        x: WindowManager.lastXPosition,
+        y: WindowManager.lastYPosition,
+        noClose: false,
+      });
+
+      // Update position for next window.
+      if (WindowManager.lastXPosition < 600) {
+        WindowManager.lastXPosition += 20;
+      } else {
+        WindowManager.lastXPosition = 10;
+      }
+      if (WindowManager.lastYPosition < 400) {
+        WindowManager.lastYPosition += 20;
+      } else {
+        WindowManager.lastYPosition = 50;
+      }
+
+      // Change state for the component and resolve promise if possible.
+      WindowManager.component.setState(
+        {
+          windows: WindowManager.windowsMap,
+        },
+        () => {
+          WindowManager.component.forceUpdate();
+          setTimeout(() => {
+            const node = WindowManager.getWindowNode(windowId);
+            if (node) {
+              resolve(node);
+            } else {
+              reject(new Error(`Unable to find element for ${windowId}!`));
+            }
+          });
+        }
+      );
+    });
+  }
+
+  /**
+   * @param {string} windowName
+   * @return {string}
+   */
+  static getWindowId(windowName) {
+    return windowName.startsWith(WindowManager.WINDOW_PREFIX)
+      ? windowName
+      : WindowManager.WINDOW_PREFIX + windowName;
+  }
+
+  /**
+   * @param {string} windowId
+   * @return {HTMLElement?}
+   */
+  static getWindowNode(windowId) {
+    return document.querySelector(
+      '#' + WindowManager.getWindowId(windowId) + ' .wb-body'
+    );
+  }
+
+  /**
+   * @param {*} callback
+   * @param {boolean} force
+   */
+  static updateData(callback = undefined, force = false) {
     WindowManager.component.setState(
       {
-        windows: [
-          {
-            id: 'test_123',
-            title: 'test_123',
-            width: 500,
-            height: 300,
-            x: 'center',
-            y: 50,
-            noClose: false,
-          },
-        ],
+        windows: WindowManager.windowsMap,
       },
       () => {
-        WindowManager.component.forceUpdate();
-        setTimeout(function () {
-          callback(document.querySelector('#test_123 .wb-body'));
-        });
+        if (force) {
+          WindowManager.component.forceUpdate();
+        }
+        if (typeof callback !== 'undefined') {
+          setTimeout(() => {
+            callback();
+          });
+        }
       }
     );
   }
@@ -71,16 +175,29 @@ export class WindowManager extends React.PureComponent {
    */
   constructor(props) {
     super(props);
-    this.state = { windows: [] };
+    this.state = { windows: new Map() };
     WindowManager.component = this;
   }
 
   /**
-   * @param {*} force
-   * @param {*} id
+   * @param {string} id
+   * @param {boolean} force
    */
-  handleClose(force, id) {
-    console.log('Closed windows with index', id);
+  handleClose(id, force) {
+    if (!force) {
+      console.log('Prepare closing windows with index', id, force);
+      WindowManager.windowsMap.delete(WindowManager.getWindowId(id));
+      WindowManager.updateData();
+    }
+  }
+
+  /**
+   * @param {string} id
+   * @param {number} width
+   * @param {number} height
+   */
+  handleResize(id, width, height) {
+    console.log(`Resize request for ${id} with ${width} ${height} ...`);
   }
 
   /**
@@ -89,17 +206,19 @@ export class WindowManager extends React.PureComponent {
   render() {
     return (
       <React.StrictMode>
-        {this.state.windows.map((info) => (
+        {[...this.state.windows.keys()].map((key) => (
           <WinBox
-            key={info.id}
-            id={info.id}
-            x={info.x}
-            y={info.y}
-            title={info.title}
-            width={info.width}
-            height={info.height}
+            key={this.state.windows.get(key).id}
+            id={this.state.windows.get(key).id}
+            x={this.state.windows.get(key).x}
+            y={this.state.windows.get(key).y}
+            title={this.state.windows.get(key).title}
+            width={this.state.windows.get(key).width}
+            height={this.state.windows.get(key).height}
+            minheight={150}
             top={50}
-            onclose={(force) => this.handleClose(force, info.id)}
+            onclose={(force) => this.handleClose(key, force)}
+            onresize={(width, height) => this.handleResize(key, width, height)}
           ></WinBox>
         ))}
       </React.StrictMode>

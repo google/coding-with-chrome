@@ -24,6 +24,7 @@ import { Shell } from '../usr/bin/Shell';
 import { kernel } from '../kernel/Kernel';
 import { Terminal } from '../kernel/Terminal';
 import { Terminal as XTerminal } from 'xterm';
+
 import 'xterm/css/xterm.css';
 
 /**

@@ -21,6 +21,7 @@
  */
 
 import React from 'react';
+import * as ReactDOM from 'react-dom/client';
 
 import AppsIcon from '@mui/icons-material/Apps';
 import CodeIcon from '@mui/icons-material/Code';
@@ -66,16 +67,25 @@ export class Launcher extends React.PureComponent {
   /** Open Editor */
   openEditor() {
     console.debug('Open Editor');
+    import('../../Editor').then((module) => {
+      WindowManager.addNewWindow('Editor').then((node) => {
+        if (node instanceof HTMLElement) {
+          const root = ReactDOM.createRoot(node);
+          root.render(<module.Editor />);
+        }
+      });
+    });
   }
 
   /** Open Terminal */
   openTerminal() {
     console.debug('Open Terminal');
     import('../../../gui/Terminal').then((module) => {
-      WindowManager.test((node) => {
-        console.info('test', node);
-        const terminalGui = new module.TerminalGui();
-        terminalGui.open(node);
+      WindowManager.addNewWindow('Terminal').then((node) => {
+        if (node instanceof HTMLElement) {
+          const terminalGui = new module.TerminalGui();
+          terminalGui.open(node);
+        }
       });
     });
   }

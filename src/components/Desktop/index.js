@@ -22,7 +22,6 @@
 
 import React from 'react';
 
-import { Editor } from '../Editor';
 import { Panel } from './Panel';
 import { Launcher } from './Launcher';
 import { WindowManager } from './WindowManager';
@@ -50,8 +49,6 @@ export class DesktopApp extends React.PureComponent {
           <Panel />
           <Launcher />
           <WindowManager />
-          <Editor />
-          <div id="terminal"></div>
         </div>
       </React.StrictMode>
     );
