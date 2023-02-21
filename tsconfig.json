@@ -6,13 +6,13 @@
     "checkJs": true,
     "declaration": true,
     "emitDeclarationOnly": true,
-    "jsx": "react",
-    "module": "es2020",
+    "jsx": "react-jsx",
+    "module": "es2022",
     "moduleResolution": "node",
     "outDir": "types",
     "removeComments": false,
     "strictNullChecks": true,
-    "target": "es2020"
+    "target": "es2022"
   },
   "files": [
     "global.d.ts",

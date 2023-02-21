@@ -11,7 +11,7 @@
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
   "parserOptions": {
-    "ecmaVersion": 2020,
+    "ecmaVersion": 2022,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
@@ -40,7 +40,7 @@
   "env": {
     "browser": true,
     "node": true,
-    "es2020": true,
+    "es2022": true,
     "serviceworker": true
   },
   "globals": {

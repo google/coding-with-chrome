@@ -68,10 +68,11 @@ export class Launcher extends React.PureComponent {
   openEditor() {
     console.debug('Open Editor');
     import('../../Editor').then((module) => {
-      WindowManager.addNewWindow('Editor').then((node) => {
+      WindowManager.addNewWindow('Editor').then((windowId) => {
+        const node = WindowManager.getWindowNode(windowId);
         if (node instanceof HTMLElement) {
           const root = ReactDOM.createRoot(node);
-          root.render(<module.Editor />);
+          root.render(<module.Editor windowId={windowId} />);
         }
       });
     });
@@ -81,8 +82,15 @@ export class Launcher extends React.PureComponent {
   openTerminal() {
     console.debug('Open Terminal');
     import('../../../gui/Terminal').then((module) => {
-      WindowManager.addNewWindow('Terminal').then((node) => {
+      WindowManager.addNewWindow('Terminal').then((windowId) => {
+        const node = WindowManager.getWindowNode(windowId);
         if (node instanceof HTMLElement) {
+          WindowManager.addCloseEventListener(windowId, () => {
+            terminalGui.close();
+          });
+          WindowManager.addResizeEventListener(windowId, () => {
+            console.log('handle resize');
+          });
           const terminalGui = new module.TerminalGui();
           terminalGui.open(node);
         }

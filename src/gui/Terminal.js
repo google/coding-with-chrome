@@ -81,6 +81,7 @@ export class TerminalGui extends Terminal {
    */
   close() {
     if (this.terminal) {
+      console.debug('Closing terminal ...');
       this.terminal.dispose();
     }
   }

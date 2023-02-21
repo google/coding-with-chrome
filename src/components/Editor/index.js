@@ -21,11 +21,12 @@
  */
 
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-java';
 import 'ace-builds/src-noconflict/theme-github';
 import 'ace-builds/src-noconflict/ext-language_tools';
+import { WindowManager } from '../Desktop/WindowManager';
 
 /**
  *
@@ -36,14 +37,39 @@ export class Editor extends React.PureComponent {
    */
   constructor(props) {
     super(props);
-    this.editor = React.createRef();
+    this.windowId = props.windowId;
+    this.editorInstance = null;
+
+    // Adding additional event listener for close and refresh.
+    if (this.windowId) {
+      WindowManager.addResizeEventListener(this.windowId, () => {
+        if (this.editorInstance) {
+          if (this.editorInstance.container) {
+            this.editorInstance.container.style.height =
+              this.editorInstance.container.parentNode.style.height;
+            this.editorInstance.container.style.width =
+              this.editorInstance.container.parentNode.style.width;
+          }
+          this.editorInstance.resize();
+        }
+      });
+    }
   }
 
   /**
    * @param {any} newValue
    */
   onChange(newValue) {
-    console.log('change', newValue, this.editor);
+    console.log('change', newValue, this.editorInstance);
+  }
+
+  /**
+   * @param {any} editorInstance
+   */
+  onLoad(editorInstance) {
+    this.editorInstance = editorInstance;
+    this.editorInstance.container.style.resize = 'both';
+    console.debug('Editor Instance: ', this.editorInstance);
   }
 
   /**
@@ -53,14 +79,18 @@ export class Editor extends React.PureComponent {
     return (
       <React.StrictMode>
         <AceEditor
-          ref={this.editor}
           mode="java"
           theme="github"
+          onLoad={this.onLoad.bind(this)}
           onChange={this.onChange.bind(this)}
-          name="editor"
+          name={this.windowId + '_editor'}
           editorProps={{ $blockScrolling: true }}
         />
       </React.StrictMode>
     );
   }
 }
+
+Editor.propTypes = {
+  windowId: PropTypes.string.isRequired,
+};

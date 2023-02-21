@@ -24,6 +24,11 @@ import React from 'react';
 
 import WinBox from 'react-winbox';
 
+import { WindowData } from './WindowData';
+
+import 'winbox/dist/css/winbox.min.css';
+import 'winbox/dist/css/themes/modern.min.css';
+
 /**
  * Window Manager
  */
@@ -31,6 +36,10 @@ export class WindowManager extends React.PureComponent {
   static component;
 
   static windowsMap = new Map();
+
+  static closeEventListener = new Map();
+
+  static resizeEventListener = new Map();
 
   static lastXPosition = 20;
 
@@ -49,7 +58,7 @@ export class WindowManager extends React.PureComponent {
 
   /**
    * @param {string} title
-   * @return {Promise<Element>}
+   * @return {Promise<String>}
    */
   static addNewWindow(title) {
     return WindowManager.addWindow({
@@ -60,7 +69,7 @@ export class WindowManager extends React.PureComponent {
 
   /**
    * @param {*} infos
-   * @return {Promise<HTMLElement>}
+   * @return {Promise<String>}
    */
   static addWindow(infos) {
     const windowId = WindowManager.getWindowId(
@@ -74,7 +83,7 @@ export class WindowManager extends React.PureComponent {
             `Will use existing window with id ${windowId}:`,
             existingWindow
           );
-          resolve(existingWindow);
+          resolve(windowId);
         } else {
           reject(
             new Error(`Existing element for ${windowId} is no HTMLElement!`)
@@ -83,17 +92,6 @@ export class WindowManager extends React.PureComponent {
         return;
       }
       console.info(`Adding new window ${windowId} with:`, infos);
-
-      // Define new windows attributes.
-      WindowManager.windowsMap.set(windowId, {
-        id: windowId,
-        title: infos.title,
-        width: 500,
-        height: 300,
-        x: WindowManager.lastXPosition,
-        y: WindowManager.lastYPosition,
-        noClose: false,
-      });
 
       // Update position for next window.
       if (WindowManager.lastXPosition < 600) {
@@ -107,6 +105,32 @@ export class WindowManager extends React.PureComponent {
         WindowManager.lastYPosition = 50;
       }
 
+      this.updateWindowData(
+        windowId,
+        new WindowData(
+          windowId,
+          infos.title,
+          500,
+          300,
+          WindowManager.lastXPosition,
+          WindowManager.lastYPosition
+        )
+      ).then((windowId) => {
+        resolve(windowId);
+      });
+    });
+  }
+
+  /**
+   *
+   * @param {string} windowId
+   * @param {WindowData} windowData
+   * @return {Promise<String>}
+   */
+  static updateWindowData(windowId, windowData) {
+    return new Promise((resolve, reject) => {
+      WindowManager.windowsMap.set(windowId, windowData);
+
       // Change state for the component and resolve promise if possible.
       WindowManager.component.setState(
         {
@@ -117,7 +141,7 @@ export class WindowManager extends React.PureComponent {
           setTimeout(() => {
             const node = WindowManager.getWindowNode(windowId);
             if (node) {
-              resolve(node);
+              resolve(windowId);
             } else {
               reject(new Error(`Unable to find element for ${windowId}!`));
             }
@@ -170,6 +194,22 @@ export class WindowManager extends React.PureComponent {
   }
 
   /**
+   * @param {string} windowId
+   * @param {function} func
+   */
+  static addCloseEventListener(windowId, func) {
+    WindowManager.closeEventListener.set(windowId, func);
+  }
+
+  /**
+   * @param {string} windowId
+   * @param {function} func
+   */
+  static addResizeEventListener(windowId, func) {
+    WindowManager.resizeEventListener.set(windowId, func);
+  }
+
+  /**
    * @param {*} props
    * @constructor
    */
@@ -180,24 +220,32 @@ export class WindowManager extends React.PureComponent {
   }
 
   /**
-   * @param {string} id
+   * @param {string} windowId
    * @param {boolean} force
    */
-  handleClose(id, force) {
+  handleClose(windowId, force) {
     if (!force) {
-      console.log('Prepare closing windows with index', id, force);
-      WindowManager.windowsMap.delete(WindowManager.getWindowId(id));
+      console.log('Prepare closing windows with id', windowId, force);
+      WindowManager.windowsMap.delete(windowId);
       WindowManager.updateData();
+    }
+    if (WindowManager.closeEventListener.has(windowId)) {
+      const func = WindowManager.closeEventListener.get(windowId);
+      func();
     }
   }
 
   /**
-   * @param {string} id
+   * @param {string} windowId
    * @param {number} width
    * @param {number} height
    */
-  handleResize(id, width, height) {
-    console.log(`Resize request for ${id} with ${width} ${height} ...`);
+  handleResize(windowId, width, height) {
+    console.log(`Resize request for ${windowId} with ${width} ${height} ...`);
+    if (WindowManager.resizeEventListener.has(windowId)) {
+      const func = WindowManager.resizeEventListener.get(windowId);
+      func();
+    }
   }
 
   /**
@@ -215,7 +263,7 @@ export class WindowManager extends React.PureComponent {
             title={this.state.windows.get(key).title}
             width={this.state.windows.get(key).width}
             height={this.state.windows.get(key).height}
-            minheight={150}
+            minHeight={150}
             top={50}
             onclose={(force) => this.handleClose(key, force)}
             onresize={(width, height) => this.handleResize(key, width, height)}

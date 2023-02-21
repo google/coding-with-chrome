@@ -31,7 +31,7 @@ testConfig.plugins = testConfig.plugins
 testConfig.module.rules.push({
   test: /\.js$|\.jsx$/,
   use: ['@jsdevtools/coverage-istanbul-loader'],
-  enforce: 'pre',
+  enforce: 'post',
   exclude: /node_modules|_test\.js$/,
 });
 testConfig.devtool = 'eval-source-map';
