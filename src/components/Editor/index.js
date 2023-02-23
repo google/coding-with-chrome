@@ -43,15 +43,7 @@ export class Editor extends React.PureComponent {
     // Adding additional event listener for close and refresh.
     if (this.windowId) {
       WindowManager.addResizeEventListener(this.windowId, () => {
-        if (this.editorInstance) {
-          if (this.editorInstance.container) {
-            this.editorInstance.container.style.height =
-              this.editorInstance.container.parentNode.style.height;
-            this.editorInstance.container.style.width =
-              this.editorInstance.container.parentNode.style.width;
-          }
-          this.editorInstance.resize();
-        }
+        this.resize();
       });
     }
   }
@@ -70,6 +62,25 @@ export class Editor extends React.PureComponent {
     this.editorInstance = editorInstance;
     this.editorInstance.container.style.resize = 'both';
     console.debug('Editor Instance: ', this.editorInstance);
+    this.resize();
+  }
+
+  /**
+   * Resize editor content to parent container.
+   */
+  resize() {
+    if (this.editorInstance) {
+      if (this.editorInstance.container) {
+        const parentNode = this.editorInstance.container.parentNode;
+        if (parentNode.clientHeight > 100 && parentNode.clientWidth > 100) {
+          this.editorInstance.container.style.height =
+            parentNode.clientHeight + 'px';
+          this.editorInstance.container.style.width =
+            parentNode.clientWidth + 'px';
+          this.editorInstance.resize();
+        }
+      }
+    }
   }
 
   /**

@@ -31,6 +31,7 @@ import TerminalIcon from '@mui/icons-material/Terminal';
 import Tooltip from '@mui/material/Tooltip';
 import UnfoldLessIcon from '@mui/icons-material/UnfoldLess';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
+import ExtensionIcon from '@mui/icons-material/Extension';
 
 import styles from './style.module.css';
 import { WindowManager } from '../WindowManager';
@@ -61,6 +62,20 @@ export class Launcher extends React.PureComponent {
   handleLauncherToggle() {
     this.setState({
       launcher: !this.state.launcher,
+    });
+  }
+
+  /** Open Block Editor */
+  openBlockEditor() {
+    console.debug('Open Editor');
+    import('../../BlockEditor').then((module) => {
+      WindowManager.addNewWindow('BlockEditor').then((windowId) => {
+        const node = WindowManager.getWindowNode(windowId);
+        if (node instanceof HTMLElement) {
+          const root = ReactDOM.createRoot(node);
+          root.render(<module.BlockEditor windowId={windowId} />);
+        }
+      });
     });
   }
 
@@ -118,6 +133,17 @@ export class Launcher extends React.PureComponent {
           >
             <AppsIcon />
           </IconButton>
+
+          <Tooltip title="Open Block Editor">
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="File"
+              onClick={this.openBlockEditor}
+            >
+              <ExtensionIcon />
+            </IconButton>
+          </Tooltip>
 
           <Tooltip title="Open Editor">
             <IconButton

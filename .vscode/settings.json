@@ -6,6 +6,7 @@
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
   "cSpell.words": [
+    "Blockly",
     "bootscript",
     "Bordihn",
     "browserconfig",

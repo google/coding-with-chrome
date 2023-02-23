@@ -14,12 +14,6 @@
  * limitations under the License.
  */
 
-.desktop {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-}
-
-.menuBar {
-
+.fill {
+  height: calc(100vh - 114px);
 }
