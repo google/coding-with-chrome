@@ -24,6 +24,7 @@ import CopyPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import HtmlMinimizerPlugin from 'html-minimizer-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import JsonMinimizerPlugin from 'json-minimizer-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import WebpackPwaManifest from 'webpack-pwa-manifest';
@@ -65,9 +66,10 @@ module.exports = (mode = 'development') => ({
     emitOnErrors: true,
     minimize: mode != 'development',
     minimizer: [
-      new TerserPlugin({}),
       new CssMinimizerPlugin(),
       new HtmlMinimizerPlugin(),
+      new JsonMinimizerPlugin(),
+      new TerserPlugin({}),
     ],
   },
   devtool: mode == 'development' ? 'inline-source-map' : false,
@@ -117,12 +119,25 @@ module.exports = (mode = 'development') => ({
         ],
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        issuer: /\.[jt]sx?$/,
+        use: ['babel-loader', '@svgr/webpack', 'url-loader'],
+      },
+      {
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url-loader',
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
         use: ['file-loader'],
       },
       {
         test: /\.(eot|ttf|otf)$/,
         use: ['file-loader'],
+      },
+      {
+        test: /\.json$/i,
+        type: 'asset/resource',
       },
       {
         test: /\.(woff|woff2)$/,
@@ -172,14 +187,42 @@ module.exports = (mode = 'development') => ({
         {
           from: './assets/favicon',
           to: './favicon',
+          globOptions: {
+            dot: true,
+            gitignore: true,
+          },
         },
         {
           from: './assets/favicon/browserconfig.xml',
           to: './browserconfig.xml',
+          globOptions: {
+            dot: true,
+            gitignore: true,
+          },
         },
         {
           from: './assets/svg',
           to: './assets/svg',
+          globOptions: {
+            dot: true,
+            gitignore: true,
+          },
+        },
+        {
+          from: './assets/icons',
+          to: './assets/icons',
+          globOptions: {
+            dot: true,
+            gitignore: true,
+          },
+        },
+        {
+          from: './locales',
+          to: './locales',
+          globOptions: {
+            dot: true,
+            gitignore: true,
+          },
         },
       ],
     }),

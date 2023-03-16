@@ -1,0 +1,170 @@
+/**
+ * Copyright 2016 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * Blockly custom CSS definitions.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+
+.blocklySvg {
+  background-color: #eceff1 !important;
+}
+
+.blocklyHtmlInput {
+  font-size: 11pt !important;
+}
+
+.blocklyFlyoutBackground {
+  fill: #cfd8dc !important;
+}
+
+.blocklyScrollbarBackground {
+  opacity: 1 !important;
+  fill: #eceff1;
+  stroke: #cfd8dc;
+  stroke-width: 1;
+}
+
+.blocklyScrollbarKnob {
+  fill: #90a4ae !important;
+}
+
+.blocklyScrollbarBackground:hover + .blocklyScrollbarKnob,
+.blocklyScrollbarKnob:hover {
+  fill: #78909c !important;
+}
+
+.blocklyText {
+  font-family: inherit !important;
+  font-size: 14px !important;
+}
+
+.blocklyWidgetDiv .goog-menuitem-disabled .goog-menuitem-accel,
+.blocklyWidgetDiv .goog-menuitem-disabled .goog-menuitem-content {
+  color: #ccc !important;
+}
+
+.blocklyWidgetDiv .goog-menu,
+.blocklyWidgetDiv .goog-menuitem,
+.blocklyWidgetDiv .goog-menuitem-content {
+  font-family: inherit !important;
+  font-size: 14px !important;
+}
+
+.blocklyTreeRoot {
+  padding: 2px 0 0 0;
+}
+
+.blocklyTreeLabel {
+  cursor: pointer !important;
+  font-family: inherit !important;
+  font-size: 15px !important;
+  padding: 0 0px 0 5px !important;
+}
+
+.blocklyTreeRowContentContainer {
+  line-height: 15px;
+}
+
+.blocklyToolboxDiv {
+  background-color: rgba(200, 200, 200, 0.5);
+  background: linear-gradient(
+    to right,
+    rgba(200, 200, 200, 0.5) 0%,
+    rgba(200, 200, 200, 0.5) 90%,
+    rgba(200, 200, 200, 0.1) 95%,
+    rgba(200, 200, 200, 0) 100%
+  );
+  min-width: 140px;
+}
+
+.blocklyToolboxDiv::before {
+  bottom: 10px;
+  color: rgba(128, 128, 128, 0.2);
+  content: url('../../../assets/svg/delete.svg');
+  font-size: 128px;
+  font-style: normal;
+  left: 10px;
+  line-height: 1;
+  position: absolute;
+  z-index: -1;
+}
+
+.blocklyToolboxDiv [role='treeitem'] [role='group'] {
+  padding-left: 16px;
+}
+
+.blocklyTreeIcon.blocklyTreeIconClosedLtr,
+.blocklyTreeIcon.blocklyTreeIconOpen,
+.blocklyTreeIcon.blocklyTreeIconNone {
+  background: none;
+  color: #fff;
+  position: absolute;
+  left: 0;
+}
+
+.blocklyTreeIcon.blocklyTreeIconClosedLtr {
+  transform: rotate(270deg);
+  top: 10px;
+}
+
+.blocklyTreeIcon.blocklyTreeIconClosedLtr::before,
+.blocklyTreeIcon.blocklyTreeIconOpen::before {
+  color: rgba(255, 255, 255, 0.9);
+  content: 'arrow_drop_down';
+  font-family: 'Material Icons';
+  font-size: 21px;
+}
+
+.blocklyRootTreeRowItem > .blocklyTreeRow {
+  border-left-width: 48px !important;
+}
+
+.blocklyTreeRow {
+  padding: 4px 10px 4px 0px !important;
+  background-color: #fafafa;
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
+    0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  border-radius: 0 22px 22px 0;
+  border-left-width: 32px !important;
+}
+
+.blocklyTreeRowItem {
+  position: relative;
+}
+
+.blocklyRootTreeRowItem::before {
+  left: 21px !important;
+}
+
+.blocklyTreeRowItem::before {
+  bottom: 10px;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: 'Material Icons';
+  font-style: normal;
+  line-height: 1;
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  font-size: 21px;
+  height: 21px;
+}
+
+.blocklyTreeRowItem_sprites > .blocklyTreeRow {
+  border-left: 0 !important;
+  padding-left: 8px !important;
+}

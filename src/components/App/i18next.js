@@ -17,25 +17,27 @@
 /**
  * @author mbordihn@google.com (Markus Bordihn)
  *
- * @fileoverview Main app for the Coding with Chrome suite.
+ * @fileoverview Translation Support for Coding with Chrome suite.
  */
 
-import * as ReactDOM from 'react-dom/client';
-import React from 'react';
-import { Suspense } from 'react';
-
-import './i18next.js';
-
-import { DesktopApp } from './../Desktop';
+import i18next from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+import Backend from 'i18next-http-backend';
+import { initReactI18next } from 'react-i18next';
 
 /**
- * @param {HTMLElement} node
+ * Adding translation support for the whole app
  */
-export function render(node) {
-  const root = ReactDOM.createRoot(node);
-  root.render(
-    <Suspense fallback="...is loading">
-      <DesktopApp />
-    </Suspense>
-  );
-}
+i18next
+  .use(Backend)
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    lng: 'en',
+    fallbackLng: 'en',
+    interpolation: {
+      escapeValue: false, // react already safes from xss
+    },
+  });
+
+export default i18next;

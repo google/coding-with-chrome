@@ -17,7 +17,7 @@
 /**
  * @author mbordihn@google.com (Markus Bordihn)
  *
- * @fileoverview Window Manager for the Coding with Chrome suite.
+ * @fileoverview Window Manager based on react-winbox.
  */
 
 import React from 'react';
@@ -25,6 +25,7 @@ import React from 'react';
 import WinBox from 'react-winbox';
 
 import { WindowData } from './WindowData';
+import { WindowCloseEvent, WindowResizeEvent } from './Events.js';
 
 import 'winbox/dist/css/winbox.min.css';
 import 'winbox/dist/css/themes/modern.min.css';
@@ -37,13 +38,11 @@ export class WindowManager extends React.PureComponent {
 
   static windowsMap = new Map();
 
-  static closeEventListener = new Map();
-
-  static resizeEventListener = new Map();
-
   static lastXPosition = 20;
 
   static lastYPosition = 50;
+
+  static windowManagerEventTarget = new EventTarget();
 
   static WINDOW_PREFIX = 'window_';
 
@@ -145,7 +144,7 @@ export class WindowManager extends React.PureComponent {
             } else {
               reject(new Error(`Unable to find element for ${windowId}!`));
             }
-          });
+          }, 100);
         }
       );
     });
@@ -194,22 +193,6 @@ export class WindowManager extends React.PureComponent {
   }
 
   /**
-   * @param {string} windowId
-   * @param {function} func
-   */
-  static addCloseEventListener(windowId, func) {
-    WindowManager.closeEventListener.set(windowId, func);
-  }
-
-  /**
-   * @param {string} windowId
-   * @param {function} func
-   */
-  static addResizeEventListener(windowId, func) {
-    WindowManager.resizeEventListener.set(windowId, func);
-  }
-
-  /**
    * @param {*} props
    * @constructor
    */
@@ -224,14 +207,13 @@ export class WindowManager extends React.PureComponent {
    * @param {boolean} force
    */
   handleClose(windowId, force) {
+    WindowManager.windowManagerEventTarget.dispatchEvent(
+      new WindowCloseEvent(windowId)
+    );
     if (!force) {
       console.log('Prepare closing windows with id', windowId, force);
       WindowManager.windowsMap.delete(windowId);
       WindowManager.updateData();
-    }
-    if (WindowManager.closeEventListener.has(windowId)) {
-      const func = WindowManager.closeEventListener.get(windowId);
-      func();
     }
   }
 
@@ -242,10 +224,9 @@ export class WindowManager extends React.PureComponent {
    */
   handleResize(windowId, width, height) {
     console.log(`Resize request for ${windowId} with ${width} ${height} ...`);
-    if (WindowManager.resizeEventListener.has(windowId)) {
-      const func = WindowManager.resizeEventListener.get(windowId);
-      func();
-    }
+    WindowManager.windowManagerEventTarget.dispatchEvent(
+      new WindowResizeEvent(windowId)
+    );
   }
 
   /**

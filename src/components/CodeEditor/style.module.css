@@ -1,5 +1,5 @@
 /**
- * Copyright 2022 The Coding with Chrome Authors.
+ * Copyright 2023 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-.fill {
-  height: calc(100vh - 114px);
-}
-
 .toolbar {
   height: 28px;
   min-height: 28px;
@@ -31,4 +27,12 @@
 
 .toolbar > .MuiSvgIcon-root {
   font-size: 1.25rem;
+}
+
+.infobar {
+  height: 28px;
+  background: #f5f5f5;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
 }

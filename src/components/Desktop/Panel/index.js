@@ -26,6 +26,7 @@ import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import i18next from 'i18next';
 
 import styles from './style.module.css';
 
@@ -40,6 +41,10 @@ export class Panel extends React.PureComponent {
     super(props);
     this.state = { drawer: false };
     this.handleDrawerToggle = this.handleDrawerToggle.bind(this);
+    this.languages = {
+      en: { nativeName: 'English' },
+      de: { nativeName: 'Deutsch' },
+    };
   }
 
   /** */
@@ -60,7 +65,21 @@ export class Panel extends React.PureComponent {
             <Typography variant="h6" className={styles.title}>
               Coding with Chrome
             </Typography>
-            <Button color="inherit">Login</Button>
+            {Object.keys(this.languages).map((language) => (
+              <Button
+                color="inherit"
+                key={language}
+                style={{
+                  fontWeight:
+                    i18next.resolvedLanguage === language ? 'bold' : 'normal',
+                }}
+                type="submit"
+                onClick={() => i18next.changeLanguage(language)}
+              >
+                {this.languages[language].nativeName}
+              </Button>
+            ))}
+            <Button color="inherit">{i18next.t('Login')}</Button>
           </Toolbar>
         </AppBar>
       </React.StrictMode>

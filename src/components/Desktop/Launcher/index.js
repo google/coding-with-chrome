@@ -25,16 +25,19 @@ import * as ReactDOM from 'react-dom/client';
 
 import AppsIcon from '@mui/icons-material/Apps';
 import CodeIcon from '@mui/icons-material/Code';
+import ExtensionIcon from '@mui/icons-material/Extension';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import Tooltip from '@mui/material/Tooltip';
 import UnfoldLessIcon from '@mui/icons-material/UnfoldLess';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
-import ExtensionIcon from '@mui/icons-material/Extension';
 
 import styles from './style.module.css';
 import { WindowManager } from '../WindowManager';
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+import { WindowCloseEvent } from '../WindowManager/Events';
 
 /**
  *
@@ -65,6 +68,20 @@ export class Launcher extends React.PureComponent {
     });
   }
 
+  /** Open Game Editor */
+  openGameEditor() {
+    console.debug('Open Game');
+    import('../../GameEditor').then((module) => {
+      WindowManager.addNewWindow('GameEditor').then((windowId) => {
+        const node = WindowManager.getWindowNode(windowId);
+        if (node instanceof HTMLElement) {
+          const root = ReactDOM.createRoot(node);
+          root.render(<module.GameEditor windowId={windowId} />);
+        }
+      });
+    });
+  }
+
   /** Open Block Editor */
   openBlockEditor() {
     console.debug('Open Editor');
@@ -80,14 +97,14 @@ export class Launcher extends React.PureComponent {
   }
 
   /** Open Editor */
-  openEditor() {
+  openCodeEditor() {
     console.debug('Open Editor');
-    import('../../Editor').then((module) => {
-      WindowManager.addNewWindow('Editor').then((windowId) => {
+    import('../../CodeEditor').then((module) => {
+      WindowManager.addNewWindow('CodeEditor').then((windowId) => {
         const node = WindowManager.getWindowNode(windowId);
         if (node instanceof HTMLElement) {
           const root = ReactDOM.createRoot(node);
-          root.render(<module.Editor windowId={windowId} />);
+          root.render(<module.CodeEditor windowId={windowId} />);
         }
       });
     });
@@ -100,14 +117,19 @@ export class Launcher extends React.PureComponent {
       WindowManager.addNewWindow('Terminal').then((windowId) => {
         const node = WindowManager.getWindowNode(windowId);
         if (node instanceof HTMLElement) {
-          WindowManager.addCloseEventListener(windowId, () => {
-            terminalGui.close();
-          });
-          WindowManager.addResizeEventListener(windowId, () => {
-            console.log('handle resize');
-          });
           const terminalGui = new module.TerminalGui();
           terminalGui.open(node);
+          // Adding additional event listener for close and refresh.
+          if (windowId) {
+            WindowManager.windowManagerEventTarget.addEventListener(
+              'windowClose',
+              (/** @type {WindowCloseEvent} */ event) => {
+                if (event.getWindowId() == windowId) {
+                  terminalGui.close();
+                }
+              }
+            );
+          }
         }
       });
     });
@@ -134,6 +156,17 @@ export class Launcher extends React.PureComponent {
             <AppsIcon />
           </IconButton>
 
+          <Tooltip title="Open Game Editor">
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="File"
+              onClick={this.openGameEditor}
+            >
+              <SportsEsportsIcon />
+            </IconButton>
+          </Tooltip>
+
           <Tooltip title="Open Block Editor">
             <IconButton
               edge="start"
@@ -150,7 +183,7 @@ export class Launcher extends React.PureComponent {
               edge="start"
               color="inherit"
               aria-label="File"
-              onClick={this.openEditor}
+              onClick={this.openCodeEditor}
             >
               <CodeIcon />
             </IconButton>

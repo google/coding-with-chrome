@@ -1,5 +1,7 @@
 /**
- * @license Copyright 2020 The Coding with Chrome Authors.
+ * @fileoverview General Blocks helper definition.
+ *
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,30 +14,27 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
-
-/**
- * @author mbordihn@google.com (Markus Bordihn)
  *
- * @fileoverview Main app for the Coding with Chrome suite.
+ * @author mbordihn@google.com (Markus Bordihn)
  */
-
-import * as ReactDOM from 'react-dom/client';
-import React from 'react';
-import { Suspense } from 'react';
-
-import './i18next.js';
-
-import { DesktopApp } from './../Desktop';
 
 /**
- * @param {HTMLElement} node
+ * Simple Blocks Helper
  */
-export function render(node) {
-  const root = ReactDOM.createRoot(node);
-  root.render(
-    <Suspense fallback="...is loading">
-      <DesktopApp />
-    </Suspense>
-  );
+export class BlocksHelper {
+  /**
+   * @param {string} text
+   * @return {string}
+   */
+  static validateText(text) {
+    return text.replace(/'/g, '').replace(/\\/g, '');
+  }
+
+  /**
+   * @param {string} value
+   * @return {number}
+   */
+  static validateNumber(value) {
+    return Number(value.replace(/[^\d.-]/g, ''));
+  }
 }

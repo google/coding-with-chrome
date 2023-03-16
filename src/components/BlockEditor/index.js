@@ -20,12 +20,29 @@
  * @fileoverview Editor for the desktop screen.
  */
 
-import React from 'react';
+import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
-import { BlocklyWorkspace } from 'react-blockly';
+
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import CodeIcon from '@mui/icons-material/Code';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import RedoIcon from '@mui/icons-material/Redo';
+import Toolbar from '@mui/material/Toolbar';
+import UndoIcon from '@mui/icons-material/Undo';
+
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+import { BlocklyWorkspace, WorkspaceSvg } from 'react-blockly';
+import { CodeEditor } from './../CodeEditor';
 import { WindowManager } from '../Desktop/WindowManager';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+import { WindowResizeEvent } from '../Desktop/WindowManager/Events';
+import { javascriptGenerator } from 'blockly/javascript';
 
 import styles from './style.module.css';
+import './style.global.css';
 
 /**
  *
@@ -36,43 +53,112 @@ export class BlockEditor extends React.PureComponent {
    */
   constructor(props) {
     super(props);
-    this.windowId = props.windowId;
-    this.blockEditorInstance = null;
+    this.blockyWorkspace = null;
+    this.codeEditor = createRef();
+    this.toolbar = createRef();
 
     this.state = {
+      showEditor: false,
       xml: '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="text" x="70" y="30"><field name="TEXT"></field></block></xml>',
       javascriptCode: '',
     };
 
-    // Adding additional event listener for close and refresh.
-    if (this.windowId) {
-      WindowManager.addResizeEventListener(this.windowId, () => {
-        this.resize();
-      });
-    }
+    WindowManager.windowManagerEventTarget.addEventListener(
+      'windowResize',
+      this.handleWindowResize.bind(this)
+    );
+  }
+
+  /**
+   *
+   */
+  showBlockEditor() {
+    console.log('Show Block Editor ...');
+    this.setState({ showEditor: false });
+  }
+
+  /**
+   *
+   */
+  showCodeEditor() {
+    console.log('Show Code Editor ...');
+    const code = javascriptGenerator.workspaceToCode(this.blockyWorkspace);
+    this.codeEditor.current.setValue(code);
+    this.setState({ showEditor: true });
+  }
+
+  /**
+   * Handle Blocks undo
+   */
+  handleUndo() {
+    console.log('Undo ...');
+    this.blockyWorkspace?.undo(false);
+  }
+
+  /**
+   * Handle Blockly redo
+   */
+  handleRedo() {
+    console.log('Redo ...');
+    this.blockyWorkspace?.undo(true);
   }
 
   /**
    * @param {any} newValue
    */
   onChange(newValue) {
-    console.log('change', newValue, this.blockEditorInstance);
+    console.log('change', newValue, this.blockyWorkspace);
   }
 
   /**
-   * @param {any} blockEditorInstance
+   * @param {WorkspaceSvg} blockEditorInstance
    */
   onLoad(blockEditorInstance) {
-    this.blockEditorInstance = blockEditorInstance;
-    console.debug('Editor Instance: ', this.blockEditorInstance);
+    this.blockyWorkspace = blockEditorInstance;
+    this.resize();
+  }
+
+  /**
+   * Handle window resize
+   * @param {WindowResizeEvent} event
+   */
+  handleWindowResize(event) {
+    if (event.getWindowId() != this.props.windowId) {
+      return;
+    }
+    this.resize();
+  }
+
+  /**
+   * Reset zoom and center blocks.
+   */
+  resetZoom() {
+    this.blockyWorkspace?.setScale(1);
+    this.blockyWorkspace?.scrollCenter();
   }
 
   /**
    * Resize editor content to parent container.
    */
   resize() {
-    if (this.blockEditorInstance) {
-      console.log(this.blockEditorInstance);
+    if (this.blockyWorkspace) {
+      const parentElement =
+        this.blockyWorkspace.getInjectionDiv().closest('.wb-body') ||
+        this.blockyWorkspace.getInjectionDiv().parentElement;
+      if (parentElement) {
+        const injectionDiv =
+          this.blockyWorkspace.getInjectionDiv().parentElement;
+        if (injectionDiv && injectionDiv != parentElement) {
+          if (this.toolbar.current) {
+            injectionDiv.style.height =
+              parentElement.clientHeight -
+              this.toolbar.current.clientHeight +
+              'px';
+          } else {
+            injectionDiv.style.height = parentElement.clientHeight + 'px';
+          }
+        }
+      }
       window.dispatchEvent(new Event('resize'));
     }
   }
@@ -140,18 +226,69 @@ export class BlockEditor extends React.PureComponent {
   render() {
     return (
       <React.StrictMode>
-        <BlocklyWorkspace
-          className={styles.fill}
-          toolboxConfiguration={this.getToolboxCategory()} // this must be a JSON toolbox definition
-          initialXml={this.state.xml}
-          onInject={this.onLoad.bind(this)}
-          onXmlChange={(content) => this.setState({ xml: content })}
-        />
+        <Box sx={{ display: this.state.showEditor ? 'none' : 'block' }}>
+          <AppBar position="static">
+            <Toolbar
+              variant="dense"
+              className={styles.toolbar}
+              ref={this.toolbar}
+            >
+              <IconButton edge="start" color="inherit" aria-label="menu">
+                <MenuIcon />
+              </IconButton>
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="undo"
+                onClick={this.handleUndo.bind(this)}
+              >
+                <UndoIcon />
+              </IconButton>
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="redo"
+                onClick={this.handleRedo.bind(this)}
+              >
+                <RedoIcon />
+              </IconButton>
+              <Button variant="contained">Create new Variable</Button>
+              {this.codeEditor && (
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  aria-label="code"
+                  onClick={this.showCodeEditor.bind(this)}
+                >
+                  <CodeIcon />
+                </IconButton>
+              )}
+            </Toolbar>
+          </AppBar>
+          <BlocklyWorkspace
+            className={styles.fill}
+            toolboxConfiguration={
+              this.props.toolbox || this.getToolboxCategory()
+            }
+            initialXml={this.props.content || ''}
+            onInject={this.onLoad.bind(this)}
+            onXmlChange={(content) => this.setState({ xml: content })}
+          />
+        </Box>
+        <Box sx={{ display: this.state.showEditor ? 'block' : 'none' }}>
+          <CodeEditor
+            windowId={this.props.windowId}
+            blockEditor={this}
+            ref={this.codeEditor}
+          ></CodeEditor>
+        </Box>
       </React.StrictMode>
     );
   }
 }
 
 BlockEditor.propTypes = {
+  content: PropTypes.string,
+  toolbox: PropTypes.object,
   windowId: PropTypes.string.isRequired,
 };
