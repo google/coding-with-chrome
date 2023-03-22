@@ -1,7 +1,7 @@
 /**
  * @fileoverview Phaser Blocks for Blockly.
  *
- * @license Copyright 2013 The Coding with Chrome Authors.
+ * @license Copyright 2023 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,7 +58,7 @@ javascriptGenerator['phaser_input'] = function (block) {
 };
 
 /**
- * Input body block to seperate input statements from normal statements.
+ * Input body block to separate input statements from normal statements.
  */
 Blocks['phaser_input_body'] = {
   init: function () {
@@ -114,7 +114,7 @@ javascriptGenerator['phaser_input_keyboard_cursor_keys_add'] = function (
   const variable = Blockly.JavaScript.valueToCode(
     block,
     'variable',
-    Blockly.JavaScript.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC
   );
   return (
     variable +
@@ -159,7 +159,7 @@ javascriptGenerator['phaser_input_keyboard_wasd_keys_add'] = function (block) {
   const variable = Blockly.JavaScript.valueToCode(
     block,
     'variable',
-    Blockly.JavaScript.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC
   );
   return (
     variable +
@@ -201,7 +201,7 @@ javascriptGenerator['phaser_input_keyboard_spacebar_add'] = function (block) {
   const variable = Blockly.JavaScript.valueToCode(
     block,
     'variable',
-    Blockly.JavaScript.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC
   );
   return (
     variable +
@@ -240,7 +240,7 @@ javascriptGenerator['phaser_input_keyboard_shift_add'] = function (block) {
   const variable = Blockly.JavaScript.valueToCode(
     block,
     'variable',
-    Blockly.JavaScript.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC
   );
   return (
     variable +
@@ -292,7 +292,7 @@ javascriptGenerator['phaser_input_keyboard_key_add'] = function (block) {
   const variable = Blockly.JavaScript.valueToCode(
     block,
     'variable',
-    Blockly.JavaScript.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC
   );
   return (
     variable +
@@ -334,7 +334,7 @@ javascriptGenerator['phaser_input_mouse_keys_add'] = function (block) {
   const variable = Blockly.JavaScript.valueToCode(
     block,
     'variable',
-    Blockly.JavaScript.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC
   );
   return (
     variable +
@@ -381,7 +381,7 @@ javascriptGenerator['phaser_input_keyboard_cursor_is_pressed'] = function (
   const value_cursors = Blockly.JavaScript.valueToCode(
     block,
     'cursors',
-    Blockly.JavaScript.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC
   );
   const dropdown_direction = block.getFieldValue('direction');
   const code =
@@ -390,7 +390,7 @@ javascriptGenerator['phaser_input_keyboard_cursor_is_pressed'] = function (
     '.isDown && e === ' +
     value_cursors +
     dropdown_direction;
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  return [code, javascriptGenerator.ORDER_NONE];
 };
 
 /**
@@ -430,7 +430,7 @@ javascriptGenerator['phaser_input_keyboard_cursor_is_hold_pressed'] = function (
   const value_cursors = Blockly.JavaScript.valueToCode(
     block,
     'cursors',
-    Blockly.JavaScript.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC
   );
   const dropdown_direction = block.getFieldValue('direction');
   const code =
@@ -439,7 +439,7 @@ javascriptGenerator['phaser_input_keyboard_cursor_is_hold_pressed'] = function (
     '.isDown && e !== ' +
     value_cursors +
     dropdown_direction;
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  return [code, javascriptGenerator.ORDER_NONE];
 };
 
 /**
@@ -466,10 +466,10 @@ javascriptGenerator['phaser_input_keyboard_key_is_pressed'] = function (block) {
   const value_key = Blockly.JavaScript.valueToCode(
     block,
     'key',
-    Blockly.JavaScript.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC
   );
   const code = value_key + '.isDown && e === ' + value_key;
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  return [code, javascriptGenerator.ORDER_NONE];
 };
 
 /**
@@ -498,10 +498,10 @@ javascriptGenerator['phaser_input_keyboard_key_is_hold_pressed'] = function (
   const value_key = Blockly.JavaScript.valueToCode(
     block,
     'key',
-    Blockly.JavaScript.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC
   );
   const code = value_key + '.isDown && e !== ' + value_key;
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  return [code, javascriptGenerator.ORDER_NONE];
 };
 
 /**
@@ -540,7 +540,7 @@ javascriptGenerator['phaser_input_keyboard_code_is_pressed'] = function (
   const value_key = Blockly.JavaScript.valueToCode(
     block,
     'key',
-    Blockly.JavaScript.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC
   );
   const dropdown_code = block.getFieldValue('code');
   const code =
@@ -550,7 +550,7 @@ javascriptGenerator['phaser_input_keyboard_code_is_pressed'] = function (
     ' && e.event.code === "' +
     dropdown_code +
     '"';
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  return [code, javascriptGenerator.ORDER_NONE];
 };
 
 /**
@@ -586,7 +586,7 @@ javascriptGenerator['phaser_input_mouse_key_is_pressed'] = function (block) {
   const value_mouse = Blockly.JavaScript.valueToCode(
     block,
     'mouse',
-    Blockly.JavaScript.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC
   );
   const dropdown_direction = block.getFieldValue('direction');
   const code =
@@ -597,7 +597,7 @@ javascriptGenerator['phaser_input_mouse_key_is_pressed'] = function (block) {
     'e === ' +
     value_mouse +
     '.activePointer';
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  return [code, javascriptGenerator.ORDER_NONE];
 };
 
 /**
@@ -635,7 +635,7 @@ javascriptGenerator['phaser_input_mouse_key_is_hold_pressed'] = function (
   const value_mouse = Blockly.JavaScript.valueToCode(
     block,
     'mouse',
-    Blockly.JavaScript.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC
   );
   const dropdown_direction = block.getFieldValue('direction');
   const code =
@@ -646,5 +646,5 @@ javascriptGenerator['phaser_input_mouse_key_is_hold_pressed'] = function (
     'e !== ' +
     value_mouse +
     '.activePointer';
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  return [code, javascriptGenerator.ORDER_NONE];
 };

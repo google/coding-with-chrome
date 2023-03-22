@@ -34,7 +34,7 @@ Blocks['phaser_preload'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.fileDownload())
-      .appendField('BLOCKS_PHASER_ON_PRELOAD');
+      .appendField(i18next.t('BLOCKS_PHASER_ON_PRELOAD'));
     this.appendStatementInput('CODE')
       .appendField(i18next.t('BLOCKS_DO'))
       .setAlign(Blockly.ALIGN_CENTRE)
@@ -64,7 +64,7 @@ Blocks['phaser_load_image'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.image())
-      .appendField('BLOCKS_PHASER_LOAD_IMAGE')
+      .appendField(i18next.t('BLOCKS_PHASER_LOAD_IMAGE'))
       .appendField(
         new Blockly.FieldTextInput('image', BlocksHelper['validate_text']),
         'name'
@@ -101,7 +101,7 @@ Blocks['phaser_load_audio'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.audio())
-      .appendField('BLOCKS_PHASER_LOAD_AUDIO')
+      .appendField(i18next.t('BLOCKS_PHASER_LOAD_AUDIO'))
       .appendField(
         new Blockly.FieldTextInput('sound', BlocksHelper['validate_text']),
         'name'

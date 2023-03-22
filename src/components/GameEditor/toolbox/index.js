@@ -14,12 +14,25 @@
  * limitations under the License.
  */
 
+import './../blocks/ArcadePhysicsBlocks';
+import './../blocks/AudioBlocks';
 import './../blocks/CreateBlocks';
-import './../blocks/GameBlocks.js';
 import './../blocks/InputBlocks';
-import './../blocks/PreLoadBlocks';
-import './../blocks/RenderBlocks';
+import './../blocks/SpriteBlocks';
+import './../blocks/TextBlocks';
+import './../blocks/TileSpriteBlocks';
+import './../blocks/TimeBlocks';
 import './../blocks/UpdateBlocks';
+
+import GameToolbox from './GameToolbox';
+import GeneratorToolbox from './GeneratorToolbox';
+import PreloadToolbox from './PreLoadToolbox';
+import RenderToolbox from './RenderToolbox';
+import WorldToolbox from './WorldToolbox';
+
+import getInputToolbox from './InputToolbox';
+
+import i18next from 'i18next';
 
 /**
  * ToolBox for the game editor.
@@ -35,100 +48,65 @@ export class Toolbox {
       contents: [
         {
           kind: 'category',
-          name: 'BLOCKS_PHASER_GAME',
+          name: i18next.t('BLOCKS_PHASER_GAME'),
           colour: '75',
-          contents: [
-            {
-              kind: 'block',
-              type: 'phaser_game',
-            },
-            {
-              kind: 'block',
-              blockxml: `<block type="phaser_game">
-              <next>
-                <block type="phaser_game_state">
-                  <field name="name">main</field>
-                  <field name="autostart">true</field>
-                  <statement name="state">
-                    <block type="phaser_preload">
-                      <next>
-                        <block type="phaser_create">
-                          <next>
-                             <block type="phaser_input">
-                                <next>
-                                  <block type="phaser_update">
-                                    <next>
-                                      <block type="phaser_render" collapsed="true"></block>
-                                    </next>
-                                  </block>
-                                </next>
-                            </block>
-                          </next>
-                        </block>
-                      </next>
-                    </block>
-                  </statement>
-                </block>
-              </next>
-            </block>`,
-            },
-          ],
+          contents: GameToolbox,
         },
         {
           kind: 'category',
-          name: 'BLOCKS_PHASER_PRELOAD',
+          name: i18next.t('BLOCKS_PHASER_PRELOAD'),
           colour: '165',
-          contents: [],
+          contents: PreloadToolbox,
         },
         {
           kind: 'category',
-          name: 'BLOCKS_PHASER_CREATE',
+          name: i18next.t('BLOCKS_PHASER_CREATE'),
           colour: '30',
           contents: [
             {
               kind: 'category',
-              name: 'BLOCKS_PHASER_GENERATOR',
+              name: i18next.t('BLOCKS_PHASER_GENERATOR'),
               colour: '105',
-              contents: [],
+              contents: GeneratorToolbox,
             },
             {
               kind: 'category',
-              name: 'BLOCKS_PHASER_WORLD',
+              name: i18next.t('BLOCKS_PHASER_WORLD'),
               colour: '345',
-              contents: [],
+              contents: WorldToolbox,
             },
           ],
         },
         {
           kind: 'category',
-          name: 'BLOCKS_PHASER_INPUT',
+          name: i18next.t('BLOCKS_PHASER_INPUT'),
+          colour: '165',
+          contents: getInputToolbox(),
+        },
+        {
+          kind: 'category',
+          name: i18next.t('BLOCKS_PHASER_UPDATE'),
           colour: '165',
           contents: [],
         },
         {
           kind: 'category',
-          name: 'BLOCKS_PHASER_UPDATE',
+          name: i18next.t('BLOCKS_PHASER_RENDERER'),
           colour: '165',
-          contents: [],
-        },
-        {
-          kind: 'category',
-          name: 'BLOCKS_PHASER_RENDERER',
-          colour: '165',
-          contents: [],
+          contents: RenderToolbox,
         },
         {
           kind: 'separator',
         },
         {
           kind: 'category',
-          name: 'BLOCKS_PHASER_FILES',
+          name: i18next.t('BLOCKS_PHASER_FILES'),
           colour: '150',
           contents: [],
         },
         {
           kind: 'category',
-          name: 'BLOCKS_PHASER_EXAMPLE_FILES',
+          name: i18next.t('BLOCKS_PHASER_EXAMPLE_FILES'),
           colour: '150',
           contents: [],
         },

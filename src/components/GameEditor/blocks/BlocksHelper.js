@@ -1,7 +1,7 @@
 /**
  * @fileoverview General Blocks helper definition.
  *
- * @license Copyright 2018 The Coding with Chrome Authors.
+ * @license Copyright 2023 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,62 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
+import Blockly from 'blockly';
+
 /**
  * Simple Blocks Helper
  */
 export class BlocksHelper {
+  /**
+   * @param {string} name
+   * @return {!Array}
+   */
+  static phaserImage(name) {
+    return BlocksHelper.phaserImages(name);
+  }
+
+  /**
+   * @param {string=} name
+   * @return {!Array}
+   */
+  static phaserImages(name = '') {
+    let foundName = false;
+    const spriteList = [];
+    const blocks = Blockly.getMainWorkspace().getAllBlocks(true);
+    for (let i = 0; i < blocks.length; i++) {
+      const block = blocks[i];
+      if (
+        block &&
+        block['type'] === 'phaser_load_image' &&
+        !block['disabled'] &&
+        block['childBlocks_'][0] !== undefined
+      ) {
+        const imageName = block['inputList'][0]['fieldRow'][2]['text_'];
+        const childInputList = block['childBlocks_'][0]['inputList'];
+        const imageSrc =
+          childInputList[0]['fieldRow'][0]['src_'] ||
+          childInputList[1]['fieldRow'][0]['src_'];
+        const imageEntry = [
+          imageSrc ? { src: imageSrc, width: 50, height: 50 } : imageName,
+          imageName,
+        ];
+        if (name && imageName === name) {
+          spriteList.unshift(imageEntry);
+          foundName = true;
+        } else {
+          spriteList.push(imageEntry);
+        }
+      }
+    }
+    if (name && !foundName) {
+      spriteList.unshift([name, name]);
+    }
+    if (!spriteList.length) {
+      spriteList.push(['none', 'none']);
+    }
+    return spriteList;
+  }
+
   /**
    * @param {string} text
    * @return {string}
