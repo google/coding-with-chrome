@@ -95,7 +95,8 @@
 .blocklyToolboxDiv::before {
   bottom: 10px;
   color: rgba(128, 128, 128, 0.2);
-  content: url('../../../assets/svg/delete.svg');
+  content: 'delete';
+  font-family: 'Material Icons';
   font-size: 128px;
   font-style: normal;
   left: 10px;
@@ -108,26 +109,34 @@
   padding-left: 16px;
 }
 
+.blocklyTreeIcon.blocklyTreeIconClosed,
 .blocklyTreeIcon.blocklyTreeIconClosedLtr,
 .blocklyTreeIcon.blocklyTreeIconOpen,
 .blocklyTreeIcon.blocklyTreeIconNone {
   background: none;
-  color: #fff;
-  position: absolute;
-  left: 0;
+  color: #ccc;
+  position: relative;
+  left: 2px;
 }
 
+.blocklyTreeIcon.blocklyTreeIconClosed,
 .blocklyTreeIcon.blocklyTreeIconClosedLtr {
   transform: rotate(270deg);
-  top: 10px;
+  top: 3px;
 }
 
+.blocklyTreeIcon.blocklyTreeIconClosed::before,
 .blocklyTreeIcon.blocklyTreeIconClosedLtr::before,
 .blocklyTreeIcon.blocklyTreeIconOpen::before {
-  color: rgba(255, 255, 255, 0.9);
+  position: absolute;
+  color: rgba(0, 0, 0, 0.9);
   content: 'arrow_drop_down';
   font-family: 'Material Icons';
-  font-size: 21px;
+  font-size: 24px;
+}
+
+.blocklyTreeIcon.blocklyTreeIconOpen::before {
+  left: -3px;
 }
 
 .blocklyRootTreeRowItem > .blocklyTreeRow {
@@ -141,6 +150,7 @@
     0 2px 4px -1px rgba(0, 0, 0, 0.2);
   border-radius: 0 22px 22px 0;
   border-left-width: 32px !important;
+  height: 24px;
 }
 
 .blocklyTreeRowItem {
@@ -167,4 +177,28 @@
 .blocklyTreeRowItem_sprites > .blocklyTreeRow {
   border-left: 0 !important;
   padding-left: 8px !important;
+}
+
+.blocklyToolboxContents .icon_direction_run,
+.blocklyToolboxContents .icon_file_download {
+
+  position: relative;
+}
+
+.blocklyToolboxContents .icon_direction_run::before,
+.blocklyToolboxContents .icon_file_download::before {
+  color: rgba(255,255,255,0.9);
+  font-family: 'Material Icons';
+  font-size: 20px;
+  left: 5px;
+  top: -2px;
+  position: absolute;
+}
+
+.blocklyToolboxContents .icon_direction_run::before {
+  content: 'directions_run';
+}
+
+.blocklyToolboxContents .icon_file_download::before {
+  content: 'file_download';
 }

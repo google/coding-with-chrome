@@ -15,12 +15,9 @@
  */
 
 import './../blocks/ArcadePhysicsBlocks';
-import './../blocks/AudioBlocks';
 import './../blocks/CreateBlocks';
-import './../blocks/InputBlocks';
 import './../blocks/SpriteBlocks';
 import './../blocks/TextBlocks';
-import './../blocks/TileSpriteBlocks';
 import './../blocks/TimeBlocks';
 import './../blocks/UpdateBlocks';
 
@@ -30,7 +27,9 @@ import PreloadToolbox from './PreLoadToolbox';
 import RenderToolbox from './RenderToolbox';
 import WorldToolbox from './WorldToolbox';
 
+import getAudioToolbox from './AudioToolbox';
 import getInputToolbox from './InputToolbox';
+import getTileSpriteToolbox from './TileSpriteToolbox';
 
 import i18next from 'i18next';
 
@@ -50,12 +49,18 @@ export class Toolbox {
           kind: 'category',
           name: i18next.t('BLOCKS_PHASER_GAME'),
           colour: '75',
+          cssConfig: {
+            container: 'icon_direction_run',
+          },
           contents: GameToolbox,
         },
         {
           kind: 'category',
           name: i18next.t('BLOCKS_PHASER_PRELOAD'),
           colour: '165',
+          cssConfig: {
+            container: 'icon_file_download',
+          },
           contents: PreloadToolbox,
         },
         {
@@ -81,7 +86,44 @@ export class Toolbox {
           kind: 'category',
           name: i18next.t('BLOCKS_PHASER_INPUT'),
           colour: '165',
-          contents: getInputToolbox(),
+          contents: getInputToolbox().concat([
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_AUDIO'),
+              colour: '245',
+              contents: getAudioToolbox(),
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_SPRITE'),
+              colour: '225',
+              contents: [],
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_TILE_SPRITE'),
+              colour: '285',
+              contents: getTileSpriteToolbox(),
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_PHYSICS_SPRITE'),
+              colour: '0',
+              contents: [],
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_TEXT'),
+              colour: '255',
+              contents: [],
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_INPUTS'),
+              colour: '255',
+              contents: [],
+            },
+          ]),
         },
         {
           kind: 'category',

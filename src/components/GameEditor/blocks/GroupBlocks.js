@@ -14,12 +14,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import Blockly from 'blockly';
-import { Blocks } from 'blockly';
+import Blockly, { Blocks } from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
 
 import { BlocksHelper } from './BlocksHelper';
@@ -34,7 +35,7 @@ Blocks['phaser_group_add'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.addCircle())
-      .appendField(i18next.i18t('@@BLOCKS__DEFINE'));
+      .appendField(i18next.i18t('BLOCKS_DEFINE'));
     this.appendDummyInput()
       .appendField(i18next.i18t('as group'))
       .appendField(
@@ -70,8 +71,8 @@ javascriptGenerator['phaser_group_add'] = function (block) {
 Blocks['phaser_group_count_living'] = {
   init: function () {
     this.appendValueInput('variable')
-      .appendField(i18next.i18t('@@BLOCKS_PHASER__COUNT_LIVING_OBJECTS'))
-      .appendField(i18next.i18t('@@BLOCKS__IN'));
+      .appendField(i18next.i18t('BLOCKS_PHASER_COUNT_LIVING_OBJECTS'))
+      .appendField(i18next.i18t('BLOCKS_IN'));
     this.setOutput(true, null);
     this.setColour(255);
     this.setTooltip('');

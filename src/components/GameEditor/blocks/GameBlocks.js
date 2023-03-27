@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import Blockly from 'blockly';
-import { Blocks } from 'blockly';
+import Blockly, { Blocks } from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
 
 import { BlocksHelper } from './BlocksHelper';

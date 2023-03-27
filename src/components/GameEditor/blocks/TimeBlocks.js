@@ -14,7 +14,9 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
@@ -36,7 +38,7 @@ Blocks['phaser_time_event'] = {
       .appendField(BlocksTemplate.timelapse())
       .appendField(i18next.t('BLOCKS_PHASER_TIME_EVENT'));
     this.appendDummyInput().appendField(i18next.t('milliseconds'));
-    this.appendStatementInput('func').appendField(i18next.t('@@BLOCKS__DO'));
+    this.appendStatementInput('func').appendField(i18next.t('BLOCKS_DO'));
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(30);
@@ -77,7 +79,7 @@ Blocks['phaser_time_loop_event'] = {
       .appendField(BlocksTemplate.repeat())
       .appendField(i18next.t('BLOCKS_PHASER_TIME_LOOP_EVENT'));
     this.appendDummyInput().appendField(i18next.t('milliseconds'));
-    this.appendStatementInput('func').appendField(i18next.t('@@BLOCKS__DO'));
+    this.appendStatementInput('func').appendField(i18next.t('BLOCKS_DO'));
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(30);

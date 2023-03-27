@@ -14,12 +14,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import Blockly from 'blockly';
-import { Blocks } from 'blockly';
+import Blockly, { Blocks } from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
 
 import { BlocksHelper } from './BlocksHelper';
@@ -129,7 +130,7 @@ Blocks['phaser_dynamic_text_add'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.addCircle())
-      .appendField(i18next.t('@@BLOCKS__DEFINE'));
+      .appendField(i18next.t('BLOCKS_DEFINE'));
     this.appendDummyInput().appendField(i18next.t('as dynamic text'));
     this.appendValueInput('text').setCheck('String');
     this.appendValueInput('x').setCheck('Number').appendField(i18next.t('on'));
@@ -231,7 +232,7 @@ Blocks['phaser_dynamic_text_highscore_add'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.addCircle())
-      .appendField(i18next.t('@@BLOCKS__DEFINE'));
+      .appendField(i18next.t('BLOCKS_DEFINE'));
     this.appendDummyInput().appendField(
       i18next.t('BLOCKS_PHASER_DYNAMIC_TEXT_ADD_HIGHSCORE')
     );
@@ -336,7 +337,7 @@ Blocks['phaser_action_text_add'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.addCircle())
-      .appendField(i18next.t('@@BLOCKS__DEFINE'));
+      .appendField(i18next.t('BLOCKS_DEFINE'));
     this.appendDummyInput().appendField(i18next.t('as action text'));
     this.appendValueInput('text').setCheck('String');
     this.appendValueInput('x').setCheck('Number').appendField(i18next.t('on'));
@@ -442,7 +443,7 @@ Blocks['phaser_text_change'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.adjust())
-      .appendField(i18next.t('@@BLOCKS__CHANGE'));
+      .appendField(i18next.t('BLOCKS_CHANGE'));
     this.appendValueInput('text').appendField(i18next.t('text to'));
     this.setInputsInline(true);
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
@@ -478,7 +479,7 @@ javascriptGenerator['phaser_text_change'] = function (block) {
 Blocks['phaser_text_get'] = {
   init: function () {
     this.appendValueInput('variable').appendField(
-      i18next.t('@@BLOCKS__GET_TEXT')
+      i18next.t('BLOCKS_GET_TEXT')
     );
     this.setOutput(true, null);
     this.setColour(255);
@@ -508,7 +509,7 @@ javascriptGenerator['phaser_text_get'] = function (block) {
 Blocks['phaser_text_get_number'] = {
   init: function () {
     this.appendValueInput('variable').appendField(
-      i18next.t('@@BLOCKS__GET_NUMBER')
+      i18next.t('BLOCKS_GET_NUMBER')
     );
     this.setOutput(true, null);
     this.setColour(255);
@@ -540,7 +541,7 @@ Blocks['phaser_text_clicked'] = {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.runningMan())
       .appendField(i18next.t('on click on action text'));
-    this.appendStatementInput('func').appendField(i18next.t('@@BLOCKS__DO'));
+    this.appendStatementInput('func').appendField(i18next.t('BLOCKS_DO'));
     this.setInputsInline(true);
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');

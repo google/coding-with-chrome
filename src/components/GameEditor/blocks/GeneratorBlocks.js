@@ -14,12 +14,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import Blockly from 'blockly';
-import { Blocks } from 'blockly';
+import Blockly, { Blocks } from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
 
 import { BlocksHelper } from './BlocksHelper';
@@ -65,7 +66,7 @@ Blocks['phaser_generator_vertical_obstacle'] = {
       .appendField(i18next.t('bottom sprite'));
     this.appendValueInput('group')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField(i18next.t('@@BLOCKS__GROUP'));
+      .appendField(i18next.t('BLOCKS_GROUP'));
     this.appendStatementInput('CODE').setCheck('GeneratorArcadeAttribute');
     this.setInputsInline(false);
     this.setPreviousStatement(true, ['Create']);
@@ -186,7 +187,7 @@ Blocks['phaser_generator_random_vertical_obstacle'] = {
       .appendField(i18next.t('optional sprite'));
     this.appendValueInput('group')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField(i18next.t('@@BLOCKS__GROUP'));
+      .appendField(i18next.t('BLOCKS_GROUP'));
     this.appendDummyInput()
       .setAlign(Blockly.ALIGN_RIGHT)
       .appendField(i18next.t('direction'))
@@ -299,10 +300,10 @@ Blocks['phaser_generator_matrix_block'] = {
     this.appendValueInput('padding')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField(i18next.t('@@BLOCKS__PADDING'));
+      .appendField(i18next.t('BLOCKS_PADDING'));
     this.appendValueInput('group')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField(i18next.t('@@BLOCKS__GROUP'));
+      .appendField(i18next.t('BLOCKS_GROUP'));
     this.appendDummyInput()
       .appendField('  ')
       .appendField(' 0')
@@ -473,7 +474,7 @@ javascriptGenerator['phaser_generator_matrix_block'] = function (block) {
 Blocks['phaser_generator_physics_arcade_attributes'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField(i18next.t('@@BLOCKS__SET'))
+      .appendField(i18next.t('BLOCKS_SET'))
       .appendField(
         new Blockly.FieldDropdown([
           [i18next.t('acceleration'), 'acceleration.set'],
@@ -503,14 +504,14 @@ Blocks['phaser_generator_physics_arcade_attributes'] = {
           [i18next.t('velocity x'), 'velocity.x'],
           [i18next.t('velocity y'), 'velocity.y'],
           [i18next.t('velocity'), 'velocity'],
-          [i18next.t('@@BLOCKS__WIDTH'), 'width'],
-          [i18next.t('@@BLOCKS__HEIGHT'), 'height'],
+          [i18next.t('BLOCKS_WIDTH'), 'width'],
+          [i18next.t('BLOCKS_HEIGHT'), 'height'],
         ]),
         'property'
       );
     this.appendValueInput('value')
       .setCheck('Number')
-      .appendField(i18next.t('@@BLOCKS__TO'));
+      .appendField(i18next.t('BLOCKS_TO'));
     this.setPreviousStatement(true, ['GeneratorArcadeAttribute']);
     this.setNextStatement(true, ['GeneratorArcadeAttribute']);
     this.setInputsInline(true);

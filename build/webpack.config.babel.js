@@ -132,18 +132,12 @@ module.exports = (mode = 'development') => ({
         use: ['file-loader'],
       },
       {
-        test: /\.(eot|ttf|otf)$/,
-        use: ['file-loader'],
-      },
-      {
         test: /\.json$/i,
         type: 'asset/resource',
       },
       {
-        test: /\.(woff|woff2)$/,
-        use: {
-          loader: 'url-loader',
-        },
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
       },
     ],
   },

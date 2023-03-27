@@ -14,12 +14,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import Blockly from 'blockly';
-import { Blocks } from 'blockly';
+import Blockly, { Blocks } from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
 
 import { BlocksHelper } from './BlocksHelper';
@@ -90,7 +91,7 @@ Blocks['phaser_tile_sprite_floor_add'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.addCircle())
-      .appendField(i18next.t('@@BLOCKS__DEFINE'));
+      .appendField(i18next.t('BLOCKS_DEFINE'));
     this.appendDummyInput()
       .appendField(i18next.t('as floor'))
       .appendField(
@@ -161,7 +162,7 @@ Blocks['phaser_tile_sprite_ceiling_add'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.addCircle())
-      .appendField(i18next.t('@@BLOCKS__DEFINE'));
+      .appendField(i18next.t('BLOCKS_DEFINE'));
     this.appendDummyInput()
       .appendField(i18next.t('as ceiling'))
       .appendField(
@@ -232,7 +233,7 @@ Blocks['phaser_tile_sprite_add'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.addCircle())
-      .appendField(i18next.t('@@BLOCKS__DEFINE'));
+      .appendField(i18next.t('BLOCKS_DEFINE'));
     this.appendDummyInput()
       .appendField(i18next.t('as tile sprite'))
       .appendField(
@@ -319,10 +320,10 @@ Blocks['phaser_tile_sprite_adjust'] = {
         [i18next.t('anchor'), 'anchor.set'],
         [i18next.t('buttonMode'), 'buttonMode'],
         [i18next.t('frame'), 'frame'],
-        [i18next.t('@@BLOCKS__HEIGHT'), 'height'],
+        [i18next.t('BLOCKS_HEIGHT'), 'height'],
         [i18next.t('rotation'), 'rotation'],
         [i18next.t('visible'), 'visible'],
-        [i18next.t('@@BLOCKS__WIDTH'), 'width'],
+        [i18next.t('BLOCKS_WIDTH'), 'width'],
         [i18next.t('tile position x'), 'tilePosition.y'],
         [i18next.t('tile position y'), 'tilePosition.y'],
         [i18next.t('x'), 'x'],
@@ -333,7 +334,7 @@ Blocks['phaser_tile_sprite_adjust'] = {
     );
     this.appendValueInput('value')
       .setCheck('Number')
-      .appendField(i18next.t('@@BLOCKS__TO'));
+      .appendField(i18next.t('BLOCKS_TO'));
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(285);
@@ -453,7 +454,7 @@ Blocks['phaser_tile_sprite_destroy'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.point())
-      .appendField(i18next.t('@@BLOCKS__DESTROY'))
+      .appendField(i18next.t('BLOCKS_DESTROY'))
       .appendField(i18next.t('tile sprite'));
     this.appendValueInput('variable');
     this.setInputsInline(true);

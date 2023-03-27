@@ -14,12 +14,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import Blockly from 'blockly';
-import { Blocks } from 'blockly';
+import Blockly, { Blocks } from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
 
 import { BlocksHelper } from './BlocksHelper';
@@ -34,9 +35,9 @@ Blocks['phaser_physics_arcade_sprite_add'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.addCircle())
-      .appendField(i18next.t('@@BLOCKS__DEFINE'));
+      .appendField(i18next.t('BLOCKS_DEFINE'));
     this.appendDummyInput()
-      .appendField(i18next.t('@@BLOCKS__AS'))
+      .appendField(i18next.t('BLOCKS_AS'))
       .appendField(i18next.t('physics sprite'))
       .appendField(
         new Blockly.FieldDropdown(BlocksHelper.phaserImage('player')),
@@ -101,9 +102,9 @@ Blocks['phaser_physics_arcade_sprite_ball_add'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.addCircle())
-      .appendField(i18next.t('@@BLOCKS__DEFINE'));
+      .appendField(i18next.t('BLOCKS_DEFINE'));
     this.appendDummyInput()
-      .appendField(i18next.t('@@BLOCKS__AS'))
+      .appendField(i18next.t('BLOCKS_AS'))
       .appendField(i18next.t('ball'))
       .appendField(
         new Blockly.FieldDropdown(BlocksHelper.phaserImage('ball')),
@@ -177,9 +178,9 @@ Blocks['phaser_physics_arcade_sprite_player_add'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.addCircle())
-      .appendField(i18next.t('@@BLOCKS__DEFINE'));
+      .appendField(i18next.t('BLOCKS_DEFINE'));
     this.appendDummyInput()
-      .appendField(i18next.t('@@BLOCKS__AS'))
+      .appendField(i18next.t('BLOCKS_AS'))
       .appendField(i18next.t('player'))
       .appendField(
         new Blockly.FieldDropdown(BlocksHelper.phaserImage('player')),
@@ -253,9 +254,9 @@ Blocks['phaser_physics_arcade_sprite_paddle_add'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.addCircle())
-      .appendField(i18next.t('@@BLOCKS__DEFINE'));
+      .appendField(i18next.t('BLOCKS_DEFINE'));
     this.appendDummyInput()
-      .appendField(i18next.t('@@BLOCKS__AS'))
+      .appendField(i18next.t('BLOCKS_AS'))
       .appendField(i18next.t('paddle'))
       .appendField(
         new Blockly.FieldDropdown(BlocksHelper.phaserImage('paddle')),
@@ -329,7 +330,7 @@ Blocks['phaser_physics_arcade_sprite_adjust'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.adjust())
-      .appendField(i18next.t('@@BLOCKS__SET'))
+      .appendField(i18next.t('BLOCKS_SET'))
       .appendField(i18next.t('physics sprite'));
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
@@ -341,16 +342,16 @@ Blocks['phaser_physics_arcade_sprite_adjust'] = {
         [i18next.t('bounce'), 'bounce.set'],
         [i18next.t('allow gravity'), 'allowGravity'],
         [
-          i18next.t('@@BLOCKS_PHASER__CHECK_COLLISION_DOWN'),
+          i18next.t('BLOCKS_PHASER_CHECK_COLLISION_DOWN'),
           'checkCollision.down',
         ],
-        [i18next.t('@@BLOCKS_PHASER__CHECK_COLLISION_UP'), 'checkCollision.up'],
+        [i18next.t('BLOCKS_PHASER_CHECK_COLLISION_UP'), 'checkCollision.up'],
         [
-          i18next.t('@@BLOCKS_PHASER__CHECK_COLLISION_LEFT'),
+          i18next.t('BLOCKS_PHASER_CHECK_COLLISION_LEFT'),
           'checkCollision.left',
         ],
         [
-          i18next.t('@@BLOCKS_PHASER__CHECK_COLLISION_RIGHT'),
+          i18next.t('BLOCKS_PHASER_CHECK_COLLISION_RIGHT'),
           'checkCollision.right',
         ],
         [i18next.t('collide world bounds'), 'collideWorldBounds'],
@@ -360,8 +361,8 @@ Blocks['phaser_physics_arcade_sprite_adjust'] = {
         [i18next.t('velocity x'), 'velocity.x'],
         [i18next.t('velocity y'), 'velocity.y'],
         [i18next.t('velocity'), 'velocity'],
-        [i18next.t('@@BLOCKS__WIDTH'), 'width'],
-        [i18next.t('@@BLOCKS__HEIGHT'), 'height'],
+        [i18next.t('BLOCKS_WIDTH'), 'width'],
+        [i18next.t('BLOCKS_HEIGHT'), 'height'],
         [i18next.t('x'), 'x'],
         [i18next.t('y'), 'y'],
         [i18next.t('z'), 'z'],
@@ -370,7 +371,7 @@ Blocks['phaser_physics_arcade_sprite_adjust'] = {
     );
     this.appendValueInput('value')
       .setCheck('Number')
-      .appendField(i18next.t('@@BLOCKS__TO'));
+      .appendField(i18next.t('BLOCKS_TO'));
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(0);
@@ -448,7 +449,7 @@ javascriptGenerator['phaser_physics_arcade_sprite_adjust'] = function (
 Blocks['phaser_physics_arcade_sprite_adjust_custom'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField(i18next.t('@@BLOCKS__SET'))
+      .appendField(i18next.t('BLOCKS_SET'))
       .appendField(
         new Blockly.FieldDropdown([
           [i18next.t('acceleration'), 'acceleration.set'],
@@ -459,19 +460,19 @@ Blocks['phaser_physics_arcade_sprite_adjust_custom'] = {
           [i18next.t('bounce'), 'bounce.set'],
           [i18next.t('allow gravity'), 'allowGravity'],
           [
-            i18next.t('@@BLOCKS_PHASER__CHECK_COLLISION_DOWN'),
+            i18next.t('BLOCKS_PHASER_CHECK_COLLISION_DOWN'),
             'checkCollision.down',
           ],
           [
-            i18next.t('@@BLOCKS_PHASER__CHECK_COLLISION_UP'),
+            i18next.t('BLOCKS_PHASER_CHECK_COLLISION_UP'),
             'checkCollision.up',
           ],
           [
-            i18next.t('@@BLOCKS_PHASER__CHECK_COLLISION_LEFT'),
+            i18next.t('BLOCKS_PHASER_CHECK_COLLISION_LEFT'),
             'checkCollision.left',
           ],
           [
-            i18next.t('@@BLOCKS_PHASER__CHECK_COLLISION_RIGHT'),
+            i18next.t('BLOCKS_PHASER_CHECK_COLLISION_RIGHT'),
             'checkCollision.right',
           ],
           [i18next.t('collide world bounds'), 'collideWorldBounds'],
@@ -481,8 +482,8 @@ Blocks['phaser_physics_arcade_sprite_adjust_custom'] = {
           [i18next.t('velocity x'), 'velocity.x'],
           [i18next.t('velocity y'), 'velocity.y'],
           [i18next.t('velocity'), 'velocity'],
-          [i18next.t('@@BLOCKS__WIDTH'), 'width'],
-          [i18next.t('@@BLOCKS__HEIGHT'), 'height'],
+          [i18next.t('BLOCKS_WIDTH'), 'width'],
+          [i18next.t('BLOCKS_HEIGHT'), 'height'],
           [i18next.t('x'), 'x'],
           [i18next.t('y'), 'y'],
           [i18next.t('z'), 'z'],
@@ -491,7 +492,7 @@ Blocks['phaser_physics_arcade_sprite_adjust_custom'] = {
       );
     this.appendValueInput('value')
       .setCheck('Number')
-      .appendField(i18next.t('@@BLOCKS__TO'));
+      .appendField(i18next.t('BLOCKS_TO'));
     this.setPreviousStatement(true, ['PhysicsArcadeAttribute']);
     this.setNextStatement(true, ['PhysicsArcadeAttribute']);
     this.setInputsInline(true);
@@ -535,7 +536,7 @@ Blocks['phaser_physics_arcade_sprite_adjust_dimension'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.adjust())
-      .appendField(i18next.t('@@BLOCKS__SET'))
+      .appendField(i18next.t('BLOCKS_SET'))
       .appendField(i18next.t('physics sprite'));
     this.appendDummyInput().appendField(i18next.t('dimension to'));
     this.appendValueInput('width').setCheck('Number');
@@ -592,7 +593,7 @@ javascriptGenerator['phaser_physics_arcade_sprite_adjust_dimension'] =
 Blocks['phaser_physics_arcade_sprite_adjust_dimension_custom'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField(i18next.t('@@BLOCKS__SET'))
+      .appendField(i18next.t('BLOCKS_SET'))
       .appendField(i18next.t('dimension to'));
     this.appendValueInput('width').setCheck('Number');
     this.appendValueInput('height').appendField('x').setCheck('Number');
@@ -612,7 +613,7 @@ Blocks['phaser_physics_arcade_sprite_destroy'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.point())
-      .appendField(i18next.t('@@BLOCKS__DESTROY'))
+      .appendField(i18next.t('BLOCKS_DESTROY'))
       .appendField(i18next.t('tile sprite'));
     this.appendValueInput('variable');
     this.setInputsInline(true);
@@ -645,7 +646,7 @@ Blocks['phaser_physics_arcade_sprite_kill'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.point())
-      .appendField(i18next.t('@@BLOCKS__KILL'))
+      .appendField(i18next.t('BLOCKS_KILL'))
       .appendField(i18next.t('tile sprite'));
     this.appendValueInput('variable');
     this.setInputsInline(true);
@@ -678,7 +679,7 @@ Blocks['phaser_physics_arcade_enable'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.point())
-      .appendField(i18next.t('@@BLOCKS_PHASER__PHYSICS_ARCADE_ENABLE'));
+      .appendField(i18next.t('BLOCKS_PHASER_PHYSICS_ARCADE_ENABLE'));
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(0);
@@ -708,9 +709,9 @@ Blocks['phaser_physics_arcade_out_of_bounds'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.collide())
-      .appendField(i18next.t('@@BLOCKS_PHASER__ON_OUT_OF_BOUNDS'));
+      .appendField(i18next.t('BLOCKS_PHASER_ON_OUT_OF_BOUNDS'));
     this.appendValueInput('variable');
-    this.appendStatementInput('CODE').appendField(i18next.t('@@BLOCKS__DO'));
+    this.appendStatementInput('CODE').appendField(i18next.t('BLOCKS_DO'));
     this.setInputsInline(true);
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
@@ -753,7 +754,7 @@ Blocks['phaser_physics_arcade_overlap'] = {
     this.appendValueInput('object1');
     this.appendDummyInput().appendField(i18next.t('and'));
     this.appendValueInput('object2');
-    this.appendStatementInput('CODE').appendField(i18next.t('@@BLOCKS__DO'));
+    this.appendStatementInput('CODE').appendField(i18next.t('BLOCKS_DO'));
     this.setInputsInline(true);
     this.setPreviousStatement(true, 'Update');
     this.setNextStatement(true, 'Update');
@@ -798,7 +799,7 @@ Blocks['phaser_physics_arcade_collide'] = {
   init: function () {
     this.appendValueInput('object1').appendField(BlocksTemplate.collide());
     this.appendDummyInput().appendField(
-      i18next.t('@@BLOCKS_PHASER__COLLIDE_WITH')
+      i18next.t('BLOCKS_PHASER_COLLIDE_WITH')
     );
     this.appendValueInput('object2');
     this.setPreviousStatement(true, 'Update');

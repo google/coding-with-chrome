@@ -14,12 +14,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import Blockly from 'blockly';
-import { Blocks } from 'blockly';
+import Blockly, { Blocks } from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
 
 import { BlocksHelper } from './BlocksHelper';
@@ -34,7 +35,7 @@ Blocks['phaser_create'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.addCircle())
-      .appendField('BLOCKS_PHASER_ON_CREATE');
+      .appendField(i18next.t('BLOCKS_PHASER_ON_CREATE'));
     this.appendStatementInput('CODE')
       .appendField(i18next.t('BLOCKS_DO'))
       .setAlign(Blockly.ALIGN_CENTRE)
@@ -70,7 +71,7 @@ Blocks['phaser_stage_background_color'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.point())
-      .appendField('set background color')
+      .appendField(i18next.t('set background color'))
       .appendField(new Blockly.FieldColour('#000000'), 'color');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
@@ -97,9 +98,9 @@ Blocks['phaser_add_background'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.point())
-      .appendField('add background image')
+      .appendField(i18next.t('add background image'))
       .appendField(
-        new Blockly.FieldDropdown(BlocksHelper['phaser_image']('bg_01')),
+        new Blockly.FieldDropdown(BlocksHelper.phaserImage('bg_01')),
         'sprite'
       )
       .appendField(BlocksTemplate.image());
@@ -128,9 +129,9 @@ Blocks['phaser_add_background_scaled'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.point())
-      .appendField('add background image')
+      .appendField(i18next.t('add background image'))
       .appendField(
-        new Blockly.FieldDropdown(BlocksHelper['phaser_image']('bg_01')),
+        new Blockly.FieldDropdown(BlocksHelper.phaserImage('bg_01')),
         'sprite'
       )
       .appendField(BlocksTemplate.image())

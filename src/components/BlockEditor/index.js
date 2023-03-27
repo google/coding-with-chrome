@@ -41,6 +41,7 @@ import { WindowManager } from '../Desktop/WindowManager';
 import { WindowResizeEvent } from '../Desktop/WindowManager/Events';
 import { javascriptGenerator } from 'blockly/javascript';
 
+import 'material-icons/iconfont/material-icons.css';
 import styles from './style.module.css';
 import './style.global.css';
 
@@ -160,6 +161,7 @@ export class BlockEditor extends React.PureComponent {
         }
       }
       window.dispatchEvent(new Event('resize'));
+      this.resetZoom();
     }
   }
 
@@ -270,6 +272,22 @@ export class BlockEditor extends React.PureComponent {
             toolboxConfiguration={
               this.props.toolbox || this.getToolboxCategory()
             }
+            workspaceConfiguration={{
+              grid: {
+                spacing: 20,
+                length: 3,
+                colour: '#ccc',
+                snap: true,
+              },
+              zoom: {
+                controls: true,
+                startScale: 0.9,
+                maxScale: 3,
+                minScale: 0.3,
+                scaleSpeed: 1.2,
+              },
+              trashcan: false,
+            }}
             initialXml={this.props.content || ''}
             onInject={this.onLoad.bind(this)}
             onXmlChange={(content) => this.setState({ xml: content })}

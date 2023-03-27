@@ -14,23 +14,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
 import './../blocks/InputBlocks.js';
 
 /**
- * @param {*} showCreateBlocks
- * @param {*} hideEventBlocks
  * @return {array}
  */
-export default function (showCreateBlocks = false, hideEventBlocks = false) {
-  showCreateBlocks && hideEventBlocks;
-  return [
-    {
-      kind: 'block',
-      blockxml: `
+const keyboard_input = [
+  {
+    kind: 'block',
+    blockxml: `
   <block type="phaser_input_keyboard_cursor_keys_add">
     <value name="variable">
       <block type="variables_get">
@@ -38,10 +36,10 @@ export default function (showCreateBlocks = false, hideEventBlocks = false) {
       </block>
     </value>
   </block>`,
-    },
-    {
-      kind: 'block',
-      blockxml: `
+  },
+  {
+    kind: 'block',
+    blockxml: `
   <block type="phaser_input_keyboard_spacebar_add">
     <value name="variable">
       <block type="variables_get">
@@ -49,10 +47,10 @@ export default function (showCreateBlocks = false, hideEventBlocks = false) {
       </block>
     </value>
   </block>`,
-    },
-    {
-      kind: 'block',
-      blockxml: `
+  },
+  {
+    kind: 'block',
+    blockxml: `
   <block type="phaser_input_keyboard_wasd_keys_add">
     <value name="variable">
       <block type="variables_get">
@@ -60,10 +58,10 @@ export default function (showCreateBlocks = false, hideEventBlocks = false) {
       </block>
     </value>
   </block>`,
-    },
-    {
-      kind: 'block',
-      blockxml: `
+  },
+  {
+    kind: 'block',
+    blockxml: `
   <block type="phaser_input_keyboard_shift_add">
     <value name="variable">
       <block type="variables_get">
@@ -71,10 +69,10 @@ export default function (showCreateBlocks = false, hideEventBlocks = false) {
       </block>
     </value>
   </block>`,
-    },
-    {
-      kind: 'block',
-      blockxml: `
+  },
+  {
+    kind: 'block',
+    blockxml: `
   <block type="phaser_input_keyboard_key_add">
     <value name="variable">
       <block type="variables_get">
@@ -82,10 +80,16 @@ export default function (showCreateBlocks = false, hideEventBlocks = false) {
       </block>
     </value>
   </block>`,
-    },
-    {
-      kind: 'block',
-      blockxml: `
+  },
+];
+
+/**
+ * @return {array}
+ */
+const mouse_input = [
+  {
+    kind: 'block',
+    blockxml: `
   <block type="phaser_input_mouse_keys_add">
     <value name="variable">
       <block type="variables_get">
@@ -93,14 +97,20 @@ export default function (showCreateBlocks = false, hideEventBlocks = false) {
       </block>
     </value>
   </block>`,
-    },
-    {
-      kind: 'block',
-      type: 'phaser_input',
-    },
-    {
-      kind: 'block',
-      blockxml: `
+  },
+];
+
+/**
+ * @return {array}
+ */
+const input_body = [
+  {
+    kind: 'block',
+    type: 'phaser_input',
+  },
+  {
+    kind: 'block',
+    blockxml: `
   <block type="phaser_input_body">
     <statement name="CODE">
       <block type="controls_if">
@@ -173,10 +183,10 @@ export default function (showCreateBlocks = false, hideEventBlocks = false) {
       </block>
     </statement>
   </block>`,
-    },
-    {
-      kind: 'block',
-      blockxml: `
+  },
+  {
+    kind: 'block',
+    blockxml: `
   <block type="phaser_input_body">
     <statement name="CODE">
       <block type="controls_if">
@@ -207,10 +217,10 @@ export default function (showCreateBlocks = false, hideEventBlocks = false) {
       </block>
     </statement>
   </block>`,
-    },
-    {
-      kind: 'block',
-      blockxml: `
+  },
+  {
+    kind: 'block',
+    blockxml: `
   <block type="phaser_input_body">
     <statement name="CODE">
       <block type="controls_if">
@@ -268,10 +278,16 @@ export default function (showCreateBlocks = false, hideEventBlocks = false) {
       </block>
     </statement>
   </block>`,
-    },
-    {
-      kind: 'block',
-      blockxml: `
+  },
+];
+
+/**
+ * @return {array}
+ */
+const create_blocks = [
+  {
+    kind: 'block',
+    blockxml: `
   <block type="phaser_input_keyboard_cursor_is_pressed">
     <field name="direction">up.isDown</field>
     <value name="cursors">
@@ -280,10 +296,10 @@ export default function (showCreateBlocks = false, hideEventBlocks = false) {
       </block>
     </value>
   </block>`,
-    },
-    {
-      kind: 'block',
-      blockxml: `
+  },
+  {
+    kind: 'block',
+    blockxml: `
   <block type="phaser_input_keyboard_cursor_is_hold_pressed">
     <field name="direction">up.isDown</field>
     <value name="cursors">
@@ -292,10 +308,10 @@ export default function (showCreateBlocks = false, hideEventBlocks = false) {
       </block>
     </value>
   </block>`,
-    },
-    {
-      kind: 'block',
-      blockxml: `
+  },
+  {
+    kind: 'block',
+    blockxml: `
   <block type="phaser_input_keyboard_key_is_pressed">
     <value name="key">
       <block type="variables_get">
@@ -303,10 +319,10 @@ export default function (showCreateBlocks = false, hideEventBlocks = false) {
       </block>
     </value>
   </block>`,
-    },
-    {
-      kind: 'block',
-      blockxml: `
+  },
+  {
+    kind: 'block',
+    blockxml: `
   <block type="phaser_input_keyboard_key_is_hold_pressed">
     <value name="key">
       <block type="variables_get">
@@ -314,10 +330,10 @@ export default function (showCreateBlocks = false, hideEventBlocks = false) {
       </block>
     </value>
   </block>`,
-    },
-    {
-      kind: 'block',
-      blockxml: `
+  },
+  {
+    kind: 'block',
+    blockxml: `
   <block type="phaser_input_mouse_key_is_pressed">
     <field name="direction">leftButton.isDown</field>
     <value name="mouse">
@@ -326,10 +342,10 @@ export default function (showCreateBlocks = false, hideEventBlocks = false) {
       </block>
     </value>
   </block>`,
-    },
-    {
-      kind: 'block',
-      blockxml: `
+  },
+  {
+    kind: 'block',
+    blockxml: `
   <block type="phaser_input_mouse_key_is_hold_pressed">
     <field name="direction">leftButton.isDown</field>
     <value name="mouse">
@@ -338,10 +354,10 @@ export default function (showCreateBlocks = false, hideEventBlocks = false) {
       </block>
     </value>
   </block>`,
-    },
-    {
-      kind: 'block',
-      blockxml: `
+  },
+  {
+    kind: 'block',
+    blockxml: `
   <block type="controls_if">
     <mutation elseif="0"></mutation>
     <value name="IF0">
@@ -354,10 +370,10 @@ export default function (showCreateBlocks = false, hideEventBlocks = false) {
       </block>
     </value>
   </block>`,
-    },
-    {
-      kind: 'block',
-      blockxml: `
+  },
+  {
+    kind: 'block',
+    blockxml: `
   <block type="controls_if">
     <mutation elseif="3"></mutation>
     <value name="IF0">
@@ -401,10 +417,10 @@ export default function (showCreateBlocks = false, hideEventBlocks = false) {
       </block>
     </value>
   </block>`,
-    },
-    {
-      kind: 'block',
-      blockxml: `
+  },
+  {
+    kind: 'block',
+    blockxml: `
   <block type="controls_if">
     <mutation elseif="0"></mutation>
     <value name="IF0">
@@ -418,6 +434,28 @@ export default function (showCreateBlocks = false, hideEventBlocks = false) {
       </block>
     </value>
   </block>`,
-    },
-  ];
+  },
+];
+
+/**
+ * @param {*} showCreateBlocks
+ * @param {*} hideEventBlocks
+ * @return {array}
+ */
+export default function (showCreateBlocks = false, hideEventBlocks = false) {
+  let result = [];
+  if (showCreateBlocks) {
+    result = result.concat(keyboard_input);
+    result = result.concat(mouse_input);
+  }
+
+  if (!showCreateBlocks && !hideEventBlocks) {
+    result = result.concat(input_body);
+  }
+
+  if (!showCreateBlocks) {
+    result = result.concat(create_blocks);
+  }
+
+  return result;
 }
