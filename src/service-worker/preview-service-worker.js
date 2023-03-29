@@ -1,5 +1,5 @@
 /**
- * @license Copyright 2020 The Coding with Chrome Authors.
+ * @license Copyright 2023 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,23 +17,24 @@
 /**
  * @author mbordihn@google.com (Markus Bordihn)
  *
- * @fileoverview Service Worker Cache.
+ * @fileoverview Service Worker Preview.
  */
 
 import { EventHandler } from '../utils/event/EventHandler';
 import { EventType } from '../utils/event/EventType';
 
 /**
- * Service Worker Cache class
+ * Service Worker Preview class
  */
-export class CacheWorker {
+export class PreviewWorker {
   /**
    * @constructor
    */
   constructor() {
-    this.events = new EventHandler('Service Worker: Cache', '', this);
+    this.events = new EventHandler('Service Worker: Preview', '', this);
     this.registered = false;
-    this.version = 'v1';
+    this.cacheName = 'PreviewV1';
+    this.register();
   }
 
   /**
@@ -43,7 +44,7 @@ export class CacheWorker {
     if (this.registered) {
       return;
     }
-    console.log('Register Cache Service Worker ...');
+    console.log('Register Preview Service Worker ...');
     this.events.listen(self, EventType.ACTIVATE, this.activate);
     this.events.listen(self, EventType.INSTALL, this.install);
     this.events.listen(self, EventType.FETCH, this.fetch);
@@ -62,7 +63,7 @@ export class CacheWorker {
    * Install event.
    */
   install() {
-    console.log('Install Cache Service Worker ...');
+    console.log('Install Preview Service Worker ...');
   }
 
   /**
@@ -70,22 +71,37 @@ export class CacheWorker {
    * @param {*} event
    */
   fetch(event) {
-    if (event.request && event.request.url.startsWith('chrome-extension://')) {
+    if (
+      event.request &&
+      (event.request.url.startsWith('chrome-extension://') ||
+        !event.request.url.includes('/preview'))
+    ) {
       return;
     }
-    console.log('Fetch request', event);
-    event.respondWith(
-      caches.open(this.version).then(function (cache) {
-        return cache.match(event.request).then(function (response) {
-          return (
-            response ||
-            fetch(event.request).then(function (response) {
-              cache.put(event.request, response.clone());
-              return response;
-            })
-          );
-        });
-      })
-    );
+    console.log('Preview fetch request', event);
+    if (event.request.method === 'POST') {
+      event.respondWith(
+        caches.open(this.cacheName).then((cache) => {
+          return event.request.text().then((text) => {
+            const response = new Response(text);
+            cache.put(event.request, response.clone());
+            return response;
+          });
+        })
+      );
+    } else if (event.request.method === 'GET') {
+      event.respondWith(
+        caches.match(event.request).then((response) => {
+          if (response) {
+            return response;
+          } else {
+            return new Response('Not found');
+          }
+        })
+      );
+    }
   }
 }
+
+// Initialize Service Worker
+new PreviewWorker();

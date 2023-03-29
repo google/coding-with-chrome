@@ -37,7 +37,7 @@ SplashScreen.addStep('Loading Service Worker ...', () => {
   return new Promise((resolve) => {
     import('./service-worker/InstallWorker').then((module) => {
       new module.InstallWorker().register();
-      resolve();
+      resolve(true);
     });
   });
 });
@@ -45,7 +45,7 @@ SplashScreen.addStep('Loading kernel ...', () => {
   return new Promise((resolve) => {
     import('./kernel/Kernel').then((module) => {
       module.kernel.boot();
-      resolve();
+      resolve(true);
     });
   });
 });
@@ -53,7 +53,7 @@ SplashScreen.addStep('Loading User Config ...', () => {
   return new Promise((resolve) => {
     import('./config/UserConfig').then((module) => {
       new module.UserConfig();
-      resolve();
+      resolve(true);
     });
   });
 });
@@ -67,7 +67,7 @@ SplashScreen.addStep('Loading App ...', () => {
     import('./components/App/index.js').then((module) => {
       module.render(screen.add('app', 'Main app'));
       screen.hide('app');
-      resolve();
+      resolve(true);
     });
   });
 });
@@ -75,7 +75,7 @@ SplashScreen.addStep('Cleanup ...', () => {
   return new Promise((resolve) => {
     screen.remove('splash-screen');
     screen.show('app');
-    resolve();
+    resolve(true);
   });
 });
 SplashScreen.execute();

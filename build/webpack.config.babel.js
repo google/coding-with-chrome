@@ -48,14 +48,17 @@ module.exports = (mode = 'development') => ({
   },
   entry: {
     boot: ['./src/boot.js', './assets/css/boot.css'],
-    serviceWorker: ['./src/service-worker/service-worker.js'],
+    cacheServiceWorker: ['./src/service-worker/cache-service-worker.js'],
+    previewServiceWorker: ['./src/service-worker/preview-service-worker.js'],
   },
   output: {
     publicPath: '/',
     path: path.join(__dirname, '..', 'dist'),
     filename: (pathData) => {
-      if (pathData.chunk.name === 'serviceWorker') {
-        return 'service-worker.js';
+      if (pathData.chunk.name === 'cacheServiceWorker') {
+        return 'cache-service-worker.js';
+      } else if (pathData.chunk.name === 'previewServiceWorker') {
+        return 'preview-service-worker.js';
       }
       return mode == 'development'
         ? 'js/[name].js'

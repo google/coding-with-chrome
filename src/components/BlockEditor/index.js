@@ -86,6 +86,20 @@ export class BlockEditor extends React.PureComponent {
     const code = javascriptGenerator.workspaceToCode(this.blockyWorkspace);
     this.codeEditor.current.setValue(code);
     this.setState({ showEditor: true });
+
+    // Save preview
+    const formData = new FormData();
+    formData.append('text', code);
+    fetch('/preview', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => {
+        console.log('Text upload successful:', response);
+      })
+      .catch((error) => {
+        console.error('Text upload error:', error);
+      });
   }
 
   /**

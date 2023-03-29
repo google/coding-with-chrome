@@ -20,6 +20,9 @@
  * @fileoverview Service Worker installer.
  */
 
+import './cache-service-worker';
+import './preview-service-worker';
+
 /**
  * Install Worker class
  */
@@ -41,40 +44,63 @@ export class InstallWorker {
   register() {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
-        .register('/service-worker.js', { scope: './' })
+        .register('/cache-service-worker.js', { scope: './' })
         .then(
           function (registration) {
             console.log(
-              'ServiceWorker registration successful with scope: ',
+              'Register Cache Service Worker successful with scope: ',
               registration.scope
             );
           },
           function (error) {
-            console.error('ServiceWorker registration failed: ', error);
+            console.error('Cache Service Worker registration failed: ', error);
+          }
+        );
+      navigator.serviceWorker
+        .register('/preview-service-worker.js', { scope: './preview' })
+        .then(
+          function (registration) {
+            console.log(
+              'Register Preview Service Worker successful with scope: ',
+              registration.scope
+            );
+          },
+          function (error) {
+            console.error(
+              'Preview Service Worker registration failed: ',
+              error
+            );
           }
         );
     } else {
-      console.warn('Unable to setup ServiceWorker!');
+      console.warn('Unable to setup Service Worker!');
+      return;
     }
 
-    if ('caches' in window && this.assets) {
-      console.log('Adding assets to local browser cache...');
-      caches.open('v1').then((cache) => {
-        console.log(cache.matchAll(''));
-        cache.addAll(this.assets).then(
-          () => {
-            console.log(
-              'Added the following assets to the cache service:',
-              this.assets
-            );
-          },
-          () => {
-            console.error(
-              'Unable to add the following assets to the cache service:',
-              this.assets
-            );
-          }
-        );
+    if ('caches' in window) {
+      if (this.assets) {
+        console.log('Adding assets to local browser cache...');
+        caches.open('CacheV1').then((cache) => {
+          console.log(cache.matchAll(''));
+          cache.addAll(this.assets).then(
+            () => {
+              console.log(
+                'Added the following assets to the cache service:',
+                this.assets
+              );
+            },
+            () => {
+              console.error(
+                'Unable to add the following assets to the cache service:',
+                this.assets
+              );
+            }
+          );
+        });
+      }
+      console.log('Prepare local preview cache...');
+      caches.open('PreviewV1').then((cache) => {
+        console.log('Preview Cache is ready!', cache);
       });
     } else {
       console.warn('Unable to setup local browser cache!');
