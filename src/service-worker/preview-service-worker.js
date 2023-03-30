@@ -35,6 +35,7 @@ export class PreviewWorker {
     this.registered = false;
     this.cacheName = 'PreviewV1';
     this.register();
+    this.counter = 0;
   }
 
   /**
@@ -90,6 +91,11 @@ export class PreviewWorker {
         })
       );
     } else if (event.request.method === 'GET') {
+      if (event.request.url.endsWith('/preview/test123')) {
+        event.respondWith(new Response('Hello World! ' + this.counter++));
+        return;
+      }
+      console.log(event.request.url);
       event.respondWith(
         caches.match(event.request).then((response) => {
           if (response) {

@@ -28,6 +28,7 @@ import CodeIcon from '@mui/icons-material/Code';
 import ExtensionIcon from '@mui/icons-material/Extension';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
+import PreviewIcon from '@mui/icons-material/Preview';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import Tooltip from '@mui/material/Tooltip';
@@ -110,6 +111,20 @@ export class Launcher extends React.PureComponent {
     });
   }
 
+  /** Open Preview */
+  openPreview() {
+    console.debug('Open Preview');
+    import('../../Preview').then((module) => {
+      WindowManager.addNewWindow('Preview').then((windowId) => {
+        const node = WindowManager.getWindowNode(windowId);
+        if (node instanceof HTMLElement) {
+          const root = ReactDOM.createRoot(node);
+          root.render(<module.Preview windowId={windowId} />);
+        }
+      });
+    });
+  }
+
   /** Open Terminal */
   openTerminal() {
     console.debug('Open Terminal');
@@ -186,6 +201,17 @@ export class Launcher extends React.PureComponent {
               onClick={this.openCodeEditor}
             >
               <CodeIcon />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title="Open Preview">
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="File"
+              onClick={this.openPreview}
+            >
+              <PreviewIcon />
             </IconButton>
           </Tooltip>
 
