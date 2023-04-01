@@ -21,12 +21,13 @@
  */
 
 import * as ReactDOM from 'react-dom/client';
-import React from 'react';
-import { Suspense } from 'react';
-
+import React, { Suspense } from 'react';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import './i18next.js';
 
 import { DesktopApp } from './../Desktop';
+import { GameEditor } from '../GameEditor/index.js';
+import { SelectScreen } from '../SelectScreen/index.js';
 
 /**
  * @param {HTMLElement} node
@@ -35,7 +36,13 @@ export function render(node) {
   const root = ReactDOM.createRoot(node);
   root.render(
     <Suspense fallback="...is loading">
-      <DesktopApp />
+      <Router>
+        <Routes>
+          <Route path="/desktop" element={<DesktopApp />} />
+          <Route path="/game_editor" element={<GameEditor />} />
+          <Route path="/" element={<SelectScreen />} />
+        </Routes>
+      </Router>
     </Suspense>
   );
 }

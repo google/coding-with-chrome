@@ -20,8 +20,10 @@
  * @fileoverview Preview for the desktop screen.
  */
 
+import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import CachedIcon from '@mui/icons-material/Cached';
+import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
@@ -42,11 +44,12 @@ export class Preview extends React.PureComponent {
    */
   constructor(props) {
     super(props);
-    this.state = { location: '', loaded: false };
+    this.state = { location: '', loaded: false, loading: false };
     this.windowId = props.windowId;
     this.toolbar = React.createRef();
     this.contentWrapper = React.createRef();
     this.contentIframe = React.createRef();
+    this.contentLoadTimer = null;
   }
 
   /**
@@ -60,6 +63,12 @@ export class Preview extends React.PureComponent {
    * @param {string} location
    */
   setPreviewLocation(location = '') {
+    if (!this.contentIframe) {
+      return;
+    }
+    if (!location.startsWith('/preview/')) {
+      location = '/preview/' + location;
+    }
     if (location.startsWith('/')) {
       location = location.substring(1);
     }
@@ -69,6 +78,11 @@ export class Preview extends React.PureComponent {
     console.log('Change preview location', location);
     this.setState({ location: location });
     this.setState({ loaded: false });
+    this.setState({ loading: true });
+    this.contentLoadTimer = setTimeout(() => {
+      console.warn('Timeout ...');
+      this.stop();
+    }, 10000);
     this.contentIframe.current.src = location;
   }
 
@@ -83,7 +97,12 @@ export class Preview extends React.PureComponent {
    * @param {event} opt_event
    */
   handleContentIframeLoad(opt_event) {
+    console.log('Iframe Content Loaded ...');
     this.setState({ loaded: true });
+    this.setState({ loading: false });
+    if (this.contentLoadTimer) {
+      clearTimeout(this.contentLoadTimer);
+    }
   }
 
   /**
@@ -108,6 +127,12 @@ export class Preview extends React.PureComponent {
    * Reloads the iframe content.
    */
   reload() {
+    if (!this.contentIframe) {
+      return;
+    }
+    console.log('Reloading Iframe ...');
+    this.setState({ loaded: false });
+    this.setState({ loading: true });
     this.contentIframe.current.contentWindow.location.reload();
   }
 
@@ -115,8 +140,13 @@ export class Preview extends React.PureComponent {
    * Stops the iframe content.
    */
   stop() {
+    if (!this.contentIframe) {
+      return;
+    }
+    console.log('Stopping Iframe ...');
     this.contentIframe.current.contentWindow.stop();
     this.setState({ loaded: false });
+    this.setState({ loading: false });
   }
 
   /**
@@ -136,12 +166,13 @@ export class Preview extends React.PureComponent {
           <IconButton color="primary" sx={{ p: '10px' }} aria-label="menu">
             <MenuIcon />
           </IconButton>
-          <span>/</span>
+          <span className={styles.locationBarPrefix}>/preview/</span>
           <InputBase
             color="primary"
             sx={{ paddingTop: '3px', marginLeft: '1px', ml: 1, flex: 1 }}
             size="small"
-            placeholder="preview/test123"
+            placeholder="test123"
+            className={styles.locationBar}
             onChange={this.handleChangeInput.bind(this)}
             onKeyPress={this.handleKeyPress.bind(this)}
           />
@@ -179,6 +210,18 @@ export class Preview extends React.PureComponent {
           )}
         </Box>
         <Box className={styles.contentWrapper} ref={this.contentWrapper}>
+          {this.state.loading && (
+            <Backdrop
+              className={styles.contentLoadingScreen}
+              sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={this.state.loading}
+            >
+              <CircularProgress color="inherit" />
+              <span className={styles.contentLoadingScreenTitle}>
+                Loading ...
+              </span>
+            </Backdrop>
+          )}
           <iframe
             ref={this.contentIframe}
             src="preview/"

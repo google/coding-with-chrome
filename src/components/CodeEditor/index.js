@@ -20,29 +20,31 @@
  * @fileoverview Editor for the desktop screen.
  */
 
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+import { Ace } from 'ace-builds';
 import AceEditor from 'react-ace';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CodeIcon from '@mui/icons-material/Code';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import PreviewIcon from '@mui/icons-material/Preview';
 import PropTypes from 'prop-types';
 import React from 'react';
 import RedoIcon from '@mui/icons-material/Redo';
 import Toolbar from '@mui/material/Toolbar';
 import UndoIcon from '@mui/icons-material/Undo';
 
+import 'ace-builds/src-noconflict/ext-language_tools';
 import 'ace-builds/src-noconflict/mode-java';
 import 'ace-builds/src-noconflict/theme-github';
-import 'ace-builds/src-noconflict/ext-language_tools';
 
 import { WindowManager } from '../Desktop/WindowManager';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import { WindowResizeEvent } from '../Desktop/WindowManager/Events';
 
 import styles from './style.module.css';
-// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-import { Ace } from 'ace-builds';
+import { PreviewService } from '../../service-worker/preview-service-worker';
 
 /**
  *
@@ -121,6 +123,13 @@ export class CodeEditor extends React.PureComponent {
   }
 
   /**
+   * @param {event} opt_event
+   */
+  handlePreview(opt_event) {
+    PreviewService.saveHTMLFile('index.html', this.getValue());
+  }
+
+  /**
    * Resize editor content to parent container.
    */
   resize() {
@@ -138,7 +147,8 @@ export class CodeEditor extends React.PureComponent {
             this.editorInstance.container.style.height =
               parentElement.clientHeight -
               this.toolbar.current.clientHeight -
-              this.infobar.current.clientHeight +
+              this.infobar.current.clientHeight -
+              1 +
               'px';
           } else {
             this.editorInstance.container.style.height =
@@ -195,6 +205,14 @@ export class CodeEditor extends React.PureComponent {
                 <CodeIcon />
               </IconButton>
             )}
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="preview"
+              onClick={this.handlePreview.bind(this)}
+            >
+              <PreviewIcon />
+            </IconButton>
           </Toolbar>
         </AppBar>
         <AceEditor
@@ -214,6 +232,7 @@ export class CodeEditor extends React.PureComponent {
 }
 
 CodeEditor.propTypes = {
-  blockEditor: PropTypes.elementType,
-  windowId: PropTypes.string.isRequired,
+  blockEditor: PropTypes.object,
+  projectId: PropTypes.string,
+  windowId: PropTypes.string,
 };

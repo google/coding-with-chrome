@@ -55,6 +55,7 @@ module.exports = (mode = 'development') => ({
     publicPath: '/',
     path: path.join(__dirname, '..', 'dist'),
     filename: (pathData) => {
+      // Exclude service workers from hashing.
       if (pathData.chunk.name === 'cacheServiceWorker') {
         return 'cache-service-worker.js';
       } else if (pathData.chunk.name === 'previewServiceWorker') {
@@ -216,6 +217,14 @@ module.exports = (mode = 'development') => ({
         {
           from: './locales',
           to: './locales',
+          globOptions: {
+            dot: true,
+            gitignore: true,
+          },
+        },
+        {
+          from: './third_party/phaser-ce/build/phaser.min.js',
+          to: './framework/phaser.min.js',
           globOptions: {
             dot: true,
             gitignore: true,

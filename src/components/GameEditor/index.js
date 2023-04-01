@@ -20,10 +20,23 @@
  * @fileoverview Editor for the desktop screen.
  */
 
-import React from 'react';
+import Button from '@mui/material/Button';
+import CasinoIcon from '@mui/icons-material/Casino';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import PropTypes from 'prop-types';
+import React from 'react';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import i18next from 'i18next';
+import { v4 as uuidv4 } from 'uuid';
 
-import { javascriptGenerator } from 'blockly/javascript';
+import ProjectNameGenerator from './generator/ProjectNameGenerator';
+import PhaserTemplate from './template/PhaserTemplate';
+import BlocklyTemplate from './template/BlocklyTemplate';
 
 import { BlockEditor } from '../BlockEditor';
 import { Toolbox } from './toolbox';
@@ -37,46 +50,46 @@ export class GameEditor extends React.PureComponent {
    */
   constructor(props) {
     super(props);
-    this.windowId = props.windowId;
-    this.blockyWorkspace = null;
-
     this.state = {
-      xml: '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="text" x="70" y="30"><field name="TEXT"></field></block></xml>',
-      javascriptCode: '',
+      projectName: ProjectNameGenerator.generate(i18next.resolvedLanguage),
+      projectId: uuidv4(),
+      projectDescription: '',
+      showGameSetup: true,
+      xml: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
     };
+    this.blockyWorkspace = null;
   }
 
   /**
-   *
+   * @param {any} opt_event
    */
-  showCodeEditor() {
-    console.log('Show Code Editor ...');
-    const code = javascriptGenerator.workspaceToCode(this.blockyWorkspace);
-    console.log(code);
+  handleGameSetupClose(opt_event) {
+    // Separate steps to make sure xml is updated before showing the editor.
+    this.setState({
+      xml: BlocklyTemplate.render(this.state.projectName),
+    });
+    this.setState({ showGameSetup: false });
   }
 
   /**
-   * @param {any} newValue
+   * @param {any} opt_event
    */
-  onChange(newValue) {
-    console.log('change', newValue, this.blockyWorkspace);
+  handleRandomProjectName(opt_event) {
+    this.setState({
+      projectName: ProjectNameGenerator.generate(i18next.resolvedLanguage),
+    });
   }
 
   /**
-   * @param {any} blockEditorInstance
+   * @param {any} event
    */
-  onLoad(blockEditorInstance) {
-    this.blockyWorkspace = blockEditorInstance;
-    console.debug('Editor Instance: ', this.blockyWorkspace);
-  }
-
-  /**
-   * Resize editor content to parent container.
-   */
-  resize() {
-    if (this.blockyWorkspace) {
-      console.log(this.blockyWorkspace);
-      window.dispatchEvent(new Event('resize'));
+  handleProjectNameChange(event) {
+    const projectName = event.target.value;
+    if (
+      projectName.trim().length === 0 &&
+      projectName != this.state.projectName
+    ) {
+      this.setState({ projectName });
     }
   }
 
@@ -86,16 +99,69 @@ export class GameEditor extends React.PureComponent {
   render() {
     return (
       <React.StrictMode>
-        <BlockEditor
-          content={this.state.xml}
-          toolbox={Toolbox.getToolbox()}
-          windowId={this.props.windowId}
-        />
+        <Dialog
+          onClose={this.handleGameSetupClose.bind(this)}
+          open={this.state.showGameSetup}
+          disablePortal
+        >
+          <DialogTitle>
+            New Game Project
+            <Typography variant="caption" display="block">
+              ID: {this.state.projectId}
+            </Typography>
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Here you can setup your new game project.
+            </DialogContentText>
+            <TextField
+              required
+              autoFocus
+              fullWidth
+              margin="dense"
+              id="project_name"
+              label="Project Name"
+              variant="standard"
+              value={this.state.projectName}
+              onChange={this.handleProjectNameChange.bind(this)}
+              InputProps={{
+                endAdornment: (
+                  <Button onClick={this.handleRandomProjectName.bind(this)}>
+                    <CasinoIcon />
+                  </Button>
+                ),
+              }}
+            />
+            <TextField
+              maxRows={2}
+              multiline
+              fullWidth
+              id="outlined-multiline-flexible"
+              label="Project Description"
+              margin="dense"
+              variant="standard"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleGameSetupClose.bind(this)}>
+              Create Project
+            </Button>
+          </DialogActions>
+        </Dialog>
+        {!this.state.showGameSetup && (
+          <BlockEditor
+            content={this.state.xml}
+            toolbox={Toolbox.getToolbox()}
+            template={PhaserTemplate.render}
+            projectId={this.state.projectId}
+            windowId={this.props.windowId}
+          />
+        )}
       </React.StrictMode>
     );
   }
 }
 
 GameEditor.propTypes = {
-  windowId: PropTypes.string.isRequired,
+  windowId: PropTypes.string,
 };

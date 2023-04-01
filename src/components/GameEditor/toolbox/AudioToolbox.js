@@ -41,7 +41,7 @@ const create_blocks = [
   {
     kind: 'block',
     blockxml: `
-        <block type="phaser_audio_add">
+    <block type="phaser_audio_add">
       <value name="variable">
         <block type="variables_get">
           <field name="VAR">sound</field>

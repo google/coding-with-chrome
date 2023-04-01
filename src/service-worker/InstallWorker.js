@@ -20,8 +20,8 @@
  * @fileoverview Service Worker installer.
  */
 
-import './cache-service-worker';
-import './preview-service-worker';
+import { CacheService } from './cache-service-worker';
+import { PreviewService } from './preview-service-worker';
 
 /**
  * Install Worker class
@@ -79,8 +79,10 @@ export class InstallWorker {
 
     if ('caches' in window) {
       if (this.assets) {
-        console.log('Adding assets to local browser cache...');
-        caches.open('CacheV1').then((cache) => {
+        console.log(
+          `Adding ${this.assets.length} assets to local browser cache...`
+        );
+        caches.open(CacheService.cacheName).then((cache) => {
           console.log(cache.matchAll(''));
           cache.addAll(this.assets).then(
             () => {
@@ -98,12 +100,13 @@ export class InstallWorker {
           );
         });
       }
-      console.log('Prepare local preview cache...');
-      caches.open('PreviewV1').then((cache) => {
-        console.log('Preview Cache is ready!', cache);
-      });
     } else {
-      console.warn('Unable to setup local browser cache!');
+      console.warn('Unable to setup Cache Service cache!');
     }
+
+    console.log('Prepare local preview cache...');
+    caches.open(PreviewService.cacheName).then((cache) => {
+      console.log('Preview Cache is ready!', cache);
+    });
   }
 }

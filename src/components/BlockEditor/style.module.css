@@ -15,6 +15,10 @@
  */
 
 .fill {
+  height: calc(100vh - 48px);
+}
+
+.fillWindow {
   height: calc(100vh - 114px);
 }
 

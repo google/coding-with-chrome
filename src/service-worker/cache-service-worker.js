@@ -26,14 +26,17 @@ import { EventType } from '../utils/event/EventType';
 /**
  * Service Worker Cache class
  */
-export class CacheWorker {
+export class CacheService {
+  static cacheName = 'CacheV1';
+
   /**
    * @constructor
    */
   constructor() {
     this.events = new EventHandler('Service Worker: Cache', '', this);
     this.registered = false;
-    this.cacheName = 'CacheV1';
+    this.denyList =
+      /^(http|https):\/\/([^/]+)\/(upload|preview|framework)\/[^/]+\/?/;
     this.register();
   }
 
@@ -44,7 +47,9 @@ export class CacheWorker {
     if (this.registered) {
       return;
     }
-    console.log('Register Cache Service Worker ...');
+    console.log(
+      `Register Cache Service Worker with cache ${CacheService.cacheName} ...`
+    );
     this.events.listen(self, EventType.ACTIVATE, this.activate);
     this.events.listen(self, EventType.INSTALL, this.install);
     this.events.listen(self, EventType.FETCH, this.fetch);
@@ -72,17 +77,16 @@ export class CacheWorker {
    */
   fetch(event) {
     if (
-      event.request &&
-      (event.request.url.startsWith('chrome-extension://') ||
-        event.request.url.startsWith('ws://') ||
-        event.request.url.startsWith('upload') ||
-        event.request.url.includes('/preview'))
+      event.request == null ||
+      event.request.url.startsWith('chrome-extension://') ||
+      event.request.url.startsWith('ws://') ||
+      this.denyList.test(event.request.url)
     ) {
       return;
     }
     console.log('Cache fetch request', event);
     event.respondWith(
-      caches.open(this.cacheName).then(function (cache) {
+      caches.open(CacheService.cacheName).then(function (cache) {
         return cache.match(event.request).then(function (response) {
           return (
             response ||
@@ -98,4 +102,4 @@ export class CacheWorker {
 }
 
 // Initialize Service Worker
-new CacheWorker();
+new CacheService();

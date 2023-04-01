@@ -49,7 +49,7 @@ export class WindowManager extends React.PureComponent {
   static DEFAULT_WINDOW_OPTIONS = {
     title: 'Unnamed',
     width: 500,
-    height: 300,
+    height: 400,
     x: 'center',
     y: 50,
     noClose: false,
@@ -244,7 +244,7 @@ export class WindowManager extends React.PureComponent {
             title={this.state.windows.get(key).title}
             width={this.state.windows.get(key).width}
             height={this.state.windows.get(key).height}
-            minHeight={150}
+            minHeight={160}
             top={50}
             onclose={(force) => this.handleClose(key, force)}
             onresize={(width, height) => this.handleResize(key, width, height)}

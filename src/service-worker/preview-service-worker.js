@@ -26,15 +26,17 @@ import { EventType } from '../utils/event/EventType';
 /**
  * Service Worker Preview class
  */
-export class PreviewWorker {
+export class PreviewService {
+  static cacheName = 'PreviewV1';
+
   /**
    * @constructor
    */
   constructor() {
     this.events = new EventHandler('Service Worker: Preview', '', this);
     this.registered = false;
-    this.cacheName = 'PreviewV1';
     this.register();
+    this.allowList = /^(http|https):\/\/([^/]+)\/preview\/[^/]+\/?/;
     this.counter = 0;
   }
 
@@ -45,7 +47,9 @@ export class PreviewWorker {
     if (this.registered) {
       return;
     }
-    console.log('Register Preview Service Worker ...');
+    console.log(
+      `Register Preview Service Worker with cache ${PreviewService.cacheName} ...`
+    );
     this.events.listen(self, EventType.ACTIVATE, this.activate);
     this.events.listen(self, EventType.INSTALL, this.install);
     this.events.listen(self, EventType.FETCH, this.fetch);
@@ -72,17 +76,13 @@ export class PreviewWorker {
    * @param {*} event
    */
   fetch(event) {
-    if (
-      event.request &&
-      (event.request.url.startsWith('chrome-extension://') ||
-        !event.request.url.includes('/preview'))
-    ) {
+    if (event.request == null || !this.allowList.test(event.request.url)) {
       return;
     }
     console.log('Preview fetch request', event);
     if (event.request.method === 'POST') {
       event.respondWith(
-        caches.open(this.cacheName).then((cache) => {
+        caches.open(PreviewService.cacheName).then((cache) => {
           return event.request.text().then((text) => {
             const response = new Response(text);
             cache.put(event.request, response.clone());
@@ -91,11 +91,11 @@ export class PreviewWorker {
         })
       );
     } else if (event.request.method === 'GET') {
+      // Hardcoded test response.
       if (event.request.url.endsWith('/preview/test123')) {
         event.respondWith(new Response('Hello World! ' + this.counter++));
         return;
       }
-      console.log(event.request.url);
       event.respondWith(
         caches.match(event.request).then((response) => {
           if (response) {
@@ -107,7 +107,36 @@ export class PreviewWorker {
       );
     }
   }
+
+  /**
+   * @param {String} filename
+   * @param {String} content
+   * @return {Promise}
+   * @static
+   */
+  static async saveHTMLFile(filename, content) {
+    return PreviewService.saveFile(filename, content, 'text/html');
+  }
+
+  /**
+   * @param {String} filename
+   * @param {String} content
+   * @param {String} contentType
+   * @return {Promise}
+   * @static
+   */
+  static async saveFile(filename, content, contentType = 'text/plain') {
+    const cache = await caches.open(PreviewService.cacheName);
+    const url = filename.startsWith('./preview/')
+      ? filename
+      : './preview/' + filename;
+    const response = new Response(content, {
+      headers: { 'Content-Type': contentType },
+    });
+    console.log('Save preview file', url, response);
+    await cache.put(url, response);
+  }
 }
 
 // Initialize Service Worker
-new PreviewWorker();
+new PreviewService();

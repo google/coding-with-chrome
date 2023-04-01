@@ -17,7 +17,6 @@
 import './../blocks/ArcadePhysicsBlocks';
 import './../blocks/CreateBlocks';
 import './../blocks/SpriteBlocks';
-import './../blocks/TextBlocks';
 import './../blocks/TimeBlocks';
 import './../blocks/UpdateBlocks';
 
@@ -29,6 +28,7 @@ import WorldToolbox from './WorldToolbox';
 
 import getAudioToolbox from './AudioToolbox';
 import getInputToolbox from './InputToolbox';
+import getTextToolbox from './TextToolbox';
 import getTileSpriteToolbox from './TileSpriteToolbox';
 
 import i18next from 'i18next';
@@ -68,6 +68,12 @@ export class Toolbox {
           name: i18next.t('BLOCKS_PHASER_CREATE'),
           colour: '30',
           contents: [
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_TEXT'),
+              colour: '255',
+              contents: getTextToolbox(),
+            },
             {
               kind: 'category',
               name: i18next.t('BLOCKS_PHASER_GENERATOR'),

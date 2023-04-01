@@ -14,43 +14,23 @@
  * limitations under the License.
  */
 
-.toolbar {
-  height: 40px;
-  background: #f2f2f2;
-  line-height: 16px;
-  font-size: 16px;
+
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.toolbar > .MuiInputBase-input {
-  background: #fff;
+.button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  text-transform: none;
+  font-weight: bold;
+  font-size: 18px;
+  color: black;
 }
 
-.contentWrapper {
-  height: calc(100% - 40px);
-  overflow: hidden;
-}
-
-.contentWrapper iframe {
-  width: 100%;
-  height: calc(100% - 40px);
-  border: 0;
-  background-color: #fff;
-}
-
-.contentLoadingScreen {
-  height: calc(100% - 40px);
-  top: 40px;
-}
-
-.contentLoadingScreenTitle {
-  font-size: 32px;
-  padding-left: 20px;
-}
-
-.locationBar {
-  margin-left: 2px;
-}
-
-.locationBarPrefix {
-  color: #aaa;
+.button:hover {
+  background-color: lightgray;
 }

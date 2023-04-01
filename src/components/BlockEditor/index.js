@@ -29,9 +29,11 @@ import Button from '@mui/material/Button';
 import CodeIcon from '@mui/icons-material/Code';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import PreviewIcon from '@mui/icons-material/Preview';
 import RedoIcon from '@mui/icons-material/Redo';
 import Toolbar from '@mui/material/Toolbar';
 import UndoIcon from '@mui/icons-material/Undo';
+import { v4 as uuidv4 } from 'uuid';
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import { BlocklyWorkspace, WorkspaceSvg } from 'react-blockly';
@@ -44,6 +46,7 @@ import { javascriptGenerator } from 'blockly/javascript';
 import 'material-icons/iconfont/material-icons.css';
 import styles from './style.module.css';
 import './style.global.css';
+import { PreviewService } from '../../service-worker/preview-service-worker';
 
 /**
  *
@@ -54,6 +57,7 @@ export class BlockEditor extends React.PureComponent {
    */
   constructor(props) {
     super(props);
+    this.projectId = props.projectId || uuidv4();
     this.blockyWorkspace = null;
     this.codeEditor = createRef();
     this.toolbar = createRef();
@@ -81,25 +85,33 @@ export class BlockEditor extends React.PureComponent {
   /**
    *
    */
-  showCodeEditor() {
-    console.log('Show Code Editor ...');
-    const code = javascriptGenerator.workspaceToCode(this.blockyWorkspace);
-    this.codeEditor.current.setValue(code);
-    this.setState({ showEditor: true });
+  showPreview() {
+    console.log('Show Preview ...');
+    const code = this.getWorkspaceCode();
+    PreviewService.saveHTMLFile(`${this.projectId}/`, code);
+  }
 
-    // Save preview
-    const formData = new FormData();
-    formData.append('text', code);
-    fetch('/preview', {
-      method: 'POST',
-      body: formData,
-    })
-      .then((response) => {
-        console.log('Text upload successful:', response);
-      })
-      .catch((error) => {
-        console.error('Text upload error:', error);
-      });
+  /**
+   *
+   */
+  async showCodeEditor() {
+    console.log('Show Code Editor ...');
+    const code = this.getWorkspaceCode();
+    if (this.codeEditor) {
+      this.codeEditor.current.setValue(code);
+    }
+    this.setState({ showEditor: true });
+  }
+
+  /**
+   * @return {string}
+   */
+  getWorkspaceCode() {
+    let code = javascriptGenerator.workspaceToCode(this.blockyWorkspace) || '';
+    if (this.props.template && typeof this.props.template === 'function') {
+      code = this.props.template(code, this.projectId);
+    }
+    return code;
   }
 
   /**
@@ -160,6 +172,7 @@ export class BlockEditor extends React.PureComponent {
       const parentElement =
         this.blockyWorkspace.getInjectionDiv().closest('.wb-body') ||
         this.blockyWorkspace.getInjectionDiv().parentElement;
+      console.log(parentElement);
       if (parentElement) {
         const injectionDiv =
           this.blockyWorkspace.getInjectionDiv().parentElement;
@@ -269,6 +282,14 @@ export class BlockEditor extends React.PureComponent {
                 <RedoIcon />
               </IconButton>
               <Button variant="contained">Create new Variable</Button>
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="preview"
+                onClick={this.showPreview.bind(this)}
+              >
+                <PreviewIcon />
+              </IconButton>
               {this.codeEditor && (
                 <IconButton
                   edge="start"
@@ -282,7 +303,7 @@ export class BlockEditor extends React.PureComponent {
             </Toolbar>
           </AppBar>
           <BlocklyWorkspace
-            className={styles.fill}
+            className={this.props.windowId ? styles.fillWindow : styles.fill}
             toolboxConfiguration={
               this.props.toolbox || this.getToolboxCategory()
             }
@@ -321,6 +342,8 @@ export class BlockEditor extends React.PureComponent {
 
 BlockEditor.propTypes = {
   content: PropTypes.string,
+  projectId: PropTypes.string,
+  template: PropTypes.func,
   toolbox: PropTypes.object,
-  windowId: PropTypes.string.isRequired,
+  windowId: PropTypes.string,
 };
