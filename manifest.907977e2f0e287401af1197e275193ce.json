@@ -1,38 +1,38 @@
 {
   "icons": [
     {
-      "src": "/icon_1046x1046.f94ba85744af84e254c57d0421e6c017.png",
+      "src": "/coding-with-chrome/icon_1046x1046.f94ba85744af84e254c57d0421e6c017.png",
       "sizes": "1046x1046",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/icons/icon_512x512.a916735773f19a21ca3af761332782bc.png",
+      "src": "/coding-with-chrome/icons/icon_512x512.a916735773f19a21ca3af761332782bc.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "/icons/icon_192x192.533f3d1b4b4ae8e9664aec3b2e0f435f.png",
+      "src": "/coding-with-chrome/icons/icon_192x192.533f3d1b4b4ae8e9664aec3b2e0f435f.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/icons/icon_384x384.92b08bfed6bc929327c476308e4e59ab.svg",
+      "src": "/coding-with-chrome/icons/icon_384x384.92b08bfed6bc929327c476308e4e59ab.svg",
       "sizes": "384x384",
       "type": "image/svg+xml"
     },
     {
-      "src": "/icons/icon_256x256.92b08bfed6bc929327c476308e4e59ab.svg",
+      "src": "/coding-with-chrome/icons/icon_256x256.92b08bfed6bc929327c476308e4e59ab.svg",
       "sizes": "256x256",
       "type": "image/svg+xml"
     },
     {
-      "src": "/icons/icon_128x128.92b08bfed6bc929327c476308e4e59ab.svg",
+      "src": "/coding-with-chrome/icons/icon_128x128.92b08bfed6bc929327c476308e4e59ab.svg",
       "sizes": "128x128",
       "type": "image/svg+xml"
     },
     {
-      "src": "/icons/icon_96x96.92b08bfed6bc929327c476308e4e59ab.svg",
+      "src": "/coding-with-chrome/icons/icon_96x96.92b08bfed6bc929327c476308e4e59ab.svg",
       "sizes": "96x96",
       "type": "image/svg+xml"
     }
