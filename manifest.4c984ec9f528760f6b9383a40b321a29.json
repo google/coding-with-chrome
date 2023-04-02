@@ -41,7 +41,7 @@
   "short_name": "Coding with Chrome",
   "orientation": "portrait",
   "display": "standalone",
-  "start_url": "/",
+  "start_url": "/coding-with-chrome/",
   "description": "Educational Coding Development Environment",
   "background_color": "#fff",
   "theme_color": "red"
