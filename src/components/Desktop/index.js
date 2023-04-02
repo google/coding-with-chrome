@@ -54,3 +54,5 @@ export class DesktopApp extends React.PureComponent {
     );
   }
 }
+
+export default DesktopApp;

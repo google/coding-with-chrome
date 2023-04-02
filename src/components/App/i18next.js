@@ -38,6 +38,11 @@ i18next
     interpolation: {
       escapeValue: false, // react already safes from xss
     },
+    backend: {
+      loadPath: location.host.endsWith('.github.io')
+        ? location.pathname + 'locales/{{lng}}/{{ns}}.json'
+        : '/locales/{{lng}}/{{ns}}.json',
+    },
   });
 
 export default i18next;

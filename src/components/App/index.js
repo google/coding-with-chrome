@@ -21,13 +21,13 @@
  */
 
 import * as ReactDOM from 'react-dom/client';
-import React, { Suspense } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import './i18next.js';
 
-import { DesktopApp } from './../Desktop';
-import { GameEditor } from '../GameEditor/index.js';
-import { SelectScreen } from '../SelectScreen/index.js';
+const DesktopApp = lazy(() => import('./../Desktop'));
+const GameEditor = lazy(() => import('../GameEditor/index.js'));
+const SelectScreen = lazy(() => import('../SelectScreen/index.js'));
 
 /**
  * @param {HTMLElement} node

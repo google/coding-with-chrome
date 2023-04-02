@@ -165,3 +165,5 @@ export class GameEditor extends React.PureComponent {
 GameEditor.propTypes = {
   windowId: PropTypes.string,
 };
+
+export default GameEditor;

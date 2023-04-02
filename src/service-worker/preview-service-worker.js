@@ -28,6 +28,9 @@ import { EventType } from '../utils/event/EventType';
  */
 export class PreviewService {
   static cacheName = 'PreviewV1';
+  static basePath = location.host.endsWith('.github.io')
+    ? location.pathname
+    : '/';
 
   /**
    * @constructor
@@ -36,7 +39,9 @@ export class PreviewService {
     this.events = new EventHandler('Service Worker: Preview', '', this);
     this.registered = false;
     this.register();
-    this.allowList = /^(http|https):\/\/([^/]+)\/preview\/[^/]+\/?/;
+    this.allowList = location.host.endsWith('.github.io')
+      ? /^(http|https):\/\/([^/]+)\/([^/]+)\/preview\/[^/]+\/?/
+      : /^(http|https):\/\/([^/]+)\/preview\/[^/]+\/?/;
     this.counter = 0;
   }
 
@@ -92,7 +97,9 @@ export class PreviewService {
       );
     } else if (event.request.method === 'GET') {
       // Hardcoded test response.
-      if (event.request.url.endsWith('/preview/test123')) {
+      if (
+        event.request.url.endsWith(PreviewService.basePath + 'preview/test123')
+      ) {
         event.respondWith(new Response('Hello World! ' + this.counter++));
         return;
       }
@@ -115,7 +122,11 @@ export class PreviewService {
    * @static
    */
   static async saveHTMLFile(filename, content) {
-    return PreviewService.saveFile(filename, content, 'text/html');
+    return PreviewService.saveFile(
+      filename,
+      content,
+      'text/html; charset=utf-8'
+    );
   }
 
   /**
@@ -125,11 +136,25 @@ export class PreviewService {
    * @return {Promise}
    * @static
    */
-  static async saveFile(filename, content, contentType = 'text/plain') {
+  static async saveFile(
+    filename,
+    content,
+    contentType = 'text/plain; charset=utf-8'
+  ) {
+    // Normalize filename to preview path.
+    if (!filename.startsWith(PreviewService.basePath + 'preview/')) {
+      if (filename.startsWith(PreviewService.basePath)) {
+        filename =
+          filename.slice(PreviewService.basePath.length) +
+          PreviewService.basePath +
+          'preview' +
+          filename;
+      } else {
+        filename = PreviewService.basePath + 'preview/' + filename;
+      }
+    }
     const cache = await caches.open(PreviewService.cacheName);
-    const url = filename.startsWith('./preview/')
-      ? filename
-      : './preview/' + filename;
+    const url = filename;
     const response = new Response(content, {
       headers: { 'Content-Type': contentType },
     });

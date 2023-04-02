@@ -223,7 +223,7 @@ export class WindowManager extends React.PureComponent {
    * @param {number} height
    */
   handleResize(windowId, width, height) {
-    console.log(`Resize request for ${windowId} with ${width} ${height} ...`);
+    console.debug(`Resize request for ${windowId} with ${width} ${height} ...`);
     WindowManager.windowManagerEventTarget.dispatchEvent(
       new WindowResizeEvent(windowId)
     );

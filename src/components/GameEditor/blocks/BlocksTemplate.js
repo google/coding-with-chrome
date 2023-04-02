@@ -26,11 +26,20 @@ import Blockly from 'blockly';
  * Simple Blocks templates.
  */
 export class BlocksTemplate {
+  static basePath = location.host.endsWith('.github.io')
+    ? location.pathname
+    : '/';
+
   /**
    * @return {!Blockly.FieldImage}
    */
   static point = function () {
-    return new Blockly.FieldImage('/assets/icons/circle_20pt.png', 15, 17, '▼');
+    return new Blockly.FieldImage(
+      BlocksTemplate.basePath + 'assets/icons/circle_20pt.png',
+      15,
+      17,
+      '▼'
+    );
   };
 
   /**
@@ -38,7 +47,7 @@ export class BlocksTemplate {
    */
   static pointTop = function () {
     return new Blockly.FieldImage(
-      '/assets/icons/circle_20pt_top.png',
+      BlocksTemplate.basePath + 'assets/icons/circle_20pt_top.png',
       15,
       17,
       '▼'
@@ -50,7 +59,7 @@ export class BlocksTemplate {
    */
   static addCircle = function () {
     return new Blockly.FieldImage(
-      '/assets/icons/add_circle_20pt.png',
+      BlocksTemplate.basePath + 'assets/icons/add_circle_20pt.png',
       18,
       18,
       '▼'
@@ -62,7 +71,7 @@ export class BlocksTemplate {
    */
   static collide = function () {
     return new Blockly.FieldImage(
-      '/assets/icons/collide_20pt.png',
+      BlocksTemplate.basePath + 'assets/icons/collide_20pt.png',
       18,
       18,
       '▼'
@@ -73,7 +82,12 @@ export class BlocksTemplate {
    * @return {!Blockly.FieldImage}
    */
   static event = function () {
-    return new Blockly.FieldImage('/assets/icons/event_20pt.png', 18, 18, '▼');
+    return new Blockly.FieldImage(
+      BlocksTemplate.basePath + 'assets/icons/event_20pt.png',
+      18,
+      18,
+      '▼'
+    );
   };
 
   /**
@@ -81,7 +95,7 @@ export class BlocksTemplate {
    */
   static runningMan = function () {
     return new Blockly.FieldImage(
-      '/assets/icons/running_man_20pt.png',
+      BlocksTemplate.basePath + 'assets/icons/running_man_20pt.png',
       18,
       18,
       '▼'
@@ -92,21 +106,36 @@ export class BlocksTemplate {
    * @return {!Blockly.FieldImage}
    */
   static adjust = function () {
-    return new Blockly.FieldImage('/assets/icons/adjust_20pt.png', 18, 18, '▼');
+    return new Blockly.FieldImage(
+      BlocksTemplate.basePath + 'assets/icons/adjust_20pt.png',
+      18,
+      18,
+      '▼'
+    );
   };
 
   /**
    * @return {!Blockly.FieldImage}
    */
   static image = function () {
-    return new Blockly.FieldImage('/assets/icons/image_20pt.png', 18, 18, '▼');
+    return new Blockly.FieldImage(
+      BlocksTemplate.basePath + 'assets/icons/image_20pt.png',
+      18,
+      18,
+      '▼'
+    );
   };
 
   /**
    * @return {!Blockly.FieldImage}
    */
   static mouse = function () {
-    return new Blockly.FieldImage('/assets/icons/mouse_20pt.png', 18, 18, '▼');
+    return new Blockly.FieldImage(
+      BlocksTemplate.basePath + 'assets/icons/mouse_20pt.png',
+      18,
+      18,
+      '▼'
+    );
   };
 
   /**
@@ -114,7 +143,7 @@ export class BlocksTemplate {
    */
   static keyboard = function () {
     return new Blockly.FieldImage(
-      '/assets/icons/keyboard_20pt.png',
+      BlocksTemplate.basePath + 'assets/icons/keyboard_20pt.png',
       18,
       18,
       '▼'
@@ -125,7 +154,12 @@ export class BlocksTemplate {
    * @return {!Blockly.FieldImage}
    */
   static repeat = function () {
-    return new Blockly.FieldImage('/assets/icons/repeat_20pt.png', 18, 18, '▼');
+    return new Blockly.FieldImage(
+      BlocksTemplate.basePath + 'assets/icons/repeat_20pt.png',
+      18,
+      18,
+      '▼'
+    );
   };
 
   /**
@@ -133,7 +167,7 @@ export class BlocksTemplate {
    */
   static fileDownload = function () {
     return new Blockly.FieldImage(
-      '/assets/icons/file_download_20pt.png',
+      BlocksTemplate.basePath + 'assets/icons/file_download_20pt.png',
       18,
       18,
       '▼'
@@ -145,7 +179,7 @@ export class BlocksTemplate {
    */
   static storage = function () {
     return new Blockly.FieldImage(
-      '/assets/icons/storage_20pt.png',
+      BlocksTemplate.basePath + 'assets/icons/storage_20pt.png',
       18,
       18,
       '▼'
@@ -156,14 +190,24 @@ export class BlocksTemplate {
    * @return {!Blockly.FieldImage}
    */
   static audio = function () {
-    return new Blockly.FieldImage('/assets/icons/audio_20pt.png', 18, 18, '▼');
+    return new Blockly.FieldImage(
+      BlocksTemplate.basePath + 'assets/icons/audio_20pt.png',
+      18,
+      18,
+      '▼'
+    );
   };
 
   /**
    * @return {!Blockly.FieldImage}
    */
   static timer = function () {
-    return new Blockly.FieldImage('/assets/icons/timer_20pt.png', 18, 18, '▼');
+    return new Blockly.FieldImage(
+      BlocksTemplate.basePath + 'assets/icons/timer_20pt.png',
+      18,
+      18,
+      '▼'
+    );
   };
 
   /**
@@ -171,7 +215,7 @@ export class BlocksTemplate {
    */
   static timelapse = function () {
     return new Blockly.FieldImage(
-      '/assets/icons/timelapse_20pt.png',
+      BlocksTemplate.basePath + 'assets/icons/timelapse_20pt.png',
       18,
       18,
       '▼'

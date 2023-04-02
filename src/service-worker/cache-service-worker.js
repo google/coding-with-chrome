@@ -35,8 +35,12 @@ export class CacheService {
   constructor() {
     this.events = new EventHandler('Service Worker: Cache', '', this);
     this.registered = false;
-    this.denyList =
-      /^(http|https):\/\/([^/]+)\/(upload|preview|framework)\/[^/]+\/?/;
+    this.basePath = location.host.endsWith('.github.io')
+      ? location.pathname
+      : '/';
+    this.denyList = location.host.endsWith('.github.io')
+      ? /^(http|https):\/\/([^/]+)\/([^/]+)\/(upload|preview)\/[^/]+\/?/
+      : /^(http|https):\/\/([^/]+)\/(upload|preview)\/[^/]+\/?/;
     this.register();
   }
 

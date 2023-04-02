@@ -35,6 +35,12 @@ export class InstallWorker {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     this.assets = globalThis.APP_ASSETS || [];
+    this.basePath = location.host.endsWith('.github.io')
+      ? location.pathname
+      : '/';
+    this.scopePath = location.host.endsWith('.github.io')
+      ? location.pathname
+      : './';
     console.log('Install Service Worker ...');
   }
 
@@ -44,7 +50,9 @@ export class InstallWorker {
   register() {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
-        .register('/cache-service-worker.js', { scope: './' })
+        .register(this.basePath + 'cache-service-worker.js', {
+          scope: this.scopePath,
+        })
         .then(
           function (registration) {
             console.log(
@@ -57,7 +65,9 @@ export class InstallWorker {
           }
         );
       navigator.serviceWorker
-        .register('/preview-service-worker.js', { scope: './preview' })
+        .register(this.basePath + 'preview-service-worker.js', {
+          scope: this.scopePath + 'preview/',
+        })
         .then(
           function (registration) {
             console.log(
@@ -82,6 +92,13 @@ export class InstallWorker {
         console.log(
           `Adding ${this.assets.length} assets to local browser cache...`
         );
+        // Add base path to cache assets, if needed.
+        if (this.basePath !== '/') {
+          console.log('Add base path to cache assets: ', this.basePath);
+          this.assets.push(this.basePath);
+        }
+
+        // Add assets to cache.
         caches.open(CacheService.cacheName).then((cache) => {
           console.log(cache.matchAll(''));
           cache.addAll(this.assets).then(

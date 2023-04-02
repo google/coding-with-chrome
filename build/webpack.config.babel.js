@@ -34,7 +34,7 @@ import path from 'path';
 import webpack from 'webpack';
 
 module.exports = (mode = 'development') => ({
-  mode: mode,
+  mode: mode == 'deploy' ? 'production' : mode,
   target: 'web',
   devServer: {
     compress: true,
@@ -52,7 +52,7 @@ module.exports = (mode = 'development') => ({
     previewServiceWorker: ['./src/service-worker/preview-service-worker.js'],
   },
   output: {
-    publicPath: '/',
+    publicPath: mode == 'deploy' ? '/coding-with-chrome/' : '/',
     path: path.join(__dirname, '..', 'dist'),
     filename: (pathData) => {
       // Exclude service workers from hashing.
@@ -158,7 +158,7 @@ module.exports = (mode = 'development') => ({
       name: 'Coding with Chrome Suite',
       short_name: 'Coding with Chrome',
       description: 'Educational Coding Development Environment',
-      start_url: '/',
+      start_url: mode == 'deploy' ? '/coding-with-chrome/' : '/',
       display: 'standalone',
       background_color: '#fff',
       theme_color: 'red',

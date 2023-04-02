@@ -24,6 +24,10 @@
  * @class
  */
 class PhaserTemplate {
+  static basePath = location.host.endsWith('.github.io')
+    ? location.pathname
+    : '/';
+
   /**
    * @param {string} code
    * @param {string} projectId
@@ -39,7 +43,9 @@ class PhaserTemplate {
         : '<title>Phaser Game</title>';
     })()}
     ${(() => {
-      return projectId ? `<base href="/preview/${projectId}/" />` : '';
+      return projectId
+        ? `<base href="${PhaserTemplate.basePath}preview/${projectId}/" />`
+        : '';
     })()}
     <style>
       * {
@@ -56,7 +62,7 @@ class PhaserTemplate {
         display: block;
       }
     </style>
-    <script src="/framework/phaser.min.js"></script>
+    <script src="${PhaserTemplate.basePath}framework/phaser.min.js"></script>
   </head>
   <body>
     <script>
