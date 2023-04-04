@@ -64,7 +64,7 @@ SplashScreen.addStep('Starting built-in services ...');
 SplashScreen.addStep('Start Run-level ...');
 SplashScreen.addStep('Loading App ...', () => {
   return new Promise((resolve) => {
-    import('./components/App/index.js').then((module) => {
+    import('./components/App/App.js').then((module) => {
       module.render(screen.add('app', 'Main app'));
       screen.hide('app');
       resolve(true);

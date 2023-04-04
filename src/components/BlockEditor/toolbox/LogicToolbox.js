@@ -1,5 +1,5 @@
 /**
- * @fileoverview Blocks for the Phaser Blockly modification.
+ * @fileoverview Phaser Audio Blocks for Blockly.
  *
  * @license Copyright 2023 The Coding with Chrome Authors.
  *
@@ -19,3 +19,41 @@
 /**
  * @author mbordihn@google.com (Markus Bordihn)
  */
+
+/**
+ * @type {array}
+ */
+export const defaultBlocks = [
+  {
+    kind: 'block',
+    type: 'controls_if',
+  },
+  {
+    kind: 'block',
+    type: 'logic_compare',
+  },
+  {
+    kind: 'block',
+    type: 'logic_operation',
+  },
+  {
+    kind: 'block',
+    type: 'logic_negate',
+  },
+  {
+    kind: 'block',
+    type: 'logic_boolean',
+  },
+  {
+    kind: 'block',
+    type: 'logic_null',
+  },
+  {
+    kind: 'block',
+    type: 'logic_ternary',
+  },
+];
+
+export default {
+  defaultBlocks,
+};

@@ -31,6 +31,10 @@ class BlocklyTemplate {
   static render(projectName = 'My first Game') {
     return `
 <xml xmlns="http://www.w3.org/1999/xhtml">
+  <variables>
+    <variable>block_group</variable>
+    <variable>obstacle_group</variable>
+  </variables>
   <block type="phaser_game" x="-250" y="-250">
     <field name="name">${projectName}</field>
     <field name="width">0</field>

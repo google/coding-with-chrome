@@ -27,10 +27,10 @@
     "@mui/material": "^5.11.15",
     "@mui/styled-engine": "^5.11.11",
     "@svgr/webpack": "^7.0.0",
-    "@types/react": "^18.0.31",
+    "@types/react": "^18.0.33",
     "@types/serviceworker-webpack-plugin": "^1.0.3",
-    "@typescript-eslint/eslint-plugin": "^5.57.0",
-    "@typescript-eslint/parser": "^5.57.0",
+    "@typescript-eslint/eslint-plugin": "^5.57.1",
+    "@typescript-eslint/parser": "^5.57.1",
     "ace-builds": "^1.16.0",
     "babel-loader": "^9.1.2",
     "clean-webpack-plugin": "^4.0.0",
@@ -48,7 +48,7 @@
     "gh-pages": "^5.0.0",
     "html-minimizer-webpack-plugin": "^4.3.0",
     "html-webpack-plugin": "^5.5.0",
-    "i18next": "^22.4.13",
+    "i18next": "^22.4.14",
     "i18next-browser-languagedetector": "^7.0.1",
     "i18next-http-backend": "^2.2.0",
     "json-minimizer-webpack-plugin": "^4.0.0",
@@ -66,7 +66,7 @@
     "material-icons": "^1.13.4",
     "mini-css-extract-plugin": "^2.7.5",
     "npm": "^9.6.3",
-    "playwright": "^1.32.1",
+    "playwright": "^1.32.2",
     "prettier": "^2.8.7",
     "react": "^18.2.0",
     "react-ace": "^10.1.0",
@@ -113,6 +113,7 @@
     "upgrade": "npm run npm-upgrade && npm install && npm update && npm prune && npm audit fix && npx browserslist@latest --update-db"
   },
   "dependencies": {
-    "react-mosaic-component": "^6.0.0"
+    "react-mosaic-component": "^6.0.0",
+    "styled-components": "^5.3.9"
   }
 }

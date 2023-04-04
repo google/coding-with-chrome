@@ -6,6 +6,7 @@
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
   "cSpell.words": [
+    "audiotrack",
     "autoscroll",
     "Blockly",
     "blockxml",
@@ -26,6 +27,7 @@
     "esversion",
     "favicons",
     "fileoverview",
+    "gamepad",
     "HIGHSCORE",
     "iconfont",
     "infobar",
@@ -79,4 +81,7 @@
     "locales",
     "node_modules"
   ],
+  "[xml]": {
+    "editor.defaultFormatter": "DotJoshJohnson.xml"
+  },
 }

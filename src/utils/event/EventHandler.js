@@ -49,7 +49,7 @@ export class EventHandler {
    * Adds an event listener for a specific event on a native event
    * target (such as a DOM element) or an object that has implemented.
    *
-   * @param {!EventTarget|string} src
+   * @param {!Window|HTMLElement|string} src
    * @param {string} type Event type or array of event types.
    * @param {function(?):?|{handleEvent:function(?):?}|null} listener
    * @param {boolean=} capture
@@ -65,6 +65,9 @@ export class EventHandler {
       { capture: capture, once: once, passive: passive },
       this.prefix
     );
+    if (!eventData.target) {
+      return null;
+    }
     eventData.target.addEventListener(
       eventData.type,
       eventData.listener,
@@ -77,7 +80,7 @@ export class EventHandler {
    * Adds an event listener only once for a specific event on a native event
    * target (such as a DOM element) or an object that has implemented.
    *
-   * @param {!EventTarget|string} src
+   * @param {!HTMLElement|string} src
    * @param {string} type Event type or array of event types.
    * @param {function(?):?|{handleEvent:function(?):?}|null} listener
    * @param {boolean=} capture

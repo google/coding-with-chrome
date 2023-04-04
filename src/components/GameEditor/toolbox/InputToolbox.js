@@ -23,9 +23,9 @@
 import './../blocks/InputBlocks.js';
 
 /**
- * @return {array}
+ * @type {array}
  */
-const keyboard_input = [
+export const createBlocks = [
   {
     kind: 'block',
     blockxml: `
@@ -81,12 +81,6 @@ const keyboard_input = [
     </value>
   </block>`,
   },
-];
-
-/**
- * @return {array}
- */
-const mouse_input = [
   {
     kind: 'block',
     blockxml: `
@@ -101,9 +95,9 @@ const mouse_input = [
 ];
 
 /**
- * @return {array}
+ * @type {array}
  */
-const input_body = [
+export const eventBlocks = [
   {
     kind: 'block',
     type: 'phaser_input',
@@ -282,9 +276,9 @@ const input_body = [
 ];
 
 /**
- * @return {array}
+ * @type {array}
  */
-const create_blocks = [
+export const defaultBlocks = [
   {
     kind: 'block',
     blockxml: `
@@ -437,25 +431,8 @@ const create_blocks = [
   },
 ];
 
-/**
- * @param {*} showCreateBlocks
- * @param {*} hideEventBlocks
- * @return {array}
- */
-export default function (showCreateBlocks = false, hideEventBlocks = false) {
-  let result = [];
-  if (showCreateBlocks) {
-    result = result.concat(keyboard_input);
-    result = result.concat(mouse_input);
-  }
-
-  if (!showCreateBlocks && !hideEventBlocks) {
-    result = result.concat(input_body);
-  }
-
-  if (!showCreateBlocks) {
-    result = result.concat(create_blocks);
-  }
-
-  return result;
-}
+export default {
+  createBlocks,
+  defaultBlocks,
+  eventBlocks,
+};

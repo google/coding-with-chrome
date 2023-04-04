@@ -20,18 +20,20 @@
  * @fileoverview Preview for the desktop screen.
  */
 
+import AspectRatioIcon from '@mui/icons-material/AspectRatio';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import CachedIcon from '@mui/icons-material/Cached';
 import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import PropTypes from 'prop-types';
 import React from 'react';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
+
+import { Toolbar, ToolbarIconButton } from '../Toolbar';
 
 import styles from './style.module.css';
 
@@ -44,9 +46,14 @@ export class Preview extends React.PureComponent {
    */
   constructor(props) {
     super(props);
-    this.state = { location: '', loaded: false, loading: false };
+    this.state = {
+      base: props.base || '/preview/',
+      location: props.location || '',
+      loaded: false,
+      loading: false,
+      hideContent: false,
+    };
     this.windowId = props.windowId;
-    this.toolbar = React.createRef();
     this.contentWrapper = React.createRef();
     this.contentIframe = React.createRef();
     this.contentLoadTimer = null;
@@ -63,43 +70,84 @@ export class Preview extends React.PureComponent {
    * @param {string} location
    */
   setPreviewLocation(location = '') {
+    console.log('Change preview location', location, this.state.base);
+
+    // Check for content iframe.
     if (!this.contentIframe) {
       return;
     }
-    if (!location.startsWith('/preview/')) {
-      location = '/preview/' + location;
+
+    // Check if we have a valid base path or location.
+    if (
+      !this.state.base &&
+      (!location || (location && !/^\s*$/.test(location)))
+    ) {
+      return;
     }
-    if (location.startsWith('/')) {
-      location = location.substring(1);
+
+    // If there is a base path, we need to add it to the target location.
+    let targetLocation = location || this.state.base;
+    if (this.state.base && location) {
+      targetLocation =
+        this.state.base +
+        (!this.state.base.endsWith('/') || !location.startsWith('/'))
+          ? '/'
+          : '' + location;
     }
-    if (location.length <= 3) {
-      location = '';
+
+    // Make sure we have a valid target location.
+    if (
+      !targetLocation.startsWith('preview/') &&
+      !targetLocation.startsWith('/preview/')
+    ) {
+      targetLocation = '/preview/' + targetLocation;
     }
-    console.log('Change preview location', location);
-    this.setState({ location: location });
-    this.setState({ loaded: false });
-    this.setState({ loading: true });
+    if (targetLocation.startsWith('/')) {
+      targetLocation = targetLocation.substring(1);
+    }
+
+    // Update state with new location and loading state.
+    this.setState({ location: targetLocation, loaded: false, loading: true });
+
+    // Set timeout for loading content.
+    if (this.contentLoadTimer) {
+      clearTimeout(this.contentLoadTimer);
+    }
     this.contentLoadTimer = setTimeout(() => {
       console.warn('Timeout ...');
       this.stop();
     }, 10000);
-    this.contentIframe.current.src = location;
+
+    // Set new location.
+    console.log('Set preview location', targetLocation);
+    this.contentIframe.current.src = targetLocation;
   }
 
   /**
    * Update Preview Location.
    */
   updatePreviewLocation() {
+    console.debug('Update preview location ...', this.state.location);
     this.setPreviewLocation(this.state.location);
   }
 
   /**
-   * @param {event} opt_event
+   * @param {event} event
    */
-  handleContentIframeLoad(opt_event) {
-    console.log('Iframe Content Loaded ...');
-    this.setState({ loaded: true });
-    this.setState({ loading: false });
+  handleContentIframeLoad(event) {
+    console.log('Iframe Content Loaded:', event);
+    this.setState({ loaded: true, loading: false });
+    if (this.contentLoadTimer) {
+      clearTimeout(this.contentLoadTimer);
+    }
+  }
+
+  /**
+   * @param {event} event
+   */
+  handleContentIframeError(event) {
+    console.error('Iframe Content Error:', event);
+    this.setState({ loaded: false, loading: false });
     if (this.contentLoadTimer) {
       clearTimeout(this.contentLoadTimer);
     }
@@ -124,6 +172,14 @@ export class Preview extends React.PureComponent {
   }
 
   /**
+   *
+   */
+  goToHomePage() {
+    this.setState({ location: '' });
+    this.setPreviewLocation();
+  }
+
+  /**
    * Reloads the iframe content.
    */
   reload() {
@@ -131,8 +187,7 @@ export class Preview extends React.PureComponent {
       return;
     }
     console.log('Reloading Iframe ...');
-    this.setState({ loaded: false });
-    this.setState({ loading: true });
+    this.setState({ loaded: false, loading: true });
     this.contentIframe.current.contentWindow.location.reload();
   }
 
@@ -145,8 +200,21 @@ export class Preview extends React.PureComponent {
     }
     console.log('Stopping Iframe ...');
     this.contentIframe.current.contentWindow.stop();
-    this.setState({ loaded: false });
-    this.setState({ loading: false });
+    this.setState({ loaded: false, loading: false });
+  }
+
+  /**
+   * @external
+   */
+  hideContent() {
+    this.setState({ hideContent: true });
+  }
+
+  /**
+   * @external
+   */
+  showContent() {
+    this.setState({ hideContent: false });
   }
 
   /**
@@ -155,20 +223,12 @@ export class Preview extends React.PureComponent {
   render() {
     return (
       <React.StrictMode>
-        <Box
-          className={styles.toolbar}
-          sx={{
-            p: '2px 4px',
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <IconButton color="primary" sx={{ p: '10px' }} aria-label="menu">
+        <Toolbar className={styles.toolbar}>
+          <ToolbarIconButton aria-label="menu">
             <MenuIcon />
-          </IconButton>
-          <span className={styles.locationBarPrefix}>/preview/</span>
+          </ToolbarIconButton>
+          <span className={styles.locationBarPrefix}>{this.state.base}</span>
           <InputBase
-            color="primary"
             sx={{ paddingTop: '3px', marginLeft: '1px', ml: 1, flex: 1 }}
             size="small"
             placeholder="test123"
@@ -176,44 +236,36 @@ export class Preview extends React.PureComponent {
             onChange={this.handleChangeInput.bind(this)}
             onKeyPress={this.handleKeyPress.bind(this)}
           />
-          <IconButton
-            edge="start"
-            color="primary"
+          <ToolbarIconButton
             aria-label="reload"
             onClick={this.reload.bind(this)}
-            sx={{ p: '10px' }}
           >
             <CachedIcon />
-          </IconButton>
+          </ToolbarIconButton>
           <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
           {!this.state.loaded && (
-            <IconButton
-              edge="start"
-              color="primary"
+            <ToolbarIconButton
               aria-label="run"
               onClick={this.updatePreviewLocation.bind(this)}
-              sx={{ p: '10px' }}
             >
               <PlayCircleIcon />
-            </IconButton>
+            </ToolbarIconButton>
           )}
           {this.state.loaded && (
-            <IconButton
-              edge="start"
-              color="primary"
-              aria-label="stop"
-              onClick={this.stop.bind(this)}
-              sx={{ p: '10px' }}
-            >
+            <ToolbarIconButton aria-label="stop" onClick={this.stop.bind(this)}>
               <StopCircleIcon />
-            </IconButton>
+            </ToolbarIconButton>
           )}
-        </Box>
+        </Toolbar>
         <Box className={styles.contentWrapper} ref={this.contentWrapper}>
           {this.state.loading && (
             <Backdrop
               className={styles.contentLoadingScreen}
-              sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              sx={{
+                color: '#fff',
+                position: 'absolute',
+                zIndex: (theme) => theme.zIndex.drawer + 1,
+              }}
               open={this.state.loading}
             >
               <CircularProgress color="inherit" />
@@ -222,12 +274,34 @@ export class Preview extends React.PureComponent {
               </span>
             </Backdrop>
           )}
+          {(this.state.hideContent ||
+            (!this.state.location && !this.state.loading)) && (
+            <Backdrop
+              className={styles.contentResize}
+              sx={{
+                color: '#fff',
+                position: 'absolute',
+                zIndex: (theme) => theme.zIndex.drawer + 1,
+              }}
+              open={
+                this.state.hideContent ||
+                (!this.state.location && !this.state.loading)
+              }
+            >
+              <AspectRatioIcon />
+              <span className={styles.contentLoadingScreenTitle}>Preview</span>
+            </Backdrop>
+          )}
           <iframe
+            className={`${
+              this.windowId ? styles.contentIframeWindow : styles.contentIframe
+            } ${this.state.hideContent ? styles.contentIframeHidden : ''}`}
             ref={this.contentIframe}
-            src="preview/"
+            src=""
             allow="geolocation; microphone; camera; midi; encrypted-media; xr-spatial-tracking; fullscreen"
             allowFullScreen
             onLoad={this.handleContentIframeLoad.bind(this)}
+            onError={this.handleContentIframeError.bind(this)}
             sandbox="allow-scripts allow-modals allow-forms allow-same-origin allow-top-navigation-by-user-activation allow-downloads"
           ></iframe>
         </Box>
@@ -237,5 +311,7 @@ export class Preview extends React.PureComponent {
 }
 
 Preview.propTypes = {
-  windowId: PropTypes.string.isRequired,
+  base: PropTypes.string,
+  location: PropTypes.string,
+  windowId: PropTypes.string,
 };

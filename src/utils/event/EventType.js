@@ -44,6 +44,10 @@ export const EventType = {
   SUBMIT: 'submit',
   INPUT: 'input',
 
+  // Drag and drop events
+  DRAGEND: 'dragend',
+  DRAGSTART: 'dragstart',
+
   // Misc Events
   ERROR: 'error',
 

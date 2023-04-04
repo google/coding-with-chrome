@@ -56,15 +56,10 @@ javascriptGenerator['phaser_game'] = function (block) {
     Number(block.getFieldValue('width')) || 'window.innerWidth';
   const number_height =
     Number(block.getFieldValue('height')) || 'window.innerHeight';
-  return (
-    'let game = new Phaser.Game(' +
-    number_width +
-    ', ' +
-    number_height +
-    ", Phaser.AUTO, '" +
-    text_name +
-    "');\n"
-  );
+  return `
+    const gameName = "${text_name}";
+    let game = new Phaser.Game(${number_width}, ${number_height}, Phaser.AUTO, gameName);
+  `;
 };
 
 /**

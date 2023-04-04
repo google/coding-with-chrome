@@ -23,9 +23,9 @@
 import './../blocks/TextBlocks.js';
 
 /**
- * @return {array}
+ * @type {array}
  */
-const create_blocks = [
+export const createBlocks = [
   {
     kind: 'block',
     blockxml: `
@@ -127,9 +127,9 @@ const create_blocks = [
 ];
 
 /**
- * @return {array}
+ * @type {array}
  */
-const default_blocks = [
+export const defaultBlocks = [
   {
     kind: 'block',
     blockxml: `
@@ -201,9 +201,9 @@ const default_blocks = [
 ];
 
 /**
- * @return {array}
+ * @type {array}
  */
-const event_blocks = [
+export const eventBlocks = [
   {
     kind: 'block',
     blockxml: `
@@ -217,16 +217,8 @@ const event_blocks = [
   },
 ];
 
-/**
- * @param {*} showCreateBlocks
- * @param {*} showEventBlocks
- * @return {array}
- */
-export default function (showCreateBlocks = true, showEventBlocks = true) {
-  let result = showCreateBlocks ? create_blocks : [];
-  if (showEventBlocks) {
-    result = result.concat(event_blocks);
-  }
-  result = result.concat(default_blocks);
-  return result;
-}
+export default {
+  createBlocks,
+  defaultBlocks,
+  eventBlocks,
+};

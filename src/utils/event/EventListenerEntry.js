@@ -25,15 +25,15 @@
  */
 export class EventListenerEntry {
   /**
-   * @param {!EventTarget|string} target
+   * @param {!Window|HTMLElement|string} target
    * @param {string} type
    * @param {function(?):?|{handleEvent:function(?):?}} listener
    * @param {Object} options
    * @param {string} prefix
    */
   constructor(target, type, listener, options, prefix = '') {
-    /**  @type {!EventTarget} */
-    this.target = undefined;
+    /**  @type {!Window|HTMLElement|null} */
+    this.target = null;
 
     /** @type {string} */
     this.type = type;

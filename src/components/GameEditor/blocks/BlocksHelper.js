@@ -1,6 +1,4 @@
 /**
- * @fileoverview General Blocks helper definition.
- *
  * @license Copyright 2023 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +15,8 @@
  */
 
 /**
+ * @fileoverview General Blocks helper definition.
+ *
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
@@ -42,19 +42,20 @@ export class BlocksHelper {
     let foundName = false;
     const spriteList = [];
     const blocks = Blockly.getMainWorkspace().getAllBlocks(true);
-    for (let i = 0; i < blocks.length; i++) {
-      const block = blocks[i];
+    for (const element of blocks) {
+      const block = element;
       if (
         block &&
         block['type'] === 'phaser_load_image' &&
         !block['disabled'] &&
         block['childBlocks_'][0] !== undefined
       ) {
-        const imageName = block['inputList'][0]['fieldRow'][2]['text_'];
+        const imageName =
+          block['inputList'][0]['fieldRow'][2]['value_'] || 'unknown';
         const childInputList = block['childBlocks_'][0]['inputList'];
         const imageSrc =
-          childInputList[0]['fieldRow'][0]['src_'] ||
-          childInputList[1]['fieldRow'][0]['src_'];
+          childInputList[0]['fieldRow'][0]['value_'] ||
+          childInputList[1]['fieldRow'][0]['value_'];
         const imageEntry = [
           imageSrc ? { src: imageSrc, width: 50, height: 50 } : imageName,
           imageName,

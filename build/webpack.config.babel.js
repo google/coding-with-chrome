@@ -215,6 +215,14 @@ module.exports = (mode = 'development') => ({
           },
         },
         {
+          from: './assets/phaser',
+          to: './assets/phaser',
+          globOptions: {
+            dot: true,
+            gitignore: true,
+          },
+        },
+        {
           from: './locales',
           to: './locales',
           globOptions: {
@@ -225,6 +233,22 @@ module.exports = (mode = 'development') => ({
         {
           from: './third_party/phaser-ce/build/phaser.min.js',
           to: './framework/phaser.min.js',
+          globOptions: {
+            dot: true,
+            gitignore: true,
+          },
+        },
+        {
+          from: './third_party/phaser-ce/build/phaser.map',
+          to: './framework/phaser.map',
+          globOptions: {
+            dot: true,
+            gitignore: true,
+          },
+        },
+        {
+          from: './src/frameworks/phaser/phaser_extras.js',
+          to: './framework/phaser_extras.js',
           globOptions: {
             dot: true,
             gitignore: true,

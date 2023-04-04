@@ -1,0 +1,352 @@
+/**
+ * @license Copyright 2023 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import '../blocks/ArcadePhysicsBlocks';
+import '../blocks/TimeBlocks';
+import '../blocks/UpdateBlocks';
+
+import ArcadePhysicsToolbox from './ArcadePhysicsToolbox';
+import AudioToolbox from './AudioToolbox';
+import CreateToolbox from './CreateToolbox';
+import ExampleFiles from './ExampleFilesToolbox';
+import GameToolbox from './GameToolbox';
+import GeneratorToolbox from './GeneratorToolbox';
+import InputToolbox from './InputToolbox';
+import PreloadToolbox from './PreLoadToolbox';
+import RenderToolbox from './RenderToolbox';
+import SpriteToolbox from './SpriteToolbox';
+import TextToolbox from './TextToolbox';
+import TileSpriteToolbox from './TileSpriteToolbox';
+import WorldToolbox from './WorldToolbox';
+
+import DefaultColorsToolbox from '../../BlockEditor/toolbox/ColorsToolbox';
+import DefaultListsToolbox from '../../BlockEditor/toolbox/ListsToolbox';
+import DefaultLogicToolbox from '../../BlockEditor/toolbox/LogicToolbox';
+import DefaultLoopToolbox from '../../BlockEditor/toolbox/LoopToolbox';
+import DefaultMathToolbox from '../../BlockEditor/toolbox/MathToolbox';
+import DefaultTextToolbox from '../../BlockEditor/toolbox/TextToolbox';
+
+import i18next from 'i18next';
+
+/**
+ * ToolBox for the game editor.
+ */
+export class Toolbox {
+  /**
+   * @return {object}
+   */
+  static getToolbox() {
+    let toolBox = {};
+    toolBox = {
+      kind: 'categoryToolbox',
+      contents: [
+        {
+          kind: 'category',
+          name: i18next.t('BLOCKS_PHASER_GAME'),
+          colour: '75',
+          cssConfig: {
+            container: 'icon_direction_run',
+          },
+          contents: GameToolbox,
+        },
+        {
+          kind: 'category',
+          name: i18next.t('BLOCKS_PHASER_PRELOAD'),
+          colour: '165',
+          cssConfig: {
+            container: 'icon_file_download',
+          },
+          contents: PreloadToolbox,
+        },
+        {
+          kind: 'category',
+          name: i18next.t('BLOCKS_PHASER_CREATE'),
+          colour: '30',
+          cssConfig: {
+            container: 'icon_add_circle',
+          },
+          contents: CreateToolbox.defaultBlocks.concat([
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_AUDIO'),
+              colour: '245',
+              cssConfig: {
+                container: 'icon_audiotrack',
+              },
+              contents: AudioToolbox.createBlocks.concat(
+                AudioToolbox.defaultBlocks
+              ),
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_SPRITE'),
+              colour: '225',
+              cssConfig: {
+                container: 'icon_portrait',
+              },
+              contents: SpriteToolbox.createBlocks.concat(
+                SpriteToolbox.defaultBlocks
+              ),
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_TILE_SPRITE'),
+              colour: '285',
+              cssConfig: {
+                container: 'icon_burst_mode',
+              },
+              contents: TileSpriteToolbox.createBlocks.concat(
+                TileSpriteToolbox.defaultBlocks
+              ),
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_PHYSICS_SPRITE'),
+              colour: '0',
+              cssConfig: {
+                container: 'icon_rotate_90_degrees_ccw',
+              },
+              contents: ArcadePhysicsToolbox.createBlocks.concat(
+                ArcadePhysicsToolbox.defaultBlocks
+              ),
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_TEXT'),
+              colour: '255',
+              cssConfig: {
+                container: 'icon_format_shapes',
+              },
+              contents: TextToolbox.createBlocks.concat(
+                TextToolbox.eventBlocks,
+                TextToolbox.defaultBlocks
+              ),
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_INPUTS'),
+              colour: '255',
+              cssConfig: {
+                container: 'icon_keyboard',
+              },
+              contents: InputToolbox.createBlocks,
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_GENERATOR'),
+              colour: '105',
+              cssConfig: {
+                container: 'icon_extension',
+              },
+              contents: GeneratorToolbox,
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_WORLD'),
+              colour: '345',
+              cssConfig: {
+                container: 'icon_computer',
+              },
+              contents: WorldToolbox,
+            },
+          ]),
+          expanded: 'false',
+        },
+        {
+          kind: 'category',
+          name: i18next.t('BLOCKS_PHASER_INPUT'),
+          colour: '165',
+          cssConfig: {
+            container: 'icon_keyboard',
+          },
+          contents: InputToolbox.eventBlocks.concat(
+            InputToolbox.defaultBlocks,
+            [
+              {
+                kind: 'category',
+                name: i18next.t('BLOCKS_PHASER_AUDIO'),
+                colour: '245',
+                cssConfig: {
+                  container: 'icon_audiotrack',
+                },
+                contents: AudioToolbox.defaultBlocks,
+              },
+              {
+                kind: 'category',
+                name: i18next.t('BLOCKS_PHASER_SPRITE'),
+                colour: '225',
+                cssConfig: {
+                  container: 'icon_portrait',
+                },
+                contents: SpriteToolbox.defaultBlocks,
+              },
+              {
+                kind: 'category',
+                name: i18next.t('BLOCKS_PHASER_TILE_SPRITE'),
+                colour: '285',
+                cssConfig: {
+                  container: 'icon_burst_mode',
+                },
+                contents: TileSpriteToolbox.defaultBlocks,
+              },
+              {
+                kind: 'category',
+                name: i18next.t('BLOCKS_PHASER_PHYSICS_SPRITE'),
+                colour: '0',
+                cssConfig: {
+                  container: 'icon_rotate_90_degrees_ccw',
+                },
+                contents: ArcadePhysicsToolbox.defaultBlocks.concat(
+                  ArcadePhysicsToolbox.eventBlocks
+                ),
+              },
+              {
+                kind: 'category',
+                name: i18next.t('BLOCKS_PHASER_TEXT'),
+                colour: '255',
+                cssConfig: {
+                  container: 'icon_format_shapes',
+                },
+                contents: TextToolbox.eventBlocks.concat(
+                  TextToolbox.defaultBlocks
+                ),
+              },
+            ]
+          ),
+          expanded: 'false',
+        },
+        {
+          kind: 'category',
+          name: i18next.t('BLOCKS_PHASER_UPDATE'),
+          colour: '165',
+          cssConfig: {
+            container: 'icon_repeat',
+          },
+          contents: [],
+        },
+        {
+          kind: 'category',
+          name: i18next.t('BLOCKS_PHASER_RENDERER'),
+          colour: '165',
+          cssConfig: {
+            container: 'icon_computer',
+          },
+          contents: RenderToolbox,
+        },
+        {
+          kind: 'sep',
+        },
+        {
+          kind: 'category',
+          name: i18next.t('BLOCKS_PHASER_FILES'),
+          colour: '150',
+          cssConfig: {
+            container: 'icon_perm_media',
+          },
+          contents: [],
+        },
+        {
+          kind: 'category',
+          name: i18next.t('BLOCKS_PHASER_EXAMPLE_FILES'),
+          colour: '150',
+          cssConfig: {
+            container: 'icon_perm_media',
+          },
+          contents: ExampleFiles.defaultBlocks,
+        },
+        {
+          kind: 'sep',
+        },
+        {
+          kind: 'category',
+          name: i18next.t('BLOCKS_LOGIC'),
+          colour: '210',
+          cssConfig: {
+            container: 'icon_call_split',
+          },
+          contents: DefaultLogicToolbox.defaultBlocks,
+        },
+        {
+          kind: 'category',
+          name: i18next.t('BLOCKS_LOOPS'),
+          colour: '210',
+          cssConfig: {
+            container: 'icon_loop',
+          },
+          contents: DefaultLoopToolbox.defaultBlocks,
+        },
+        {
+          kind: 'category',
+          name: i18next.t('BLOCKS_MATH'),
+          colour: '230',
+          cssConfig: {
+            container: 'icon_iso',
+          },
+          contents: DefaultMathToolbox.defaultBlocks,
+        },
+        {
+          kind: 'category',
+          name: i18next.t('BLOCKS_TEXT'),
+          colour: '160',
+          cssConfig: {
+            container: 'icon_text_fields',
+          },
+          contents: DefaultTextToolbox.defaultBlocks,
+        },
+        {
+          kind: 'category',
+          name: i18next.t('BLOCKS_LISTS'),
+          colour: '260',
+          cssConfig: {
+            container: 'icon_list',
+          },
+          contents: DefaultListsToolbox.defaultBlocks,
+        },
+        {
+          kind: 'category',
+          name: i18next.t('BLOCKS_COLORS'),
+          colour: '260',
+          cssConfig: {
+            container: 'icon_palette',
+          },
+          contents: DefaultColorsToolbox.defaultBlocks,
+        },
+        {
+          kind: 'sep',
+        },
+        {
+          kind: 'category',
+          name: i18next.t('BLOCKS_VARIABLES'),
+          colour: '330',
+          cssConfig: {
+            container: 'icon_attach_money',
+          },
+          custom: 'VARIABLE',
+        },
+        {
+          kind: 'category',
+          name: i18next.t('BLOCKS_FUNCTIONS'),
+          colour: '330',
+          cssConfig: {
+            container: 'icon_functions',
+          },
+          custom: 'PROCEDURE',
+        },
+      ],
+    };
+    return toolBox;
+  }
+}

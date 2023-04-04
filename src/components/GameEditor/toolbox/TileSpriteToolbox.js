@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tile Sprite toolbox.
+ * @fileoverview Render toolbox.
  *
  * @license Copyright 2023 The Coding with Chrome Authors.
  *
@@ -20,12 +20,12 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import '../blocks/TileSpriteBlocks.js';
+import '../blocks/TileSpriteBlocks';
 
 /**
- * @return {array}
+ * @type {array}
  */
-const create_blocks = [
+export const createBlocks = [
   {
     kind: 'block',
     blockxml: `
@@ -103,9 +103,9 @@ const create_blocks = [
 ];
 
 /**
- * @return {array}
+ * @type {array}
  */
-const default_blocks = [
+export const defaultBlocks = [
   {
     kind: 'block',
     blockxml: `
@@ -161,13 +161,7 @@ const default_blocks = [
   },
 ];
 
-/**
- * @param {*} showCreateBlocks
- * @param {*} hideEventBlocks
- * @return {array}
- */
-export default function (showCreateBlocks = false) {
-  let result = showCreateBlocks ? create_blocks : [];
-  result = result.concat(default_blocks);
-  return result;
-}
+export default {
+  createBlocks,
+  defaultBlocks,
+};

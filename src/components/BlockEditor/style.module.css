@@ -21,18 +21,3 @@
 .fillWindow {
   height: calc(100vh - 114px);
 }
-
-.toolbar {
-  height: 28px;
-  min-height: 28px;
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
-.toolbar > .MuiTypography-root {
-  font-size: 1.25rem;
-}
-
-.toolbar > .MuiSvgIcon-root {
-  font-size: 1.25rem;
-}

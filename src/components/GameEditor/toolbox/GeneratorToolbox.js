@@ -47,11 +47,6 @@ export default [
         <field name="NUM">0</field>
       </block>
     </value>
-    <value name="sprite">
-      <block type="text">
-        <field name="TEXT">obstacles</field>
-      </block>
-    </value>
     <value name="sprite_top">
       <block type="text"></block>
     </value>
@@ -61,12 +56,6 @@ export default [
     <value name="group">
       <block type="variables_get">
         <field name="VAR">obstacle_group</field>
-      </block>
-    </value>
-    <field name="property">velocity.x</field>
-    <value name="value">
-      <block type="math_number">
-        <field name="NUM">-200</field>
       </block>
     </value>
     <statement name="CODE">
@@ -100,11 +89,6 @@ export default [
         <field name="attribute">height</field>
       </block>
     </value>
-    <value name="sprite">
-      <block type="text">
-        <field name="TEXT">obstacles</field>
-      </block>
-    </value>
     <value name="sprite_optional">
       <block type="text">
         <field name="TEXT"></field>
@@ -114,12 +98,6 @@ export default [
     <value name="group">
       <block type="variables_get">
         <field name="VAR">obstacle_group</field>
-      </block>
-    </value>
-    <field name="property">velocity.x</field>
-    <value name="value">
-      <block type="math_number">
-        <field name="NUM">-200</field>
       </block>
     </value>
     <statement name="CODE">

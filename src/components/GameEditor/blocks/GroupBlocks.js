@@ -35,9 +35,9 @@ Blocks['phaser_group_add'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.addCircle())
-      .appendField(i18next.i18t('BLOCKS_DEFINE'));
+      .appendField(i18next.t('BLOCKS_DEFINE'));
     this.appendDummyInput()
-      .appendField(i18next.i18t('as group'))
+      .appendField(i18next.t('as group'))
       .appendField(
         new Blockly.FieldTextInput('group_name', BlocksHelper.validateText),
         'name'
@@ -71,8 +71,8 @@ javascriptGenerator['phaser_group_add'] = function (block) {
 Blocks['phaser_group_count_living'] = {
   init: function () {
     this.appendValueInput('variable')
-      .appendField(i18next.i18t('BLOCKS_PHASER_COUNT_LIVING_OBJECTS'))
-      .appendField(i18next.i18t('BLOCKS_IN'));
+      .appendField(i18next.t('BLOCKS_PHASER_COUNT_LIVING_OBJECTS'))
+      .appendField(i18next.t('BLOCKS_IN'));
     this.setOutput(true, null);
     this.setColour(255);
     this.setTooltip('');
@@ -83,7 +83,7 @@ Blocks['phaser_group_count_living'] = {
 /**
  * Get living objects.
  * @param {Blockly.Block} block
- * @return {string}
+ * @return {string[]}
  */
 javascriptGenerator['phaser_group_count_living'] = function (block) {
   const variable = javascriptGenerator.valueToCode(

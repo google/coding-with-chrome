@@ -62,6 +62,7 @@ class PhaserTemplate {
         display: block;
       }
     </style>
+    <script src="${PhaserTemplate.basePath}framework/phaser_extras.js"></script>
     <script src="${PhaserTemplate.basePath}framework/phaser.min.js"></script>
   </head>
   <body>

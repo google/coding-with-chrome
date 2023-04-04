@@ -25,9 +25,9 @@ import React, { lazy, Suspense } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import './i18next.js';
 
-const DesktopApp = lazy(() => import('./../Desktop'));
-const GameEditor = lazy(() => import('../GameEditor/index.js'));
-const SelectScreen = lazy(() => import('../SelectScreen/index.js'));
+const DesktopApp = lazy(() => import('../Desktop'));
+const GameEditor = lazy(() => import('../GameEditor'));
+const SelectScreen = lazy(() => import('../SelectScreen'));
 
 /**
  * @param {HTMLElement} node

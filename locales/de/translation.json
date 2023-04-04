@@ -1,4 +1,13 @@
 {
+
+  "BLOCKS_LOGIC": "Logik",
+  "BLOCKS_LOOPS": "Schleifen",
+  "BLOCKS_MATH": "Mathematik",
+  "BLOCKS_TEXT": "Text",
+  "BLOCKS_COLORS": "Farben",
+  "BLOCKS_VARIABLES": "Variablen",
+  "BLOCKS_FUNCTIONS": "Funktionen",
+
   "BLOCKS_ALL": "alle",
   "BLOCKS_AND": "und",
   "BLOCKS_AS": "als",

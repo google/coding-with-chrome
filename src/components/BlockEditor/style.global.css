@@ -93,8 +93,8 @@
 }
 
 .blocklyToolboxDiv::before {
-  bottom: 10px;
-  color: rgba(128, 128, 128, 0.2);
+  bottom: 0;
+  color: rgba(128, 128, 128, 0.5);
   content: 'delete';
   font-family: 'Material Icons';
   font-size: 128px;
@@ -179,20 +179,213 @@
   padding-left: 8px !important;
 }
 
+.blocklyToolboxContents .icon_access_time,
+.blocklyToolboxContents .icon_add_circle,
+.blocklyToolboxContents .icon_attach_money,
+.blocklyToolboxContents .icon_audiotrack,
+.blocklyToolboxContents .icon_brush,
+.blocklyToolboxContents .icon_burst_mode,
+.blocklyToolboxContents .icon_call_split,
+.blocklyToolboxContents .icon_computer,
+.blocklyToolboxContents .icon_desktop_windows,
+.blocklyToolboxContents .icon_developer_board,
 .blocklyToolboxContents .icon_direction_run,
-.blocklyToolboxContents .icon_file_download {
-
+.blocklyToolboxContents .icon_directions_car,
+.blocklyToolboxContents .icon_extension,
+.blocklyToolboxContents .icon_file_download,
+.blocklyToolboxContents .icon_folder,
+.blocklyToolboxContents .icon_format_shapes,
+.blocklyToolboxContents .icon_functions,
+.blocklyToolboxContents .icon_gamepad,
+.blocklyToolboxContents .icon_group_work,
+.blocklyToolboxContents .icon_input,
+.blocklyToolboxContents .icon_insert_photo,
+.blocklyToolboxContents .icon_iso,
+.blocklyToolboxContents .icon_keyboard,
+.blocklyToolboxContents .icon_lightbulb_outline,
+.blocklyToolboxContents .icon_list,
+.blocklyToolboxContents .icon_loop,
+.blocklyToolboxContents .icon_low_priority,
+.blocklyToolboxContents .icon_open_with,
+.blocklyToolboxContents .icon_palette,
+.blocklyToolboxContents .icon_perm_media,
+.blocklyToolboxContents .icon_portrait,
+.blocklyToolboxContents .icon_repeat,
+.blocklyToolboxContents .icon_rotate_90_degrees_ccw,
+.blocklyToolboxContents .icon_rv_hookup,
+.blocklyToolboxContents .icon_send,
+.blocklyToolboxContents .icon_settings_input_component,
+.blocklyToolboxContents .icon_text_fields {
   position: relative;
 }
 
+.blocklyToolboxContents .icon_access_time::before,
+.blocklyToolboxContents .icon_add_circle::before,
+.blocklyToolboxContents .icon_attach_money::before,
+.blocklyToolboxContents .icon_audiotrack::before,
+.blocklyToolboxContents .icon_brush::before,
+.blocklyToolboxContents .icon_burst_mode::before,
+.blocklyToolboxContents .icon_call_split::before,
+.blocklyToolboxContents .icon_computer::before,
+.blocklyToolboxContents .icon_desktop_windows::before,
+.blocklyToolboxContents .icon_developer_board::before,
 .blocklyToolboxContents .icon_direction_run::before,
-.blocklyToolboxContents .icon_file_download::before {
-  color: rgba(255,255,255,0.9);
+.blocklyToolboxContents .icon_directions_car::before,
+.blocklyToolboxContents .icon_extension::before,
+.blocklyToolboxContents .icon_file_download::before,
+.blocklyToolboxContents .icon_folder::before,
+.blocklyToolboxContents .icon_format_shapes::before,
+.blocklyToolboxContents .icon_functions::before,
+.blocklyToolboxContents .icon_gamepad::before,
+.blocklyToolboxContents .icon_group_work::before,
+.blocklyToolboxContents .icon_input::before,
+.blocklyToolboxContents .icon_insert_photo::before,
+.blocklyToolboxContents .icon_iso::before,
+.blocklyToolboxContents .icon_keyboard::before,
+.blocklyToolboxContents .icon_lightbulb_outline::before,
+.blocklyToolboxContents .icon_list::before,
+.blocklyToolboxContents .icon_loop::before,
+.blocklyToolboxContents .icon_low_priority::before,
+.blocklyToolboxContents .icon_open_with::before,
+.blocklyToolboxContents .icon_palette::before,
+.blocklyToolboxContents .icon_perm_media::before,
+.blocklyToolboxContents .icon_portrait::before,
+.blocklyToolboxContents .icon_repeat::before,
+.blocklyToolboxContents .icon_rotate_90_degrees_ccw::before,
+.blocklyToolboxContents .icon_rv_hookup::before,
+.blocklyToolboxContents .icon_send::before,
+.blocklyToolboxContents .icon_settings_input_component::before,
+.blocklyToolboxContents .icon_text_fields::before {
+  color: rgba(255, 255, 255, 0.9);
   font-family: 'Material Icons';
   font-size: 20px;
   left: 5px;
   top: -2px;
   position: absolute;
+}
+
+.blocklyToolboxContents .icon_access_time::before {
+  content: 'access_time';
+}
+
+.blocklyToolboxContents .icon_attach_money::before {
+  content: 'attach_money';
+}
+
+.blocklyToolboxContents .icon_brush::before {
+  content: 'brush';
+}
+
+.blocklyToolboxContents .icon_call_split::before {
+  content: 'call_split';
+}
+
+.blocklyToolboxContents .icon_computer::before {
+  content: 'computer';
+}
+
+.blocklyToolboxContents .icon_desktop_windows::before {
+  content: 'desktop_windows';
+}
+
+.blocklyToolboxContents .icon_developer_board::before {
+  content: 'developer_board';
+}
+
+.blocklyToolboxContents .icon_directions_car::before {
+  content: 'directions_car';
+}
+
+.blocklyToolboxContents .icon_extension::before {
+  content: 'extension';
+}
+
+.blocklyToolboxContents .icon_folder::before {
+  content: 'folder';
+}
+
+.blocklyToolboxContents .icon_format_shapes::before {
+  content: 'format_shapes';
+}
+
+.blocklyToolboxContents .icon_functions::before {
+  content: 'functions';
+}
+
+.blocklyToolboxContents .icon_gamepad::before {
+  content: 'gamepad';
+}
+
+.blocklyToolboxContents .icon_group_work::before {
+  content: 'group_work';
+}
+
+.blocklyToolboxContents .icon_input::before {
+  content: 'input';
+}
+
+.blocklyToolboxContents .icon_insert_photo::before {
+  content: 'insert_photo';
+}
+
+.blocklyToolboxContents .icon_iso::before {
+  content: 'iso';
+}
+
+.blocklyToolboxContents .icon_keyboard::before {
+  content: 'keyboard';
+}
+
+.blocklyToolboxContents .icon_lightbulb_outline::before {
+  content: 'lightbulb_outline';
+}
+
+.blocklyToolboxContents .icon_list::before {
+  content: 'list';
+}
+
+.blocklyToolboxContents .icon_loop::before {
+  content: 'loop';
+}
+
+.blocklyToolboxContents .icon_low_priority::before {
+  content: 'low_priority';
+}
+
+.blocklyToolboxContents .icon_open_with::before {
+  content: 'open_with';
+}
+
+.blocklyToolboxContents .icon_palette::before {
+  content: 'palette';
+}
+
+.blocklyToolboxContents .icon_perm_media::before {
+  content: 'perm_media';
+}
+
+.blocklyToolboxContents .icon_repeat::before {
+  content: 'repeat';
+}
+
+.blocklyToolboxContents .icon_rv_hookup::before {
+  content: 'rv_hookup';
+}
+
+.blocklyToolboxContents .icon_send::before {
+  content: 'send';
+}
+
+.blocklyToolboxContents .icon_settings_input_component::before {
+  content: 'settings_input_component';
+}
+
+.blocklyToolboxContents .icon_text_fields::before {
+  content: 'text_fields';
+}
+
+.blocklyToolboxContents .icon_add_circle::before {
+  content: 'add_circle';
 }
 
 .blocklyToolboxContents .icon_direction_run::before {
@@ -201,4 +394,20 @@
 
 .blocklyToolboxContents .icon_file_download::before {
   content: 'file_download';
+}
+
+.blocklyToolboxContents .icon_audiotrack::before {
+  content: 'audiotrack';
+}
+
+.blocklyToolboxContents .icon_portrait::before {
+  content: 'portrait';
+}
+
+.blocklyToolboxContents .icon_burst_mode::before {
+  content: 'burst_mode';
+}
+
+.blocklyToolboxContents .icon_rotate_90_degrees_ccw::before {
+  content: 'rotate_90_degrees_ccw';
 }

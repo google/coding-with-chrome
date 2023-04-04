@@ -72,7 +72,7 @@ export class Launcher extends React.PureComponent {
   /** Open Game Editor */
   openGameEditor() {
     console.debug('Open Game');
-    import('../../GameEditor').then((module) => {
+    import('../../GameEditor/GameEditor').then((module) => {
       WindowManager.addNewWindow('GameEditor').then((windowId) => {
         const node = WindowManager.getWindowNode(windowId);
         if (node instanceof HTMLElement) {
@@ -86,7 +86,7 @@ export class Launcher extends React.PureComponent {
   /** Open Block Editor */
   openBlockEditor() {
     console.debug('Open Editor');
-    import('../../BlockEditor').then((module) => {
+    import('../../BlockEditor/BlockEditor').then((module) => {
       WindowManager.addNewWindow('BlockEditor').then((windowId) => {
         const node = WindowManager.getWindowNode(windowId);
         if (node instanceof HTMLElement) {

@@ -14,45 +14,6 @@
  * limitations under the License.
  */
 
-/**
- * @author mbordihn@google.com (Markus Bordihn)
- *
- * @fileoverview Desktop screen for the Coding with Chrome suite.
- */
+import Desktop from './Desktop';
 
-import React from 'react';
-
-import { Panel } from './Panel';
-import { Launcher } from './Launcher';
-import { WindowManager } from './WindowManager';
-
-import styles from './style.module.css';
-
-/**
- *
- */
-export class DesktopApp extends React.PureComponent {
-  /**
-   * @param {*} props
-   */
-  constructor(props) {
-    super(props);
-  }
-
-  /**
-   * @return {Object}
-   */
-  render() {
-    return (
-      <React.StrictMode>
-        <div className={styles.desktop}>
-          <Panel />
-          <Launcher />
-          <WindowManager />
-        </div>
-      </React.StrictMode>
-    );
-  }
-}
-
-export default DesktopApp;
+export default Desktop;

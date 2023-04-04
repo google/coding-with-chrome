@@ -34,6 +34,7 @@ import React from 'react';
 import RedoIcon from '@mui/icons-material/Redo';
 import Toolbar from '@mui/material/Toolbar';
 import UndoIcon from '@mui/icons-material/Undo';
+import { v4 as uuidv4 } from 'uuid';
 
 import 'ace-builds/src-noconflict/ext-language_tools';
 import 'ace-builds/src-noconflict/mode-java';
@@ -55,14 +56,20 @@ export class CodeEditor extends React.PureComponent {
    */
   constructor(props) {
     super(props);
+    this.projectId = props.projectId || uuidv4();
     this.editorInstance = null;
     this.toolbar = React.createRef();
     this.infobar = React.createRef();
 
-    WindowManager.windowManagerEventTarget.addEventListener(
-      'windowResize',
-      this.handleWindowResize.bind(this)
-    );
+    // Adding event listener for window resize, if windowId is set.
+    if (this.props.windowId) {
+      WindowManager.windowManagerEventTarget.addEventListener(
+        'windowResize',
+        this.handleWindowResize.bind(this)
+      );
+    }
+
+    console.log('Adding code editor with project id: ', this.projectId);
   }
 
   /**

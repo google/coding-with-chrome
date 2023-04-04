@@ -25,7 +25,7 @@ import './../blocks/AudioBlocks.js';
 /**
  * @return {array}
  */
-const create_blocks = [
+export const createBlocks = [
   {
     kind: 'block',
     blockxml: `
@@ -55,7 +55,7 @@ const create_blocks = [
 /**
  * @return {array}
  */
-const default_blocks = [
+export const defaultBlocks = [
   {
     kind: 'block',
     blockxml: `
@@ -102,12 +102,7 @@ const default_blocks = [
   },
 ];
 
-/**
- * @param {*} showCreateBlocks
- * @return {array}
- */
-export default function (showCreateBlocks = false) {
-  let result = showCreateBlocks ? create_blocks : [];
-  result = result.concat(default_blocks);
-  return result;
-}
+export default {
+  createBlocks,
+  defaultBlocks,
+};

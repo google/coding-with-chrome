@@ -17,6 +17,7 @@
       "jsx": true
     }
   },
+  "ignorePatterns": ["third_party"],
   "rules": {
     "no-unused-vars": [
       2,

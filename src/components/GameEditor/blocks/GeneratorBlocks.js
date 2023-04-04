@@ -29,6 +29,73 @@ import { BlocksTemplate } from './BlocksTemplate';
 import i18next from 'i18next';
 
 /**
+ * Adjust arcade sprite.
+ */
+Blocks['phaser_generator_physics_arcade_attributes'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField(i18next.t('BLOCKS_SET'))
+      .appendField(
+        new Blockly.FieldDropdown([
+          [i18next.t('acceleration'), 'acceleration.set'],
+          [i18next.t('angle'), 'angle'],
+          [i18next.t('angular velocity'), 'angularVelocity'],
+          [i18next.t('bounce x'), 'bounce.x'],
+          [i18next.t('bounce y'), 'bounce.y'],
+          [i18next.t('bounce'), 'bounce.set'],
+          [i18next.t('allow gravity'), 'allowGravity'],
+          [
+            i18next.t('BLOCKS_PHASER_CHECK_COLLISION_DOWN'),
+            'checkCollision.down',
+          ],
+          [i18next.t('BLOCKS_PHASER_CHECK_COLLISION_UP'), 'checkCollision.up'],
+          [
+            i18next.t('BLOCKS_PHASER_CHECK_COLLISION_LEFT'),
+            'checkCollision.left',
+          ],
+          [
+            i18next.t('BLOCKS_PHASER_CHECK_COLLISION_RIGHT'),
+            'checkCollision.right',
+          ],
+          [i18next.t('collide world bounds'), 'collideWorldBounds'],
+          [i18next.t('gravity x'), 'gravity.x'],
+          [i18next.t('gravity y'), 'gravity.y'],
+          [i18next.t('immovable'), 'immovable'],
+          [i18next.t('velocity x'), 'velocity.x'],
+          [i18next.t('velocity y'), 'velocity.y'],
+          [i18next.t('velocity'), 'velocity'],
+          [i18next.t('BLOCKS_WIDTH'), 'width'],
+          [i18next.t('BLOCKS_HEIGHT'), 'height'],
+        ]),
+        'property'
+      );
+    this.appendValueInput('value')
+      .setCheck('Number')
+      .appendField(i18next.t('BLOCKS_TO'));
+    this.setPreviousStatement(true, ['GeneratorArcadeAttribute']);
+    this.setNextStatement(true, ['GeneratorArcadeAttribute']);
+    this.setInputsInline(true);
+    this.setColour(105);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+/**
+ * Adjust arcade sprite.
+ * @param {Blockly.Block} block
+ * @return {string}
+ */
+javascriptGenerator['phaser_generator_physics_arcade_attributes'] = function (
+  block
+) {
+  return javascriptGenerator['phaser_physics_arcade_sprite_adjust'](
+    block,
+    'arcadeSpriteCustom'
+  );
+};
+
+/**
  * Vertical obstacle generator.
  */
 Blocks['phaser_generator_vertical_obstacle'] = {
@@ -131,7 +198,7 @@ javascriptGenerator['phaser_generator_vertical_obstacle'] = function (block) {
     ' = game.add.group(undefined, ' +
     "'obstacle_group');\n" +
     '}\n' +
-    'cwc.framework.Phaser.VerticalObstacleGenerator(\n  ' +
+    'PhaserExtras.VerticalObstacleGenerator(game, \n  ' +
     value_x +
     ', ' +
     value_y +
@@ -255,7 +322,7 @@ javascriptGenerator['phaser_generator_random_vertical_obstacle'] = function (
     ' = game.add.group(undefined, ' +
     "'obstacle_group');\n" +
     '}\n' +
-    'cwc.framework.Phaser.RandomVerticalObstacleGenerator(\n  ' +
+    'PhaserExtras.RandomVerticalObstacleGenerator(\n  game,' +
     value_x +
     ', ' +
     value_y +
@@ -446,7 +513,7 @@ javascriptGenerator['phaser_generator_matrix_block'] = function (block) {
     ' = game.add.group(undefined, ' +
     "'block_group');\n" +
     '}\n' +
-    'cwc.framework.Phaser.MatrixBlockGenerator(\n  ' +
+    'PhaserExtras.MatrixBlockGenerator(\n  game,' +
     "'" +
     text_sprite +
     "', " +
@@ -465,72 +532,5 @@ javascriptGenerator['phaser_generator_matrix_block'] = function (block) {
       ? 'function(arcadeSpriteCustom) {\n' + statements_code + '}'
       : '') +
     ');\n'
-  );
-};
-
-/**
- * Adjust arcade sprite.
- */
-Blocks['phaser_generator_physics_arcade_attributes'] = {
-  init: function () {
-    this.appendDummyInput()
-      .appendField(i18next.t('BLOCKS_SET'))
-      .appendField(
-        new Blockly.FieldDropdown([
-          [i18next.t('acceleration'), 'acceleration.set'],
-          [i18next.t('angle'), 'angle'],
-          [i18next.t('angular velocity'), 'angularVelocity'],
-          [i18next.t('bounce x'), 'bounce.x'],
-          [i18next.t('bounce y'), 'bounce.y'],
-          [i18next.t('bounce'), 'bounce.set'],
-          [i18next.t('allow gravity'), 'allowGravity'],
-          [
-            i18next.t('BLOCKS_PHASER_CHECK_COLLISION_DOWN'),
-            'checkCollision.down',
-          ],
-          [i18next.t('BLOCKS_PHASER_CHECK_COLLISION_UP'), 'checkCollision.up'],
-          [
-            i18next.t('BLOCKS_PHASER_CHECK_COLLISION_LEFT'),
-            'checkCollision.left',
-          ],
-          [
-            i18next.t('BLOCKS_PHASER_CHECK_COLLISION_RIGHT'),
-            'checkCollision.right',
-          ],
-          [i18next.t('collide world bounds'), 'collideWorldBounds'],
-          [i18next.t('gravity x'), 'gravity.x'],
-          [i18next.t('gravity y'), 'gravity.y'],
-          [i18next.t('immovable'), 'immovable'],
-          [i18next.t('velocity x'), 'velocity.x'],
-          [i18next.t('velocity y'), 'velocity.y'],
-          [i18next.t('velocity'), 'velocity'],
-          [i18next.t('BLOCKS_WIDTH'), 'width'],
-          [i18next.t('BLOCKS_HEIGHT'), 'height'],
-        ]),
-        'property'
-      );
-    this.appendValueInput('value')
-      .setCheck('Number')
-      .appendField(i18next.t('BLOCKS_TO'));
-    this.setPreviousStatement(true, ['GeneratorArcadeAttribute']);
-    this.setNextStatement(true, ['GeneratorArcadeAttribute']);
-    this.setInputsInline(true);
-    this.setColour(105);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  },
-};
-
-/**
- * Adjust arcade sprite.
- * @param {Blockly.Block} block
- * @return {string}
- */
-javascriptGenerator['phaser_generator_physics_arcade_attributes'] = function (
-  block
-) {
-  return javascriptGenerator['phaser_physics_arcade_sprite_adjust'](
-    block,
-    'arcadeSpriteCustom'
   );
 };
