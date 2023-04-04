@@ -24,7 +24,7 @@ import Blockly, { Blocks } from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
 
 import { BlocksHelper } from './BlocksHelper';
-import { BlocksTemplate } from './BlocksTemplate';
+import { BlocksTemplate } from '../../BlockEditor/blocks/BlocksTemplate';
 
 import i18next from 'i18next';
 
@@ -463,10 +463,7 @@ Blocks['phaser_physics_arcade_sprite_adjust_custom'] = {
             i18next.t('BLOCKS_PHASER_CHECK_COLLISION_DOWN'),
             'checkCollision.down',
           ],
-          [
-            i18next.t('BLOCKS_PHASER_CHECK_COLLISION_UP'),
-            'checkCollision.up',
-          ],
+          [i18next.t('BLOCKS_PHASER_CHECK_COLLISION_UP'), 'checkCollision.up'],
           [
             i18next.t('BLOCKS_PHASER_CHECK_COLLISION_LEFT'),
             'checkCollision.left',

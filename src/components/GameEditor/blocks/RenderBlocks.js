@@ -23,7 +23,7 @@
 import Blockly, { Blocks } from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
 
-import { BlocksTemplate } from './BlocksTemplate';
+import { BlocksTemplate } from '../../BlockEditor/blocks/BlocksTemplate';
 
 import i18next from 'i18next';
 

@@ -60,18 +60,18 @@ export class GameEditor extends React.PureComponent {
   }
 
   /**
-   * @param {Object} opt_event
+   * Hide specific content on drag event.
    */
-  handleMosaicOnChange(opt_event) {
+  handleMosaicOnChange() {
     if (this.previewRef) {
       this.previewRef.current.hideContent();
     }
   }
 
   /**
-   * @param {Object} opt_event
+   * Restore specific content on drop event.
    */
-  handleMosaicOnRelease(opt_event) {
+  handleMosaicOnRelease() {
     if (this.previewRef) {
       this.previewRef.current.showContent();
       this.previewRef.current.reload();

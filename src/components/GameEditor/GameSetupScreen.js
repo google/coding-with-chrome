@@ -60,9 +60,9 @@ export class GameSetupScreen extends React.PureComponent {
   }
 
   /**
-   * @param {event} opt_event
+   * Handle game setup close.
    */
-  handleGameSetupClose(opt_event) {
+  handleGameSetupClose() {
     this.setState({ showGameSetupScreen: false });
 
     // Process XML.
@@ -84,9 +84,9 @@ export class GameSetupScreen extends React.PureComponent {
   }
 
   /**
-   * @param {event} opt_event
+   * Generates a random project name.
    */
-  handleRandomProjectName(opt_event) {
+  handleRandomProjectName() {
     this.setState({
       projectName: ProjectNameGenerator.generate(i18next.resolvedLanguage),
     });

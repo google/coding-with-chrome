@@ -15,9 +15,8 @@
  */
 
 /**
+ * @fileoverview Translation Support.
  * @author mbordihn@google.com (Markus Bordihn)
- *
- * @fileoverview Translation Support for Coding with Chrome suite.
  */
 
 import i18next from 'i18next';

@@ -24,7 +24,7 @@ import Blockly, { Blocks } from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
 
 import { BlocksHelper } from './BlocksHelper';
-import { BlocksTemplate } from './BlocksTemplate';
+import { BlocksTemplate } from '../../BlockEditor/blocks/BlocksTemplate';
 
 import i18next from 'i18next';
 
@@ -478,9 +478,7 @@ javascriptGenerator['phaser_text_change'] = function (block) {
  */
 Blocks['phaser_text_get'] = {
   init: function () {
-    this.appendValueInput('variable').appendField(
-      i18next.t('BLOCKS_GET_TEXT')
-    );
+    this.appendValueInput('variable').appendField(i18next.t('BLOCKS_GET_TEXT'));
     this.setOutput(true, null);
     this.setColour(255);
     this.setTooltip('');

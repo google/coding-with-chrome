@@ -22,7 +22,7 @@
  */
 
 /**
- *
+ * Provide additional functions to the Phaser library.
  */
 class PhaserExtras {
   /**
@@ -209,3 +209,5 @@ class PhaserExtras {
     };
   }
 }
+
+new PhaserExtras();

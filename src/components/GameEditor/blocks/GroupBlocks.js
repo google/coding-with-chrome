@@ -24,7 +24,7 @@ import Blockly, { Blocks } from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
 
 import { BlocksHelper } from './BlocksHelper';
-import { BlocksTemplate } from './BlocksTemplate';
+import { BlocksTemplate } from '../../BlockEditor/blocks/BlocksTemplate';
 
 import i18next from 'i18next';
 

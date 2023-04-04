@@ -1,6 +1,4 @@
 /**
- * @fileoverview Phaser Template for the Phaser Blockly modification.
- *
  * @license Copyright 2023 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,8 +15,12 @@
  */
 
 /**
+ * @fileoverview Phaser Template for the Phaser Blockly modification.
  * @author mbordihn@google.com (Markus Bordihn)
  */
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+import Blockly from 'blockly';
 
 /**
  * @class

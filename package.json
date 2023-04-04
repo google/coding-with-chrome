@@ -105,7 +105,7 @@
     "pretest": "npm run lint",
     "start": "webpack serve --config build/webpack.config.prod.babel.js",
     "start:dev": "webpack serve --config build/webpack.config.dev.babel.js",
-    "sync": "git pull && npm install && npm update && npm prune && npm audit fix",
+    "sync": "git pull && git submodule init && git submodule update && npm install && npm update && npm prune && npm audit fix",
     "test": "npm run test:units",
     "test:units": "karma start test/unit_tests/all.conf",
     "test:units:fs": "karma start test/unit_tests/fs.conf",

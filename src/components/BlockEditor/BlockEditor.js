@@ -25,10 +25,19 @@ import React, { createRef } from 'react';
 import Blockly from 'blockly';
 import Box from '@mui/material/Box';
 import CodeIcon from '@mui/icons-material/Code';
+import Drawer from '@mui/material/Drawer';
+import FileOpenIcon from '@mui/icons-material/FileOpen';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
 import PreviewIcon from '@mui/icons-material/Preview';
 import PropTypes from 'prop-types';
 import RedoIcon from '@mui/icons-material/Redo';
+import SaveAsIcon from '@mui/icons-material/SaveAs';
+import SaveIcon from '@mui/icons-material/Save';
+import Typography from '@mui/material/Typography';
 import UndoIcon from '@mui/icons-material/Undo';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -60,12 +69,15 @@ export class BlockEditor extends React.PureComponent {
     this.blockyWorkspace = null;
     this.codeEditor = createRef();
     this.toolbar = createRef();
+    this.fileUploadButton = createRef();
     this.timer = {
       handleXMLChange: null,
     };
     this.isDragging = false;
     this.state = {
+      file: null,
       showEditor: false,
+      showDrawer: false,
       config: {
         grid: {
           spacing: 20,
@@ -133,7 +145,7 @@ export class BlockEditor extends React.PureComponent {
   getWorkspaceCode() {
     let code = javascriptGenerator.workspaceToCode(this.blockyWorkspace) || '';
     if (this.props.template && typeof this.props.template === 'function') {
-      code = this.props.template(code, this.projectId);
+      code = this.props.template(code, this.projectId, this.blockyWorkspace);
     }
     return code;
   }
@@ -217,6 +229,56 @@ export class BlockEditor extends React.PureComponent {
       return;
     }
     this.resize();
+  }
+
+  /**
+   * Open Drawer Menu.
+   */
+  handleOpenDrawer() {
+    this.setState({ showDrawer: true });
+  }
+
+  /**
+   * Close Drawer Menu.
+   */
+  handleCloseDrawer() {
+    this.setState({ showDrawer: false });
+  }
+
+  /**
+   * Requests user to open a file.
+   */
+  handleRequestOpenFile() {
+    this.fileUploadButton.current.click();
+  }
+
+  /**
+   * Open and reads the file.
+   * @param {*} event
+   */
+  handleOpenFile(event) {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      if (file) {
+        console.log('Open a file ...', file);
+        const reader = new FileReader();
+        reader.onload = (fileEvent) => {
+          const data = fileEvent?.target?.result;
+          this.handleOpenFileContent(file, data);
+        };
+        reader.readAsText(file);
+      }
+    }
+    this.handleCloseDrawer();
+  }
+
+  /**
+   * @param {File} file
+   * @param {string|ArrayBuffer|null|undefined} content
+   */
+  handleOpenFileContent(file, content = '') {
+    console.log('Handle file content ...', file.name, content);
+    this.setState({ file });
   }
 
   /**
@@ -331,9 +393,28 @@ export class BlockEditor extends React.PureComponent {
       <React.StrictMode>
         <Box sx={{ display: this.state.showEditor ? 'none' : 'block' }}>
           <Toolbar>
-            <ToolbarIconButton aria-label="menu">
+            <ToolbarIconButton
+              aria-label="menu"
+              onClick={this.handleOpenDrawer.bind(this)}
+            >
               <MenuIcon />
             </ToolbarIconButton>
+            {this.state.file && (
+              <ToolbarIconButton
+                aria-label="save"
+                onClick={this.handleUndo.bind(this)}
+              >
+                <SaveIcon />
+              </ToolbarIconButton>
+            )}
+            {!this.state.file && (
+              <ToolbarIconButton
+                aria-label="save_as"
+                onClick={this.handleUndo.bind(this)}
+              >
+                <SaveAsIcon />
+              </ToolbarIconButton>
+            )}
             <ToolbarIconButton
               aria-label="undo"
               onClick={this.handleUndo.bind(this)}
@@ -364,6 +445,29 @@ export class BlockEditor extends React.PureComponent {
               </ToolbarIconButton>
             )}
           </Toolbar>
+          <Drawer
+            anchor="left"
+            open={this.state.showDrawer}
+            onClose={this.handleCloseDrawer.bind(this)}
+          >
+            <MenuList sx={{ minWidth: '250px' }}>
+              <MenuItem onClick={this.handleRequestOpenFile.bind(this)}>
+                <ListItemIcon>
+                  <FileOpenIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Open File</ListItemText>
+                <Typography variant="body2" color="text.secondary">
+                  -
+                </Typography>
+                <input
+                  ref={this.fileUploadButton}
+                  type="file"
+                  onChange={this.handleOpenFile.bind(this)}
+                  hidden
+                />
+              </MenuItem>
+            </MenuList>
+          </Drawer>
           <Box>
             <BlocklyWorkspace
               className={this.props.windowId ? styles.fillWindow : styles.fill}

@@ -130,9 +130,9 @@ export class CodeEditor extends React.PureComponent {
   }
 
   /**
-   * @param {event} opt_event
+   * Handle Preview
    */
-  handlePreview(opt_event) {
+  handlePreview() {
     PreviewService.saveHTMLFile('index.html', this.getValue());
   }
 

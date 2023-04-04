@@ -42,8 +42,7 @@ export class BlocksHelper {
     let foundName = false;
     const spriteList = [];
     const blocks = Blockly.getMainWorkspace().getAllBlocks(true);
-    for (const element of blocks) {
-      const block = element;
+    for (const block of blocks) {
       if (
         block &&
         block['type'] === 'phaser_load_image' &&
