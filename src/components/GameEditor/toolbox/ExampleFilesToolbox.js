@@ -20,113 +20,37 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import '../blocks/ExampleFilesBlocks.js';
+import '../../BlockEditor/blocks/StaticFilesBlocks.js';
+import { BlocksBuilder } from '../../BlockEditor/blocks/BlocksBuilder.js';
 
-/**
- * @type {array}
- */
-export const defaultBlocks = [
-  {
-    kind: 'block',
-    blockxml: `
-  <block type="phaser_load_image">
-    <field name="name">50px_red</field>
-      <value name="image">
-        <block type="phaser_sample_image_50px_red"></block>
-    </value>
-  </block>`,
-  },
-  {
-    kind: 'block',
-    blockxml: `
-  <block type="phaser_load_image">
-    <field name="name">50px_green</field>
-      <value name="image">
-        <block type="phaser_sample_image_50px_green"></block>
-    </value>
-  </block>`,
-  },
-  {
-    kind: 'block',
-    blockxml: `
-  <block type="phaser_load_image">
-    <field name="name">50px_blue</field>
-      <value name="image">
-        <block type="phaser_sample_image_50px_blue"></block>
-    </value>
-  </block>`,
-  },
-  {
-    kind: 'block',
-    blockxml: `
-  <block type="phaser_load_image">
-    <field name="name">ball_red</field>
-      <value name="image">
-        <block type="phaser_sample_image_ball_red"></block>
-    </value>
-  </block>`,
-  },
-  {
-    kind: 'block',
-    blockxml: `
-  <block type="phaser_load_image">
-    <field name="name">ball_green</field>
-      <value name="image">
-        <block type="phaser_sample_image_ball_green"></block>
-    </value>
-  </block>`,
-  },
-  {
-    kind: 'block',
-    blockxml: `
-  <block type="phaser_load_image">
-    <field name="name">ball_blue</field>
-      <value name="image">
-        <block type="phaser_sample_image_ball_blue"></block>
-    </value>
-  </block>`,
-  },
-  {
-    kind: 'block',
-    blockxml: `
-  <block type="phaser_load_image">
-    <field name="name">paddle</field>
-      <value name="image">
-        <block type="phaser_sample_image_paddle"></block>
-    </value>
-  </block>`,
-  },
-  {
-    kind: 'block',
-    blockxml: `
-  <block type="phaser_load_image">
-    <field name="name">player</field>
-      <value name="image">
-        <block type="phaser_sample_image_player"></block>
-    </value>
-  </block>`,
-  },
-  {
-    kind: 'block',
-    blockxml: `
-  <block type="phaser_load_image">
-    <field name="name">bg_01</field>
-      <value name="image">
-        <block type="phaser_sample_image_bg_01"></block>
-    </value>
-  </block>`,
-  },
-  {
-    kind: 'block',
-    blockxml: `
-  <block type="phaser_load_image">
-    <field name="name">bg_02</field>
-      <value name="image">
-        <block type="phaser_sample_image_bg_02"></block>
-    </value>
-  </block>`,
-  },
+// Default sample images
+const sampleImageData = [
+  ['50px_blue', '/assets/phaser/samples/50px_blue.png'],
+  ['50px_green', '/assets/phaser/samples/50px_green.png'],
+  ['50px_red', '/assets/phaser/samples/50px_red.png'],
+  ['ball_blue', '/assets/phaser/samples/ball_blue.png'],
+  ['ball_green', '/assets/phaser/samples/ball_green.png'],
+  ['ball_red', '/assets/phaser/samples/ball_red.png'],
+  ['bg_01', '/assets/phaser/samples/bg/bg_01.png'],
+  ['bg_02', '/assets/phaser/samples/bg/bg_02.png'],
+  ['paddle', '/assets/phaser/samples/paddle.png'],
+  ['player', '/assets/phaser/samples/player.png'],
 ];
+
+// Processing sample images to get dataURL for static image blocks
+const defaultBlocks = [];
+for (const imageData of sampleImageData) {
+  BlocksBuilder.getAsDataURL(imageData[0], imageData[1]).then((data) => {
+    console.log('Add sample image ' + data.name + ' block.');
+    defaultBlocks.push(
+      BlocksBuilder.getStaticImageFileBlock(
+        data.name,
+        data.filename,
+        data.dataURL
+      )
+    );
+  });
+}
 
 export default {
   defaultBlocks,

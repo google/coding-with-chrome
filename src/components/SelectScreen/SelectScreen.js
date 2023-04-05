@@ -15,9 +15,8 @@
  */
 
 /**
+ * @fileoverview Select Screen for Coding with Chrome.
  * @author mbordihn@google.com (Markus Bordihn)
- *
- * @fileoverview Preview for the desktop screen.
  */
 
 import React from 'react';

@@ -1,6 +1,4 @@
 /**
- * @fileoverview General template definition.
- *
  * @license Copyright 2023 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +15,7 @@
  */
 
 /**
+ * @fileoverview Blocks template definition.
  * @author mbordihn@google.com (Markus Bordihn)
  */
 

@@ -3,6 +3,7 @@
 .DS_Store
 .c9
 .idea
+.lighthouseci
 .nyc_output
 .project
 .settings

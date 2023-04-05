@@ -100,6 +100,7 @@
     "lint": "npm run lint:javascript",
     "lint:fix": "eslint --fix .",
     "lint:javascript": "eslint .",
+    "lighthouse": "lhci autorun",
     "npm-upgrade": "npx npm-upgrade",
     "predeploy": "npm run build:deploy",
     "pretest": "npm run lint",
@@ -113,6 +114,7 @@
     "upgrade": "npm run npm-upgrade && npm install && npm update && npm prune && npm audit fix && npx browserslist@latest --update-db"
   },
   "dependencies": {
+    "@lhci/cli": "^0.11.0",
     "react-mosaic-component": "^6.0.0",
     "styled-components": "^5.3.9"
   }

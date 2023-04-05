@@ -1,6 +1,4 @@
 /**
- * @fileoverview Phaser Audio Blocks for Blockly.
- *
  * @license Copyright 2023 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +15,7 @@
  */
 
 /**
+ * @fileoverview Text Toolbox for Blockly.
  * @author mbordihn@google.com (Markus Bordihn)
  */
 

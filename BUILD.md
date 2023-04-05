@@ -11,7 +11,7 @@ Each build is cross-platform compatible. Which mean if you build the
 Coding with Chrome Suite on Windows you could use the generated code in other
 platforms like Mac OS X as well.
 
-### Preperations
+### Preparations
 
 Install Node.js from the official web page at <https://nodejs.org>
 
@@ -46,7 +46,7 @@ Enter the "coding-with-chrome" directory and get the required packages by:
 npm install
 ```
 
-### Install Windows Build Tools (required on Windows)
+### Install Windows Build Tools (recommended on Windows)
 
 If you using Windows, please make sure that the Windows Build Tools are
 installed by running the following command with administrative rights:

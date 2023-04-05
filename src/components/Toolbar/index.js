@@ -15,9 +15,8 @@
  */
 
 /**
+ * @fileoverview Custom Toolbar Components.
  * @author mbordihn@google.com (Markus Bordihn)
- *
- * @fileoverview Custom Toolbar for all components.
  */
 
 import React from 'react';

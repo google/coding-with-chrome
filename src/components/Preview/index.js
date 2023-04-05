@@ -15,9 +15,8 @@
  */
 
 /**
- * @author mbordihn@google.com (Markus Bordihn)
- *
  * @fileoverview Preview for the desktop screen.
+ * @author mbordihn@google.com (Markus Bordihn)
  */
 
 import AspectRatioIcon from '@mui/icons-material/AspectRatio';

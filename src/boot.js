@@ -15,9 +15,8 @@
  */
 
 /**
- * @author mbordihn@google.com (Markus Bordihn)
- *
  * @fileoverview Bootscript for the Coding with Chrome suite.
+ * @author mbordihn@google.com (Markus Bordihn)
  */
 
 import { screen } from './gui/Screen';

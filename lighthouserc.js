@@ -14,31 +14,15 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Window data for the Window Manager.
- * @author mbordihn@google.com (Markus Bordihn)
- */
-
-/**
- * Represents a single window for the window manager.
- */
-export class WindowData {
-  /**
-   * @param {string} id
-   * @param {string} title
-   * @param {number} width
-   * @param {number} height
-   * @param {number} x
-   * @param {number} y
-   * @constructor
-   */
-  constructor(id, title, width = 500, height = 300, x = 200, y = 200) {
-    this.id = id;
-    this.title = title;
-    this.width = width;
-    this.height = height;
-    this.x = x;
-    this.y = y;
-    this.noClose = false;
-  }
-}
+module.exports = {
+  ci: {
+    collect: {
+      startServerCommand: 'npm run start',
+      startServerReadyTimeout: 30000,
+      url: ['http://localhost:8080'],
+    },
+    upload: {
+      target: 'temporary-public-storage',
+    },
+  },
+};

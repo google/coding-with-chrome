@@ -15,9 +15,7 @@
  */
 
 /**
- * @fileoverview Phaser Extras framework.
- * This frameworks adds additional functionality for Phaser.
- *
+ * @fileoverview Additional Phaser functions.
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
@@ -25,6 +23,37 @@
  * Provide additional functions to the Phaser library.
  */
 class PhaserExtras {
+  /**
+   * Prepare and clear the document for the game from any artifacts.
+   */
+  clear() {
+    // Remove existing canvas elements, in the case this is an saved document.
+    const canvasElements = document.getElementsByTagName('canvas');
+    if (canvasElements) {
+      for (const canvasElement of canvasElements) {
+        if (
+          canvasElement.style &&
+          canvasElement.style['touchAction'] == 'none' &&
+          canvasElement.style['userSelect'] == 'none'
+        ) {
+          canvasElement.remove();
+        }
+      }
+    }
+
+    // Remove possible extra fragments like Ghostery.
+    if (document.getElementById('ghostery-tracker-tally')) {
+      document.getElementById('ghostery-tracker-tally').remove();
+    } else {
+      if (document.getElementById('ghostery-box')) {
+        document.getElementById('ghostery-box').remove();
+      }
+      if (document.getElementById('ghostery-pb-background')) {
+        document.getElementById('ghostery-pb-background').remove();
+      }
+    }
+  }
+
   /**
    * @param {Object} game
    * @param {number} x
@@ -210,4 +239,6 @@ class PhaserExtras {
   }
 }
 
-new PhaserExtras();
+document.addEventListener('DOMContentLoaded', function () {
+  new PhaserExtras().clear();
+});

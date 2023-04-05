@@ -35,7 +35,7 @@ Blocks['phaser_sprite_add'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.addCircle())
-      .appendField(i18next.t('BLOCKS__DEFINE'));
+      .appendField(i18next.t('BLOCKS_DEFINE'));
     this.appendDummyInput()
       .appendField(i18next.t('as sprite'))
       .appendField(
@@ -106,14 +106,14 @@ Blocks['phaser_sprite_adjust'] = {
         [i18next.t('angle'), 'angle'],
         [i18next.t('anchor'), 'anchor.set'],
         [i18next.t('buttonMode'), 'buttonMode'],
-        [i18next.t('BLOCKS__HEIGHT'), 'height'],
+        [i18next.t('BLOCKS_HEIGHT'), 'height'],
         [i18next.t('move down'), 'moveDown'],
         [i18next.t('move left'), 'moveLeft'],
         [i18next.t('move right'), 'moveRight'],
         [i18next.t('move up'), 'moveUp'],
         [i18next.t('rotation'), 'rotation'],
         [i18next.t('visible'), 'visible'],
-        [i18next.t('BLOCKS__WIDTH'), 'width'],
+        [i18next.t('BLOCKS_WIDTH'), 'width'],
         [i18next.t('x'), 'x'],
         [i18next.t('y'), 'y'],
         [i18next.t('z'), 'y'],
@@ -122,7 +122,7 @@ Blocks['phaser_sprite_adjust'] = {
     );
     this.appendValueInput('value')
       .setCheck('Number')
-      .appendField(i18next.t('BLOCKS__TO'));
+      .appendField(i18next.t('BLOCKS_TO'));
     this.setPreviousStatement(true, ['Create', 'Input', 'Update']);
     this.setNextStatement(true, ['Create', 'Input', 'Update']);
     this.setColour(225);
@@ -262,7 +262,7 @@ Blocks['phaser_sprite_destroy'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.point())
-      .appendField(i18next.t('BLOCKS__DESTROY'))
+      .appendField(i18next.t('BLOCKS_DESTROY'))
       .appendField(i18next.t('sprite'));
     this.appendValueInput('variable');
     this.setInputsInline(true);
