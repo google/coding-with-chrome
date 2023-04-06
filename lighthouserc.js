@@ -17,9 +17,13 @@
 module.exports = {
   ci: {
     collect: {
-      startServerCommand: 'npm run start',
-      startServerReadyTimeout: 30000,
-      url: ['http://localhost:8080'],
+      startServerCommand: 'npm run start:lighthouse',
+      startServerReadyTimeout: 25000,
+      url: [
+        'http://localhost:8080',
+        'http://localhost:8080/#/desktop',
+        'http://localhost:8080/#/game_editor',
+      ],
     },
     upload: {
       target: 'temporary-public-storage',

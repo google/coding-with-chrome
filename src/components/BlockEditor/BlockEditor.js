@@ -42,7 +42,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import { BlocklyWorkspace, WorkspaceSvg } from 'react-blockly';
-import { CodeEditor } from '../CodeEditor';
+import { CodeEditor } from '../CodeEditor/CodeEditor';
 import { WindowManager } from '../Desktop/WindowManager';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import { WindowResizeEvent } from '../Desktop/WindowManager/Events';
@@ -65,6 +65,7 @@ export class BlockEditor extends React.PureComponent {
   constructor(props) {
     super(props);
     this.projectId = props.projectId || uuidv4();
+    this.projectName = props.projectName || 'New Project';
     this.blockyWorkspace = null;
     this.codeEditor = createRef();
     this.toolbar = createRef();
@@ -114,7 +115,9 @@ export class BlockEditor extends React.PureComponent {
    */
   showBlockEditor() {
     console.log('Show Block Editor ...');
-    this.setState({ showEditor: false });
+    this.setState({ showEditor: false }, () => {
+      this.resize();
+    });
   }
 
   /**
@@ -135,7 +138,9 @@ export class BlockEditor extends React.PureComponent {
     if (this.codeEditor) {
       this.codeEditor.current.setValue(code);
     }
-    this.setState({ showEditor: true });
+    this.setState({ showEditor: true }, () => {
+      this.codeEditor.current.resize();
+    });
   }
 
   /**
@@ -144,7 +149,12 @@ export class BlockEditor extends React.PureComponent {
   getWorkspaceCode() {
     let code = javascriptGenerator.workspaceToCode(this.blockyWorkspace) || '';
     if (this.props.template && typeof this.props.template === 'function') {
-      code = this.props.template(code, this.projectId, this.blockyWorkspace);
+      code = this.props.template(
+        code,
+        this.projectId,
+        this.projectName,
+        this.blockyWorkspace
+      );
     }
     return code;
   }
@@ -497,6 +507,7 @@ export class BlockEditor extends React.PureComponent {
 BlockEditor.propTypes = {
   content: PropTypes.string,
   projectId: PropTypes.string,
+  projectName: PropTypes.string,
   template: PropTypes.func,
   onChange: PropTypes.func,
   toolbox: PropTypes.object,

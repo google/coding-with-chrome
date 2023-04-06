@@ -56,13 +56,15 @@ export class Preview extends React.PureComponent {
     this.contentWrapper = React.createRef();
     this.contentIframe = React.createRef();
     this.contentLoadTimer = null;
+
+    window.addEventListener('resize', this.resize.bind(this));
   }
 
   /**
    * Resize editor content to parent container.
    */
   resize() {
-    //
+    this.reload();
   }
 
   /**
@@ -182,7 +184,7 @@ export class Preview extends React.PureComponent {
    * Reloads the iframe content.
    */
   reload() {
-    if (!this.contentIframe) {
+    if (!this.contentIframe || !this.contentIframe.current?.contentWindow) {
       return;
     }
     console.log('Reloading Iframe ...');
@@ -302,6 +304,7 @@ export class Preview extends React.PureComponent {
             onLoad={this.handleContentIframeLoad.bind(this)}
             onError={this.handleContentIframeError.bind(this)}
             sandbox="allow-scripts allow-modals allow-forms allow-same-origin allow-top-navigation-by-user-activation allow-downloads"
+            title="Preview Content Container"
           ></iframe>
         </Box>
       </React.StrictMode>

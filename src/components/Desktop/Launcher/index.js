@@ -99,7 +99,7 @@ export class Launcher extends React.PureComponent {
   /** Open Editor */
   openCodeEditor() {
     console.debug('Open Editor');
-    import('../../CodeEditor').then((module) => {
+    import('../../CodeEditor/CodeEditor').then((module) => {
       WindowManager.addNewWindow('CodeEditor').then((windowId) => {
         const node = WindowManager.getWindowNode(windowId);
         if (node instanceof HTMLElement) {

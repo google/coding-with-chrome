@@ -33,15 +33,16 @@ class PhaserTemplate {
   /**
    * @param {string} code
    * @param {string} projectId
+   * @param {string} projectName
    * @return {string}
    */
-  static render(code = '', projectId = '') {
+  static render(code = '', projectId = '', projectName = '') {
     return `<!DOCTYPE html>
 <html>
   <head>
     ${(() => {
-      return projectId
-        ? `<title>${projectId}</title>`
+      return projectName
+        ? `<title>${projectName}</title>`
         : '<title>Phaser Game</title>';
     })()}
     ${(() => {

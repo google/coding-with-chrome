@@ -97,6 +97,7 @@ export class GameEditor extends React.PureComponent {
           template={PhaserTemplate.render}
           onChange={this.handleBlockEditorContentChange.bind(this)}
           projectId={this.state.projectId}
+          projectName={this.state.projectName}
           windowId={this.props.windowId}
         />
       ),
