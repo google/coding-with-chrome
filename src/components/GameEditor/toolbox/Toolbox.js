@@ -27,7 +27,7 @@ import GameToolbox from './GameToolbox';
 import GeneratorToolbox from './GeneratorToolbox';
 import GroupToolbox from './GroupToolbox';
 import InputToolbox from './InputToolbox';
-import PreloadToolbox from './PreLoadToolbox';
+import PreloadToolbox from './PreloadToolbox';
 import RenderToolbox from './RenderToolbox';
 import SpriteToolbox from './SpriteToolbox';
 import TextToolbox from './TextToolbox';
