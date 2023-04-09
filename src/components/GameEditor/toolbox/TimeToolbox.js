@@ -15,36 +15,36 @@
  */
 
 /**
- * @fileoverview Render Phaser Toolbox.
+ * @fileoverview Time Phaser Toolbox.
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import './../blocks/DebugBlocks.js';
-import './../blocks/RenderBlocks.js';
+import './../blocks/TimeBlocks.js';
 
-export default [
+/**
+ * @type {array}
+ */
+export const defaultBlocks = [
   {
     kind: 'block',
-    type: 'phaser_render',
-  },
-  {
-    kind: 'block',
-    type: 'phaser_debug_camera',
-  },
-  {
-    kind: 'block',
-    type: 'phaser_debug_pointer',
+    blockxml: `
+  <block type="phaser_time_event">
+    <value name="time">
+      <block type="math_number"><field name="NUM">1500</field></block>
+    </value>
+  </block>`,
   },
   {
     kind: 'block',
     blockxml: `
-  <block type="phaser_debug_sprite">
-    <value name="variable">
-      <block type="variables_get">
-        <field name="VAR">sprite</field>
-      </block>
+  <block type="phaser_time_loop_event">
+    <value name="time">
+      <block type="math_number"><field name="NUM">1500</field></block>
     </value>
-  </block>
-    `,
+  </block>`,
   },
 ];
+
+export default {
+  defaultBlocks,
+};

@@ -163,19 +163,17 @@ export class File {
   }
 
   /**
-   * @return {string}
+   * @return {Promise}
    */
   getAsDataURL() {
-    return '';
+    return FileContent.blobToDataURL(this.data);
   }
 
   /**
    * @return {Promise}
    */
   getAsExecutable() {
-    return new Promise((resolve) => {
-      resolve(this.executable);
-    });
+    return Promise.resolve(this.executable);
   }
 
   /**
@@ -189,9 +187,7 @@ export class File {
    * @return {Promise}
    */
   getAsBinary() {
-    return new Promise((resolve) => {
-      resolve(this.data);
-    });
+    return Promise.resolve(this.data);
   }
 
   /**

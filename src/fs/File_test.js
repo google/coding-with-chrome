@@ -125,15 +125,37 @@ describe('File', function () {
     file.id = 'b742ae95-e24e049b-f8b48d12-71655fdd';
     file.getJSON().then((result) => {
       expect(result).toEqual(`{
-  "data": "function testFunction() {\\n      return 1;\\n    }",
+  "data": "function () {\\n      return 1;\\n    }",
   "id": "b742ae95-e24e049b-f8b48d12-71655fdd",
   "modified": ${file.lastModified},
   "name": "test123",
-  "size": 47,
+  "size": 35,
   "type": "application/x-binary",
   "version": 1
 }`);
       done();
     });
+  });
+
+  it('.getAsDataURL', function (done) {
+    const file = new File('test123');
+    const data = Math.random() + 'test';
+    file.setData(data);
+    file.getAsDataURL().then((result) => {
+      expect(result).toBe(`data:text/plain;base64,${btoa(data)}`);
+      done();
+    });
+    expect(file.getData()).toEqual(file.data);
+  });
+
+  it('.getAsBase64', function (done) {
+    const file = new File('test123');
+    const data = Math.random() + 'test';
+    file.setData(data);
+    file.getAsBase64().then((result) => {
+      expect(result).toBe(btoa(data));
+      done();
+    });
+    expect(file.getData()).toEqual(file.data);
   });
 });

@@ -15,9 +15,8 @@
  */
 
 /**
- * @author mbordihn@google.com (Markus Bordihn)
- *
  * @fileoverview Webpack test config
+ * @author mbordihn@google.com (Markus Bordihn)
  */
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import WebpackPwaManifest from 'webpack-pwa-manifest';
@@ -32,7 +31,7 @@ testConfig.module.rules.push({
   test: /\.js$|\.jsx$/,
   use: ['@jsdevtools/coverage-istanbul-loader'],
   enforce: 'post',
-  exclude: /node_modules|_test\.js$/,
+  exclude: /(node_modules|_test\.js)$/,
 });
 testConfig.devtool = 'eval-source-map';
 delete testConfig.output.filename;

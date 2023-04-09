@@ -48,6 +48,14 @@ describe('FileContent', function () {
     });
   });
 
+  it('.toBlob', function (done) {
+    const blobText = FileContent.toBlob(null);
+    FileContent.blobToText(blobText).then((text) => {
+      expect(text).toBe('');
+      done();
+    });
+  });
+
   it('.toBlob (text)', function (done) {
     const blobText = FileContent.toBlob('test');
     expect(blobText.type).toBe('text/plain');
@@ -70,6 +78,18 @@ describe('FileContent', function () {
     expect(blobBase64.type).toBe('text/plain');
     FileContent.blobToText(blobBase64).then((text) => {
       expect(text).toBe('Hello World');
+      done();
+    });
+  });
+
+  it('.base64ToBlob (error)', function (done) {
+    const blobBase64 = FileContent.base64ToBlob(
+      'SGVsbG8gV29ybGQ2=',
+      'text/plain'
+    );
+    expect(blobBase64.type).toBe('text/plain');
+    FileContent.blobToText(blobBase64).then((text) => {
+      expect(text).toBe('SGVsbG8gV29ybGQ2=');
       done();
     });
   });

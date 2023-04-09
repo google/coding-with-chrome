@@ -15,9 +15,8 @@
  */
 
 /**
- * @author mbordihn@google.com (Markus Bordihn)
- *
  * @fileoverview Webpack prod config
+ * @author mbordihn@google.com (Markus Bordihn)
  */
 
 import webpackConfig from './webpack.config.babel';

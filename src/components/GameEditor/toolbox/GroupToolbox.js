@@ -1,6 +1,4 @@
 /**
- * @fileoverview Preload toolbox.
- *
  * @license Copyright 2023 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,69 +15,51 @@
  */
 
 /**
+ * @fileoverview Group Phaser Toolbox.
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import '../blocks/WorldBlocks';
+import './../blocks/GroupBlocks.js';
 
-/**
- * @type {array}
- */
-export const createBlocks = [
-  {
-    kind: 'block',
-    type: 'phaser_world_resize',
-  },
-  {
-    kind: 'block',
-    blockxml: `
-  <block type="phaser_world_arcade_physics">
-    <value name="value">
-      <block type="math_number"><field name="NUM">0</field></block>
-    </value>
-  </block>`,
-  },
-  {
-    kind: 'block',
-    blockxml: `
-  <block type="phaser_world_sort_direction">
-    <field name="property">1</field>
-  </block>`,
-  },
-];
-
-/**
- * @type {array}
- */
 export const defaultBlocks = [
   {
     kind: 'block',
-    type: 'phaser_world_attributes',
+    blockxml: `
+  <block type="controls_if">
+    <value name="IF0">
+      <block type="logic_compare">
+        <value name="A">
+          <block type="phaser_group_count_living">
+            <value name="variable">
+              <block type="variables_get">
+                <field name="VAR">block_group</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <field name="OP">LTE</field>
+        <value name="B">
+          <block type="math_number">
+            <field name="NUM">0</field>
+          </block>
+        </value>
+      </block>
+    </value>
+  </block>`,
   },
-];
-
-/**
- * @type {array}
- */
-export const updateBlocks = [
   {
     kind: 'block',
     blockxml: `
-  <block type="phaser_world_wrap">
+  <block type="phaser_group_count_living">
     <value name="variable">
       <block type="variables_get">
-        <field name="VAR">sprite</field>
+        <field name="VAR">block_group</field>
       </block>
-    </value>
-    <value name="value">
-      <block type="math_number"></block>
     </value>
   </block>`,
   },
 ];
 
 export default {
-  createBlocks,
   defaultBlocks,
-  updateBlocks,
 };

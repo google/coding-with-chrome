@@ -1,14 +1,3 @@
 # See https://github.com/browserslist/browserslist#readme
 
->= 1%
-last 1 major version
-not dead
-Android >= 9
-Chrome >= 72
-Edge >= 79
-Firefox >= 65
-Safari >= 12
-iOS >= 10.12
-OperaMobile >= 59
-not OperaMini all
-not IE <= 11
+>0.5% and last 2 major version and not dead and supports es6-module and supports serviceworkers and supports promises

@@ -15,9 +15,8 @@
  */
 
 /**
+ * @fileoverview Webpack lighthouse config
  * @author mbordihn@google.com (Markus Bordihn)
- *
- * @fileoverview Webpack prod config
  */
 
 import webpackConfig from './webpack.config.babel';

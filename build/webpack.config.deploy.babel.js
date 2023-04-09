@@ -15,9 +15,8 @@
  */
 
 /**
- * @author mbordihn@google.com (Markus Bordihn)
- *
  * @fileoverview Webpack deploy config
+ * @author mbordihn@google.com (Markus Bordihn)
  */
 
 import webpackConfig from './webpack.config.babel';

@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-import '../blocks/ArcadePhysicsBlocks';
-import '../blocks/TimeBlocks';
-import '../blocks/UpdateBlocks';
+/**
+ * @fileoverview Phaser Toolbox.
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
 
 import ArcadePhysicsToolbox from './ArcadePhysicsToolbox';
 import AudioToolbox from './AudioToolbox';
@@ -24,12 +25,15 @@ import CreateToolbox from './CreateToolbox';
 import ExampleFiles from './ExampleFilesToolbox';
 import GameToolbox from './GameToolbox';
 import GeneratorToolbox from './GeneratorToolbox';
+import GroupToolbox from './GroupToolbox';
 import InputToolbox from './InputToolbox';
 import PreloadToolbox from './PreLoadToolbox';
 import RenderToolbox from './RenderToolbox';
 import SpriteToolbox from './SpriteToolbox';
 import TextToolbox from './TextToolbox';
 import TileSpriteToolbox from './TileSpriteToolbox';
+import TimeToolbox from './TimeToolbox';
+import UpdateToolbox from './UpdateToolbox';
 import WorldToolbox from './WorldToolbox';
 
 import DefaultColorsToolbox from '../../BlockEditor/toolbox/ColorsToolbox';
@@ -160,7 +164,9 @@ export class Toolbox {
               cssConfig: {
                 container: 'icon_computer',
               },
-              contents: WorldToolbox,
+              contents: WorldToolbox.createBlocks.concat(
+                WorldToolbox.defaultBlocks
+              ),
             },
           ]),
           expanded: 'false',
@@ -168,7 +174,7 @@ export class Toolbox {
         {
           kind: 'category',
           name: i18next.t('BLOCKS_PHASER_INPUT'),
-          colour: '165',
+          colour: '135',
           cssConfig: {
             container: 'icon_keyboard',
           },
@@ -231,16 +237,102 @@ export class Toolbox {
         {
           kind: 'category',
           name: i18next.t('BLOCKS_PHASER_UPDATE'),
-          colour: '165',
+          colour: '315',
           cssConfig: {
             container: 'icon_repeat',
           },
-          contents: [],
+          contents: UpdateToolbox.defaultBlocks.concat([
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_AUDIO'),
+              colour: '245',
+              cssConfig: {
+                container: 'icon_audiotrack',
+              },
+              contents: AudioToolbox.defaultBlocks,
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_SPRITE'),
+              colour: '225',
+              cssConfig: {
+                container: 'icon_portrait',
+              },
+              contents: SpriteToolbox.defaultBlocks,
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_TILE_SPRITE'),
+              colour: '285',
+              cssConfig: {
+                container: 'icon_burst_mode',
+              },
+              contents: TileSpriteToolbox.defaultBlocks,
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_PHYSICS_SPRITE'),
+              colour: '0',
+              cssConfig: {
+                container: 'icon_rotate_90_degrees_ccw',
+              },
+              contents: ArcadePhysicsToolbox.defaultBlocks.concat(
+                ArcadePhysicsToolbox.eventBlocks
+              ),
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_TEXT'),
+              colour: '255',
+              cssConfig: {
+                container: 'icon_format_shapes',
+              },
+              contents: TextToolbox.defaultBlocks,
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_INPUTS'),
+              colour: '255',
+              cssConfig: {
+                container: 'icon_keyboard',
+              },
+              contents: InputToolbox.defaultBlocks,
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_TIME'),
+              colour: '350',
+              cssConfig: {
+                container: 'icon_access_time',
+              },
+              contents: TimeToolbox.defaultBlocks,
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_GROUP'),
+              colour: '260',
+              cssConfig: {
+                container: 'icon_group_work',
+              },
+              contents: GroupToolbox.defaultBlocks,
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_WORLD'),
+              colour: '345',
+              cssConfig: {
+                container: 'icon_computer',
+              },
+              contents: WorldToolbox.updateBlocks.concat(
+                WorldToolbox.defaultBlocks
+              ),
+            },
+          ]),
         },
         {
           kind: 'category',
           name: i18next.t('BLOCKS_PHASER_RENDERER'),
-          colour: '165',
+          colour: '195',
           cssConfig: {
             container: 'icon_computer',
           },

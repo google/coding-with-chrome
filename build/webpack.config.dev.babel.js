@@ -15,13 +15,28 @@
  */
 
 /**
- * @author mbordihn@google.com (Markus Bordihn)
- *
  * @fileoverview Webpack dev config
+ * @author mbordihn@google.com (Markus Bordihn)
  */
+
+import CopyPlugin from 'copy-webpack-plugin';
 
 import webpackConfig from './webpack.config.babel';
 
 const devConfig = webpackConfig('development');
+devConfig.plugins.push(
+  new CopyPlugin({
+    patterns: [
+      {
+        from: './third_party/phaser-ce/build/phaser.map',
+        to: './framework/phaser.map',
+        globOptions: {
+          dot: true,
+          gitignore: true,
+        },
+      },
+    ],
+  })
+);
 
 module.exports = devConfig;

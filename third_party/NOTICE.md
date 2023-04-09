@@ -1,4 +1,4 @@
-﻿# Credits
+﻿# Third-party Credits
 
 - [Material Design Icons](#material-design-icons)
 - [React](#react)

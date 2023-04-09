@@ -15,9 +15,8 @@
  */
 
 /**
- * @author mbordihn@google.com (Markus Bordihn)
- *
  * @fileoverview Webpack core config
+ * @author mbordihn@google.com (Markus Bordihn)
  */
 
 import CopyPlugin from 'copy-webpack-plugin';
@@ -36,6 +35,9 @@ import webpack from 'webpack';
 module.exports = (mode = 'development') => ({
   mode: mode == 'deploy' ? 'production' : mode,
   target: 'web',
+  performance: {
+    hints: mode == 'deploy' || mode == 'production' ? false : 'warning',
+  },
   devServer: {
     compress: true,
     headers: {
@@ -233,14 +235,6 @@ module.exports = (mode = 'development') => ({
         {
           from: './third_party/phaser-ce/build/phaser.min.js',
           to: './framework/phaser.min.js',
-          globOptions: {
-            dot: true,
-            gitignore: true,
-          },
-        },
-        {
-          from: './third_party/phaser-ce/build/phaser.map',
-          to: './framework/phaser.map',
           globOptions: {
             dot: true,
             gitignore: true,

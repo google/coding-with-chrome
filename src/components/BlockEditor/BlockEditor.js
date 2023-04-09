@@ -50,7 +50,8 @@ import { javascriptGenerator } from 'blockly/javascript';
 
 import { Toolbar, ToolbarIconButton, ToolbarButton } from '../Toolbar';
 
-import 'material-icons/iconfont/material-icons.css';
+import 'material-icons/iconfont/filled.css';
+import 'material-icons/iconfont/outlined.css';
 import styles from './style.module.css';
 import './style.global.css';
 import { PreviewService } from '../../service-worker/preview-service-worker';

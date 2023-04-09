@@ -28,6 +28,20 @@ export class FileContent {
    * @param {!Blob} blobObject
    * @return {Promise}
    */
+  static blobToDataURL(blobObject) {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = function () {
+        resolve(reader.result);
+      };
+      reader.readAsDataURL(blobObject);
+    });
+  }
+
+  /**
+   * @param {!Blob} blobObject
+   * @return {Promise}
+   */
   static blobToText(blobObject) {
     if (typeof blobObject.text === 'function') {
       return blobObject.text();
