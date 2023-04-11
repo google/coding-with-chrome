@@ -25,6 +25,9 @@ import { Alert, AlertTitle, Button, Grid, Typography } from '@mui/material';
 import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
 import BuildIcon from '@mui/icons-material/Build';
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { ReactComponent as Logo } from '../../../assets/svg/logo.svg';
 import styles from './style.module.css';
 
 /**
@@ -39,8 +42,9 @@ export class SelectScreen extends React.PureComponent {
       <div className={styles.container}>
         <Grid container spacing={3} direction="column" alignItems="center">
           <Grid item>
+            <Logo />
             <Typography variant="h4" align="center">
-              Welcome to the Select Screen
+              Please select a option to start.
             </Typography>
           </Grid>
           <Grid item>

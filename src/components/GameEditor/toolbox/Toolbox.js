@@ -1,5 +1,5 @@
 /**
- * @license Copyright 2023 The Coding with Chrome Authors.
+ * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,8 @@
 import ArcadePhysicsToolbox from './ArcadePhysicsToolbox';
 import AudioToolbox from './AudioToolbox';
 import CreateToolbox from './CreateToolbox';
-import ExampleFiles from './ExampleFilesToolbox';
+import DynamicFilesToolbox from './DynamicFilesToolbox';
+import ExampleFilesToolbox from './ExampleFilesToolbox';
 import GameToolbox from './GameToolbox';
 import GeneratorToolbox from './GeneratorToolbox';
 import GroupToolbox from './GroupToolbox';
@@ -50,9 +51,10 @@ import i18next from 'i18next';
  */
 export class Toolbox {
   /**
+   * @param {Map} files
    * @return {object}
    */
-  static getToolbox() {
+  static getToolbox(files = new Map()) {
     let toolBox = {};
     toolBox = {
       kind: 'categoryToolbox',
@@ -348,7 +350,7 @@ export class Toolbox {
           cssConfig: {
             container: 'icon_perm_media',
           },
-          contents: [],
+          contents: DynamicFilesToolbox.getDynamicFilesToolbox(files),
         },
         {
           kind: 'category',
@@ -357,7 +359,7 @@ export class Toolbox {
           cssConfig: {
             container: 'icon_perm_media',
           },
-          contents: ExampleFiles.defaultBlocks,
+          contents: ExampleFilesToolbox.defaultBlocks,
         },
         {
           kind: 'sep',
@@ -442,3 +444,5 @@ export class Toolbox {
     return toolBox;
   }
 }
+
+export default Toolbox;

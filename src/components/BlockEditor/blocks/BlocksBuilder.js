@@ -1,5 +1,5 @@
 /**
- * @license Copyright 2023 The Coding with Chrome Authors.
+ * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,28 +26,6 @@ export class BlocksBuilder {
   static basePath = location.host.endsWith('.github.io')
     ? location.pathname
     : '/';
-
-  /**
-   * @param {string} name
-   * @param {string} url
-   * @param {string} dataURL
-   * @return {Object}
-   */
-  static getStaticImageFileBlock(name, url, dataURL) {
-    return {
-      kind: 'block',
-      blockxml: `
-  <block type="phaser_load_image">
-    <field name="name">${name}</field>
-    <value name="image">
-      <block type="static_image_file">
-        <field name="url">${url}</field>
-        <field name="urlData">${dataURL}</field>
-      </block>
-    </value>
-  </block>`,
-    };
-  }
 
   /**
    * @param {string} name

@@ -1,7 +1,7 @@
 /**
  * @fileoverview Phaser Blocks for Blockly.
  *
- * @license Copyright 2023 The Coding with Chrome Authors.
+ * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -112,7 +112,7 @@ Blocks['phaser_input_keyboard_cursor_keys_add'] = {
 javascriptGenerator['phaser_input_keyboard_cursor_keys_add'] = function (
   block
 ) {
-  const variable = Blockly.JavaScript.valueToCode(
+  const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
     javascriptGenerator.ORDER_ATOMIC
@@ -157,7 +157,7 @@ Blocks['phaser_input_keyboard_wasd_keys_add'] = {
  * @return {string}
  */
 javascriptGenerator['phaser_input_keyboard_wasd_keys_add'] = function (block) {
-  const variable = Blockly.JavaScript.valueToCode(
+  const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
     javascriptGenerator.ORDER_ATOMIC
@@ -199,7 +199,7 @@ Blocks['phaser_input_keyboard_spacebar_add'] = {
  * @return {string}
  */
 javascriptGenerator['phaser_input_keyboard_spacebar_add'] = function (block) {
-  const variable = Blockly.JavaScript.valueToCode(
+  const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
     javascriptGenerator.ORDER_ATOMIC
@@ -238,7 +238,7 @@ Blocks['phaser_input_keyboard_shift_add'] = {
  * @return {string}
  */
 javascriptGenerator['phaser_input_keyboard_shift_add'] = function (block) {
-  const variable = Blockly.JavaScript.valueToCode(
+  const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
     javascriptGenerator.ORDER_ATOMIC
@@ -290,7 +290,7 @@ Blocks['phaser_input_keyboard_key_add'] = {
  */
 javascriptGenerator['phaser_input_keyboard_key_add'] = function (block) {
   const dropdown_keycode = block.getFieldValue('keycode');
-  const variable = Blockly.JavaScript.valueToCode(
+  const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
     javascriptGenerator.ORDER_ATOMIC
@@ -332,7 +332,7 @@ Blocks['phaser_input_mouse_keys_add'] = {
  * @return {string}
  */
 javascriptGenerator['phaser_input_mouse_keys_add'] = function (block) {
-  const variable = Blockly.JavaScript.valueToCode(
+  const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
     javascriptGenerator.ORDER_ATOMIC
@@ -379,7 +379,7 @@ Blocks['phaser_input_keyboard_cursor_is_pressed'] = {
 javascriptGenerator['phaser_input_keyboard_cursor_is_pressed'] = function (
   block
 ) {
-  const value_cursors = Blockly.JavaScript.valueToCode(
+  const value_cursors = javascriptGenerator.valueToCode(
     block,
     'cursors',
     javascriptGenerator.ORDER_ATOMIC
@@ -428,7 +428,7 @@ Blocks['phaser_input_keyboard_cursor_is_hold_pressed'] = {
 javascriptGenerator['phaser_input_keyboard_cursor_is_hold_pressed'] = function (
   block
 ) {
-  const value_cursors = Blockly.JavaScript.valueToCode(
+  const value_cursors = javascriptGenerator.valueToCode(
     block,
     'cursors',
     javascriptGenerator.ORDER_ATOMIC
@@ -464,7 +464,7 @@ Blocks['phaser_input_keyboard_key_is_pressed'] = {
  * @return {string[]}
  */
 javascriptGenerator['phaser_input_keyboard_key_is_pressed'] = function (block) {
-  const value_key = Blockly.JavaScript.valueToCode(
+  const value_key = javascriptGenerator.valueToCode(
     block,
     'key',
     javascriptGenerator.ORDER_ATOMIC
@@ -496,7 +496,7 @@ Blocks['phaser_input_keyboard_key_is_hold_pressed'] = {
 javascriptGenerator['phaser_input_keyboard_key_is_hold_pressed'] = function (
   block
 ) {
-  const value_key = Blockly.JavaScript.valueToCode(
+  const value_key = javascriptGenerator.valueToCode(
     block,
     'key',
     javascriptGenerator.ORDER_ATOMIC
@@ -538,7 +538,7 @@ Blocks['phaser_input_keyboard_code_is_pressed'] = {
 javascriptGenerator['phaser_input_keyboard_code_is_pressed'] = function (
   block
 ) {
-  const value_key = Blockly.JavaScript.valueToCode(
+  const value_key = javascriptGenerator.valueToCode(
     block,
     'key',
     javascriptGenerator.ORDER_ATOMIC
@@ -584,7 +584,7 @@ Blocks['phaser_input_mouse_key_is_pressed'] = {
  * @return {string[]}
  */
 javascriptGenerator['phaser_input_mouse_key_is_pressed'] = function (block) {
-  const value_mouse = Blockly.JavaScript.valueToCode(
+  const value_mouse = javascriptGenerator.valueToCode(
     block,
     'mouse',
     javascriptGenerator.ORDER_ATOMIC
@@ -633,7 +633,7 @@ Blocks['phaser_input_mouse_key_is_hold_pressed'] = {
 javascriptGenerator['phaser_input_mouse_key_is_hold_pressed'] = function (
   block
 ) {
-  const value_mouse = Blockly.JavaScript.valueToCode(
+  const value_mouse = javascriptGenerator.valueToCode(
     block,
     'mouse',
     javascriptGenerator.ORDER_ATOMIC

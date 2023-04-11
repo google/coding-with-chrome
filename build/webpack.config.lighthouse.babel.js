@@ -24,7 +24,7 @@ import webpackConfig from './webpack.config.babel';
 const lighthouseConfig = webpackConfig('production');
 lighthouseConfig.devServer.client = {
   overlay: {
-    errors: true,
+    errors: false,
     warnings: false,
   },
 };

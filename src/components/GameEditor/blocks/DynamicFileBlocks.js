@@ -15,7 +15,7 @@
  */
 
 /**
- * @fileoverview Default Static Files Blocks.
+ * @fileoverview Default Dynamic Files Blocks.
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
@@ -23,9 +23,9 @@ import Blockly, { Blocks } from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
 
 /**
- * Static image block for default embedded images.
+ * Dynamic image block for user-selected images.
  */
-Blocks['static_image_file'] = {
+Blocks['dynamic_image_file'] = {
   init: function () {
     this.appendDummyInput().appendField(
       new Blockly.FieldImage('', 50, 50, ''),
@@ -51,7 +51,7 @@ Blocks['static_image_file'] = {
  * @param {Blockly.Block} block
  * @return {any[]}
  */
-javascriptGenerator['static_image_file'] = function (block) {
+javascriptGenerator['dynamic_image_file'] = function (block) {
   return [
     block.getFieldValue('urlData') || block.getFieldValue('url'),
     javascriptGenerator.ORDER_NONE,

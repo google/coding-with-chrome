@@ -15,36 +15,34 @@
  */
 
 /**
- * @fileoverview Time Phaser Toolbox.
+ * @fileoverview Example Files Phaser Toolbox.
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import '../blocks/TimeBlocks.js';
+import '../blocks/DynamicFileBlocks.js';
+import '../../BlockEditor/blocks/StaticFilesBlocks.js';
+
+import { PhaserBlocksBuilder } from '../blocks/PhaserBlocksBuilder.js';
 
 /**
- * @type {array}
+ * @param {Map} dynamicImages
+ * @return {Array}
  */
-export const defaultBlocks = [
-  {
-    kind: 'block',
-    blockxml: `
-  <block type="phaser_time_event">
-    <value name="time">
-      <block type="math_number"><field name="NUM">1500</field></block>
-    </value>
-  </block>`,
-  },
-  {
-    kind: 'block',
-    blockxml: `
-  <block type="phaser_time_loop_event">
-    <value name="time">
-      <block type="math_number"><field name="NUM">1500</field></block>
-    </value>
-  </block>`,
-  },
-];
+export function getDynamicFilesToolbox(dynamicImages) {
+  const getDynamicFileBlocks = [];
+  dynamicImages.forEach((imageData) => {
+    getDynamicFileBlocks.push(
+      PhaserBlocksBuilder.getDynamicImageFileBlock(
+        imageData.name,
+        imageData.filename,
+        imageData.url,
+        imageData.urlData
+      )
+    );
+  });
+  return getDynamicFileBlocks;
+}
 
 export default {
-  defaultBlocks,
+  getDynamicFilesToolbox,
 };

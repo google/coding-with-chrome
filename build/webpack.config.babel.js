@@ -19,6 +19,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
+import CompressionPlugin from 'compression-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import HtmlMinimizerPlugin from 'html-minimizer-webpack-plugin';
@@ -37,6 +38,8 @@ module.exports = (mode = 'development') => ({
   target: 'web',
   performance: {
     hints: mode == 'deploy' || mode == 'production' ? false : 'warning',
+    maxAssetSize: mode == 'development' ? 4096000 : 250000,
+    maxEntrypointSize: mode == 'development' ? 1000000 : 250000,
   },
   devServer: {
     compress: true,
@@ -47,6 +50,12 @@ module.exports = (mode = 'development') => ({
     liveReload: mode == 'development',
     open: mode == 'development',
     static: path.join(__dirname, '..', 'static'),
+    client: {
+      overlay: {
+        errors: mode != 'production',
+        warnings: false,
+      },
+    },
   },
   entry: {
     boot: ['./src/boot.js', './assets/css/boot.css'],
@@ -148,6 +157,11 @@ module.exports = (mode = 'development') => ({
     ],
   },
   plugins: [
+    new CompressionPlugin({
+      test: /\.(woff|woff2|eot|ttf|otf)$/i,
+      exclude: /.map$/,
+      deleteOriginalAssets: 'keep-source-map',
+    }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].css',

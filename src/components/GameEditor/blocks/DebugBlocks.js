@@ -1,7 +1,7 @@
 /**
  * @fileoverview Phaser Blocks for Blockly.
  *
- * @license Copyright 2023 The Coding with Chrome Authors.
+ * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import Blockly, { Blocks } from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
 
@@ -97,7 +98,7 @@ Blocks['phaser_debug_sprite'] = {
  * @return {string}
  */
 javascriptGenerator['phaser_debug_sprite'] = function (block) {
-  const variable = Blockly.JavaScript.valueToCode(
+  const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
     javascriptGenerator.ORDER_ATOMIC

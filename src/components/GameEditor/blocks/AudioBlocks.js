@@ -1,7 +1,7 @@
 /**
  * @fileoverview Phaser Audio Blocks for Blockly.
  *
- * @license Copyright 2023 The Coding with Chrome Authors.
+ * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,7 +70,7 @@ javascriptGenerator['phaser_audio_add_bgm'] = function (block) {
   const text_audio = block.getFieldValue('audio');
   const number_volume = block.getFieldValue('volume');
   const dropdown_loop = block.getFieldValue('loop');
-  const variable = Blockly.JavaScript.valueToCode(
+  const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
     javascriptGenerator.ORDER_ATOMIC
@@ -138,7 +138,7 @@ javascriptGenerator['phaser_audio_add'] = function (block) {
   const text_audio = block.getFieldValue('audio');
   const number_volume = block.getFieldValue('volume');
   const dropdown_loop = block.getFieldValue('loop');
-  const variable = Blockly.JavaScript.valueToCode(
+  const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
     javascriptGenerator.ORDER_ATOMIC
@@ -177,7 +177,7 @@ Blocks['phaser_audio_play'] = {
  * @return {string}
  */
 javascriptGenerator['phaser_audio_play'] = function (block) {
-  const variable = Blockly.JavaScript.valueToCode(
+  const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
     javascriptGenerator.ORDER_ATOMIC
@@ -207,7 +207,7 @@ Blocks['phaser_audio_pause'] = {
  * @return {string}
  */
 javascriptGenerator['phaser_audio_pause'] = function (block) {
-  const variable = Blockly.JavaScript.valueToCode(
+  const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
     javascriptGenerator.ORDER_ATOMIC
@@ -237,7 +237,7 @@ Blocks['phaser_audio_resume'] = {
  * @return {string}
  */
 javascriptGenerator['phaser_audio_resume'] = function (block) {
-  const variable = Blockly.JavaScript.valueToCode(
+  const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
     javascriptGenerator.ORDER_ATOMIC
@@ -267,7 +267,7 @@ Blocks['phaser_audio_stop'] = {
  * @return {string}
  */
 javascriptGenerator['phaser_audio_stop'] = function (block) {
-  const variable = Blockly.JavaScript.valueToCode(
+  const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
     javascriptGenerator.ORDER_ATOMIC

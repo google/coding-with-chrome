@@ -1,5 +1,5 @@
 /**
- * @license Copyright 2023 The Coding with Chrome Authors.
+ * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import React from 'react';
+import React, { lazy } from 'react';
 
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
@@ -27,16 +27,21 @@ import i18next from 'i18next';
 import { Mosaic } from 'react-mosaic-component';
 import { v4 as uuidv4 } from 'uuid';
 
-import GameSetupScreen from './GameSetupScreen';
 import PhaserTemplate from './template/PhaserTemplate';
 import ProjectNameGenerator from './generator/ProjectNameGenerator';
-import { BlockEditor } from '../BlockEditor/BlockEditor';
-import { Preview } from '../Preview';
 import { Toolbox } from './toolbox/Toolbox';
+
+const GameSetupScreen = lazy(() => import('./GameSetupScreen'));
+const BlockEditor = lazy(() => import('../BlockEditor'));
+const Preview = lazy(() => import('../Preview'));
 
 import 'react-mosaic-component/react-mosaic-component.css';
 import styles from './style.module.css';
 import { PreviewService } from '../../service-worker/preview-service-worker';
+import BlocklyTemplate from './template/BlocklyTemplate';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+import { WorkspaceSvg } from 'react-blockly';
 
 /**
  *
@@ -47,15 +52,43 @@ export class GameEditor extends React.PureComponent {
    */
   constructor(props) {
     super(props);
-    this.state = {
-      projectName: ProjectNameGenerator.generate(i18next.resolvedLanguage),
-      projectId: uuidv4(),
-      projectDescription: '',
-      showGameSetupScreen: true,
-      xml: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
-    };
+
+    // Extract projectId and projectName from URL, if available.
+    let projectId;
+    let projectName;
+    const urlData = window.location.hash
+      .replace('#/game_editor/', '')
+      .replace('#/game_editor', '')
+      .split('/');
+    if (urlData.length === 2) {
+      projectId = urlData[0];
+      projectName = decodeURIComponent(urlData[1]);
+      console.debug(
+        `[GameEditor] Found project ID ${projectId} and name ${projectName} in URL.`
+      );
+    } else {
+      console.debug(
+        `[GameEditor] No project ID and name found in URL. Showing Game Setup screen.`
+      );
+    }
+    const hasProjectData = projectId && projectName;
+
+    // Create references.
     this.previewRef = React.createRef();
     this.blockEditorRef = React.createRef();
+
+    // Set initial state.
+    this.state = {
+      projectName:
+        projectName || ProjectNameGenerator.generate(i18next.resolvedLanguage),
+      projectId: projectId || uuidv4(),
+      projectDescription: '',
+      showGameSetupScreen: !hasProjectData,
+      toolbox: Toolbox.getToolbox(),
+      xml: hasProjectData
+        ? BlocklyTemplate.render(projectName)
+        : '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
+    };
   }
 
   /**
@@ -78,13 +111,6 @@ export class GameEditor extends React.PureComponent {
   }
 
   /**
-   * @param {Object} event
-   */
-  handleDragOver(event) {
-    console.log('Drag Over', event);
-  }
-
-  /**
    * @return {Object}
    */
   getLayout() {
@@ -93,9 +119,12 @@ export class GameEditor extends React.PureComponent {
         <BlockEditor
           ref={this.blockEditorRef}
           content={this.state.xml}
-          toolbox={Toolbox.getToolbox()}
+          toolbox={this.state.toolbox}
           template={PhaserTemplate.render}
+          parseXML={this.handleParseXML.bind(this)}
           onChange={this.handleBlockEditorContentChange.bind(this)}
+          onLoadFile={this.handleOnLoadFile.bind(this)}
+          onSaveFile={this.handleOnSaveFile.bind(this)}
           projectId={this.state.projectId}
           projectName={this.state.projectName}
           windowId={this.props.windowId}
@@ -123,6 +152,11 @@ export class GameEditor extends React.PureComponent {
     projectDescription = '',
     xml = '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>'
   ) {
+    // Update url with new project id and project name.
+    window.location.hash = `#/game_editor/${projectId}/${encodeURIComponent(
+      projectName
+    )}`;
+
     // Separate steps to make sure xml is updated before showing the editor.
     this.setState(
       {
@@ -147,16 +181,83 @@ export class GameEditor extends React.PureComponent {
   }
 
   /**
+   * @param {string} xml
+   * @return {string}
+   */
+  handleParseXML(xml) {
+    return xml;
+  }
+
+  /**
+   * @param {WorkspaceSvg} workspace
+   */
+  handleOnLoadFile(workspace) {
+    // Add dynamic image blocks to toolbox.
+    const phaserLoadImageBlocks = workspace.getBlocksByType(
+      'phaser_load_image',
+      true
+    );
+    if (phaserLoadImageBlocks.length > 0) {
+      const dynamicImages = new Map();
+      for (const phaserLoadImageBlock of phaserLoadImageBlocks) {
+        if (
+          phaserLoadImageBlock &&
+          phaserLoadImageBlock['childBlocks_'].length === 1 &&
+          phaserLoadImageBlock['childBlocks_'][0]['type'] ==
+            'dynamic_image_file'
+        ) {
+          // Read data from phaser load image block.
+          const name =
+            phaserLoadImageBlock['inputList'][0]['fieldRow'][2]['value_'] ||
+            'unknown';
+
+          // Read data from dynamic image file block.
+          const dynamicImageFileBlock = phaserLoadImageBlock['childBlocks_'][0];
+          const urlData =
+            dynamicImageFileBlock['inputList'][0]['fieldRow'][0]['value_'];
+          const filename =
+            dynamicImageFileBlock['inputList'][1]['fieldRow'][0]['value_'];
+          const url =
+            dynamicImageFileBlock['inputList'][1]['fieldRow'][1]['value_'];
+
+          dynamicImages.set(name, {
+            name,
+            filename,
+            url,
+            urlData,
+          });
+        }
+      }
+      if (dynamicImages.size > 0) {
+        console.log('Dynamic images', dynamicImages);
+        const toolbox = Toolbox.getToolbox(dynamicImages);
+        this.setState({ toolbox });
+      }
+    }
+  }
+
+  /**
+   * @param {string} xml
+   * @return {string}
+   */
+  handleOnSaveFile(xml) {
+    return xml;
+  }
+
+  /**
    * @return {Object}
    */
   render() {
     return (
       <React.StrictMode>
-        <GameSetupScreen
-          projectId={this.state.projectId}
-          open={this.state.showGameSetupScreen}
-          onClose={this.handleGameSetupScreenClose.bind(this)}
-        ></GameSetupScreen>
+        {this.state.showGameSetupScreen && (
+          <GameSetupScreen
+            projectId={this.state.projectId}
+            projectName={this.state.projectName}
+            open={this.state.showGameSetupScreen}
+            onClose={this.handleGameSetupScreenClose.bind(this)}
+          ></GameSetupScreen>
+        )}
         {!this.state.showGameSetupScreen && (
           <Box className={styles.layout}>
             <Mosaic
@@ -170,6 +271,7 @@ export class GameEditor extends React.PureComponent {
                   direction: 'column',
                   first: 'preview',
                   second: 'assets',
+                  splitPercentage: 70,
                 },
                 splitPercentage: 75,
               }}
@@ -183,6 +285,6 @@ export class GameEditor extends React.PureComponent {
 
 GameEditor.propTypes = {
   windowId: PropTypes.string,
+  projectId: PropTypes.string,
+  projectName: PropTypes.string,
 };
-
-export default GameEditor;

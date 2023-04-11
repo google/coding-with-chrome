@@ -1,5 +1,5 @@
 /**
- * @license Copyright 2023 The Coding with Chrome Authors.
+ * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,21 +31,15 @@ export class BlocksHelper {
    * @return {!Array}
    */
   static phaserImage(name) {
-    return BlocksHelper.phaserImages(name);
-  }
-
-  /**
-   * @param {string=} name
-   * @return {!Array}
-   */
-  static phaserImages(name = '') {
     let foundName = false;
-    const spriteList = [];
-    const blocks = Blockly.getMainWorkspace().getAllBlocks(true);
+    const phaserImageList = [];
+    const blocks = Blockly.getMainWorkspace().getBlocksByType(
+      'phaser_load_image',
+      true
+    );
     for (const block of blocks) {
       if (
         block &&
-        block['type'] === 'phaser_load_image' &&
         !block['disabled'] &&
         block['childBlocks_'][0] !== undefined
       ) {
@@ -60,20 +54,20 @@ export class BlocksHelper {
           imageName,
         ];
         if (name && imageName === name) {
-          spriteList.unshift(imageEntry);
+          phaserImageList.unshift(imageEntry);
           foundName = true;
         } else {
-          spriteList.push(imageEntry);
+          phaserImageList.push(imageEntry);
         }
       }
     }
     if (name && !foundName) {
-      spriteList.unshift([name, name]);
+      phaserImageList.unshift([name, name]);
     }
-    if (!spriteList.length) {
-      spriteList.push(['none', 'none']);
+    if (!phaserImageList.length) {
+      phaserImageList.push(['none', 'none']);
     }
-    return spriteList;
+    return phaserImageList;
   }
 
   /**

@@ -1,5 +1,5 @@
 /**
- * @license Copyright 2023 The Coding with Chrome Authors.
+ * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,9 @@
  */
 
 import '../../BlockEditor/blocks/StaticFilesBlocks.js';
+
 import { BlocksBuilder } from '../../BlockEditor/blocks/BlocksBuilder.js';
+import { PhaserBlocksBuilder } from './../blocks/PhaserBlocksBuilder.js';
 
 // Default sample images
 const sampleImageData = [
@@ -42,7 +44,7 @@ for (const imageData of sampleImageData) {
   BlocksBuilder.getAsDataURL(imageData[0], imageData[1]).then((data) => {
     console.log('Add sample image ' + data.name + ' block.');
     defaultBlocks.push(
-      BlocksBuilder.getStaticImageFileBlock(
+      PhaserBlocksBuilder.getStaticImageFileBlock(
         data.name,
         data.filename,
         data.dataURL

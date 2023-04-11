@@ -1,5 +1,5 @@
 /**
- * @license Copyright 2023 The Coding with Chrome Authors.
+ * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,9 @@ import { v4 as uuidv4 } from 'uuid';
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import { BlocklyWorkspace, WorkspaceSvg } from 'react-blockly';
 import { CodeEditor } from '../CodeEditor/CodeEditor';
+import FileFormat, { ContentType } from '../FileFormat/FileFormat';
 import { WindowManager } from '../Desktop/WindowManager';
+import LegacyBlocks from './blocks/LegacyBlocks';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import { WindowResizeEvent } from '../Desktop/WindowManager/Events';
 import { javascriptGenerator } from 'blockly/javascript';
@@ -158,6 +160,21 @@ export class BlockEditor extends React.PureComponent {
       );
     }
     return code;
+  }
+
+  /**
+   * @param {string} xml
+   * @return {string}
+   */
+  praseXML(xml) {
+    // Search for legacy blocks and replace them.
+    xml = LegacyBlocks.replaceLegacyBlocks(xml);
+
+    // Handle custom XML parsing, if defined.
+    if (this.props.parseXML && typeof this.props.parseXML === 'function') {
+      xml = this.props.parseXML(xml);
+    }
+    return xml;
   }
 
   /**
@@ -288,6 +305,37 @@ export class BlockEditor extends React.PureComponent {
    */
   handleOpenFileContent(file, content = '') {
     console.log('Handle file content ...', file.name, content);
+    const parsedFile = new FileFormat(content || '');
+    console.log('Parsed file', parsedFile);
+    if (this.blockyWorkspace) {
+      // Handle additional files, if any.
+      if (parsedFile.hasFiles()) {
+        console.log('Handle additional files ...');
+        const files = parsedFile.getFiles();
+        files.forEach((file) => {
+          console.log('Handle additional file', file);
+        });
+      }
+
+      // Load XML content.
+      if (parsedFile.hasContent(ContentType.BLOCKLY)) {
+        console.log('Load XML content ...');
+        const xml = this.praseXML(parsedFile.getContent(ContentType.BLOCKLY));
+        Blockly.Xml.clearWorkspaceAndLoadFromXml(
+          Blockly.utils.xml.textToDom(xml),
+          this.blockyWorkspace
+        );
+        this.setState({ xml });
+      }
+
+      // Trigger onLoadFile event.
+      if (
+        this.props.onLoadFile &&
+        typeof this.props.onLoadFile === 'function'
+      ) {
+        this.props.onLoadFile(this.blockyWorkspace);
+      }
+    }
     this.setState({ file });
   }
 
@@ -510,7 +558,10 @@ BlockEditor.propTypes = {
   projectId: PropTypes.string,
   projectName: PropTypes.string,
   template: PropTypes.func,
+  parseXML: PropTypes.func,
   onChange: PropTypes.func,
+  onLoadFile: PropTypes.func,
+  onSaveFile: PropTypes.func,
   toolbox: PropTypes.object,
   windowId: PropTypes.string,
 };

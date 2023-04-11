@@ -19,6 +19,12 @@
   },
   "ignorePatterns": ["third_party"],
   "rules": {
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": ["@mui/*/*/*"]
+      }
+    ],
     "no-unused-vars": [
       2,
       {

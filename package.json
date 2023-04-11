@@ -31,13 +31,14 @@
     "@mui/material": "^5.11.16",
     "@mui/styled-engine": "^5.11.16",
     "@svgr/webpack": "^7.0.0",
-    "@types/react": "^18.0.33",
+    "@types/react": "^18.0.34",
     "@types/serviceworker-webpack-plugin": "^1.0.3",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
     "@uiw/react-codemirror": "^4.19.15",
     "babel-loader": "^9.1.2",
     "clean-webpack-plugin": "^4.0.0",
+    "compression-webpack-plugin": "^10.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.3",
@@ -116,6 +117,7 @@
     "test:units": "karma start test/unit_tests/all.conf",
     "test:units:fs": "karma start test/unit_tests/fs.conf",
     "test:units:kernel": "karma start test/unit_tests/kernel.conf",
+    "webpack:stats": "webpack --config build/webpack.config.prod.babel.js --json > webpack-stats.json",
     "upgrade": "npm run npm-upgrade && npm install && npm update && npm prune && npm audit fix && npx browserslist@latest --update-db"
   }
 }
