@@ -1,2 +1,2 @@
 /*! For license information please see service-worker.js.LICENSE.txt */
-"use strict";(self.webpackChunkcoding_with_chrome=self.webpackChunkcoding_with_chrome||[]).push([[49],{151:(e,h,c)=>{c.d(h,{CY:()=>i,Sl:()=>t,TC:()=>o});const i=location.host.endsWith(".github.io")?location.pathname:"/",o="Cache",t="PreviewCache"},448:(e,h,c)=>{c(151)}},e=>{var h;h=448,e(e.s=h)}]);
+"use strict";(self.webpackChunkcoding_with_chrome=self.webpackChunkcoding_with_chrome||[]).push([[49],{151:(e,h,c)=>{c.d(h,{CY:()=>i,Sl:()=>t,TC:()=>o});const i=location.host.endsWith(".github.io")?location.pathname:"/",o="Cache",t="PreviewCache"},1448:(e,h,c)=>{c(151)}},e=>{var h;h=1448,e(e.s=h)}]);

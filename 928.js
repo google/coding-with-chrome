@@ -1,0 +1,2 @@
+/*! For license information please see 928.js.LICENSE.txt */
+"use strict";(self.webpackChunkcoding_with_chrome=self.webpackChunkcoding_with_chrome||[]).push([[928,513],{3644:(e,c,h)=>{h.r(c),h.d(c,{default:()=>t});const t=h(6694).GameEditor}}]);
