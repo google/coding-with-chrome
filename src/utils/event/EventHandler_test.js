@@ -70,11 +70,14 @@ describe('EventHandler', function () {
   });
 
   it('.listen (error)', function () {
-    const eventHandler = testEventHandler.listen(
-      'test_not_existing',
-      EventType.CLICK,
-      listener.test
-    );
+    let eventHandler = null;
+    expect(() => {
+      eventHandler = testEventHandler.listen(
+        'test_not_existing',
+        EventType.CLICK,
+        listener.test
+      );
+    }).toThrowError(/Unable to find element test-test_not_existing/);
     expect(eventHandler).toBe(null);
   });
 
