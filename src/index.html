@@ -15,6 +15,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Coding with Chrome Suite</title>
+    <link rel="manifest" href="manifest.json" />
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png" />
@@ -94,11 +95,10 @@
             </div>
           </div>
         </div>
-        <div class="version"></div>
       </div>
     </div>
 
-    <% for (let item in htmlWebpackPlugin.files.js) { %> <% if (htmlWebpackPlugin.files.js[item] == '/service-worker.js') { %> <% } else { %>
+    <% for (let item in htmlWebpackPlugin.files.js) { %> <% if (htmlWebpackPlugin.files.js[item] == '/cache-service-worker.js' || htmlWebpackPlugin.files.js[item] == '/preview-service-worker.js') { %> <% } else { %>
     <script src="<%= htmlWebpackPlugin.files.js[item] %>"></script>
     <% } %> <% } %>
   </body>

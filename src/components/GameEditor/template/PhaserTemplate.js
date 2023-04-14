@@ -22,6 +22,12 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import Blockly from 'blockly';
 
+import PhaserMin from '../../../../third_party/phaser-ce/build/phaser.min.js';
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import PhaserExtras from '../../../frameworks/phaser/phaser_extras.min.js';
+
 /**
  * @class
  */
@@ -65,8 +71,20 @@ class PhaserTemplate {
         display: block;
       }
     </style>
-    <script src="${PhaserTemplate.basePath}framework/phaser_extras.js"></script>
-    <script src="${PhaserTemplate.basePath}framework/phaser.min.js"></script>
+    ${(() => {
+      if (PhaserExtras) {
+        return `<script>${PhaserExtras}</script>`;
+      } else {
+        return '<script src="${PhaserTemplate.basePath}framework/phaser_extras.js"></script>';
+      }
+    })()}
+    ${(() => {
+      if (PhaserMin) {
+        return `<script>${PhaserMin}</script>`;
+      } else {
+        return '<script src="${PhaserTemplate.basePath}framework/phaser.min.js"></script>';
+      }
+    })()}
   </head>
   <body>
     <script>

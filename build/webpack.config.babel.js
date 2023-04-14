@@ -27,7 +27,6 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import JsonMinimizerPlugin from 'json-minimizer-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
-import WebpackPwaManifest from 'webpack-pwa-manifest';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
 import path from 'path';
@@ -84,7 +83,7 @@ module.exports = (mode = 'development') => ({
       new CssMinimizerPlugin(),
       new HtmlMinimizerPlugin(),
       new JsonMinimizerPlugin(),
-      new TerserPlugin({}),
+      new TerserPlugin(),
     ],
   },
   devtool: mode == 'development' ? 'inline-source-map' : false,
@@ -93,6 +92,10 @@ module.exports = (mode = 'development') => ({
   },
   module: {
     rules: [
+      {
+        test: /(phaser\.min\.js$|phaser_extras\.min\.js$)/,
+        type: 'asset/source',
+      },
       {
         test: /\.(js|jsx)$/,
         include: path.join(__dirname, '..', 'src'),
@@ -170,32 +173,6 @@ module.exports = (mode = 'development') => ({
       DEVMODE: mode === 'development',
       VERSION: JSON.stringify(process.env.npm_package_version),
     }),
-    new WebpackPwaManifest({
-      name: 'Coding with Chrome Suite',
-      short_name: 'Coding with Chrome',
-      description: 'Educational Coding Development Environment',
-      start_url: mode == 'deploy' ? '/coding-with-chrome/' : '/',
-      display: 'standalone',
-      background_color: '#fff',
-      theme_color: 'red',
-      icons: [
-        {
-          src: path.resolve('assets/svg/logo.svg'),
-          sizes: [96, 128, 256, 384],
-          destination: path.join('icons'),
-        },
-        {
-          src: path.resolve('assets/icons/coding_with_chrome.png'),
-          sizes: [192, 512],
-          destination: path.join('icons'),
-        },
-        {
-          src: path.resolve('assets/icons/maskable_icon.png'),
-          size: '1046x1046',
-          purpose: 'maskable',
-        },
-      ],
-    }),
     new CopyPlugin({
       patterns: [
         {
@@ -215,8 +192,8 @@ module.exports = (mode = 'development') => ({
           },
         },
         {
-          from: './assets/svg',
-          to: './assets/svg',
+          from: './assets/logo',
+          to: './assets/logo',
           globOptions: {
             dot: true,
             gitignore: true,
@@ -225,6 +202,22 @@ module.exports = (mode = 'development') => ({
         {
           from: './assets/icons',
           to: './assets/icons',
+          globOptions: {
+            dot: true,
+            gitignore: true,
+          },
+        },
+        {
+          from: './node_modules/blockly/media',
+          to: './assets/blockly',
+          globOptions: {
+            dot: true,
+            gitignore: false,
+          },
+        },
+        {
+          from: './assets/blockly',
+          to: './assets/blockly',
           globOptions: {
             dot: true,
             gitignore: true,
@@ -241,6 +234,14 @@ module.exports = (mode = 'development') => ({
         {
           from: './locales',
           to: './locales',
+          globOptions: {
+            dot: true,
+            gitignore: true,
+          },
+        },
+        {
+          from: './src/manifest.json',
+          to: './manifest.json',
           globOptions: {
             dot: true,
             gitignore: true,

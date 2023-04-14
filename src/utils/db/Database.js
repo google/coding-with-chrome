@@ -15,9 +15,10 @@
  */
 
 /**
- * @author mbordihn@google.com (Markus Bordihn)
- *
  * @fileoverview Database handler.
+ * @author mbordihn@google.com (Markus Bordihn)
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
+ * @hints Check status with chrome://indexeddb-internals/
  */
 
 /**
@@ -26,21 +27,28 @@
 export class Database {
   /**
    * @param {string} name
+   * @param {string=} group
    * @param {number=} version
    * @constructor
    */
-  constructor(name, version) {
+  constructor(name, group, version) {
     /** @private {!Object} */
     this.config_ = {};
 
-    /** @private {*} */
+    /** @private {IDBDatabase} */
     this.database_ = null;
 
     /** @private {string} */
     this.name_ = name;
 
     /** @private {string} */
-    this.defaultObjectStore_ = '__data__';
+    this.defaultObjectStore_ = group || '__data__';
+
+    /** @private {array} */
+    this.knownObjectStores_ = [this.defaultObjectStore_];
+
+    /** @private {boolean} */
+    this.upgradeNeeded_ = false;
 
     /** @private {number|undefined} */
     this.version_ = version;
@@ -51,9 +59,14 @@ export class Database {
    * @return {Promise}
    */
   open(config = this.config_) {
-    if (!('indexedDB' in window)) {
-      console.error(`This browser doesn't support IndexedDB`);
-      return;
+    if (
+      !('indexedDB' in window) ||
+      typeof indexedDB === 'undefined' ||
+      'TestIndexedDBDisabled' in window
+    ) {
+      return Promise.reject(
+        new Error(`IndexedDB is disabled or not supported by this browser!`)
+      );
     }
     const formerConfig = this.config_;
     let objectStoreNames = [this.defaultObjectStore_];
@@ -63,58 +76,142 @@ export class Database {
         objectStoreNames = objectStoreNames.concat(config.objectStoreNames);
       }
     }
+    this.knownObjectStores_ = objectStoreNames;
     return new Promise((resolve, reject) => {
-      if (this.database_ && formerConfig === this.config_) {
+      if (
+        this.database_ &&
+        formerConfig === this.config_ &&
+        !this.upgradeNeeded_
+      ) {
         return resolve(this.database_);
       }
 
-      if (typeof indexedDB === 'undefined') {
-        console.error('IndexDB is unsupported!');
-        return reject(new Error('IndexDB is unsupported!'));
+      // Open database and handle events.
+      console.log(
+        `Opening database ${this.name_} with ${
+          this.version_ || 'auto version'
+        } ...`
+      );
+      const dbRequest = indexedDB.open(this.name_, this.version_);
+      dbRequest.onsuccess = (event) => {
+        this.handleOnSuccess(event).then(resolve);
+      };
+      dbRequest.onblocked = (event) => {
+        this.handleOnBlocked(event).then(reject);
+      };
+      dbRequest.onerror = (event) => {
+        this.handleOnError(event).then(reject);
+      };
+      dbRequest.onupgradeneeded = this.handleOnUpgradeNeeded.bind(this);
+    });
+  }
+
+  /**
+   * @param {IDBVersionChangeEvent} event
+   * @return {Promise}
+   */
+  handleOnBlocked(event) {
+    return new Promise((resolve) => {
+      console.error(`Database ${this.name_} is blocked!`, event);
+      resolve(event);
+    });
+  }
+
+  /**
+   * @param {Event} event
+   * @return {Promise}
+   */
+  handleOnSuccess(event) {
+    return new Promise((resolve, reject) => {
+      if (!event || !event.target) {
+        return reject(new Error(`Unable to open database ${this.name_}!`));
+      }
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      this.database_ = event.target.result;
+      this.version_ = this.database_.version;
+
+      // Add onVersionChange event listener.
+      this.database_.onversionchange = (event) => {
+        console.warn(
+          `Database ${this.name_} is outdated and will be closed!`,
+          event
+        );
+        this.database_.close();
+        reject(new Error('Database is outdated!'));
+      };
+
+      // Check if default object store is available.
+      if (this.database_.objectStoreNames.contains(this.defaultObjectStore_)) {
+        console.info(
+          `Opened database ${this.name_} with version ${this.version_}.`
+        );
+        this.upgradeNeeded_ = false;
+        return resolve(this.database_);
       }
 
-      const dbRequest = indexedDB.open(this.name_, this.version_);
-      dbRequest.onsuccess = () => {
-        if (this.database_) {
-          return resolve(this.database_);
-        }
-        this.database_ = dbRequest.result;
-        this.version_ = this.database_.version;
-        console.info(
-          'Open database',
-          this.name_,
-          'with version',
-          this.version_
+      // Create default object store by forcing an upgrade.
+      console.warn(
+        `Opened database ${this.name_} with version ${this.version_} but ` +
+          `default object store ${this.defaultObjectStore_} is missing!`
+      );
+      this.version_ = this.database_.version + 1;
+      this.database_.close();
+      this.upgradeNeeded_ = true;
+      setTimeout(() => {
+        this.open().then(resolve);
+      }, 100);
+    });
+  }
+
+  /**
+   * @param {Event} error
+   * @return {Promise}
+   */
+  handleOnError(error) {
+    return new Promise((resolve) => {
+      console.error(`Unable to open database ${this.name_} with error:`, error);
+      resolve(error);
+    });
+  }
+
+  /**
+   * @param {IDBVersionChangeEvent} event
+   * @return {Promise}
+   */
+  handleOnUpgradeNeeded(event) {
+    return new Promise((resolve) => {
+      if (event.target) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const database = event.target.result;
+        console.log(
+          `Upgrading database ${this.name_} to version ${database.version}`
         );
-        resolve(this.database_);
-      };
-      dbRequest.onerror = (e) => {
-        console.error('Unable to open database ${this.name_} with error:', e);
-        reject(e);
-      };
-      dbRequest.onupgradeneeded = (e) => {
-        const database = e.target.result;
-        objectStoreNames.forEach((objetStoreName) => {
+        this.knownObjectStores_.forEach((objetStoreName) => {
           if (!database.objectStoreNames.contains(objetStoreName)) {
             console.info('Create Object Store', objetStoreName);
             database.createObjectStore(objetStoreName);
           }
         });
-      };
+        this.upgradeNeeded_ = false;
+        resolve(database);
+      }
     });
   }
 
   /**
    * @param {!string} command
-   * @param {string} group
+   * @param {string=} group
    * @param  {...any} params
    * @return {Promise}
    */
   execute(command, group, ...params) {
     return new Promise((resolve, reject) => {
-      if (!this.existObjectStore_(group)) {
-        reject(new Error(`Object store ${group} does not exists in database!`));
-        return;
+      if (typeof group != 'undefined' && !this.existObjectStore_(group)) {
+        return reject(
+          new Error(`Object store group ${group} does not exists in database!`)
+        );
       }
       this.open().then(() => {
         console.log(
@@ -123,16 +220,31 @@ export class Database {
           }] Executing ${command}(${params})`
         );
         /* jshint -W014 */
-        const request = ['get', 'getAll', 'getAllKeys'].includes(command)
-          ? this.getObjectStoreReadOnly_(group)[command](...params)
-          : this.getObjectStore_(group)[command](...params);
+        const objectStore = ['get', 'getAll', 'getAllKeys'].includes(command)
+          ? this.getObjectStoreReadOnly_(group)
+          : this.getObjectStore_(group);
+        if (!objectStore) {
+          return reject(
+            new Error(
+              `Object store ${objectStore} for group ${group} does not exists in database!`
+            )
+          );
+        }
+        if (typeof objectStore[command] !== 'function') {
+          return reject(
+            new Error(
+              `Object store ${objectStore} for group ${group} does not support command ${command}!`
+            )
+          );
+        }
+        const request = objectStore[command](...params);
         request.onsuccess = () => {
           resolve(request.result);
         };
-        request.onerror = (e) => {
+        request.onerror = (error) => {
           reject(
             new Error(
-              `Failed to execute transaction "${command}" for ${this.name_} with "${params}": ${e.target.error}`
+              `Failed to execute transaction "${command}" for ${this.name_} with "${params}": ${error.target.error}`
             )
           );
         };
@@ -143,6 +255,15 @@ export class Database {
         };
       });
     });
+  }
+
+  /**
+   * Close database.
+   */
+  close() {
+    if (this.database_) {
+      this.database_.close();
+    }
   }
 
   /**
@@ -235,8 +356,7 @@ export class Database {
 
   /**
    * @param {string} objectStoreName
-   * @return {THIS}
-   * @template THIS
+   * @return {Database}
    */
   setObjectStoreName(objectStoreName) {
     this.defaultObjectStore_ = objectStoreName;
@@ -252,8 +372,7 @@ export class Database {
 
   /**
    * @param {number!} version
-   * @return {THIS}
-   * @template THIS
+   * @return {Database}
    */
   setVersion(version) {
     const versionNumber = Math.round(Number(version));
@@ -272,20 +391,20 @@ export class Database {
 
   /**
    * @param {string=} group
-   * @return {!IDBObjectStore}
+   * @return {IDBObjectStore|undefined}
    * @private
    */
   getObjectStore_(group = this.defaultObjectStore_) {
-    return this.database_.transaction(group, 'readwrite').objectStore(group);
+    return this.database_?.transaction(group, 'readwrite').objectStore(group);
   }
 
   /**
    * @param {string=} group
-   * @return {!IDBObjectStore}
+   * @return {IDBObjectStore|undefined}
    * @private
    */
   getObjectStoreReadOnly_(group = this.defaultObjectStore_) {
-    return this.database_.transaction(group, 'readonly').objectStore(group);
+    return this.database_?.transaction(group, 'readonly').objectStore(group);
   }
 
   /**
@@ -294,6 +413,8 @@ export class Database {
    * @private
    */
   existObjectStore_(group = this.defaultObjectStore_) {
-    return this.database_ && this.database_.objectStoreNames.contains(group);
+    return this.database_ && this.database_.objectStoreNames.contains(group)
+      ? true
+      : false;
   }
 }

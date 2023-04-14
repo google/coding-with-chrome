@@ -168,7 +168,6 @@ export class CodeEditor extends React.PureComponent {
           editorElement.closest('.wb-body') ||
           editorElement.closest('.mosaic-tile') ||
           editorElement.parentElement;
-        console.log('Resize editor to parent element:', parentElement);
         if (
           parentElement &&
           parentElement.clientHeight > 100 &&

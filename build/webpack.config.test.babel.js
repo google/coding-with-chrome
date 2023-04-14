@@ -19,14 +19,13 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import WebpackPwaManifest from 'webpack-pwa-manifest';
 import webpackConfig from './webpack.config.babel.js';
 
 // Cleanup existing webpack config for unit tests.
 const testConfig = webpackConfig();
-testConfig.plugins = testConfig.plugins
-  .filter((p) => !(p instanceof HtmlWebpackPlugin))
-  .filter((p) => !(p instanceof WebpackPwaManifest));
+testConfig.plugins = testConfig.plugins.filter(
+  (p) => !(p instanceof HtmlWebpackPlugin)
+);
 testConfig.module.rules.push({
   test: /\.js$|\.jsx$/,
   use: ['@jsdevtools/coverage-istanbul-loader'],

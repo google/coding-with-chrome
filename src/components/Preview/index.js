@@ -47,10 +47,12 @@ export class Preview extends React.PureComponent {
     super(props);
     this.state = {
       base: props.base || '/preview/',
-      location: props.location || '',
+      hideContent: false,
       loaded: false,
       loading: false,
-      hideContent: false,
+      location: props.location || '',
+      readOnly: typeof props.readOnly === 'boolean' ? props.readOnly : false,
+      showURL: typeof props.showURL === 'boolean' ? props.showURL : true,
     };
     this.windowId = props.windowId;
     this.contentWrapper = React.createRef();
@@ -88,7 +90,7 @@ export class Preview extends React.PureComponent {
 
     // If there is a base path, we need to add it to the target location.
     let targetLocation = location || this.state.base;
-    if (this.state.base && location) {
+    if (this.state.base && location && !location.startsWith(this.state.base)) {
       targetLocation =
         this.state.base +
         (!this.state.base.endsWith('/') || !location.startsWith('/'))
@@ -136,10 +138,14 @@ export class Preview extends React.PureComponent {
    * @param {event} event
    */
   handleContentIframeLoad(event) {
-    console.log('Iframe Content Loaded:', event);
-    this.setState({ loaded: true, loading: false });
     if (this.contentLoadTimer) {
       clearTimeout(this.contentLoadTimer);
+    }
+    if (
+      this.contentIframe.current.contentWindow.location.href != 'about:blank'
+    ) {
+      console.log('Iframe Content Loaded:', event);
+      this.setState({ loaded: true, loading: false });
     }
   }
 
@@ -201,6 +207,7 @@ export class Preview extends React.PureComponent {
     }
     console.log('Stopping Iframe ...');
     this.contentIframe.current.contentWindow.stop();
+    this.contentIframe.current.contentWindow.location = 'about:blank';
     this.setState({ loaded: false, loading: false });
   }
 
@@ -228,15 +235,19 @@ export class Preview extends React.PureComponent {
           <ToolbarIconButton aria-label="menu">
             <MenuIcon />
           </ToolbarIconButton>
-          <span className={styles.locationBarPrefix}>{this.state.base}</span>
-          <InputBase
-            sx={{ paddingTop: '3px', marginLeft: '1px', ml: 1, flex: 1 }}
-            size="small"
-            placeholder="test123"
-            className={styles.locationBar}
-            onChange={this.handleChangeInput.bind(this)}
-            onKeyPress={this.handleKeyPress.bind(this)}
-          />
+          {this.props.showURL && (
+            <span className={styles.locationBarPrefix}>{this.state.base}</span>
+          )}
+          {this.props.showURL && !this.props.readOnly && (
+            <InputBase
+              sx={{ paddingTop: '3px', marginLeft: '1px', ml: 1, flex: 1 }}
+              size="small"
+              placeholder="test123"
+              className={styles.locationBar}
+              onChange={this.handleChangeInput.bind(this)}
+              onKeyPress={this.handleKeyPress.bind(this)}
+            />
+          )}
           <ToolbarIconButton
             aria-label="reload"
             onClick={this.reload.bind(this)}
@@ -315,6 +326,8 @@ export class Preview extends React.PureComponent {
 Preview.propTypes = {
   base: PropTypes.string,
   location: PropTypes.string,
+  readOnly: PropTypes.bool,
+  showURL: PropTypes.bool,
   windowId: PropTypes.string,
 };
 

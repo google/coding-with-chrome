@@ -14,20 +14,6 @@
  * limitations under the License.
  */
 
-/**
- * @author mbordihn@google.com (Markus Bordihn)
- *
- * @fileoverview General config for Coding in Chrome.
- */
+import { Database } from './Database';
 
-/**
- * User config class
- */
-export class UserConfig {
-  /**
-   * @constructor
-   */
-  constructor() {
-    console.log('Loading User config ...');
-  }
-}
+export default Database;

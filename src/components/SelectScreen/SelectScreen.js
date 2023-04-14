@@ -27,7 +27,7 @@ import BuildIcon from '@mui/icons-material/Build';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { ReactComponent as Logo } from '../../../assets/svg/logo.svg';
+import { ReactComponent as Logo } from '../../../assets/logo/logo.svg';
 import styles from './style.module.css';
 
 /**
@@ -42,7 +42,7 @@ export class SelectScreen extends React.PureComponent {
       <div className={styles.container}>
         <Grid container spacing={3} direction="column" alignItems="center">
           <Grid item>
-            <Logo />
+            <Logo width="auto" height="250px" />
             <Typography variant="h4" align="center">
               Please select a option to start.
             </Typography>

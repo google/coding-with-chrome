@@ -69,6 +69,15 @@ describe('EventHandler', function () {
     expect(listener.test).toHaveBeenCalled();
   });
 
+  it('.listen (error)', function () {
+    const eventHandler = testEventHandler.listen(
+      'test_not_existing',
+      EventType.CLICK,
+      listener.test
+    );
+    expect(eventHandler).toBe(null);
+  });
+
   it('.listenOnce()', function () {
     spyOn(listener, 'test').calls.reset();
     testEventHandler.listenOnce(target, EventType.CLICK, listener.test);

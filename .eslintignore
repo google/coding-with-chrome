@@ -1,3 +1,5 @@
 coverage
 dist
 node_modules
+third_party
+*.min.js

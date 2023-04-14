@@ -21,12 +21,11 @@
 
 import { screen } from './gui/Screen';
 import { Splash } from './gui/Splash';
-import { Version } from './config/Config';
 
 /**
  * Boot sequence.
  */
-console.log('Booting Coding with Chrome suite', Version);
+console.log('Booting Coding with Chrome suite');
 console.log('Init Screen and showing splash screen');
 screen.init();
 const SplashScreen = new Splash(screen.add('splash-screen', 'Splash Screen'));
@@ -44,14 +43,6 @@ SplashScreen.addStep('Loading kernel ...', () => {
   return new Promise((resolve) => {
     import('./kernel/Kernel').then((module) => {
       module.kernel.boot();
-      resolve(true);
-    });
-  });
-});
-SplashScreen.addStep('Loading User Config ...', () => {
-  return new Promise((resolve) => {
-    import('./config/UserConfig').then((module) => {
-      new module.UserConfig();
       resolve(true);
     });
   });

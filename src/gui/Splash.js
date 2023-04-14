@@ -20,7 +20,6 @@
  * @fileoverview Splashscreen for the Coding with Chrome suite.
  */
 
-import { DevMode, Version } from '../config/Config';
 import { StackQueue } from '../utils/stack/StackQueue';
 
 import './Splash.css';
@@ -51,9 +50,6 @@ export class Splash {
 
     /** @type {HTMLElement} */
     this.node = node;
-
-    /** @type {HTMLElement|null} */
-    this.nodeVersion = this.node.querySelector('div.version');
 
     /** @type {HTMLElement|null} */
     this.nodeProgressBar = this.node.querySelector(
@@ -100,9 +96,6 @@ export class Splash {
    * Render splash screen.
    */
   render() {
-    if (this.nodeVersion) {
-      this.nodeVersion.textContent = `${DevMode ? 'Dev' : 'Prod'} v${Version}`;
-    }
     this.progress = 0;
     this.progressText = 'Starting ...';
   }

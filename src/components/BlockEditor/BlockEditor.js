@@ -31,7 +31,6 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-import PreviewIcon from '@mui/icons-material/Preview';
 import PropTypes from 'prop-types';
 import RedoIcon from '@mui/icons-material/Redo';
 import SaveAsIcon from '@mui/icons-material/SaveAs';
@@ -52,11 +51,14 @@ import { javascriptGenerator } from 'blockly/javascript';
 
 import { Toolbar, ToolbarIconButton, ToolbarButton } from '../Toolbar';
 
+import { Database } from '../../utils/db/Database';
+
 import 'material-icons/iconfont/filled.css';
 import 'material-icons/iconfont/outlined.css';
 import styles from './style.module.css';
 import './style.global.css';
-import { PreviewService } from '../../service-worker/preview-service-worker';
+
+const basePath = location.host.endsWith('.github.io') ? location.pathname : '/';
 
 /**
  *
@@ -77,6 +79,7 @@ export class BlockEditor extends React.PureComponent {
       handleXMLChange: null,
     };
     this.isDragging = false;
+    this.database = new Database('BlockEditor', this.projectId);
     this.state = {
       file: null,
       showEditor: false,
@@ -96,6 +99,7 @@ export class BlockEditor extends React.PureComponent {
           minScale: 0.5,
           scaleSpeed: 1.1,
         },
+        media: basePath + 'assets/blockly/',
         trashcan: false,
       },
       variables: [],
@@ -110,6 +114,13 @@ export class BlockEditor extends React.PureComponent {
       );
     }
 
+    // Loading workspace from database if not empty.
+    this.database.get('workspace').then((workspace) => {
+      if (workspace) {
+        this.loadWorkspace(workspace);
+      }
+    });
+
     console.log('Adding block editor with project id: ', this.projectId);
   }
 
@@ -121,15 +132,6 @@ export class BlockEditor extends React.PureComponent {
     this.setState({ showEditor: false }, () => {
       this.resize();
     });
-  }
-
-  /**
-   *
-   */
-  showPreview() {
-    console.log('Show Preview ...');
-    const code = this.getWorkspaceCode();
-    PreviewService.saveHTMLFile(`${this.projectId}/`, code);
   }
 
   /**
@@ -194,6 +196,24 @@ export class BlockEditor extends React.PureComponent {
   }
 
   /**
+   * @param {string} xml
+   */
+  loadWorkspace(xml) {
+    if (!this.blockyWorkspace) {
+      return;
+    }
+    console.log('Loading workspace ...', xml);
+    const parsedXML = this.praseXML(xml);
+    Blockly.Xml.clearWorkspaceAndLoadFromXml(
+      Blockly.utils.xml.textToDom(parsedXML),
+      this.blockyWorkspace
+    );
+    this.setState({ parsedXML });
+    this.resize();
+    this.refresh();
+  }
+
+  /**
    * @param {WorkspaceSvg} blockEditorInstance
    */
   onLoad(blockEditorInstance) {
@@ -208,15 +228,15 @@ export class BlockEditor extends React.PureComponent {
    * @param {object} event
    */
   handleBlocklyEvent(event) {
-    console.log('EVENT', event);
     this.isDragging = event.type === 'drag';
   }
 
   /**
    * @param {WorkspaceSvg} workspace
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars, require-jsdoc
   handleWorkspaceChange(workspace) {
-    console.debug('Workspace Change', workspace);
+    // Not used.
   }
 
   /**
@@ -319,13 +339,7 @@ export class BlockEditor extends React.PureComponent {
 
       // Load XML content.
       if (parsedFile.hasContent(ContentType.BLOCKLY)) {
-        console.log('Load XML content ...');
-        const xml = this.praseXML(parsedFile.getContent(ContentType.BLOCKLY));
-        Blockly.Xml.clearWorkspaceAndLoadFromXml(
-          Blockly.utils.xml.textToDom(xml),
-          this.blockyWorkspace
-        );
-        this.setState({ xml });
+        this.loadWorkspace(parsedFile.getContent(ContentType.BLOCKLY));
       }
 
       // Trigger onLoadFile event.
@@ -337,6 +351,38 @@ export class BlockEditor extends React.PureComponent {
       }
     }
     this.setState({ file });
+  }
+
+  /**
+   * Save file.
+   */
+  handleSave() {
+    console.log('Save ...', this.database, this.projectId);
+    this.database.put('name', this.projectName);
+    this.database.put('workspace', this.state.xml);
+    this.database.put('lastUpdate', new Date().toISOString());
+  }
+
+  /**
+   * Save file as.
+   */
+  handleSaveAs() {
+    console.log('Save as ...');
+    const textAsBlob = new Blob([this.state.xml], { type: 'text/plain' });
+    const downloadLink = document.createElement('a');
+    downloadLink.download = `${this.projectName}-${this.projectId}.xml`;
+    downloadLink.innerHTML = 'Download File';
+    if (window.webkitURL != null) {
+      // Chrome allows the link to be clicked without actually adding it to the DOM.
+      downloadLink.href = window.webkitURL.createObjectURL(textAsBlob);
+    } else {
+      // Firefox requires the link to be added to the DOM before it can be clicked.
+      downloadLink.href = window.URL.createObjectURL(textAsBlob);
+      downloadLink.style.display = 'none';
+      document.body.appendChild(downloadLink);
+    }
+
+    downloadLink.click();
   }
 
   /**
@@ -457,10 +503,10 @@ export class BlockEditor extends React.PureComponent {
             >
               <MenuIcon />
             </ToolbarIconButton>
-            {this.state.file && (
+            {(this.state.file || true) && (
               <ToolbarIconButton
                 aria-label="save"
-                onClick={this.handleUndo.bind(this)}
+                onClick={this.handleSave.bind(this)}
               >
                 <SaveIcon />
               </ToolbarIconButton>
@@ -468,7 +514,7 @@ export class BlockEditor extends React.PureComponent {
             {!this.state.file && (
               <ToolbarIconButton
                 aria-label="save_as"
-                onClick={this.handleUndo.bind(this)}
+                onClick={this.handleSaveAs.bind(this)}
               >
                 <SaveAsIcon />
               </ToolbarIconButton>
@@ -488,12 +534,6 @@ export class BlockEditor extends React.PureComponent {
             <ToolbarButton variant="contained">
               Create new Variable
             </ToolbarButton>
-            <ToolbarIconButton
-              aria-label="preview"
-              onClick={this.showPreview.bind(this)}
-            >
-              <PreviewIcon />
-            </ToolbarIconButton>
             {this.codeEditor && (
               <ToolbarIconButton
                 aria-label="code"

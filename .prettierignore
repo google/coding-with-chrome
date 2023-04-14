@@ -1,0 +1,5 @@
+# Ignore all coompressed javascript files.
+*.min.js
+
+# Ignore all third party libraries.
+third_party/

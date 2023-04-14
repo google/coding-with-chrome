@@ -22,14 +22,91 @@
 import { Database } from './Database';
 
 describe('Database', function () {
-  it('constructor', function () {
+  it('constructor', function (done) {
     const db = new Database('test');
     expect(typeof db).toEqual('object');
+    const dbValue = Math.random();
+    db.open().then(() => {
+      db.add('test', dbValue).then(() => {
+        db.get('test').then((value) => {
+          expect(value).toEqual(dbValue);
+          done();
+        });
+      });
+    });
+  });
+
+  it('constructor (group)', function (done) {
+    const db = new Database('test_group', 'group');
+    expect(typeof db).toEqual('object');
+    expect(db.getObjectStoreName()).toEqual('group');
+    expect(db.getObjectStoreName()).not.toEqual('__data__');
+    expect(typeof db).toEqual('object');
+    const dbValue = Math.random();
+    db.open().then(() => {
+      db.add('test', dbValue).then(() => {
+        db.get('test').then((value) => {
+          expect(value).toEqual(dbValue);
+          done();
+        });
+      });
+    });
+  });
+
+  it('constructor (group) auto-version', function (done) {
+    // Pre-connection (to catch edge case)
+    const db = new Database('test_group_auto_version');
+    expect(typeof db).toEqual('object');
+    expect(db.getObjectStoreName()).toEqual('__data__');
+    const dbValue = Math.random();
+    db.open().then(() => {
+      db.add('test', dbValue).then(() => {
+        db.get('test').then((value) => {
+          expect(value).toEqual(dbValue);
+          db.close();
+        });
+      });
+    });
+
+    // Real connection
+    const dbReconnect = new Database('test_group_auto_version', 'group');
+    expect(typeof dbReconnect).toEqual('object');
+    expect(dbReconnect.getObjectStoreName()).toEqual('group');
+    expect(db.getObjectStoreName()).toEqual('__data__');
+    const dbValueReconnect = Math.random();
+    dbReconnect.open().then(() => {
+      dbReconnect.add('test', dbValueReconnect).then(() => {
+        dbReconnect.get('test').then((value) => {
+          expect(value).toEqual(dbValueReconnect);
+          done();
+        });
+      });
+    });
   });
 
   it('.setObjectStoreName', function () {
     const db = new Database('test').setObjectStoreName('__test__');
     expect(db.getObjectStoreName()).toEqual('__test__');
+  });
+
+  it('.execute (not existing group)', function (done) {
+    const db = new Database('test_execute');
+    db.open().then(() => {
+      db.execute('test', '__test__').then(null, (error) => {
+        expect(error);
+        done();
+      });
+    });
+  });
+
+  it('.execute (not existing command)', function (done) {
+    const db = new Database('test_execute_not_existing_command');
+    db.open().then(() => {
+      db.execute('test', '__data__').then(null, (error) => {
+        expect(error);
+        done();
+      });
+    });
   });
 
   it('.open', function (done) {
@@ -38,6 +115,21 @@ describe('Database', function () {
       expect(typeof result).toEqual('object');
       done();
     });
+  });
+
+  it('.open (failed)', function (done) {
+    window.TestIndexedDBDisabled = true;
+    const db = new Database('test_open_fail');
+    db.open().then(null, (error) => {
+      expect(error);
+      delete window.TestIndexedDBDisabled;
+      done();
+    });
+  });
+
+  it('.close', function () {
+    const db = new Database('test_close');
+    db.close();
   });
 
   it('.add', function (done) {
@@ -66,7 +158,7 @@ describe('Database', function () {
       objectStoreNames: ['__test__1__', '__test__2__', '__test__3__'],
     }).then(() => {
       db.add('test', 1234, '__test__4__').then(null, (error) => {
-        console.error(error);
+        expect(error);
         done();
       });
     });
@@ -110,7 +202,7 @@ describe('Database', function () {
           done();
         })
         .catch((error) => {
-          console.error(error);
+          expect(!error);
         });
     });
   });
@@ -130,7 +222,7 @@ describe('Database', function () {
         });
       })
       .catch((error) => {
-        console.error(error);
+        expect(!error);
       });
   });
 
@@ -149,7 +241,7 @@ describe('Database', function () {
         });
       })
       .catch((error) => {
-        console.error(error);
+        expect(!error);
       });
   });
 
@@ -171,7 +263,7 @@ describe('Database', function () {
         });
       })
       .catch((error) => {
-        console.error(error);
+        expect(!error);
       });
   });
 
@@ -193,7 +285,7 @@ describe('Database', function () {
         });
       })
       .catch((error) => {
-        console.error(error);
+        expect(!error);
       });
   });
 
@@ -211,7 +303,7 @@ describe('Database', function () {
         });
       })
       .catch((error) => {
-        console.error(error);
+        expect(!error);
       });
   });
 
@@ -235,5 +327,45 @@ describe('Database', function () {
     expect(db.getVersion()).toEqual(1);
     db.setVersion('2.44444444444444');
     expect(db.getVersion()).toEqual(2);
+  });
+
+  it('.handleOnBlocked', function (done) {
+    const db = new Database('test_handle_on_blocked');
+    db.open().then(() => {
+      db.handleOnBlocked().then(() => {
+        done();
+      });
+    });
+  });
+
+  it('.handleOnSuccess', function (done) {
+    const db = new Database('test_handle_on_success');
+    db.open().then(() => {
+      db.handleOnSuccess().then(null, (error) => {
+        expect(error);
+        done();
+      });
+    });
+  });
+
+  it('.handleOnSuccess (blocked)', function (done) {
+    const db = new Database('test_handle_on_success_blocked', null, 1);
+    const db2 = new Database('test_handle_on_success_blocked', null, 2);
+    db2.open().then(() => {
+      db2.handleOnSuccess().then(null, (error) => {
+        expect(error);
+        expect(db).not.toEqual(db2);
+        done();
+      });
+    });
+  });
+
+  it('.handleOnError', function (done) {
+    const db = new Database('test_handle_on_error');
+    db.open().then(() => {
+      db.handleOnError().then(() => {
+        done();
+      });
+    });
   });
 });

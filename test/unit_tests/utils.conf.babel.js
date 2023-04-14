@@ -1,5 +1,5 @@
 /**
- * @fileoverview Unit tests config for the kernel.
+ * @fileoverview Unit tests config for the units.
  *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
@@ -54,12 +54,12 @@ export default (config) => {
     frameworks: ['jasmine'],
     files: [
       {
-        pattern: 'src/kernel/*_test.js',
+        pattern: 'src/utils/**/*_test.js',
         watched: false,
       },
     ],
     preprocessors: {
-      'src/kernel/*_test.js': ['webpack', 'sourcemap'],
+      'src/utils/**/*_test.js': ['webpack', 'sourcemap'],
     },
     reporters: ['mocha', 'coverage-istanbul'],
     webpack: webpackConfig,

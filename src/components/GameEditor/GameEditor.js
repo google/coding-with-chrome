@@ -108,6 +108,9 @@ export class GameEditor extends React.PureComponent {
       this.previewRef.current.showContent();
       this.previewRef.current.reload();
     }
+    if (this.blockEditorRef) {
+      this.blockEditorRef.current.resize();
+    }
   }
 
   /**
@@ -134,6 +137,8 @@ export class GameEditor extends React.PureComponent {
         <Preview
           ref={this.previewRef}
           base={`preview/${this.state.projectId}/`}
+          readOnly={true}
+          showUrl={false}
         />
       ),
       assets: <div>Assets Window</div>,

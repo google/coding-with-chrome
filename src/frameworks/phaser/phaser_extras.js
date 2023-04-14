@@ -42,16 +42,9 @@ class PhaserExtras {
     }
 
     // Remove possible extra fragments like Ghostery.
-    if (document.getElementById('ghostery-tracker-tally')) {
-      document.getElementById('ghostery-tracker-tally').remove();
-    } else {
-      if (document.getElementById('ghostery-box')) {
-        document.getElementById('ghostery-box').remove();
-      }
-      if (document.getElementById('ghostery-pb-background')) {
-        document.getElementById('ghostery-pb-background').remove();
-      }
-    }
+    document.getElementById('ghostery-tracker-tally')?.remove();
+    document.getElementById('ghostery-box')?.remove();
+    document.getElementById('ghostery-pb-background')?.remove();
   }
 
   /**
@@ -60,7 +53,7 @@ class PhaserExtras {
    * @param {number} y
    * @param {string} sprite_name
    * @param {Object=} group
-   * @param {string=} manipulation
+   * @param {Function=} manipulation
    */
   static addGroupSprite(game, x, y, sprite_name, group, manipulation) {
     const sprite = game.add.sprite(x, y, sprite_name);

@@ -46,6 +46,7 @@ export class GameSetupScreen extends React.PureComponent {
    */
   constructor(props) {
     super(props);
+    this.projectNameField = React.createRef();
     this.state = {
       projectName:
         props.projectName ||
@@ -86,9 +87,9 @@ export class GameSetupScreen extends React.PureComponent {
    * Generates a random project name.
    */
   handleRandomProjectName() {
-    this.setState({
-      projectName: ProjectNameGenerator.generate(i18next.resolvedLanguage),
-    });
+    const projectName = ProjectNameGenerator.generate(i18next.resolvedLanguage);
+    this.projectNameField.current.value = projectName;
+    this.setState({ projectName });
   }
 
   /**
@@ -126,6 +127,7 @@ export class GameSetupScreen extends React.PureComponent {
               Here you can setup your new game project.
             </DialogContentText>
             <TextField
+              inputRef={this.projectNameField}
               required
               autoFocus
               fullWidth
@@ -133,7 +135,7 @@ export class GameSetupScreen extends React.PureComponent {
               id="project_name"
               label="Project Name"
               variant="standard"
-              value={this.state.projectName}
+              defaultValue={this.state.projectName}
               onChange={this.handleProjectNameChange.bind(this)}
               InputProps={{
                 endAdornment: (
