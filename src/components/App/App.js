@@ -34,7 +34,7 @@ const SelectScreen = lazy(() => import('../SelectScreen'));
 export function render(node) {
   const root = ReactDOM.createRoot(node);
   root.render(
-    <Suspense fallback="...is loading">
+    <Suspense>
       <Router>
         <Routes>
           <Route path="/desktop" element={<DesktopApp />} />

@@ -13,26 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
- * @fileoverview Typescript global Type definitions.
- *
+ * @fileoverview Constants for the Coding with Chrome suite.
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-/** ServiceWorkerWebpackPlugin */
-declare const serviceWorkerOption: Record<string, unknown>;
+export const APP_NAME = 'Coding with Chrome';
+export const APP_BASE_PATH = location.host.endsWith('.github.io')
+  ? location.pathname
+  : '/';
 
-/** Assets Array for Cache Worker */
-declare const APP_ASSETS: [string];
+export const CACHE_SERVICE_WORKER_CACHE_NAME = 'Cache';
+export const PREVIEW_SERVICE_WORKER_CACHE_NAME = 'PreviewCache';
 
-/** Version from package.json */
-declare const APP_VERSION: string;
-
-/** Devmode from Webpack config */
-declare const DEVMODE: boolean;
-
-declare module '*.module.css' {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const content: any;
-  export default content;
-}
+export default {
+  APP_NAME,
+  APP_BASE_PATH,
+  CACHE_SERVICE_WORKER_CACHE_NAME,
+  PREVIEW_SERVICE_WORKER_CACHE_NAME,
+};

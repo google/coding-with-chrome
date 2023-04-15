@@ -44,6 +44,7 @@ export class EventListenerEntry {
     /** @type {Object} */
     this.options = options;
 
+    // Try to get target element if target is a string.
     if (typeof target === 'string' || target instanceof String) {
       this.target = document.getElementById(prefix + target);
       if (!this.target) {
@@ -52,6 +53,8 @@ export class EventListenerEntry {
     } else {
       this.target = target;
     }
+
+    // Verify target and listener.
     if (!this.target) {
       throw new Error(`Undefined event target: ${this.target}!`);
     }

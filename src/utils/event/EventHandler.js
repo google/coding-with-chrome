@@ -66,6 +66,7 @@ export class EventHandler {
       this.prefix
     );
     if (!eventData.target) {
+      console.warn('Unable to find event target: ', src);
       return null;
     }
     eventData.target.addEventListener(

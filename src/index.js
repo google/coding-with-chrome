@@ -13,26 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
- * @fileoverview Typescript global Type definitions.
- *
+ * @fileoverview App renderer for the Coding with Chrome suite.
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-/** ServiceWorkerWebpackPlugin */
-declare const serviceWorkerOption: Record<string, unknown>;
-
-/** Assets Array for Cache Worker */
-declare const APP_ASSETS: [string];
-
-/** Version from package.json */
-declare const APP_VERSION: string;
-
-/** Devmode from Webpack config */
-declare const DEVMODE: boolean;
-
-declare module '*.module.css' {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const content: any;
-  export default content;
-}
+import('./components/App/App.js').then((module) => {
+  const appElement = document.getElementById('cwc-app');
+  module.render(appElement || document.body);
+});

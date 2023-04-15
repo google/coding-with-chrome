@@ -51,8 +51,8 @@ export class Preview extends React.PureComponent {
       loaded: false,
       loading: false,
       location: props.location || '',
-      readOnly: typeof props.readOnly === 'boolean' ? props.readOnly : false,
-      showURL: typeof props.showURL === 'boolean' ? props.showURL : true,
+      readOnly: typeof props.readOnly != 'undefined' ? props.readOnly : false,
+      hideURL: typeof props.hideURL != 'undefined' ? props.hideURL : false,
     };
     this.windowId = props.windowId;
     this.contentWrapper = React.createRef();
@@ -235,10 +235,10 @@ export class Preview extends React.PureComponent {
           <ToolbarIconButton aria-label="menu">
             <MenuIcon />
           </ToolbarIconButton>
-          {this.props.showURL && (
+          {!this.props.hideURL && (
             <span className={styles.locationBarPrefix}>{this.state.base}</span>
           )}
-          {this.props.showURL && !this.props.readOnly && (
+          {!this.props.hideURL && !this.props.readOnly && (
             <InputBase
               sx={{ paddingTop: '3px', marginLeft: '1px', ml: 1, flex: 1 }}
               size="small"
@@ -327,7 +327,7 @@ Preview.propTypes = {
   base: PropTypes.string,
   location: PropTypes.string,
   readOnly: PropTypes.bool,
-  showURL: PropTypes.bool,
+  hideURL: PropTypes.bool,
   windowId: PropTypes.string,
 };
 

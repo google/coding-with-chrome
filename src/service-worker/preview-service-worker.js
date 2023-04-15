@@ -15,30 +15,28 @@
  */
 
 /**
+ * @fileoverview Preview Service Worker.
  * @author mbordihn@google.com (Markus Bordihn)
- *
- * @fileoverview Service Worker Preview.
  */
 
 import { EventHandler } from '../utils/event/EventHandler';
 import { EventType } from '../utils/event/EventType';
+import {
+  APP_BASE_PATH,
+  PREVIEW_SERVICE_WORKER_CACHE_NAME,
+} from '../constants/';
 
 /**
  * Service Worker Preview class
  */
 export class PreviewService {
-  static cacheName = 'PreviewV1';
-  static basePath = location.host.endsWith('.github.io')
-    ? location.pathname
-    : '/';
-
   /**
    * @constructor
    */
   constructor() {
+    this.prefix = '[Preview Service]';
     this.events = new EventHandler('Service Worker: Preview', '', this);
     this.registered = false;
-    this.register();
     this.allowList = location.host.endsWith('.github.io')
       ? /^(http|https):\/\/([^/]+)\/([^/]+)\/preview\/[^/]+\/?/
       : /^(http|https):\/\/([^/]+)\/preview\/[^/]+\/?/;
@@ -50,15 +48,17 @@ export class PreviewService {
    */
   register() {
     if (this.registered) {
+      console.warn(`${this.prefix} Service Worker is already registered !`);
       return;
     }
-    console.log(
-      `Register Preview Service Worker with cache ${PreviewService.cacheName} ...`
-    );
+    console.log(`${this.prefix} Add event listener ...`);
     this.events.listen(self, EventType.ACTIVATE, this.activate);
     this.events.listen(self, EventType.INSTALL, this.install);
     this.events.listen(self, EventType.FETCH, this.fetch);
     this.registered = true;
+    console.log(
+      `${this.prefix} Registered Service Worker with cache ${PREVIEW_SERVICE_WORKER_CACHE_NAME} ...`
+    );
   }
 
   /**
@@ -66,14 +66,14 @@ export class PreviewService {
    * @param {*} event
    */
   activate(event) {
-    console.log('Activate request', event);
+    console.log(`${this.prefix} Activate Service Worker ...`, event);
   }
 
   /**
    * Install event.
    */
   install() {
-    console.log('Install Preview Service Worker ...');
+    console.log(`${this.prefix} Install Service Worker ...`);
   }
 
   /**
@@ -84,10 +84,9 @@ export class PreviewService {
     if (event.request == null || !this.allowList.test(event.request.url)) {
       return;
     }
-    console.log('Preview fetch request', event);
     if (event.request.method === 'POST') {
       event.respondWith(
-        caches.open(PreviewService.cacheName).then((cache) => {
+        caches.open(PREVIEW_SERVICE_WORKER_CACHE_NAME).then((cache) => {
           return event.request.text().then((text) => {
             const response = new Response(text);
             cache.put(event.request, response.clone());
@@ -97,9 +96,7 @@ export class PreviewService {
       );
     } else if (event.request.method === 'GET') {
       // Hardcoded test response.
-      if (
-        event.request.url.endsWith(PreviewService.basePath + 'preview/test123')
-      ) {
+      if (event.request.url.endsWith(APP_BASE_PATH + 'preview/test123')) {
         event.respondWith(new Response('Hello World! ' + this.counter++));
         return;
       }
@@ -142,26 +139,26 @@ export class PreviewService {
     contentType = 'text/plain; charset=utf-8'
   ) {
     // Normalize filename to preview path.
-    if (!filename.startsWith(PreviewService.basePath + 'preview/')) {
-      if (filename.startsWith(PreviewService.basePath)) {
+    if (!filename.startsWith(APP_BASE_PATH + 'preview/')) {
+      if (filename.startsWith(APP_BASE_PATH)) {
         filename =
-          filename.slice(PreviewService.basePath.length) +
-          PreviewService.basePath +
+          filename.slice(APP_BASE_PATH.length) +
+          APP_BASE_PATH +
           'preview' +
           filename;
       } else {
-        filename = PreviewService.basePath + 'preview/' + filename;
+        filename = APP_BASE_PATH + 'preview/' + filename;
       }
     }
-    const cache = await caches.open(PreviewService.cacheName);
+    const cache = await caches.open(PREVIEW_SERVICE_WORKER_CACHE_NAME);
     const url = filename;
     const response = new Response(content, {
       headers: { 'Content-Type': contentType },
     });
-    console.log('Save preview file', url, response);
+    console.log('[Preview Service] Save preview file', url, response);
     await cache.put(url, response);
   }
 }
 
 // Initialize Service Worker
-new PreviewService();
+new PreviewService().register();

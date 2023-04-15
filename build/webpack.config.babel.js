@@ -30,7 +30,6 @@ import TerserPlugin from 'terser-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
 import path from 'path';
-import webpack from 'webpack';
 
 module.exports = (mode = 'development') => ({
   mode: mode == 'deploy' ? 'production' : mode,
@@ -57,7 +56,8 @@ module.exports = (mode = 'development') => ({
     },
   },
   entry: {
-    boot: ['./src/boot.js', './assets/css/boot.css'],
+    app: ['./src/index.js', './assets/css/app.css'],
+    serviceWorker: ['./src/service-worker/service-worker.js'],
     cacheServiceWorker: ['./src/service-worker/cache-service-worker.js'],
     previewServiceWorker: ['./src/service-worker/preview-service-worker.js'],
   },
@@ -78,12 +78,27 @@ module.exports = (mode = 'development') => ({
   },
   optimization: {
     emitOnErrors: true,
+    runtimeChunk: {
+      name: (entrypoint) => {
+        if (entrypoint.name == 'app') {
+          return `runtime-${entrypoint.name}`;
+        }
+        return null;
+      },
+    },
+    splitChunks: {
+      chunks(chunk) {
+        return chunk?.name == 'app';
+      },
+    },
     minimize: mode != 'development',
     minimizer: [
       new CssMinimizerPlugin(),
       new HtmlMinimizerPlugin(),
       new JsonMinimizerPlugin(),
-      new TerserPlugin(),
+      new TerserPlugin({
+        parallel: true,
+      }),
     ],
   },
   devtool: mode == 'development' ? 'inline-source-map' : false,
@@ -160,18 +175,14 @@ module.exports = (mode = 'development') => ({
     ],
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new CompressionPlugin({
       test: /\.(woff|woff2|eot|ttf|otf)$/i,
       exclude: /.map$/,
       deleteOriginalAssets: 'keep-source-map',
     }),
-    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].css',
-    }),
-    new webpack.DefinePlugin({
-      DEVMODE: mode === 'development',
-      VERSION: JSON.stringify(process.env.npm_package_version),
     }),
     new CopyPlugin({
       patterns: [
@@ -266,6 +277,7 @@ module.exports = (mode = 'development') => ({
       ],
     }),
     new HtmlWebpackPlugin({
+      title: 'Coding with Chrome',
       template: './src/index.html',
       favicon: 'assets/favicon/favicon.ico',
       inject: false,

@@ -138,7 +138,7 @@ export class GameEditor extends React.PureComponent {
           ref={this.previewRef}
           base={`preview/${this.state.projectId}/`}
           readOnly={true}
-          showUrl={false}
+          hideURL={true}
         />
       ),
       assets: <div>Assets Window</div>,

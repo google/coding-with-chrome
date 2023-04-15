@@ -15,33 +15,28 @@
  */
 
 /**
+ * @fileoverview Cache Service Worker.
  * @author mbordihn@google.com (Markus Bordihn)
- *
- * @fileoverview Service Worker Cache.
  */
 
 import { EventHandler } from '../utils/event/EventHandler';
 import { EventType } from '../utils/event/EventType';
+import { CACHE_SERVICE_WORKER_CACHE_NAME } from '../constants/';
 
 /**
  * Service Worker Cache class
  */
 export class CacheService {
-  static cacheName = 'CacheV1';
-
   /**
    * @constructor
    */
   constructor() {
+    this.prefix = '[Cache Service]';
     this.events = new EventHandler('Service Worker: Cache', '', this);
     this.registered = false;
-    this.basePath = location.host.endsWith('.github.io')
-      ? location.pathname
-      : '/';
     this.denyList = location.host.endsWith('.github.io')
       ? /^(http|https):\/\/([^/]+)\/([^/]+)\/(upload|preview)\/[^/]+\/?/
       : /^(http|https):\/\/([^/]+)\/(upload|preview)\/[^/]+\/?/;
-    this.register();
   }
 
   /**
@@ -49,15 +44,17 @@ export class CacheService {
    */
   register() {
     if (this.registered) {
+      console.warn(`${this.prefix} Service Worker is already registered !`);
       return;
     }
-    console.log(
-      `Register Cache Service Worker with cache ${CacheService.cacheName} ...`
-    );
+    console.log(`${this.prefix} Add event listener ...`);
     this.events.listen(self, EventType.ACTIVATE, this.activate);
     this.events.listen(self, EventType.INSTALL, this.install);
     this.events.listen(self, EventType.FETCH, this.fetch);
     this.registered = true;
+    console.log(
+      `${this.prefix} Registered Service Worker with cache ${CACHE_SERVICE_WORKER_CACHE_NAME} ...`
+    );
   }
 
   /**
@@ -65,14 +62,14 @@ export class CacheService {
    * @param {*} event
    */
   activate(event) {
-    console.log('Activate request', event);
+    console.log(`${this.prefix} Activate Service Worker ...`, event);
   }
 
   /**
    * Install event.
    */
   install() {
-    console.log('Install Cache Service Worker ...');
+    console.log(`${this.prefix} Install Service Worker ...`);
   }
 
   /**
@@ -84,13 +81,14 @@ export class CacheService {
       event.request == null ||
       event.request.url.startsWith('chrome-extension://') ||
       event.request.url.startsWith('ws://') ||
+      event.request.url.endsWith('.hot-update.json') ||
       this.denyList.test(event.request.url)
     ) {
       return;
     }
-    console.log('Cache fetch request', event);
+    console.log(`${this.prefix} Fetch request`, event);
     event.respondWith(
-      caches.open(CacheService.cacheName).then(function (cache) {
+      caches.open(CACHE_SERVICE_WORKER_CACHE_NAME).then(function (cache) {
         return cache.match(event.request).then(function (response) {
           return (
             response ||
@@ -106,4 +104,4 @@ export class CacheService {
 }
 
 // Initialize Service Worker
-new CacheService();
+new CacheService().register();

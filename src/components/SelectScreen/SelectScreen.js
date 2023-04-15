@@ -42,12 +42,12 @@ export class SelectScreen extends React.PureComponent {
       <div className={styles.container}>
         <Grid container spacing={3} direction="column" alignItems="center">
           <Grid item>
-            <Logo width="auto" height="250px" />
+            <Logo width="100%" height="250px" />
+          </Grid>
+          <Grid item>
             <Typography variant="h4" align="center">
               Please select a option to start.
             </Typography>
-          </Grid>
-          <Grid item>
             <Alert severity="warning">
               <AlertTitle>Experimental Version</AlertTitle>
               This version is experimental and not fully functional. Use at your
@@ -62,7 +62,7 @@ export class SelectScreen extends React.PureComponent {
               className={styles.button}
               startIcon={<DesktopWindowsIcon />}
             >
-              Desktop Version
+              Experimental Desktop
             </Button>
           </Grid>
           <Grid item>

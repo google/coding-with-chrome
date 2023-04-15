@@ -17,7 +17,6 @@
   },
   "files": [
     "global.d.ts",
-    "src/boot.js",
   ],
   "exclude": [
     "build",

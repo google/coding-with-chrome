@@ -14,7 +14,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Coding with Chrome Suite</title>
+    <title><%= htmlWebpackPlugin.options.title %></title>
     <link rel="manifest" href="manifest.json" />
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png" />
@@ -25,33 +25,35 @@
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
     <meta name="description" content="Coding with Chrome Suite" />
-    <% for (let item in htmlWebpackPlugin.files.css) { %>
-     <% if (htmlWebpackPlugin.files.css[item] == '/css/boot.css') { %>
+    <% for (let item in htmlWebpackPlugin.files.css) { %> <% if (htmlWebpackPlugin.files.css[item] == '/css/app.css') { %>
     <style>
-      <%= compilation.assets['css/boot.css'].source() %>
+      <%= compilation.assets['css/app.css'].source() %>
     </style>
-     <% } else { %>
+    <% } else { %>
     <link rel="preload" href="<%= htmlWebpackPlugin.files.css[item] %>" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <noscript><link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[item] %>" /></noscript>
-     <% } %>
-    <% } %>
+    <% } %> <% } %>
     <script>
       globalThis.BOOT_TIME = Date.now();
       globalThis.APP_ASSETS = ['/',<% for (key in compilation.assets) { %>'<%= key %>', <% } %>];
     </script>
+    <% for (let item in htmlWebpackPlugin.files.js) { %>
+      <% if (htmlWebpackPlugin.files.js[item] == '/js/serviceWorker.js') { %>
+        <script src="<%= htmlWebpackPlugin.files.js[item] %>"></script>
+      <% } %>
+    <% } %>
     <% if (process.env.NODE_ENV === 'production') { %>
     <script>
       if (typeof window.__REACT_DEVTOOLS_GLOBAL_HOOK__ === 'object') {
-        window.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function () {}
+        window.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function () {};
       }
     </script>
     <% } %>
   </head>
   <body>
-    <div id="cwc-screen">
-      <div id="cwc-screen-splash-screen" class="cwc-splash-screen">
+    <div id="cwc-app">
+      <div class="cwc-splash-screen">
         <div class="content">
-          <h2 class="title">Coding with Chrome</h2>
           <div class="logo">
             <svg class="cwc-logo" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="300" height="225" version="1.1" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 6350 7620" xmlns:xlink="http://www.w3.org/1999/xlink">
               <filter id="dropShadow">
@@ -83,22 +85,12 @@
               </g>
             </svg>
           </div>
+          <h2 class="title">Coding with Chrome</h2>
           <noscript>Please enable JavaScript to continue using this application.</noscript>
-          <div class="progress">
-            <div class="info"></div>
-            <div class="progress-bar">
-              <div class="progress-bar-progress"></div>
-            </div>
-            <div class="progress-text"></div>
-            <div class="progress-text-log">
-              <ul></ul>
-            </div>
-          </div>
         </div>
       </div>
     </div>
-
-    <% for (let item in htmlWebpackPlugin.files.js) { %> <% if (htmlWebpackPlugin.files.js[item] == '/cache-service-worker.js' || htmlWebpackPlugin.files.js[item] == '/preview-service-worker.js') { %> <% } else { %>
+    <% for (let item in htmlWebpackPlugin.files.js) { %> <% if (htmlWebpackPlugin.files.js[item] == '/js/serviceWorker.js' || htmlWebpackPlugin.files.js[item] == '/cache-service-worker.js' || htmlWebpackPlugin.files.js[item] == '/preview-service-worker.js') { %> <% } else { %>
     <script src="<%= htmlWebpackPlugin.files.js[item] %>"></script>
     <% } %> <% } %>
   </body>

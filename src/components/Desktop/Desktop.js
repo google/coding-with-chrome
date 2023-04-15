@@ -27,6 +27,11 @@ import { WindowManager } from './WindowManager';
 
 import styles from './style.module.css';
 
+// Load kernel
+import('./../../kernel/Kernel').then((module) => {
+  module.kernel.boot();
+});
+
 /**
  *
  */

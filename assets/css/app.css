@@ -14,11 +14,140 @@
  * limitations under the License.
  */
 
+/* General style definitions. */
+html {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+strong,
+b {
+  font-weight: bolder;
+}
+
+body {
+  background-color: #fafafa;
+  color: rgba(0, 0, 0, 0.87);
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  height: 100%;
+  letter-spacing: 0.01071em;
+  line-height: 1.43;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+@media print {
+  body {
+    background-color: #fff;
+  }
+}
+
+body::backdrop {
+  background-color: #fafafa;
+}
+
+#cwc-app {
+  height: 100%;
+  margin: 0;
+  width: 100%;
+}
+
+/* Animation class names. */
+.spin {
+  animation: spin 2s linear infinite;
+}
+
+/* Animation key-frames definition. */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInTop {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -125%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-125%, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeInBottom {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 125%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translate3d(125%, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes zoom {
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+  50% {
+    transform: scale3d(1.2, 1.2, 1.2);
+  }
+  to {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+/**
+  * Splash screen for Coding with Chrome.
+  */
+
 .cwc-splash-screen {
   width: 100%;
   height: 100%;
-  z-index: 1000;
-  background-color: #fff;
   background: linear-gradient(
     135deg,
     rgba(200, 200, 200, 1) 0%,
@@ -26,6 +155,7 @@
     rgba(255, 255, 255, 1) 60%,
     rgba(200, 200, 200, 1) 100%
   );
+  background-color: #fff;
 }
 
 .cwc-splash-screen .title {
@@ -47,49 +177,6 @@
   margin-right: -50%;
   top: 50%;
   transform: translate(-50%, -50%);
-}
-
-/* Progress Screen Logo Animation */
-
-.cwc-splash-screen .progress-bar {
-  height: 4px;
-  background-color: rgb(72, 101, 124);
-  overflow: hidden;
-  position: relative;
-}
-
-.cwc-splash-screen .progress-bar-progress {
-  background-color: #90caf9;
-  top: 0;
-  left: 0;
-  width: 100%;
-  bottom: 0;
-  position: absolute;
-  transform-origin: left;
-  transform: translateX(-99%);
-}
-
-.cwc-splash-screen .progress-text {
-  margin-top: 10px;
-  height: 28px;
-}
-
-.cwc-splash-screen .progress-text-log {
-  box-shadow: 10px 10px 15px silver;
-  margin-top: 10px;
-  height: 100px;
-  overflow-y: scroll;
-  display: flex;
-  flex-direction: column-reverse;
-}
-
-.cwc-splash-screen .progress-text-log ul {
-  padding: 10px;
-  margin: 0;
-}
-
-.cwc-splash-screen .progress-text-log li {
-  list-style: none;
 }
 
 /* Logo animation. */
