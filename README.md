@@ -5,10 +5,9 @@
 [![codecov](https://codecov.io/gh/google/coding-with-chrome/branch/main/graph/badge.svg?token=FZmp5u7mO9)](https://codecov.io/gh/google/coding-with-chrome)
 
 **NOTE:**
-This repository is used for the the upcoming **Coding with Chrome Suite** version.
+This repository is used for the the upcoming and experimental **Coding with Chrome Suite** version.
 
-If you are looking for the **Chrome App** version, please go to the
-[chrome-app-v6.x repository][1] instead.
+If you are looking for the **Chrome App** version from the Chrome Store, please use [chrome-app-v6.x repository][1] instead.
 
 - [Licensing](#licensing)
 - [Credits](#credits)
@@ -24,7 +23,7 @@ around two core philosophies:
      provides feedback.
 2. Allow educators to put together a custom curriculum made up of various
    components like:
-   - Input languages (blockly, javascript, coffeescript)
+   - Input languages (blockly, javascript)
    - Output modules (turtle graphics, javascript output, connected robots)
    - Flexible UI where elements can be easily added, modified or removed
    - Tutorial engine for self-learning
@@ -35,7 +34,6 @@ Apache License, Version 2.0 see [LICENSE.md](LICENSE.md)
 
 ## Credits
 
-Coding with Chrome is made possible by other [open source software](NOTICE.md).
+Coding with Chrome is made possible by other [open source software](third_party/NOTICE.md).
 
-[1]:https://github.com/google/coding-with-chrome/tree/chrome-app-v6.x
-[2]:https://cla.developers.google.com/
+[1]: https://github.com/google/coding-with-chrome/tree/chrome-app-v6.x

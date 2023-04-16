@@ -87,7 +87,7 @@ export class ServiceWorker {
             );
             window.setTimeout(() => {
               this.preparePreviewCache();
-            }, 500);
+            }, 100);
           },
           (error) => {
             console.log(

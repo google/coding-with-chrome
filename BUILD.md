@@ -1,10 +1,10 @@
-# Build Coding with Chrome Suite
+# Build Coding with Chrome Suite (Experimental)
 
 <img src="static_files/images/cwc_logo.png" align="right">
 
 ## What you need to build the Coding with Chrome Suite
 
-In order to build the Coding with Chrome App, you only need to have Node.js/npm
+In order to build the Coding with Chrome Suite, you only need to have Node.js/npm
 and GIT installed on your system.
 
 Each build is cross-platform compatible. Which mean if you build the
@@ -46,16 +46,25 @@ Enter the "coding-with-chrome" directory and get the required packages by:
 npm install
 ```
 
-### Install Windows Build Tools (recommended on Windows)
+#### Module not found error
 
-If you using Windows, please make sure that the Windows Build Tools are
-installed by running the following command with administrative rights:
+If you get an error like:
 
 ```bash
-npm install -g windows-build-tools
+Module not found: Error: Can't resolve '...'
+```
+
+Please make sure that you have cloned the repository with the `--recursive` flag.
+
+Otherwise you need to run the following command to get the missing files:
+
+```bash
+git submodule update --init --recursive
 ```
 
 ### Start the actual app
+
+To start the app, run the following command:
 
 ```bash
 npm run start

@@ -21,21 +21,22 @@
 
 import '../../BlockEditor/blocks/StaticFilesBlocks.js';
 
+import { APP_BASE_PATH } from '../../../constants/';
 import { BlocksBuilder } from '../../BlockEditor/blocks/BlocksBuilder.js';
 import { PhaserBlocksBuilder } from './../blocks/PhaserBlocksBuilder.js';
 
 // Default sample images
 const sampleImageData = [
-  ['50px_blue', '/assets/phaser/samples/50px_blue.png'],
-  ['50px_green', '/assets/phaser/samples/50px_green.png'],
-  ['50px_red', '/assets/phaser/samples/50px_red.png'],
-  ['ball_blue', '/assets/phaser/samples/ball_blue.png'],
-  ['ball_green', '/assets/phaser/samples/ball_green.png'],
-  ['ball_red', '/assets/phaser/samples/ball_red.png'],
-  ['bg_01', '/assets/phaser/samples/bg/bg_01.png'],
-  ['bg_02', '/assets/phaser/samples/bg/bg_02.png'],
-  ['paddle', '/assets/phaser/samples/paddle.png'],
-  ['player', '/assets/phaser/samples/player.png'],
+  ['50px_blue', APP_BASE_PATH + 'assets/phaser/samples/50px_blue.png'],
+  ['50px_green', APP_BASE_PATH + 'assets/phaser/samples/50px_green.png'],
+  ['50px_red', APP_BASE_PATH + 'assets/phaser/samples/50px_red.png'],
+  ['ball_blue', APP_BASE_PATH + 'assets/phaser/samples/ball_blue.png'],
+  ['ball_green', APP_BASE_PATH + 'assets/phaser/samples/ball_green.png'],
+  ['ball_red', APP_BASE_PATH + 'assets/phaser/samples/ball_red.png'],
+  ['bg_01', APP_BASE_PATH + 'assets/phaser/samples/bg/bg_01.png'],
+  ['bg_02', APP_BASE_PATH + 'assets/phaser/samples/bg/bg_02.png'],
+  ['paddle', APP_BASE_PATH + 'assets/phaser/samples/paddle.png'],
+  ['player', APP_BASE_PATH + 'assets/phaser/samples/player.png'],
 ];
 
 // Processing sample images to get dataURL for static image blocks
