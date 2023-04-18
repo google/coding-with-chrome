@@ -160,7 +160,7 @@ export class Database {
       this.upgradeNeeded_ = true;
       setTimeout(() => {
         this.open().then(resolve);
-      }, 100);
+      }, 250);
     });
   }
 
@@ -239,7 +239,7 @@ export class Database {
         }
         const request = objectStore[command](...params);
         request.onsuccess = () => {
-          resolve(request.result);
+          return resolve(request.result);
         };
         request.onerror = (error) => {
           reject(

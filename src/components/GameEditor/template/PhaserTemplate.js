@@ -38,22 +38,21 @@ class PhaserTemplate {
 
   /**
    * @param {string} code
-   * @param {string} projectId
-   * @param {string} projectName
+   * @param {object} project
    * @return {string}
    */
-  static render(code = '', projectId = '', projectName = '') {
+  static render(code, project) {
     return `<!DOCTYPE html>
 <html>
   <head>
     ${(() => {
-      return projectName
-        ? `<title>${projectName}</title>`
+      return project
+        ? `<title>${project.name}</title>`
         : '<title>Phaser Game</title>';
     })()}
     ${(() => {
-      return projectId
-        ? `<base href="${PhaserTemplate.basePath}preview/${projectId}/" />`
+      return project
+        ? `<base href="${PhaserTemplate.basePath}preview/${project.id}/" />`
         : '';
     })()}
     <style>
@@ -88,7 +87,7 @@ class PhaserTemplate {
   </head>
   <body>
     <script>
-    ${code}
+    ${code || ''}
     </script>
   </body>
 </html>`;

@@ -39,6 +39,8 @@ import 'react-mosaic-component/react-mosaic-component.css';
 import styles from './style.module.css';
 import { PreviewService } from '../../service-worker/preview-service-worker';
 import BlocklyTemplate from './template/BlocklyTemplate';
+import { Project } from '../Project/Project';
+import { ProjectType } from '../Project/ProjectType';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import { WorkspaceSvg } from 'react-blockly';
@@ -77,16 +79,22 @@ export class GameEditor extends React.PureComponent {
     this.previewRef = React.createRef();
     this.blockEditorRef = React.createRef();
 
+    // Set project.
+    const project =
+      props.project ||
+      new Project(
+        projectId || uuidv4(),
+        ProjectType.GAME_EDITOR,
+        projectName || ProjectNameGenerator.generate(i18next.resolvedLanguage)
+      );
+
     // Set initial state.
     this.state = {
-      projectName:
-        projectName || ProjectNameGenerator.generate(i18next.resolvedLanguage),
-      projectId: projectId || uuidv4(),
-      projectDescription: '',
+      project: project,
       showGameSetupScreen: !hasProjectData,
       toolbox: Toolbox.getToolbox(),
       xml: hasProjectData
-        ? BlocklyTemplate.render(projectName)
+        ? BlocklyTemplate.render(project)
         : '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
     };
   }
@@ -121,6 +129,7 @@ export class GameEditor extends React.PureComponent {
       blockEditor: (
         <BlockEditor
           ref={this.blockEditorRef}
+          type={'GameEditor'}
           content={this.state.xml}
           toolbox={this.state.toolbox}
           template={PhaserTemplate.render}
@@ -128,15 +137,14 @@ export class GameEditor extends React.PureComponent {
           onChange={this.handleBlockEditorContentChange.bind(this)}
           onLoadFile={this.handleOnLoadFile.bind(this)}
           onSaveFile={this.handleOnSaveFile.bind(this)}
-          projectId={this.state.projectId}
-          projectName={this.state.projectName}
+          project={this.state.project}
           windowId={this.props.windowId}
         />
       ),
       preview: (
         <Preview
           ref={this.previewRef}
-          base={`preview/${this.state.projectId}/`}
+          base={`preview/${this.state.project.id}/`}
           readOnly={true}
           hideURL={true}
         />
@@ -290,6 +298,5 @@ export class GameEditor extends React.PureComponent {
 
 GameEditor.propTypes = {
   windowId: PropTypes.string,
-  projectId: PropTypes.string,
-  projectName: PropTypes.string,
+  project: PropTypes.object,
 };

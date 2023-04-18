@@ -33,7 +33,6 @@ import RedoIcon from '@mui/icons-material/Redo';
 import Toolbar from '@mui/material/Toolbar';
 import UndoIcon from '@mui/icons-material/Undo';
 import { redo, undo } from '@codemirror/commands';
-import { v4 as uuidv4 } from 'uuid';
 
 import { WindowManager } from '../Desktop/WindowManager';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
@@ -44,6 +43,7 @@ import { EditorState } from '@codemirror/state';
 import { EditorView } from '@codemirror/view';
 
 import styles from './style.module.css';
+import { Project } from '../Project/Project';
 import { PreviewService } from '../../service-worker/preview-service-worker';
 
 /**
@@ -55,10 +55,11 @@ export class CodeEditor extends React.PureComponent {
    */
   constructor(props) {
     super(props);
-    this.projectId = props.projectId || uuidv4();
     this.toolbar = React.createRef();
     this.infobar = React.createRef();
     this.state = {
+      project: props.project || new Project(),
+
       /** @type {string} */
       content: props.content || '',
 
@@ -257,6 +258,6 @@ export class CodeEditor extends React.PureComponent {
 CodeEditor.propTypes = {
   blockEditor: PropTypes.object,
   content: PropTypes.string,
-  projectId: PropTypes.string,
+  project: PropTypes.object,
   windowId: PropTypes.string,
 };

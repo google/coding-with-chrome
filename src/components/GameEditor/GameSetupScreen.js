@@ -29,11 +29,19 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import DraftsIcon from '@mui/icons-material/Drafts';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import i18next from 'i18next';
 import { v4 as uuidv4 } from 'uuid';
+
+import { Project } from '../Project/Project';
+import { ProjectType } from '../Project/ProjectType';
 
 import ProjectNameGenerator from './generator/ProjectNameGenerator';
 
@@ -48,6 +56,9 @@ export class GameSetupScreen extends React.PureComponent {
     super(props);
     this.projectNameField = React.createRef();
     this.state = {
+      anchorEl: null,
+      open: false,
+      projects: [],
       projectName:
         props.projectName ||
         ProjectNameGenerator.generate(i18next.resolvedLanguage),
@@ -57,6 +68,15 @@ export class GameSetupScreen extends React.PureComponent {
       showGameSetupScreen:
         typeof props.open !== 'undefined' ? props.open : true,
     };
+  }
+
+  /**
+   * Component did mount.
+   */
+  componentDidMount() {
+    Project.getProjects(ProjectType.GAME_EDITOR).then((projects) => {
+      this.setState({ projects });
+    });
   }
 
   /**
@@ -106,11 +126,56 @@ export class GameSetupScreen extends React.PureComponent {
   }
 
   /**
+   * @param {*} event
+   */
+  handleOpenProject(event) {
+    if (event.currentTarget && event.currentTarget.getAttribute('value')) {
+      console.log(event.currentTarget.getAttribute('value'));
+      // Update url with new project id and project name.
+      window.location.hash = `#/game_editor/${event.currentTarget.getAttribute(
+        'value'
+      )}`;
+      window.location.reload(true);
+    }
+  }
+
+  /**
+   * @param {*} event
+   */
+  handleOpenExistingProject(event) {
+    this.setState({ anchorEl: event.currentTarget, open: true });
+  }
+
+  /**
    * @return {Object}
    */
   render() {
     return (
       <React.StrictMode>
+        <Menu anchorEl={this.state.anchorEl} open={this.state.open}>
+          {this.state.projects.map((project) => (
+            <MenuItem
+              key={project.id}
+              value={project.id + '/' + project.name}
+              onClick={this.handleOpenProject.bind(this)}
+            >
+              <ListItemIcon>
+                <DraftsIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText
+                primary={
+                  <React.Fragment>
+                    {project.name}
+                    <Typography variant="caption" display="block">
+                      {project.id}
+                    </Typography>
+                  </React.Fragment>
+                }
+                secondary={'Last modified:' + project.lastModified}
+              />
+            </MenuItem>
+          ))}
+        </Menu>
         <Dialog
           onClose={this.handleGameSetupClose.bind(this)}
           open={this.state.showGameSetupScreen}
@@ -123,6 +188,15 @@ export class GameSetupScreen extends React.PureComponent {
             </Typography>
           </DialogTitle>
           <DialogContent>
+            <Button
+              id="demo-positioned-button"
+              aria-controls={open ? 'demo-positioned-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+              onClick={this.handleOpenExistingProject.bind(this)}
+            >
+              Open existing Project ...
+            </Button>
             <DialogContentText>
               Here you can setup your new game project.
             </DialogContentText>

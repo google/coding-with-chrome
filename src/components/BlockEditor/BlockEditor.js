@@ -37,7 +37,8 @@ import SaveAsIcon from '@mui/icons-material/SaveAs';
 import SaveIcon from '@mui/icons-material/Save';
 import Typography from '@mui/material/Typography';
 import UndoIcon from '@mui/icons-material/Undo';
-import { v4 as uuidv4 } from 'uuid';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import { BlocklyWorkspace, WorkspaceSvg } from 'react-blockly';
@@ -52,13 +53,13 @@ import { javascriptGenerator } from 'blockly/javascript';
 import { Toolbar, ToolbarIconButton, ToolbarButton } from '../Toolbar';
 
 import { Database } from '../../utils/db/Database';
+import { Project } from '../Project/Project';
+import { APP_BASE_PATH } from '../../constants';
 
 import 'material-icons/iconfont/filled.css';
 import 'material-icons/iconfont/outlined.css';
 import styles from './style.module.css';
 import './style.global.css';
-
-const basePath = location.host.endsWith('.github.io') ? location.pathname : '/';
 
 /**
  *
@@ -69,8 +70,6 @@ export class BlockEditor extends React.PureComponent {
    */
   constructor(props) {
     super(props);
-    this.projectId = props.projectId || uuidv4();
-    this.projectName = props.projectName || 'New Project';
     this.blockyWorkspace = null;
     this.codeEditor = createRef();
     this.toolbar = createRef();
@@ -78,12 +77,17 @@ export class BlockEditor extends React.PureComponent {
     this.timer = {
       handleXMLChange: null,
     };
+    this.lastXMLContent = '';
     this.isDragging = false;
-    this.database = new Database('BlockEditor', this.projectId);
     this.state = {
       file: null,
+
+      /** @type {Project} */
+      project: props.project || new Project(),
       showEditor: false,
       showDrawer: false,
+      hasChanged: false,
+      hasSaved: false,
       config: {
         grid: {
           spacing: 20,
@@ -99,12 +103,19 @@ export class BlockEditor extends React.PureComponent {
           minScale: 0.5,
           scaleSpeed: 1.1,
         },
-        media: basePath + 'assets/blockly/',
+        media: APP_BASE_PATH + 'assets/blockly/',
         trashcan: false,
       },
+      snackbarSaved: false,
       variables: [],
       xml: props.content || '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
     };
+
+    // Databases for saving and loading the workspace.
+    this.database = new Database(
+      this.state.project.id,
+      this.state.project.type
+    );
 
     // Adding event listener for window resize, if windowId is set.
     if (this.props.windowId) {
@@ -156,8 +167,7 @@ export class BlockEditor extends React.PureComponent {
     if (this.props.template && typeof this.props.template === 'function') {
       code = this.props.template(
         code,
-        this.projectId,
-        this.projectName,
+        this.state.project,
         this.blockyWorkspace
       );
     }
@@ -208,7 +218,8 @@ export class BlockEditor extends React.PureComponent {
       Blockly.utils.xml.textToDom(parsedXML),
       this.blockyWorkspace
     );
-    this.setState({ parsedXML });
+    this.setState({ hasChanged: false, hasSaved: true, xml: parsedXML });
+    this.handleXMLChange(xml);
     this.resize();
     this.refresh();
   }
@@ -254,15 +265,18 @@ export class BlockEditor extends React.PureComponent {
 
     // Trigger XML change after 500ms.
     this.timer.HandleXMLChange = setTimeout(() => {
-      console.log('XML change', xml);
-      this.setState({ xml: xml });
-      const variables = this.blockyWorkspace?.getAllVariables();
-      if (variables && variables != this.state.variables) {
-        console.log('Variables change', variables);
-        this.setState({ variables: variables });
-      }
-      if (this.props.onChange && typeof this.props.onChange === 'function') {
-        this.props.onChange(this.getWorkspaceCode());
+      if (this.lastXMLContent != xml) {
+        console.log('XML change', xml);
+        this.setState({ hasChanged: true, xml: xml });
+        const variables = this.blockyWorkspace?.getAllVariables();
+        if (variables && variables != this.state.variables) {
+          console.log('Variables change', variables);
+          this.setState({ variables: variables });
+        }
+        if (this.props.onChange && typeof this.props.onChange === 'function') {
+          this.props.onChange(this.getWorkspaceCode());
+        }
+        this.lastXMLContent = xml;
       }
     }, 500);
   }
@@ -295,15 +309,15 @@ export class BlockEditor extends React.PureComponent {
   /**
    * Requests user to open a file.
    */
-  handleRequestOpenFile() {
+  handleRequestImportFile() {
     this.fileUploadButton.current.click();
   }
 
   /**
-   * Open and reads the file.
+   * Imports project file.
    * @param {*} event
    */
-  handleOpenFile(event) {
+  handleImportFile(event) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file) {
@@ -311,7 +325,7 @@ export class BlockEditor extends React.PureComponent {
         const reader = new FileReader();
         reader.onload = (fileEvent) => {
           const data = fileEvent?.target?.result;
-          this.handleOpenFileContent(file, data);
+          this.handleImportFileContent(file, data);
         };
         reader.readAsText(file);
       }
@@ -323,8 +337,40 @@ export class BlockEditor extends React.PureComponent {
    * @param {File} file
    * @param {string|ArrayBuffer|null|undefined} content
    */
-  handleOpenFileContent(file, content = '') {
-    console.log('Handle file content ...', file.name, content);
+  handleImportFileContent(file, content = '') {
+    if (file.name.endsWith('.cwc')) {
+      this.handleCodingWithChromeFileFormat(file, content);
+    } else if (file.name.endsWith('.xml')) {
+      this.handleBlocklyFileFormat(file, content);
+    } else {
+      console.log('Unknown file format ...', file.name);
+      return;
+    }
+
+    this.setState({ hasChanged: false, hasSaved: true, file });
+  }
+  /**
+   * @param {File} file
+   * @param {string|ArrayBuffer|null|undefined} content
+   */
+  handleBlocklyFileFormat(file, content) {
+    console.log('Handle Blockly file ...', file.name, content);
+
+    // Load XML content.
+    this.loadWorkspace(content);
+
+    // Trigger onLoadFile event.
+    if (this.props.onLoadFile && typeof this.props.onLoadFile === 'function') {
+      this.props.onLoadFile(this.blockyWorkspace);
+    }
+  }
+
+  /**
+   * @param {File} file
+   * @param {string|ArrayBuffer|null|undefined} content
+   */
+  handleCodingWithChromeFileFormat(file, content) {
+    console.log('Handle Coding with Chrome file ...', file.name, content);
     const parsedFile = new FileFormat(content || '');
     console.log('Parsed file', parsedFile);
     if (this.blockyWorkspace) {
@@ -350,27 +396,46 @@ export class BlockEditor extends React.PureComponent {
         this.props.onLoadFile(this.blockyWorkspace);
       }
     }
-    this.setState({ file });
   }
 
   /**
    * Save file.
    */
   handleSave() {
-    console.log('Save ...', this.database, this.projectId);
-    this.database.put('name', this.projectName);
+    // Save workspace to database.
+    console.log(
+      'Saving workspace for',
+      this.state.project,
+      'into',
+      this.database
+    );
+    this.database.put('name', this.state.project.name);
+    this.database.put('description', this.state.project.description);
     this.database.put('workspace', this.state.xml);
-    this.database.put('lastUpdate', new Date().toISOString());
+    this.database.put('lastModified', this.state.project.lastModified);
+
+    // Store additionally project reference.
+    const project = this.state.project;
+    project.setLastModified();
+    project.save();
+
+    // Update states.
+    this.setState({
+      snackbarSaved: true,
+      hasChanged: false,
+      hasSaved: true,
+      project,
+    });
   }
 
   /**
-   * Save file as.
+   * Export project file.
    */
-  handleSaveAs() {
-    console.log('Save as ...');
+  handleExportFile() {
+    console.log(`Export  ${this.state.project} ...`);
     const textAsBlob = new Blob([this.state.xml], { type: 'text/plain' });
     const downloadLink = document.createElement('a');
-    downloadLink.download = `${this.projectName}-${this.projectId}.xml`;
+    downloadLink.download = `${this.state.project.name}-${this.state.project.id}.xml`;
     downloadLink.innerHTML = 'Download File';
     if (window.webkitURL != null) {
       // Chrome allows the link to be clicked without actually adding it to the DOM.
@@ -383,6 +448,15 @@ export class BlockEditor extends React.PureComponent {
     }
 
     downloadLink.click();
+  }
+
+  /**
+   * New project file.
+   */
+  handleNewFile() {
+    if (this.state.hasChanged) {
+      console.warn('Unsaved changes ...');
+    }
   }
 
   /**
@@ -503,18 +577,20 @@ export class BlockEditor extends React.PureComponent {
             >
               <MenuIcon />
             </ToolbarIconButton>
-            {(this.state.file || true) && (
+            {this.state.hasSaved && (
               <ToolbarIconButton
                 aria-label="save"
+                disabled={!this.state.hasChanged}
                 onClick={this.handleSave.bind(this)}
               >
                 <SaveIcon />
               </ToolbarIconButton>
             )}
-            {!this.state.file && (
+            {!this.state.hasSaved && (
               <ToolbarIconButton
                 aria-label="save_as"
-                onClick={this.handleSaveAs.bind(this)}
+                onClick={this.handleSave.bind(this)}
+                color="error"
               >
                 <SaveAsIcon />
               </ToolbarIconButton>
@@ -549,20 +625,38 @@ export class BlockEditor extends React.PureComponent {
             onClose={this.handleCloseDrawer.bind(this)}
           >
             <MenuList sx={{ minWidth: '250px' }}>
-              <MenuItem onClick={this.handleRequestOpenFile.bind(this)}>
+              <MenuItem onClick={this.handleNewFile.bind(this)}>
                 <ListItemIcon>
                   <FileOpenIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText>Open File</ListItemText>
+                <ListItemText>New Project</ListItemText>
+                <Typography variant="body2" color="text.secondary">
+                  -
+                </Typography>
+              </MenuItem>
+              <MenuItem onClick={this.handleRequestImportFile.bind(this)}>
+                <ListItemIcon>
+                  <FileOpenIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Import Project</ListItemText>
                 <Typography variant="body2" color="text.secondary">
                   -
                 </Typography>
                 <input
                   ref={this.fileUploadButton}
                   type="file"
-                  onChange={this.handleOpenFile.bind(this)}
+                  onChange={this.handleImportFile.bind(this)}
                   hidden
                 />
+              </MenuItem>
+              <MenuItem onClick={this.handleExportFile.bind(this)}>
+                <ListItemIcon>
+                  <FileOpenIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Export Project</ListItemText>
+                <Typography variant="body2" color="text.secondary">
+                  -
+                </Typography>
               </MenuItem>
             </MenuList>
           </Drawer>
@@ -588,6 +682,19 @@ export class BlockEditor extends React.PureComponent {
             ref={this.codeEditor}
           ></CodeEditor>
         </Box>
+        <Box sx={{ height: 0 }}>
+          <Snackbar
+            open={this.state.snackbarSaved}
+            autoHideDuration={6000}
+            onClose={() => {
+              this.setState({ snackbarSaved: false });
+            }}
+          >
+            <MuiAlert severity="success">
+              Project {this.state.project.name} successfully saved!
+            </MuiAlert>
+          </Snackbar>
+        </Box>
       </React.StrictMode>
     );
   }
@@ -595,13 +702,12 @@ export class BlockEditor extends React.PureComponent {
 
 BlockEditor.propTypes = {
   content: PropTypes.string,
-  projectId: PropTypes.string,
-  projectName: PropTypes.string,
-  template: PropTypes.func,
-  parseXML: PropTypes.func,
   onChange: PropTypes.func,
   onLoadFile: PropTypes.func,
   onSaveFile: PropTypes.func,
+  parseXML: PropTypes.func,
+  project: PropTypes.object,
+  template: PropTypes.func,
   toolbox: PropTypes.object,
   windowId: PropTypes.string,
 };

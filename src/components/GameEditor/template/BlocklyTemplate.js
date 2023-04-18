@@ -24,10 +24,10 @@
  */
 class BlocklyTemplate {
   /**
-   * @param {string} projectName
+   * @param {object} project
    * @return {string}
    */
-  static render(projectName = 'My first Game') {
+  static render(project) {
     return `
 <xml xmlns="http://www.w3.org/1999/xhtml">
   <variables>
@@ -35,7 +35,7 @@ class BlocklyTemplate {
     <variable>obstacle_group</variable>
   </variables>
   <block type="phaser_game" x="-250" y="-250">
-    <field name="name">${projectName}</field>
+    <field name="name">${project ? project.name : 'My first Game'}</field>
     <field name="width">0</field>
     <field name="height">0</field>
     <next>
