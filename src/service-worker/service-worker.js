@@ -45,6 +45,24 @@ export class ServiceWorker {
     console.log(
       `${this.prefix} Installing Service Workers for ${APP_BASE_PATH} and scope ${this.scopePath}`
     );
+
+    // Reload protection for cache service worker.
+    const reloads = parseInt(window.name || 0);
+    if (reloads > 3 && navigator.onLine) {
+      console.warn('Reloading more than 3 times, clearing cache ...');
+      caches.open(CACHE_SERVICE_WORKER_CACHE_NAME).then((cache) => {
+        cache.keys().then(function (names) {
+          for (const name of names) {
+            cache.delete(name);
+          }
+        });
+      });
+    } else {
+      window.name = reloads + 1;
+    }
+    window.setTimeout(() => {
+      window.name = 0;
+    }, 1000);
   }
 
   /**
@@ -56,6 +74,9 @@ export class ServiceWorker {
       return;
     }
     if ('serviceWorker' in navigator) {
+      /**
+       * Register Cache Service Worker.
+       */
       navigator.serviceWorker
         .register(APP_BASE_PATH + 'cache-service-worker.js', {
           scope: this.scopePath,
@@ -76,6 +97,10 @@ export class ServiceWorker {
             );
           }
         );
+
+      /**
+       * Register Preview Service Worker.
+       */
       navigator.serviceWorker
         .register(APP_BASE_PATH + 'preview-service-worker.js', {
           scope: this.scopePath + 'preview/',

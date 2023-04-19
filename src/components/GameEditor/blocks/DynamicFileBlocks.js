@@ -57,3 +57,36 @@ javascriptGenerator['dynamic_image_file'] = function (block) {
     javascriptGenerator.ORDER_NONE,
   ];
 };
+
+/**
+ * Dynamic audio block for user-selected audios.
+ */
+Blocks['dynamic_audio_file'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField(new Blockly.FieldTextInput(''), 'filename')
+      .appendField(new Blockly.FieldTextInput(''), 'url')
+      .appendField(new Blockly.FieldTextInput(''), 'urlData')
+      .setVisible(false);
+    this.getField('urlData').EDITABLE = true;
+    this.getField('url').SERIALIZABLE = true;
+    this.getField('urlData').SERIALIZABLE = true;
+    this.getField('filename').SERIALIZABLE = true;
+    this.setInputsInline(false);
+    this.setOutput(true, 'Audio');
+    this.setColour(150);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+/**
+ * @param {Blockly.Block} block
+ * @return {any[]}
+ */
+javascriptGenerator['dynamic_audio_file'] = function (block) {
+  return [
+    block.getFieldValue('urlData') || block.getFieldValue('url') || '',
+    javascriptGenerator.ORDER_NONE,
+  ];
+};

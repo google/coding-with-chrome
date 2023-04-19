@@ -132,7 +132,7 @@ export class BlockEditor extends React.PureComponent {
       }
     });
 
-    console.log('Adding block editor with project id: ', this.projectId);
+    console.log('Adding block editor with project id: ', this.state.project.id);
   }
 
   /**
@@ -677,7 +677,7 @@ export class BlockEditor extends React.PureComponent {
         <Box sx={{ display: this.state.showEditor ? 'block' : 'none' }}>
           <CodeEditor
             windowId={this.props.windowId}
-            projectId={this.projectId}
+            project={this.state.project}
             blockEditor={this}
             ref={this.codeEditor}
           ></CodeEditor>

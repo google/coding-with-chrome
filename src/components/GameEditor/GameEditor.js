@@ -188,7 +188,7 @@ export class GameEditor extends React.PureComponent {
    * @param {string} code
    */
   handleBlockEditorContentChange(code) {
-    PreviewService.saveHTMLFile(`${this.state.projectId}/`, code).then(() => {
+    PreviewService.saveHTMLFile(`${this.state.project.id}/`, code).then(() => {
       this.previewRef.current.goToHomePage();
     });
   }
@@ -265,8 +265,8 @@ export class GameEditor extends React.PureComponent {
       <React.StrictMode>
         {this.state.showGameSetupScreen && (
           <GameSetupScreen
-            projectId={this.state.projectId}
-            projectName={this.state.projectName}
+            projectId={this.state.project.id}
+            projectName={this.state.project.name}
             open={this.state.showGameSetupScreen}
             onClose={this.handleGameSetupScreenClose.bind(this)}
           ></GameSetupScreen>
