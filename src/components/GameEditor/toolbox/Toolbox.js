@@ -51,10 +51,11 @@ import i18next from 'i18next';
  */
 export class Toolbox {
   /**
-   * @param {Map} files
+   * @param {Map} audioFiles
+   * @param {Map} imageFiles
    * @return {object}
    */
-  static getToolbox(files = new Map()) {
+  static getToolbox(audioFiles = new Map(), imageFiles = new Map()) {
     let toolBox = {};
     toolBox = {
       kind: 'categoryToolbox',
@@ -350,7 +351,9 @@ export class Toolbox {
           cssConfig: {
             container: 'icon_perm_media',
           },
-          contents: DynamicFilesToolbox.getDynamicFilesToolbox(files),
+          contents: DynamicFilesToolbox.getDynamicImageFilesToolbox(
+            imageFiles
+          ).concat(DynamicFilesToolbox.getDynamicAudioFilesToolbox(audioFiles)),
         },
         {
           kind: 'category',

@@ -50,56 +50,69 @@ const generalSampleImageBlocks = {
 export function replaceGeneralSampleImageBlock(xml) {
   // Replace old example blocks with new ones.
   for (const [oldBlock, newBlock] of Object.entries(generalSampleImageBlocks)) {
-    xml = xml.replace(`<block type="${oldBlock}"></block>`, newBlock);
+    xml = xml.replaceAll(`<block type="${oldBlock}"></block>`, newBlock);
   }
   return xml;
 }
 
 /**
  * @param {string} xml
+ * @param {Map<string, string>} files
  * @return {string}
  */
-export function replaceGeneralFileLibraryAudioBlock(xml) {
-  const file = '';
-  const oldBlockRegex =
+export function replaceGeneralFileLibraryAudioBlock(xml, files = new Map()) {
+  let match;
+  const regex =
     /<block type="general_file_library_audio">\s*<field name="filename">([^<]*)<\/field>\s*<\/block>/g;
-  return xml.replace(
-    oldBlockRegex,
-    '<block type="dynamic_audio_file"><field name="filename">$1</field><field name="url">$1</field><field name="urlData">' +
-      file +
-      '</field></block>'
-  );
+  while ((match = regex.exec(xml))) {
+    const filename = match[1].replaceAll('\\"', '').replaceAll('"', '');
+    const file = files.get(filename);
+    xml = xml.replace(
+      match[0],
+      `<block type="dynamic_audio_file"><field name="filename">${filename}</field><field name="url">${filename}</field><field name="urlData">${file}</field></block>`
+    );
+  }
+
+  return xml;
 }
 
 /**
  * @param {string} xml
+ * @param {Map<string, string>} files+
  * @return {string}
  */
-export function replaceGeneralFileLibraryImageBlock(xml) {
-  const oldBlockRegex =
+export function replaceGeneralFileLibraryImageBlock(xml, files = new Map()) {
+  let match;
+  const regex =
     /<block type="general_file_library_image">\s*<field name="filename">([^<]*)<\/field>\s*<field name="preview">([^<]*)<\/field>\s*<\/block>/g;
-  return xml.replace(
-    oldBlockRegex,
-    '<block type="dynamic_image_file"><field name="filename">$1</field><field name="url">$1</field><field name="urlData">$2</field></block>'
-  );
+  while ((match = regex.exec(xml))) {
+    const filename = match[1].replaceAll('\\"', '').replaceAll('"', '');
+    const file = match[2] || files.get(filename);
+    xml = xml.replace(
+      match[0],
+      `<block type="dynamic_image_file"><field name="filename">${filename}</field><field name="url">${filename}</field><field name="urlData">${file}</field></block>`
+    );
+  }
+  return xml;
 }
 
 /**
  * @param {string} xml
+ * @param {Map<string, string>} files
  * @return {string}
  */
-export function replaceLegacyBlocks(xml) {
+export function replaceLegacyBlocks(xml, files = new Map()) {
   if (xml.includes('general_sample_image_')) {
     console.log('Replacing general sample image blocks...');
     xml = replaceGeneralSampleImageBlock(xml);
   }
   if (xml.includes('general_file_library_audio')) {
     console.log('Replacing general file library audio blocks...');
-    xml = replaceGeneralFileLibraryAudioBlock(xml);
+    xml = replaceGeneralFileLibraryAudioBlock(xml, files);
   }
   if (xml.includes('general_file_library_image')) {
     console.log('Replacing general file library image blocks...');
-    xml = replaceGeneralFileLibraryImageBlock(xml);
+    xml = replaceGeneralFileLibraryImageBlock(xml, files);
   }
   return xml;
 }

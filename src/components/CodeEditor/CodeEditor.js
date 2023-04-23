@@ -19,20 +19,23 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
+import React, { lazy } from 'react';
+
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CodeIcon from '@mui/icons-material/Code';
-import CodeMirror from '@uiw/react-codemirror';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import PreviewIcon from '@mui/icons-material/Preview';
 import PropTypes from 'prop-types';
-import React from 'react';
 import RedoIcon from '@mui/icons-material/Redo';
 import Toolbar from '@mui/material/Toolbar';
 import UndoIcon from '@mui/icons-material/Undo';
 import { redo, undo } from '@codemirror/commands';
+
+// Lazy load components.
+const CodeMirror = lazy(() => import('@uiw/react-codemirror'));
 
 import { WindowManager } from '../Desktop/WindowManager';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
@@ -261,3 +264,5 @@ CodeEditor.propTypes = {
   project: PropTypes.object,
   windowId: PropTypes.string,
 };
+
+export default CodeEditor;

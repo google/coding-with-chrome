@@ -31,9 +31,12 @@ import PhaserTemplate from './template/PhaserTemplate';
 import ProjectNameGenerator from './generator/ProjectNameGenerator';
 import { Toolbox } from './toolbox/Toolbox';
 
+// Lazy load components.
 const GameSetupScreen = lazy(() => import('./GameSetupScreen'));
 const BlockEditor = lazy(() => import('../BlockEditor'));
 const Preview = lazy(() => import('../Preview'));
+
+import { DynamicFileParser } from './parser/DynamicFileParser';
 
 import 'react-mosaic-component/react-mosaic-component.css';
 import styles from './style.module.css';
@@ -135,7 +138,7 @@ export class GameEditor extends React.PureComponent {
           template={PhaserTemplate.render}
           parseXML={this.handleParseXML.bind(this)}
           onChange={this.handleBlockEditorContentChange.bind(this)}
-          onLoadFile={this.handleOnLoadFile.bind(this)}
+          onLoadWorkspace={this.handleOnLoadWorkspace.bind(this)}
           onSaveFile={this.handleOnSaveFile.bind(this)}
           project={this.state.project}
           windowId={this.props.windowId}
@@ -204,48 +207,20 @@ export class GameEditor extends React.PureComponent {
   /**
    * @param {WorkspaceSvg} workspace
    */
-  handleOnLoadFile(workspace) {
-    // Add dynamic image blocks to toolbox.
-    const phaserLoadImageBlocks = workspace.getBlocksByType(
-      'phaser_load_image',
-      true
-    );
-    if (phaserLoadImageBlocks.length > 0) {
-      const dynamicImages = new Map();
-      for (const phaserLoadImageBlock of phaserLoadImageBlocks) {
-        if (
-          phaserLoadImageBlock &&
-          phaserLoadImageBlock['childBlocks_'].length === 1 &&
-          phaserLoadImageBlock['childBlocks_'][0]['type'] ==
-            'dynamic_image_file'
-        ) {
-          // Read data from phaser load image block.
-          const name =
-            phaserLoadImageBlock['inputList'][0]['fieldRow'][2]['value_'] ||
-            'unknown';
+  handleOnLoadWorkspace(workspace) {
+    this.updateToolbox(workspace);
+  }
 
-          // Read data from dynamic image file block.
-          const dynamicImageFileBlock = phaserLoadImageBlock['childBlocks_'][0];
-          const urlData =
-            dynamicImageFileBlock['inputList'][0]['fieldRow'][0]['value_'];
-          const filename =
-            dynamicImageFileBlock['inputList'][1]['fieldRow'][0]['value_'];
-          const url =
-            dynamicImageFileBlock['inputList'][1]['fieldRow'][1]['value_'];
-
-          dynamicImages.set(name, {
-            name,
-            filename,
-            url,
-            urlData,
-          });
-        }
-      }
-      if (dynamicImages.size > 0) {
-        console.log('Dynamic images', dynamicImages);
-        const toolbox = Toolbox.getToolbox(dynamicImages);
-        this.setState({ toolbox });
-      }
+  /**
+   * @param {WorkspaceSvg} workspace
+   */
+  updateToolbox(workspace) {
+    const phaserAudioFiles = DynamicFileParser.getPhaserAudioFiles(workspace);
+    const phaserImageFiles = DynamicFileParser.getPhaserImageFiles(workspace);
+    if (phaserAudioFiles.size > 0 || phaserImageFiles.size > 0) {
+      const toolbox = Toolbox.getToolbox(phaserAudioFiles, phaserImageFiles);
+      this.setState({ toolbox });
+      workspace.updateToolbox(toolbox);
     }
   }
 

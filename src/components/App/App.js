@@ -19,9 +19,8 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import * as ReactDOM from 'react-dom/client';
 import React, { lazy, Suspense } from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import './i18next.js';
 
 const DesktopApp = lazy(() => import('../Desktop'));
@@ -29,23 +28,32 @@ const GameEditor = lazy(() => import('../GameEditor'));
 const SelectScreen = lazy(() => import('../SelectScreen'));
 
 /**
- * @param {HTMLElement} node
+ * @class
  */
-export function render(node) {
-  const root = ReactDOM.createRoot(node);
-  root.render(
-    <Suspense>
-      <Router>
-        <Routes>
-          <Route path="/desktop" element={<DesktopApp />} />
-          <Route
-            path="/game_editor/:projectId/:projectName"
-            element={<GameEditor />}
-          />
-          <Route path="/game_editor" element={<GameEditor />} />
-          <Route path="/" element={<SelectScreen />} />
-        </Routes>
-      </Router>
-    </Suspense>
-  );
+class App extends React.Component {
+  /**
+   * @return {Object}
+   */
+  render() {
+    return (
+      <Suspense>
+        <HashRouter>
+          <Routes>
+            <Route path="/" exact element={<SelectScreen {...this.props} />} />
+            <Route path="/desktop" element={<DesktopApp {...this.props} />} />
+            <Route
+              path="/game_editor"
+              exact
+              element={<GameEditor {...this.props} />}
+            />
+            <Route
+              path="/game_editor/:projectId/:projectName"
+              element={<GameEditor {...this.props} />}
+            />
+          </Routes>
+        </HashRouter>
+      </Suspense>
+    );
+  }
 }
+export default App;

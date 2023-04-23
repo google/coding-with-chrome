@@ -56,7 +56,7 @@ module.exports = (mode = 'development') => ({
     },
   },
   entry: {
-    app: ['./src/index.js', './assets/css/app.css'],
+    app: ['./src/components/App/index.js', './assets/css/app.css'],
     serviceWorker: ['./src/service-worker/service-worker.js'],
     cacheServiceWorker: ['./src/service-worker/cache-service-worker.js'],
     previewServiceWorker: ['./src/service-worker/preview-service-worker.js'],

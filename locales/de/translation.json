@@ -1,5 +1,4 @@
 {
-
   "BLOCKS_LOGIC": "Logik",
   "BLOCKS_LOOPS": "Schleifen",
   "BLOCKS_MATH": "Mathematik",
@@ -92,5 +91,12 @@
   "BLOCKS_PHASER_UPDATE": "Aktualisieren",
   "BLOCKS_PHASER_WORLD": "Welt",
   "BLOCKS_PHASER_WORLD_ARCADE_PHYSICS": "Welt Arcade-Physik",
-  "BLOCKS_PHASER_WORLD_SORT_DIRECTION": "Welt Sortierrichtung"
+  "BLOCKS_PHASER_WORLD_SORT_DIRECTION": "Welt Sortierrichtung",
+
+  "BLOCK_EDITOR_UNSAVED_CHANGED": "Sie haben ungespeicherte Änderungen!",
+  "BLOCK_EDITOR_DIALOG_NEW_PROJECT_TEXT": "Das aktuelle Projekt hat ungespeicherte Änderungen!\nMöchten Sie ein neues Projekt erstellen, ohne zu speichern?",
+  "BLOCK_EDITOR_DIALOG_NEW_PROJECT_CONFIRM": "Neues Projekt erstellen, ohne zu speichern!",
+  "BLOCK_EDITOR_DIALOG_NEW_PROJECT_CANCEL": "Abbrechen",
+
+  "NEW_PROJECT": "Neues Projekt"
 }

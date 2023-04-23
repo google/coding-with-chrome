@@ -19,7 +19,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import React, { createRef } from 'react';
+import React, { createRef, lazy } from 'react';
 
 import Blockly from 'blockly';
 import Box from '@mui/material/Box';
@@ -39,22 +39,23 @@ import Typography from '@mui/material/Typography';
 import UndoIcon from '@mui/icons-material/Undo';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import i18next from 'i18next';
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import { BlocklyWorkspace, WorkspaceSvg } from 'react-blockly';
-import { CodeEditor } from '../CodeEditor/CodeEditor';
 import FileFormat, { ContentType } from '../FileFormat/FileFormat';
 import { WindowManager } from '../Desktop/WindowManager';
 import LegacyBlocks from './blocks/LegacyBlocks';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import { WindowResizeEvent } from '../Desktop/WindowManager/Events';
 import { javascriptGenerator } from 'blockly/javascript';
-
 import { Toolbar, ToolbarIconButton, ToolbarButton } from '../Toolbar';
-
 import { Database } from '../../utils/db/Database';
 import { Project } from '../Project/Project';
 import { APP_BASE_PATH } from '../../constants';
+
+const CodeEditor = lazy(() => import('../CodeEditor/CodeEditor'));
+const ConfirmDialog = lazy(() => import('../Dialogs/ConfirmDialog'));
 
 import 'material-icons/iconfont/filled.css';
 import 'material-icons/iconfont/outlined.css';
@@ -106,6 +107,7 @@ export class BlockEditor extends React.PureComponent {
         media: APP_BASE_PATH + 'assets/blockly/',
         trashcan: false,
       },
+      showNewFileDialog: false,
       snackbarSaved: false,
       variables: [],
       xml: props.content || '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
@@ -176,11 +178,12 @@ export class BlockEditor extends React.PureComponent {
 
   /**
    * @param {string} xml
+   * @param {Map<string, string>} files
    * @return {string}
    */
-  praseXML(xml) {
+  praseXML(xml, files = new Map()) {
     // Search for legacy blocks and replace them.
-    xml = LegacyBlocks.replaceLegacyBlocks(xml);
+    xml = LegacyBlocks.replaceLegacyBlocks(xml, files);
 
     // Handle custom XML parsing, if defined.
     if (this.props.parseXML && typeof this.props.parseXML === 'function') {
@@ -207,19 +210,29 @@ export class BlockEditor extends React.PureComponent {
 
   /**
    * @param {string} xml
+   * @param {Map<string, string>} files
    */
-  loadWorkspace(xml) {
+  loadWorkspace(xml, files = new Map()) {
     if (!this.blockyWorkspace) {
       return;
     }
     console.log('Loading workspace ...', xml);
-    const parsedXML = this.praseXML(xml);
+    const parsedXML = this.praseXML(xml, files);
     Blockly.Xml.clearWorkspaceAndLoadFromXml(
       Blockly.utils.xml.textToDom(parsedXML),
       this.blockyWorkspace
     );
     this.setState({ hasChanged: false, hasSaved: true, xml: parsedXML });
     this.handleXMLChange(xml);
+
+    // Trigger onLoadWorkspace event.
+    if (
+      this.props.onLoadWorkspace &&
+      typeof this.props.onLoadWorkspace === 'function'
+    ) {
+      this.props.onLoadWorkspace(this.blockyWorkspace);
+    }
+
     this.resize();
     this.refresh();
   }
@@ -263,7 +276,7 @@ export class BlockEditor extends React.PureComponent {
       clearTimeout(this.timer.HandleXMLChange);
     }
 
-    // Trigger XML change after 500ms.
+    // Trigger XML change after a 500ms delay.
     this.timer.HandleXMLChange = setTimeout(() => {
       if (this.lastXMLContent != xml) {
         console.log('XML change', xml);
@@ -373,19 +386,23 @@ export class BlockEditor extends React.PureComponent {
     console.log('Handle Coding with Chrome file ...', file.name, content);
     const parsedFile = new FileFormat(content || '');
     console.log('Parsed file', parsedFile);
+    const projectFiles = new Map();
     if (this.blockyWorkspace) {
       // Handle additional files, if any.
       if (parsedFile.hasFiles()) {
         console.log('Handle additional files ...');
         const files = parsedFile.getFiles();
         files.forEach((file) => {
-          console.log('Handle additional file', file);
+          projectFiles.set(file.name, file.content);
         });
       }
 
       // Load XML content.
       if (parsedFile.hasContent(ContentType.BLOCKLY)) {
-        this.loadWorkspace(parsedFile.getContent(ContentType.BLOCKLY));
+        this.loadWorkspace(
+          parsedFile.getContent(ContentType.BLOCKLY),
+          projectFiles
+        );
       }
 
       // Trigger onLoadFile event.
@@ -455,8 +472,18 @@ export class BlockEditor extends React.PureComponent {
    */
   handleNewFile() {
     if (this.state.hasChanged) {
-      console.warn('Unsaved changes ...');
+      this.setState({ showNewFileDialog: true });
+    } else {
+      this.navigateNewProject();
     }
+  }
+
+  /**
+   * @param {string} name
+   */
+  navigateNewProject() {
+    window.location.hash = '#/game_editor/';
+    window.location.reload(true);
   }
 
   /**
@@ -682,7 +709,7 @@ export class BlockEditor extends React.PureComponent {
             ref={this.codeEditor}
           ></CodeEditor>
         </Box>
-        <Box sx={{ height: 0 }}>
+        <Box className={styles.snackbarContainer}>
           <Snackbar
             open={this.state.snackbarSaved}
             autoHideDuration={6000}
@@ -695,6 +722,17 @@ export class BlockEditor extends React.PureComponent {
             </MuiAlert>
           </Snackbar>
         </Box>
+        <ConfirmDialog
+          open={this.state.showNewFileDialog}
+          title={i18next.t('BLOCK_EDITOR_UNSAVED_CHANGED')}
+          text={i18next.t('BLOCK_EDITOR_DIALOG_NEW_PROJECT_TEXT')}
+          confirmText={i18next.t('BLOCK_EDITOR_DIALOG_NEW_PROJECT_CONFIRM')}
+          cancelText={i18next.t('BLOCK_EDITOR_DIALOG_NEW_PROJECT_CANCEL')}
+          onConfirm={this.navigateNewProject.bind(this)}
+          onCancel={() => {
+            this.setState({ showNewFileDialog: false });
+          }}
+        ></ConfirmDialog>
       </React.StrictMode>
     );
   }
@@ -704,6 +742,7 @@ BlockEditor.propTypes = {
   content: PropTypes.string,
   onChange: PropTypes.func,
   onLoadFile: PropTypes.func,
+  onLoadWorkspace: PropTypes.func,
   onSaveFile: PropTypes.func,
   parseXML: PropTypes.func,
   project: PropTypes.object,

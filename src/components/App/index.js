@@ -19,6 +19,11 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import App from './App';
 
-export default App;
+const rootElement = ReactDOM.createRoot(
+  document.getElementById('cwc-app') || document.body
+);
+rootElement.render(<App />);

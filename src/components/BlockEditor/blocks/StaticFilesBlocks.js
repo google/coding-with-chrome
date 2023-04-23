@@ -23,6 +23,42 @@ import Blockly, { Blocks } from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
 
 /**
+ * Static audio block for default embedded audios.
+ */
+Blocks['static_audio_file'] = {
+  init: function () {
+    this.appendDummyInput().appendField(
+      new Blockly.FieldImage('', 50, 50, ''),
+      'urlData'
+    );
+    this.appendDummyInput()
+      .appendField(new Blockly.FieldTextInput(''), 'filename')
+      .appendField(new Blockly.FieldTextInput(''), 'url')
+      .setVisible(false);
+    this.getField('urlData').EDITABLE = true;
+    this.getField('url').SERIALIZABLE = true;
+    this.getField('urlData').SERIALIZABLE = true;
+    this.getField('filename').SERIALIZABLE = true;
+    this.setInputsInline(false);
+    this.setOutput(true, 'Image');
+    this.setColour(150);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+/**
+ * @param {Blockly.Block} block
+ * @return {any[]}
+ */
+javascriptGenerator['static_audio_file'] = function (block) {
+  return [
+    block.getFieldValue('urlData') || block.getFieldValue('url'),
+    javascriptGenerator.ORDER_NONE,
+  ];
+};
+
+/**
  * Static image block for default embedded images.
  */
 Blocks['static_image_file'] = {

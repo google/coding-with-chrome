@@ -1,5 +1,4 @@
 {
-
   "BLOCKS_LOGIC": "Logic",
   "BLOCKS_LOOPS": "Loops",
   "BLOCKS_MATH": "Math",
@@ -7,7 +6,6 @@
   "BLOCKS_COLORS": "Colors",
   "BLOCKS_VARIABLES": "Variables",
   "BLOCKS_FUNCTIONS": "Functions",
-
   "BLOCKS_ALL": "all",
   "BLOCKS_AND": "and",
   "BLOCKS_AS": "as",
@@ -92,5 +90,12 @@
   "BLOCKS_PHASER_UPDATE": "Update",
   "BLOCKS_PHASER_WORLD": "World",
   "BLOCKS_PHASER_WORLD_ARCADE_PHYSICS": "world arcade physics",
-  "BLOCKS_PHASER_WORLD_SORT_DIRECTION": "world sort direction"
+  "BLOCKS_PHASER_WORLD_SORT_DIRECTION": "world sort direction",
+
+  "BLOCK_EDITOR_UNSAVED_CHANGED": "You have unsaved changes!",
+  "BLOCK_EDITOR_DIALOG_NEW_PROJECT_TEXT": "The current project has unsaved changes!\nDo you want to create a new project without saving?",
+  "BLOCK_EDITOR_DIALOG_NEW_PROJECT_CONFIRM": "Create new project, without saving!",
+  "BLOCK_EDITOR_DIALOG_NEW_PROJECT_CANCEL": "Cancel",
+
+  "NEW_PROJECT": "New Project"
 }

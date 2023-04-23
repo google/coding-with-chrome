@@ -20,12 +20,58 @@
  */
 
 /**
- * Blocks Builder.
+ * @class
  */
 export class PhaserBlocksBuilder {
-  static basePath = location.host.endsWith('.github.io')
-    ? location.pathname
-    : '/';
+  /**
+   * @param {string} name
+   * @param {string} url
+   * @param {string} dataURL
+   * @return {Object}
+   */
+  static getStaticAudioFileBlock(name, url, dataURL) {
+    const filename = url ? url.substring(url.lastIndexOf('/') + 1) : name;
+    return {
+      kind: 'block',
+      blockxml: `
+  <block type="phaser_load_audio">
+    <field name="name">${name}</field>
+    <value name="audio">
+      <block type="static_audio_file">
+        <field name="filename">${filename}</field>
+        <field name="url">${url}</field>
+        <field name="urlData">${dataURL}</field>
+      </block>
+    </value>
+  </block>`,
+    };
+  }
+
+  /**
+   * @param {string} name
+   * @param {string} filename
+   * @param {string} url
+   * @param {string} dataURL
+   * @return {Object}
+   */
+  static getDynamicAudioFileBlock(name, filename, url, dataURL) {
+    return {
+      kind: 'block',
+      blockxml: `
+  <block type="phaser_load_audio">
+    <field name="name">${name}</field>
+    <value name="audio">
+      <block type="dynamic_audio_file">
+        <field name="filename">${
+          filename || url ? url.substring(url.lastIndexOf('/') + 1) : name
+        }</field>
+        <field name="url">${url}</field>
+        <field name="urlData">${dataURL}</field>
+      </block>
+    </value>
+  </block>`,
+    };
+  }
 
   /**
    * @param {string} name

@@ -25,24 +25,44 @@ import '../../BlockEditor/blocks/StaticFilesBlocks.js';
 import { PhaserBlocksBuilder } from '../blocks/PhaserBlocksBuilder.js';
 
 /**
- * @param {Map} dynamicImages
+ * @param {Map} files
  * @return {Array}
  */
-export function getDynamicFilesToolbox(dynamicImages) {
-  const getDynamicFileBlocks = [];
-  dynamicImages.forEach((imageData) => {
-    getDynamicFileBlocks.push(
-      PhaserBlocksBuilder.getDynamicImageFileBlock(
-        imageData.name,
-        imageData.filename,
-        imageData.url,
-        imageData.urlData
+export function getDynamicAudioFilesToolbox(files) {
+  const getDynamicAudioFileBlocks = [];
+  files.forEach((file) => {
+    getDynamicAudioFileBlocks.push(
+      PhaserBlocksBuilder.getDynamicAudioFileBlock(
+        file.name,
+        file.filename,
+        file.url,
+        file.urlData
       )
     );
   });
-  return getDynamicFileBlocks;
+  return getDynamicAudioFileBlocks;
+}
+
+/**
+ * @param {Map} files
+ * @return {Array}
+ */
+export function getDynamicImageFilesToolbox(files) {
+  const getDynamicImageFileBlocks = [];
+  files.forEach((file) => {
+    getDynamicImageFileBlocks.push(
+      PhaserBlocksBuilder.getDynamicImageFileBlock(
+        file.name,
+        file.filename,
+        file.url,
+        file.urlData
+      )
+    );
+  });
+  return getDynamicImageFileBlocks;
 }
 
 export default {
-  getDynamicFilesToolbox,
+  getDynamicImageFilesToolbox,
+  getDynamicAudioFilesToolbox,
 };
