@@ -480,6 +480,8 @@ export class BlockEditor extends React.PureComponent {
               hasRedo={this.state.hasRedo}
               project={project}
               onFullscreen={this.props.onFullscreen}
+              onNewProject={this.props.onNewProject}
+              onOpenProject={this.props.onOpenProject}
             />
           )}
           <Box>
@@ -521,16 +523,33 @@ export class BlockEditor extends React.PureComponent {
 }
 
 BlockEditor.propTypes = {
+  /** @type {string} */
   content: PropTypes.string,
+
+  /** @type {function} */
   onChange: PropTypes.func,
+
+  /** @type {function} */
   onLoadWorkspace: PropTypes.func,
+
+  /** @type {function} */
   onFullscreen: PropTypes.func,
+
+  /** @type {function} */
+  onNewProject: PropTypes.func,
+
+  /** @type {function} */
+  onOpenProject: PropTypes.func,
+
+  /** @type {function} */
   parseXML: PropTypes.func,
 
   /** @type {Project} */
   project: PropTypes.object,
 
+  /** @type {function} */
   template: PropTypes.func,
+
   toolbox: PropTypes.object,
   windowId: PropTypes.string,
 };

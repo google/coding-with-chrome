@@ -19,9 +19,8 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import React, { lazy } from 'react';
+import React from 'react';
 
-import BlocklyTemplate from './template/BlocklyTemplate';
 import Button from '@mui/material/Button';
 import CasinoIcon from '@mui/icons-material/Casino';
 import Dialog from '@mui/material/Dialog';
@@ -29,28 +28,23 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import EmojiPicker from 'emoji-picker-react';
+import InputAdornment from '@mui/material/InputAdornment';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import i18next from 'i18next';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Project } from '../Project/Project';
-import { ProjectType } from '../Project/ProjectType';
+import { Project } from '../../Project/Project';
+import { ProjectType } from '../../Project/ProjectType';
 
-import ProjectNameGenerator from './generator/ProjectNameGenerator';
-
-const EmojiPicker = lazy(() => import('emoji-picker-react'));
+import ProjectNameGenerator from '../generator/ProjectNameGenerator';
 
 /**
  *
  */
-export class GameSetupScreen extends React.PureComponent {
+export class NewGameProject extends React.PureComponent {
   /**
    * @param {*} props
    */
@@ -58,51 +52,40 @@ export class GameSetupScreen extends React.PureComponent {
     super(props);
     this.projectNameField = React.createRef();
     this.state = {
-      anchorEl: null,
       open: false,
-      projects: [],
+      openEmojiPicker: false,
+      projectId: props.projectId || uuidv4(),
+      projectIcon: '🎮',
       projectName:
         props.projectName ||
         ProjectNameGenerator.generate(i18next.resolvedLanguage),
-      projectId: props.projectId || uuidv4(),
       projectDescription: props.projectDescription || '',
-      xml: props.xml,
-      showGameSetupScreen:
-        typeof props.open !== 'undefined' ? props.open : true,
     };
-  }
-
-  /**
-   * Component did mount.
-   */
-  componentDidMount() {
-    Project.getProjects(ProjectType.GAME_EDITOR).then((projects) => {
-      this.setState({ projects });
-    });
   }
 
   /**
    * Handle game setup close.
    */
-  handleGameSetupClose() {
-    this.setState({ showGameSetupScreen: false });
-
-    // Process XML.
-    let xml = this.state.xml;
-    if (!xml) {
-      xml = BlocklyTemplate.render(this.state.projectName);
-      this.setState({ xml });
+  handleCreateProject() {
+    // Create new project based on user input.
+    console.log(
+      `Create new project with id ${this.state.projectId}, name ${this.state.projectName}, description ${this.state.projectDescription} and icon ${this.state.projectIcon}`
+    );
+    const project = new Project(
+      this.state.projectId,
+      ProjectType.GAME_EDITOR,
+      this.state.projectName,
+      this.state.projectDescription
+    );
+    if (this.state.projectIcon) {
+      project.setIcon(this.state.projectIcon);
     }
 
-    // Call onClose callback function.
-    if (typeof this.props.onClose == 'function') {
-      this.props.onClose(
-        this.state.projectId,
-        this.state.projectName,
-        this.state.projectDescription,
-        xml
-      );
-    }
+    // Save project and update url with new project id.
+    project.save().then(() => {
+      window.location.hash = `#/game_editor/${project.getId()}`;
+      window.location.reload(true);
+    });
   }
 
   /**
@@ -120,7 +103,7 @@ export class GameSetupScreen extends React.PureComponent {
   handleProjectNameChange(event) {
     const projectName = event.target.value;
     if (
-      projectName.trim().length === 0 &&
+      projectName.trim().length != 0 &&
       projectName != this.state.projectName
     ) {
       this.setState({ projectName });
@@ -128,59 +111,48 @@ export class GameSetupScreen extends React.PureComponent {
   }
 
   /**
-   * @param {*} event
+   * @param {object} event
    */
-  handleOpenProject(event) {
-    if (event.currentTarget && event.currentTarget.getAttribute('value')) {
-      console.log(event.currentTarget.getAttribute('value'));
-      // Update url with new project id and project name.
-      window.location.hash = `#/game_editor/${event.currentTarget.getAttribute(
-        'value'
-      )}`;
-      window.location.reload(true);
+  handleProjectDescriptionChange(event) {
+    const projectDescription = event.target.value;
+    if (
+      projectDescription.trim().length != 0 &&
+      projectDescription != this.state.projectDescription
+    ) {
+      this.setState({ projectDescription });
     }
   }
 
   /**
-   * @param {*} event
+   * @param {EmojiPicker.EmojiClickData} emojiObject
    */
-  handleOpenExistingProject(event) {
-    this.setState({ anchorEl: event.currentTarget, open: true });
+  handleEmojiClick(emojiObject) {
+    if (emojiObject && emojiObject.emoji) {
+      this.setState({ openEmojiPicker: false, projectIcon: emojiObject.emoji });
+    }
+  }
+
+  /**
+   * Handle game setup close.
+   */
+  handleOnClose() {
+    this.setState({ open: false, openEmojiPicker: false });
+    if (this.props.onClose && typeof this.props.onClose === 'function') {
+      this.props.onClose();
+    }
   }
 
   /**
    * @return {Object}
    */
   render() {
+    const open =
+      typeof this.props.open != 'undefined' ? this.props.open : this.state.open;
     return (
       <React.StrictMode>
-        <Menu anchorEl={this.state.anchorEl} open={this.state.open}>
-          {this.state.projects.map((project) => (
-            <MenuItem
-              key={project.id}
-              value={project.id + '/' + project.name}
-              onClick={this.handleOpenProject.bind(this)}
-            >
-              <ListItemIcon>
-                <DraftsIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText
-                primary={
-                  <React.Fragment>
-                    {project.name}
-                    <Typography variant="caption" display="block">
-                      {project.id}
-                    </Typography>
-                  </React.Fragment>
-                }
-                secondary={'Last modified:' + project.lastModified}
-              />
-            </MenuItem>
-          ))}
-        </Menu>
         <Dialog
-          onClose={this.handleGameSetupClose.bind(this)}
-          open={this.state.showGameSetupScreen}
+          open={open}
+          onClose={this.handleOnClose.bind(this)}
           disablePortal
         >
           <DialogTitle>
@@ -190,19 +162,15 @@ export class GameSetupScreen extends React.PureComponent {
             </Typography>
           </DialogTitle>
           <DialogContent>
-            <Button
-              id="demo-positioned-button"
-              aria-controls={open ? 'demo-positioned-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-              onClick={this.handleOpenExistingProject.bind(this)}
-            >
-              Open existing Project ...
-            </Button>
             <DialogContentText>
               Here you can setup your new game project.
             </DialogContentText>
-            <EmojiPicker />
+            {this.state.openEmojiPicker && (
+              <EmojiPicker
+                emojiStyle="native"
+                onEmojiClick={this.handleEmojiClick.bind(this)}
+              />
+            )}
             <TextField
               inputRef={this.projectNameField}
               required
@@ -215,6 +183,17 @@ export class GameSetupScreen extends React.PureComponent {
               defaultValue={this.state.projectName}
               onChange={this.handleProjectNameChange.bind(this)}
               InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Button
+                      onClick={() => {
+                        this.setState({ openEmojiPicker: true });
+                      }}
+                    >
+                      {this.state.projectIcon}
+                    </Button>
+                  </InputAdornment>
+                ),
                 endAdornment: (
                   <Button onClick={this.handleRandomProjectName.bind(this)}>
                     <CasinoIcon />
@@ -229,11 +208,12 @@ export class GameSetupScreen extends React.PureComponent {
               id="outlined-multiline-flexible"
               label="Project Description"
               margin="dense"
+              onChange={this.handleProjectDescriptionChange.bind(this)}
               variant="standard"
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleGameSetupClose.bind(this)}>
+            <Button onClick={this.handleCreateProject.bind(this)}>
               Create Project
             </Button>
           </DialogActions>
@@ -243,13 +223,12 @@ export class GameSetupScreen extends React.PureComponent {
   }
 }
 
-GameSetupScreen.propTypes = {
+NewGameProject.propTypes = {
   onClose: PropTypes.func,
   projectDescription: PropTypes.string,
   projectId: PropTypes.string,
   projectName: PropTypes.string,
   open: PropTypes.bool,
-  xml: PropTypes.string,
 };
 
-export default GameSetupScreen;
+export default NewGameProject;

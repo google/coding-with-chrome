@@ -82,11 +82,11 @@ export class CacheService {
       event.request.url.startsWith('chrome-extension://') ||
       event.request.url.startsWith('ws://') ||
       event.request.url.endsWith('.hot-update.json') ||
+      event.request.url.endsWith('.hot-update.js') ||
       this.denyList.test(event.request.url)
     ) {
       return;
     }
-    console.log(`${this.prefix} Fetch request`, event);
     event.respondWith(
       caches.open(CACHE_SERVICE_WORKER_CACHE_NAME).then(function (cache) {
         return cache.match(event.request).then(function (response) {

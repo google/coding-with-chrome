@@ -42,6 +42,9 @@ import { ProjectType } from '../Project/ProjectType';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import { WorkspaceSvg } from 'react-blockly';
 
+const NewGameProject = lazy(() => import('./dialog/NewGameProject'));
+const OpenGameProject = lazy(() => import('./dialog/OpenGameProject'));
+
 import 'react-mosaic-component/react-mosaic-component.css';
 import styles from './style.module.css';
 
@@ -100,6 +103,8 @@ export class GameEditor extends React.PureComponent {
       project: props.project,
       toolbox: Toolbox.getToolbox(),
       blockEditorFullscreen: false,
+      openNewProject: false,
+      openExistingProject: false,
       xml: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
     };
   }
@@ -163,6 +168,20 @@ export class GameEditor extends React.PureComponent {
   }
 
   /**
+   * Handle new Project.
+   */
+  handleNewProject() {
+    this.setState({ openNewProject: true });
+  }
+
+  /**
+   * Handle new Project.
+   */
+  handleOpenProject() {
+    this.setState({ openExistingProject: true });
+  }
+
+  /**
    * @return {Object}
    */
   getLayout() {
@@ -178,6 +197,8 @@ export class GameEditor extends React.PureComponent {
           onChange={this.handleBlockEditorContentChange.bind(this)}
           onLoadWorkspace={this.handleOnLoadWorkspace.bind(this)}
           onFullscreen={this.handleBlockEditorFullscreen.bind(this)}
+          onNewProject={this.handleNewProject.bind(this)}
+          onOpenProject={this.handleOpenProject.bind(this)}
           project={this.state.project}
           windowId={this.props.windowId}
         />
@@ -268,6 +289,24 @@ export class GameEditor extends React.PureComponent {
               }}
             />
           </Box>
+        )}
+
+        {this.state.openExistingProject && (
+          <OpenGameProject
+            open={this.state.openExistingProject}
+            onClose={() => {
+              this.setState({ openExistingProject: false });
+            }}
+          />
+        )}
+
+        {this.state.openNewProject && (
+          <NewGameProject
+            open={this.state.openNewProject}
+            onClose={() => {
+              this.setState({ openNewProject: false });
+            }}
+          />
         )}
       </React.StrictMode>
     );

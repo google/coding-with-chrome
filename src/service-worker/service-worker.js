@@ -33,9 +33,6 @@ export class ServiceWorker {
    * @constructor
    */
   constructor() {
-    /** @type{Array} */
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     this.prefix = '[Service Worker]';
     this.assets = globalThis.APP_ASSETS || [];
     this.scopePath = location.host.endsWith('.github.io')
@@ -99,29 +96,31 @@ export class ServiceWorker {
         );
 
       /**
-       * Register Preview Service Worker.
+       * Register Preview Service Worker after onload event.
        */
-      navigator.serviceWorker
-        .register(APP_BASE_PATH + 'preview-service-worker.js', {
-          scope: this.scopePath + 'preview/',
-        })
-        .then(
-          (registration) => {
-            console.log(
-              `${this.prefix} Register Preview Service Worker successful with scope: ${registration.scope}`
-            );
-            window.setTimeout(() => {
-              this.preparePreviewCache();
-            }, 100);
-          },
-          (error) => {
-            console.log(
-              `${this.prefix}
+      window.addEventListener('load', () => {
+        navigator.serviceWorker
+          .register(APP_BASE_PATH + 'preview-service-worker.js', {
+            scope: this.scopePath + 'preview/',
+          })
+          .then(
+            (registration) => {
+              console.log(
+                `${this.prefix} Register Preview Service Worker successful with scope: ${registration.scope}`
+              );
+              window.setTimeout(() => {
+                this.preparePreviewCache();
+              }, 100);
+            },
+            (error) => {
+              console.log(
+                `${this.prefix}
               Preview Service Worker registration failed: `,
-              error
-            );
-          }
-        );
+                error
+              );
+            }
+          );
+      });
     } else {
       console.warn(`${this.prefix} Unable to setup Service Worker!`);
       return;

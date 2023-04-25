@@ -27,6 +27,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CodeIcon from '@mui/icons-material/Code';
 import CreateIcon from '@mui/icons-material/Create';
+import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
@@ -232,13 +233,28 @@ export class BlockToolbar extends React.PureComponent {
   }
 
   /**
-   * New project file.
+   * Handle new Project.
    */
-  handleNewFile() {
-    if (this.props.hasChanged) {
-      this.setState({ showNewFileDialog: true });
-    } else {
-      this.navigateNewProject();
+  handleNewProject() {
+    if (
+      this.props.onNewProject &&
+      typeof this.props.onNewProject === 'function'
+    ) {
+      this.props.onNewProject();
+      this.setState({ showDrawer: false });
+    }
+  }
+
+  /**
+   * Handle new Project.
+   */
+  handleOpenProject() {
+    if (
+      this.props.onOpenProject &&
+      typeof this.props.onOpenProject === 'function'
+    ) {
+      this.props.onOpenProject();
+      this.setState({ showDrawer: false });
     }
   }
 
@@ -349,12 +365,23 @@ export class BlockToolbar extends React.PureComponent {
             </CardContent>
           </Card>
           <MenuList sx={{ minWidth: '250px' }} className={styles.drawerMiddle}>
-            <MenuItem onClick={this.handleNewFile.bind(this)}>
-              <ListItemIcon>
-                <CreateIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>New Project</ListItemText>
-            </MenuItem>
+            {this.props.onNewProject && (
+              <MenuItem onClick={this.handleNewProject.bind(this)}>
+                <ListItemIcon>
+                  <CreateIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>New Project</ListItemText>
+              </MenuItem>
+            )}
+            {this.props.onOpenProject && (
+              <MenuItem onClick={this.handleOpenProject.bind(this)}>
+                <ListItemIcon>
+                  <CreateIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Open Project</ListItemText>
+              </MenuItem>
+            )}
+            <Divider />
             <MenuItem onClick={this.handleRequestImportFile.bind(this)}>
               <ListItemIcon>
                 <FileUploadIcon fontSize="small" />
@@ -424,6 +451,12 @@ BlockToolbar.propTypes = {
 
   /** @type {function} */
   onFullscreen: PropTypes.func,
+
+  /** @type {function} */
+  onNewProject: PropTypes.func,
+
+  /** @type {function} */
+  onOpenProject: PropTypes.func,
 };
 
 export default BlockToolbar;

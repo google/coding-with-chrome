@@ -21,7 +21,6 @@
 
 import React, { lazy, Suspense } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
-import './i18next.js';
 
 const DesktopApp = lazy(() => import('../Desktop'));
 const GameEditor = lazy(() => import('../GameEditor'));
