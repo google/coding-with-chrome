@@ -56,6 +56,7 @@ export class BlockEditor extends React.PureComponent {
   constructor(props) {
     super(props);
     this.codeEditor = createRef();
+    this.toolbar = createRef();
     this.timer = {
       handleXMLChange: null,
     };
@@ -367,7 +368,9 @@ export class BlockEditor extends React.PureComponent {
   refresh() {
     const toolbox = this.state.blocklyWorkspace?.getToolbox();
     if (toolbox) {
-      this.state.blocklyWorkspace?.updateToolbox(this.props.toolbox);
+      if (this.props.toolbox) {
+        this.state.blocklyWorkspace?.updateToolbox(this.props.toolbox);
+      }
       console.log('Refresh toolbox ...');
       toolbox.refreshSelection();
     }
@@ -387,7 +390,7 @@ export class BlockEditor extends React.PureComponent {
       const injectionDiv =
         this.state.blocklyWorkspace.getInjectionDiv().parentElement;
       if (injectionDiv && injectionDiv != parentElement) {
-        if (this.toolbar.current) {
+        if (this.toolbar && this.toolbar.current) {
           injectionDiv.style.height =
             parentElement.clientHeight -
             this.toolbar.current.clientHeight +
@@ -462,18 +465,20 @@ export class BlockEditor extends React.PureComponent {
    * @return {Object}
    */
   render() {
+    const project = this.props.project || this.state.project;
     return (
       <React.StrictMode>
         <Box sx={{ display: this.state.showEditor ? 'none' : 'block' }}>
           {this.state.blocklyWorkspace && (
             <BlockToolbar
+              ref={this.toolbar}
               blockEditor={this}
               blocklyWorkspace={this.state.blocklyWorkspace}
               hasChanged={this.state.hasChanged}
               hasSaved={this.state.hasSaved}
               hasUndo={this.state.hasUndo}
               hasRedo={this.state.hasRedo}
-              project={this.props.project}
+              project={project}
               onFullscreen={this.props.onFullscreen}
             />
           )}
@@ -498,14 +503,14 @@ export class BlockEditor extends React.PureComponent {
             }}
           >
             <MuiAlert severity="success">
-              Project {this.state.project.name} successfully saved!
+              Project {project.name} successfully saved!
             </MuiAlert>
           </Snackbar>
         </Box>
         <Box sx={{ display: this.state.showEditor ? 'block' : 'none' }}>
           <CodeEditor
             windowId={this.props.windowId}
-            project={this.state.project}
+            project={project}
             blockEditor={this}
             ref={this.codeEditor}
           ></CodeEditor>

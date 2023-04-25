@@ -76,31 +76,6 @@ module.exports = (mode = 'development') => ({
         : 'js/[name].[contenthash].js';
     },
   },
-  optimization: {
-    emitOnErrors: true,
-    runtimeChunk: {
-      name: (entrypoint) => {
-        if (entrypoint.name == 'app') {
-          return `runtime-${entrypoint.name}`;
-        }
-        return null;
-      },
-    },
-    splitChunks: {
-      chunks(chunk) {
-        return chunk?.name == 'app';
-      },
-    },
-    minimize: mode != 'development',
-    minimizer: [
-      new CssMinimizerPlugin(),
-      new HtmlMinimizerPlugin(),
-      new JsonMinimizerPlugin(),
-      new TerserPlugin({
-        parallel: true,
-      }),
-    ],
-  },
   devtool: mode == 'development' ? 'inline-source-map' : false,
   resolve: {
     symlinks: false,
@@ -284,4 +259,29 @@ module.exports = (mode = 'development') => ({
       enforce: 'post',
     }),
   ],
+  optimization: {
+    emitOnErrors: true,
+    runtimeChunk: {
+      name: (entrypoint) => {
+        if (entrypoint.name == 'app') {
+          return `runtime-${entrypoint.name}`;
+        }
+        return null;
+      },
+    },
+    splitChunks: {
+      chunks(chunk) {
+        return chunk?.name == 'app';
+      },
+    },
+    minimize: mode != 'development',
+    minimizer: [
+      new CssMinimizerPlugin(),
+      new HtmlMinimizerPlugin(),
+      new JsonMinimizerPlugin(),
+      new TerserPlugin({
+        parallel: true,
+      }),
+    ],
+  },
 });

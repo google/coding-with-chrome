@@ -100,6 +100,11 @@
   "ENTER_FULLSCREEN": "Enter Fullscreen",
   "EXIT_FULLSCREEN": "Exit Fullscreen",
 
+  "CREATE_NEW_GAME_PROJECT": "Create your own game using block programming...",
+
+  "CREATE_NEW_PROJECT": "Create New Project",
+  "OPEN_PROJECT": "Open Project",
+
   "UNDO": "Undo last change",
   "REDO": "Redo last change",
 

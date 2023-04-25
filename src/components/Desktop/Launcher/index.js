@@ -113,7 +113,7 @@ export class Launcher extends React.PureComponent {
   /** Open Preview */
   openPreview() {
     console.debug('Open Preview');
-    import('../../Preview').then((module) => {
+    import('../../Preview/Preview').then((module) => {
       WindowManager.addNewWindow('Preview').then((windowId) => {
         const node = WindowManager.getWindowNode(windowId);
         if (node instanceof HTMLElement) {

@@ -101,6 +101,11 @@
   "ENTER_FULLSCREEN": "Vollbild aufrufen",
   "EXIT_FULLSCREEN": "Vollbild verlassen",
 
+  "CREATE_NEW_GAME_PROJECT": "Erstelle dein eigenes Spiel mit Block-Programmierung ...",
+
+  "CREATE_NEW_PROJECT": "Neues Projekt erstellen",
+  "OPEN_PROJECT": "Projekt öffnen",
+
   "UNDO": "Letzte Änderung rückgängig machen",
   "REDO": "Letzte Änderung wiederholen",
 

@@ -19,7 +19,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import React from 'react';
+import React, { lazy } from 'react';
 
 import BlocklyTemplate from './template/BlocklyTemplate';
 import Button from '@mui/material/Button';
@@ -44,6 +44,8 @@ import { Project } from '../Project/Project';
 import { ProjectType } from '../Project/ProjectType';
 
 import ProjectNameGenerator from './generator/ProjectNameGenerator';
+
+const EmojiPicker = lazy(() => import('emoji-picker-react'));
 
 /**
  *
@@ -200,6 +202,7 @@ export class GameSetupScreen extends React.PureComponent {
             <DialogContentText>
               Here you can setup your new game project.
             </DialogContentText>
+            <EmojiPicker />
             <TextField
               inputRef={this.projectNameField}
               required

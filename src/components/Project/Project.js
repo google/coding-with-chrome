@@ -45,11 +45,29 @@ export class Project {
     description = '',
     lastModified = new Date().toISOString()
   ) {
+    this.icon = '🎮';
     this.id = id || uuidv4();
     this.type = type || ProjectType.NONE;
     this.name = name || '';
     this.description = description || '';
+    this.icon = Project.getDefaultProjectIcon(this.type);
     this.lastModified = lastModified || new Date().toISOString();
+  }
+
+  /**
+   * @return {string}
+   */
+  getId() {
+    return this.id;
+  }
+
+  /**
+   * @param {string} icon
+   * @return {Project}
+   */
+  setIcon(icon) {
+    this.icon = icon;
+    return this;
   }
 
   /**
@@ -80,18 +98,24 @@ export class Project {
   }
 
   /**
-   * @return {Project}
+   * @return {Promise<Project>}
    */
   save() {
-    const projectDatabase = new Database(DATABASE_NAME, this.type);
-    projectDatabase.put(this.id, {
-      id: this.id,
-      type: this.type,
-      name: this.name,
-      description: this.description,
-      lastModified: this.lastModified,
+    return new Promise((resolve) => {
+      const projectDatabase = new Database(DATABASE_NAME, this.type);
+      projectDatabase
+        .put(this.id, {
+          icon: this.icon,
+          id: this.id,
+          type: this.type,
+          name: this.name,
+          description: this.description,
+          lastModified: this.lastModified,
+        })
+        .then(() => {
+          resolve(this);
+        });
     });
-    return this;
   }
 
   /**
@@ -101,6 +125,7 @@ export class Project {
     const projectDatabase = new Database(DATABASE_NAME, this.type);
     projectDatabase.get(this.id).then((data) => {
       if (data) {
+        this.icon = data.icon;
         this.name = data.name;
         this.description = data.description;
         this.lastModified = data.lastModified;
@@ -127,6 +152,9 @@ export class Project {
               projectEntry.description,
               projectEntry.lastModified
             );
+            if (projectEntry.icon) {
+              project.setIcon(projectEntry.icon);
+            }
             projects.push(project);
           });
         }
@@ -140,24 +168,44 @@ export class Project {
    * @param {ProjectType} type
    * @return {Promise}
    */
-  static getProject(id, type) {
-    return new Promise((resolve) => {
+  static getProject(id, type = ProjectType.NONE) {
+    return new Promise((resolve, reject) => {
       const projectDatabase = new Database(DATABASE_NAME, type);
       projectDatabase.getAll().then((data) => {
         if (data && data.length > 0) {
           data.forEach((projectEntry) => {
-            if (projectEntry.id === id) {
+            if (projectEntry.id === id && projectEntry.type === type) {
               const project = new Project(
                 projectEntry.id,
                 projectEntry.type,
                 projectEntry.name,
-                projectEntry.description
+                projectEntry.description,
+                projectEntry.lastModified
               );
+              if (projectEntry.icon) {
+                project.setIcon(projectEntry.icon);
+              }
               resolve(project);
             }
           });
         }
+        reject(new Error(`Project ${id} with type ${type} not found!`));
       });
     });
+  }
+
+  /**
+   * @param {ProjectType} type
+   * @return {string}
+   */
+  static getDefaultProjectIcon(type) {
+    switch (type) {
+      case ProjectType.NONE:
+        return '📝';
+      case ProjectType.GAME_EDITOR:
+        return '👾';
+      default:
+        return '📝';
+    }
   }
 }

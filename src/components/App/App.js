@@ -25,6 +25,9 @@ import './i18next.js';
 
 const DesktopApp = lazy(() => import('../Desktop'));
 const GameEditor = lazy(() => import('../GameEditor'));
+const GameEditorSelectScreen = lazy(() =>
+  import('../GameEditor/GameEditorSelectScreen')
+);
 const SelectScreen = lazy(() => import('../SelectScreen'));
 
 /**
@@ -44,10 +47,10 @@ class App extends React.Component {
             <Route
               path="/game_editor"
               exact
-              element={<GameEditor {...this.props} />}
+              element={<GameEditorSelectScreen {...this.props} />}
             />
             <Route
-              path="/game_editor/:projectId/:projectName"
+              path="/game_editor/:projectId"
               element={<GameEditor {...this.props} />}
             />
           </Routes>

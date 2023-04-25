@@ -23,23 +23,17 @@ import React, { lazy } from 'react';
 
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
-import i18next from 'i18next';
 import { Mosaic } from 'react-mosaic-component';
-import { v4 as uuidv4 } from 'uuid';
 
 import PhaserTemplate from './template/PhaserTemplate';
-import ProjectNameGenerator from './generator/ProjectNameGenerator';
 import { Toolbox } from './toolbox/Toolbox';
 
 // Lazy load components.
-const GameSetupScreen = lazy(() => import('./GameSetupScreen'));
 const BlockEditor = lazy(() => import('../BlockEditor'));
 const Preview = lazy(() => import('../Preview'));
 
 import { DynamicFileParser } from './parser/DynamicFileParser';
 
-import 'react-mosaic-component/react-mosaic-component.css';
-import styles from './style.module.css';
 import { PreviewService } from '../../service-worker/preview-service-worker';
 import BlocklyTemplate from './template/BlocklyTemplate';
 import { Project } from '../Project/Project';
@@ -47,6 +41,9 @@ import { ProjectType } from '../Project/ProjectType';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import { WorkspaceSvg } from 'react-blockly';
+
+import 'react-mosaic-component/react-mosaic-component.css';
+import styles from './style.module.css';
 
 /**
  *
@@ -60,46 +57,50 @@ export class GameEditor extends React.PureComponent {
 
     // Extract projectId and projectName from URL, if available.
     let projectId;
-    let projectName;
     const urlData = window.location.hash
       .replace('#/game_editor/', '')
       .replace('#/game_editor', '')
       .split('/');
-    if (urlData.length === 2) {
+    if (urlData.length === 1) {
       projectId = urlData[0];
-      projectName = decodeURIComponent(urlData[1]);
-      console.debug(
-        `[GameEditor] Found project ID ${projectId} and name ${projectName} in URL.`
-      );
+      console.debug(`[GameEditor] Found project ID ${projectId} in URL.`);
     } else {
       console.debug(
         `[GameEditor] No project ID and name found in URL. Showing Game Setup screen.`
       );
+      window.location.hash = `#/game_editor/`;
+      window.location.reload(true);
     }
-    const hasProjectData = projectId && projectName;
 
     // Create references.
     this.previewRef = React.createRef();
     this.blockEditorRef = React.createRef();
 
-    // Set project.
-    const project =
-      props.project ||
-      new Project(
-        projectId || uuidv4(),
-        ProjectType.GAME_EDITOR,
-        projectName || ProjectNameGenerator.generate(i18next.resolvedLanguage)
-      );
+    // Set project details from data base.
+    if (!props.project) {
+      Project.getProject(projectId, ProjectType.GAME_EDITOR)
+        .then((project) => {
+          if (project) {
+            console.debug(
+              `[GameEditor] Found project ${project} for id ${projectId}.`
+            );
+            this.setState({
+              project: project,
+              xml: BlocklyTemplate.render(project),
+            });
+          }
+        })
+        .catch((error) => {
+          console.error(`[GameEditor] ${error}`);
+        });
+    }
 
     // Set initial state.
     this.state = {
-      project: project,
-      showGameSetupScreen: !hasProjectData,
+      project: props.project,
       toolbox: Toolbox.getToolbox(),
       blockEditorFullscreen: false,
-      xml: hasProjectData
-        ? BlocklyTemplate.render(project)
-        : '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
+      xml: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
     };
   }
 
@@ -195,37 +196,6 @@ export class GameEditor extends React.PureComponent {
   }
 
   /**
-   * @param {uuidv4} projectId
-   * @param {string} projectName
-   * @param {string} projectDescription
-   * @param {string} xml
-   */
-  handleGameSetupScreenClose(
-    projectId,
-    projectName = '',
-    projectDescription = '',
-    xml = '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>'
-  ) {
-    // Update url with new project id and project name.
-    window.location.hash = `#/game_editor/${projectId}/${encodeURIComponent(
-      projectName
-    )}`;
-
-    // Separate steps to make sure xml is updated before showing the editor.
-    this.setState(
-      {
-        projectId,
-        projectName,
-        projectDescription,
-        xml,
-      },
-      () => {
-        this.setState({ showGameSetupScreen: false });
-      }
-    );
-  }
-
-  /**
    * @param {string} code
    */
   handleBlockEditorContentChange(code) {
@@ -284,15 +254,7 @@ export class GameEditor extends React.PureComponent {
 
     return (
       <React.StrictMode>
-        {this.state.showGameSetupScreen && (
-          <GameSetupScreen
-            projectId={this.state.project.id}
-            projectName={this.state.project.name}
-            open={this.state.showGameSetupScreen}
-            onClose={this.handleGameSetupScreenClose.bind(this)}
-          ></GameSetupScreen>
-        )}
-        {!this.state.showGameSetupScreen && (
+        {this.state.project && this.state.project.id && (
           <Box className={styles.layout}>
             <Mosaic
               renderTile={(id) => this.getLayout()[id]}
