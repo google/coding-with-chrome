@@ -96,6 +96,7 @@ export class GameEditor extends React.PureComponent {
       project: project,
       showGameSetupScreen: !hasProjectData,
       toolbox: Toolbox.getToolbox(),
+      blockEditorFullscreen: false,
       xml: hasProjectData
         ? BlocklyTemplate.render(project)
         : '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
@@ -106,8 +107,14 @@ export class GameEditor extends React.PureComponent {
    * Hide specific content on drag event.
    */
   handleMosaicOnChange() {
-    if (this.previewRef) {
+    if (this.previewRef.current) {
       this.previewRef.current.hideContent();
+    }
+    if (this.state.blockEditorFullscreen) {
+      this.setState({ blockEditorFullscreen: false });
+    }
+    if (this.state.previewFullscreen) {
+      this.setState({ previewFullscreen: false });
     }
   }
 
@@ -115,13 +122,43 @@ export class GameEditor extends React.PureComponent {
    * Restore specific content on drop event.
    */
   handleMosaicOnRelease() {
-    if (this.previewRef) {
+    if (this.previewRef.current) {
       this.previewRef.current.showContent();
       this.previewRef.current.reload();
     }
-    if (this.blockEditorRef) {
+    if (this.blockEditorRef.current) {
       this.blockEditorRef.current.resize();
     }
+  }
+
+  /**
+   * @param {boolean} fullscreen
+   */
+  handleBlockEditorFullscreen(fullscreen) {
+    console.log('handleBlockEditorFullscreen', fullscreen);
+    this.setState({ blockEditorFullscreen: fullscreen }, () => {
+      if (this.blockEditorRef) {
+        this.blockEditorRef.current.resize();
+      }
+      if (!fullscreen && this.previewRef) {
+        this.previewRef.current.updatePreviewLocation();
+      }
+    });
+  }
+
+  /**
+   * @param {boolean} fullscreen
+   */
+  handlePreviewFullscreen(fullscreen) {
+    console.log('handlePreviewFullscreen', fullscreen);
+    this.setState({ previewFullscreen: fullscreen }, () => {
+      if (this.blockEditorRef) {
+        this.blockEditorRef.current.resize();
+      }
+      if (this.previewRef) {
+        this.previewRef.current.updatePreviewLocation();
+      }
+    });
   }
 
   /**
@@ -139,7 +176,7 @@ export class GameEditor extends React.PureComponent {
           parseXML={this.handleParseXML.bind(this)}
           onChange={this.handleBlockEditorContentChange.bind(this)}
           onLoadWorkspace={this.handleOnLoadWorkspace.bind(this)}
-          onSaveFile={this.handleOnSaveFile.bind(this)}
+          onFullscreen={this.handleBlockEditorFullscreen.bind(this)}
           project={this.state.project}
           windowId={this.props.windowId}
         />
@@ -150,6 +187,7 @@ export class GameEditor extends React.PureComponent {
           base={`preview/${this.state.project.id}/`}
           readOnly={true}
           hideURL={true}
+          onFullscreen={this.handlePreviewFullscreen.bind(this)}
         />
       ),
       assets: <div>Assets Window</div>,
@@ -192,7 +230,9 @@ export class GameEditor extends React.PureComponent {
    */
   handleBlockEditorContentChange(code) {
     PreviewService.saveHTMLFile(`${this.state.project.id}/`, code).then(() => {
-      this.previewRef.current.goToHomePage();
+      if (this.previewRef.current) {
+        this.previewRef.current.goToHomePage();
+      }
     });
   }
 
@@ -225,17 +265,23 @@ export class GameEditor extends React.PureComponent {
   }
 
   /**
-   * @param {string} xml
-   * @return {string}
-   */
-  handleOnSaveFile(xml) {
-    return xml;
-  }
-
-  /**
    * @return {Object}
    */
   render() {
+    // Set layout with mosaic and split percentage for left and right view.
+    let leftViewSplitPercentage = this.state.blockEditorFullscreen ? 100 : 75;
+    if (this.state.previewFullscreen) {
+      leftViewSplitPercentage = 0;
+    }
+    const rightView = this.state.blockEditorFullscreen
+      ? {}
+      : {
+          direction: 'column',
+          first: 'preview',
+          second: this.state.previewFullscreen ? '' : 'assets',
+          splitPercentage: this.state.previewFullscreen ? 100 : 70,
+        };
+
     return (
       <React.StrictMode>
         {this.state.showGameSetupScreen && (
@@ -255,13 +301,8 @@ export class GameEditor extends React.PureComponent {
               initialValue={{
                 direction: 'row',
                 first: 'blockEditor',
-                second: {
-                  direction: 'column',
-                  first: 'preview',
-                  second: 'assets',
-                  splitPercentage: 70,
-                },
-                splitPercentage: 75,
+                second: rightView,
+                splitPercentage: leftViewSplitPercentage,
               }}
             />
           </Box>

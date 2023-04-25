@@ -97,5 +97,11 @@
   "BLOCK_EDITOR_DIALOG_NEW_PROJECT_CONFIRM": "Create new project, without saving!",
   "BLOCK_EDITOR_DIALOG_NEW_PROJECT_CANCEL": "Cancel",
 
+  "ENTER_FULLSCREEN": "Enter Fullscreen",
+  "EXIT_FULLSCREEN": "Exit Fullscreen",
+
+  "UNDO": "Undo last change",
+  "REDO": "Redo last change",
+
   "NEW_PROJECT": "New Project"
 }

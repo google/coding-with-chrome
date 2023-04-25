@@ -55,7 +55,6 @@ export class ConfirmDialog extends React.PureComponent {
    * @return {Object}
    */
   static getDerivedStateFromProps(props, current_state) {
-    console.log(props, current_state);
     if (current_state.open !== props.open) {
       return {
         open: props.open,

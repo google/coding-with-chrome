@@ -14,8 +14,20 @@
  * limitations under the License.
  */
 
+.drawerTop {
+  height: 48px;
+}
+
+.drawerMiddle {
+  flex: auto;
+}
+
+.drawerBottom {
+  border-top: 1px solid #ccc;
+}
+
 .snackbarContainer {
-  height: 0!important;
+  height: 0 !important;
 }
 
 .fill {

@@ -98,5 +98,11 @@
   "BLOCK_EDITOR_DIALOG_NEW_PROJECT_CONFIRM": "Neues Projekt erstellen, ohne zu speichern!",
   "BLOCK_EDITOR_DIALOG_NEW_PROJECT_CANCEL": "Abbrechen",
 
+  "ENTER_FULLSCREEN": "Vollbild aufrufen",
+  "EXIT_FULLSCREEN": "Vollbild verlassen",
+
+  "UNDO": "Letzte Änderung rückgängig machen",
+  "REDO": "Letzte Änderung wiederholen",
+
   "NEW_PROJECT": "Neues Projekt"
 }

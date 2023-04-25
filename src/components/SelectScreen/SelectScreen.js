@@ -41,18 +41,23 @@ export class SelectScreen extends React.PureComponent {
     return (
       <div className={styles.container}>
         <Grid container spacing={3} direction="column" alignItems="center">
-          <Grid item>
+          <Grid item align="center">
             <Logo width="100%" height="250px" />
+            <Typography variant="h4" align="center">
+              Coding with Chrome
+            </Typography>
           </Grid>
           <Grid item>
-            <Typography variant="h4" align="center">
-              Please select a option to start.
-            </Typography>
             <Alert severity="warning">
               <AlertTitle>Experimental Version</AlertTitle>
               This version is experimental and not fully functional. Use at your
               own risk.
             </Alert>
+          </Grid>
+          <Grid item>
+            <Typography align="center">
+              Please select a option to start.
+            </Typography>
           </Grid>
           <Grid item>
             <Button
