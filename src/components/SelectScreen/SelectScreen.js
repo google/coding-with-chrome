@@ -20,10 +20,14 @@
  */
 
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Alert, AlertTitle, Button, Grid, Typography } from '@mui/material';
-import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
+
+import AppBar from '@mui/material/AppBar';
 import BuildIcon from '@mui/icons-material/Build';
+import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
+import SchoolIcon from '@mui/icons-material/School';
+import Toolbar from '@mui/material/Toolbar';
+import { Alert, AlertTitle, Button, Grid, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -38,52 +42,62 @@ export class SelectScreen extends React.PureComponent {
    */
   render() {
     return (
-      <Grid
-        container
-        spacing={3}
-        direction="column"
-        alignItems="center"
-        sx={{ paddingTop: '50px' }}
-      >
-        <Grid item align="center">
-          <Logo width="100%" height="250px" />
-          <Typography variant="h4" align="center">
-            Coding with Chrome
-          </Typography>
+      <React.StrictMode>
+        <AppBar position="relative">
+          <Toolbar>
+            <SchoolIcon sx={{ mr: 2 }} />
+            <Typography variant="h6" color="inherit" noWrap>
+              Coding with Chrome
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Grid
+          container
+          spacing={3}
+          direction="column"
+          alignItems="center"
+          sx={{ paddingTop: '50px' }}
+        >
+          <Grid item align="center">
+            <Logo width="100%" height="250px" />
+            <Typography variant="h4" align="center">
+              Coding with Chrome
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Alert severity="warning">
+              <AlertTitle>Experimental Version</AlertTitle>
+              This version is experimental and not fully functional. Use at your
+              own risk.
+            </Alert>
+          </Grid>
+          <Grid item>
+            <Typography align="center">
+              Please select a option to start.
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Button
+              component={Link}
+              to="/game_editor"
+              variant="contained"
+              startIcon={<BuildIcon />}
+            >
+              Game Editor
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              component={Link}
+              to="/desktop"
+              variant="outlined"
+              startIcon={<DesktopWindowsIcon />}
+            >
+              Experimental Desktop
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item>
-          <Alert severity="warning">
-            <AlertTitle>Experimental Version</AlertTitle>
-            This version is experimental and not fully functional. Use at your
-            own risk.
-          </Alert>
-        </Grid>
-        <Grid item>
-          <Typography align="center">
-            Please select a option to start.
-          </Typography>
-        </Grid>
-        <Grid item>
-          <Button
-            component={Link}
-            to="/desktop"
-            variant="contained"
-            startIcon={<DesktopWindowsIcon />}
-          >
-            Experimental Desktop
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button
-            component={Link}
-            to="/game_editor"
-            variant="contained"
-            startIcon={<BuildIcon />}
-          >
-            Game Editor
-          </Button>
-        </Grid>
-      </Grid>
+      </React.StrictMode>
     );
   }
 }

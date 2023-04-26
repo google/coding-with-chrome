@@ -21,8 +21,9 @@
 
 import React from 'react';
 
-import styled from 'styled-components';
 import Box from '@mui/material/Box';
+import MenuItem from '@mui/base/MenuItem';
+import styled from 'styled-components';
 import { Button, IconButton } from '@mui/material';
 
 const StyledToolbar = styled(Box)`
@@ -35,6 +36,10 @@ const StyledToolbar = styled(Box)`
   justify-content: space-between;
   line-height: 16px;
   padding: 2px 4px;
+`;
+
+const StyledToolbarItem = styled(MenuItem)`
+  padding: 5px 10px;
 `;
 
 const StyledIconButton = styled(IconButton)`
@@ -51,6 +56,14 @@ const StyledButton = styled(Button)`
  */
 export function Toolbar(props) {
   return <StyledToolbar {...props} />;
+}
+
+/**
+ * @param {Object} props
+ * @return {any}
+ */
+export function ToolbarItem(props) {
+  return <StyledToolbarItem color="primary" {...props} />;
 }
 
 /**

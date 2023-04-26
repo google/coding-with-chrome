@@ -28,10 +28,6 @@ import { Mosaic } from 'react-mosaic-component';
 import PhaserTemplate from './template/PhaserTemplate';
 import { Toolbox } from './toolbox/Toolbox';
 
-// Lazy load components.
-const BlockEditor = lazy(() => import('../BlockEditor'));
-const Preview = lazy(() => import('../Preview'));
-
 import { DynamicFileParser } from './parser/DynamicFileParser';
 
 import { PreviewService } from '../../service-worker/preview-service-worker';
@@ -42,6 +38,10 @@ import { ProjectType } from '../Project/ProjectType';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import { WorkspaceSvg } from 'react-blockly';
 
+// Lazy load components.
+const Assets = lazy(() => import('../Assets'));
+const BlockEditor = lazy(() => import('../BlockEditor'));
+const Preview = lazy(() => import('../Preview'));
 const NewGameProject = lazy(() => import('./dialog/NewGameProject'));
 const OpenGameProject = lazy(() => import('./dialog/OpenGameProject'));
 
@@ -100,12 +100,49 @@ export class GameEditor extends React.PureComponent {
 
     // Set initial state.
     this.state = {
+      audioFiles: new Map(),
+      imageFiles: new Map(),
       project: props.project,
       toolbox: Toolbox.getToolbox(),
       blockEditorFullscreen: false,
       openNewProject: false,
       openExistingProject: false,
       xml: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
+    };
+  }
+
+  /**
+   * @return {Object}
+   */
+  getLayout() {
+    return {
+      blockEditor: (
+        <BlockEditor
+          ref={this.blockEditorRef}
+          type={'GameEditor'}
+          content={this.state.xml}
+          toolbox={this.state.toolbox}
+          template={PhaserTemplate.render}
+          parseXML={this.handleParseXML.bind(this)}
+          onChange={this.handleBlockEditorContentChange.bind(this)}
+          onLoadWorkspace={this.handleOnLoadWorkspace.bind(this)}
+          onFullscreen={this.handleBlockEditorFullscreen.bind(this)}
+          onNewProject={this.handleNewProject.bind(this)}
+          onOpenProject={this.handleOpenProject.bind(this)}
+          project={this.state.project}
+          windowId={this.props.windowId}
+        />
+      ),
+      preview: (
+        <Preview
+          ref={this.previewRef}
+          base={`preview/${this.state.project.id}/`}
+          readOnly={true}
+          hideURL={true}
+          onFullscreen={this.handlePreviewFullscreen.bind(this)}
+        />
+      ),
+      assets: <Assets onDropFile={this.handleOnDropFile.bind(this)} />,
     };
   }
 
@@ -182,38 +219,31 @@ export class GameEditor extends React.PureComponent {
   }
 
   /**
-   * @return {Object}
+   * @param {File} file
+   * @param {string} content
    */
-  getLayout() {
-    return {
-      blockEditor: (
-        <BlockEditor
-          ref={this.blockEditorRef}
-          type={'GameEditor'}
-          content={this.state.xml}
-          toolbox={this.state.toolbox}
-          template={PhaserTemplate.render}
-          parseXML={this.handleParseXML.bind(this)}
-          onChange={this.handleBlockEditorContentChange.bind(this)}
-          onLoadWorkspace={this.handleOnLoadWorkspace.bind(this)}
-          onFullscreen={this.handleBlockEditorFullscreen.bind(this)}
-          onNewProject={this.handleNewProject.bind(this)}
-          onOpenProject={this.handleOpenProject.bind(this)}
-          project={this.state.project}
-          windowId={this.props.windowId}
-        />
-      ),
-      preview: (
-        <Preview
-          ref={this.previewRef}
-          base={`preview/${this.state.project.id}/`}
-          readOnly={true}
-          hideURL={true}
-          onFullscreen={this.handlePreviewFullscreen.bind(this)}
-        />
-      ),
-      assets: <div>Assets Window</div>,
+  handleOnDropFile(file, content) {
+    const name = file.name;
+    const filename = name.substring(0, name.lastIndexOf('.'));
+    const urlData = content;
+    const url = '';
+    const fileEntry = {
+      name,
+      filename,
+      url,
+      urlData,
     };
+    if (file.type.startsWith('image/')) {
+      this.state.imageFiles.set(name, fileEntry);
+    } else if (file.type.startsWith('audio/')) {
+      this.state.audioFiles.set(name, fileEntry);
+    } else {
+      console.error('Unsupported file type', file.type);
+      return;
+    }
+    if (this.blockEditorRef.current) {
+      this.updateToolbox(this.blockEditorRef.current.getBlocklyWorkspace());
+    }
   }
 
   /**
@@ -246,8 +276,14 @@ export class GameEditor extends React.PureComponent {
    * @param {WorkspaceSvg} workspace
    */
   updateToolbox(workspace) {
-    const phaserAudioFiles = DynamicFileParser.getPhaserAudioFiles(workspace);
-    const phaserImageFiles = DynamicFileParser.getPhaserImageFiles(workspace);
+    const phaserAudioFiles = new Map([
+      ...this.state.audioFiles,
+      ...DynamicFileParser.getPhaserAudioFiles(workspace),
+    ]);
+    const phaserImageFiles = new Map([
+      ...this.state.imageFiles,
+      ...DynamicFileParser.getPhaserImageFiles(workspace),
+    ]);
     if (phaserAudioFiles.size > 0 || phaserImageFiles.size > 0) {
       const toolbox = Toolbox.getToolbox(phaserAudioFiles, phaserImageFiles);
       this.setState({ toolbox });

@@ -29,6 +29,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import EmojiPicker from 'emoji-picker-react';
+import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
@@ -178,26 +179,30 @@ export class NewGameProject extends React.PureComponent {
               fullWidth
               margin="dense"
               id="project_name"
-              label="Project Name"
+              label="Project Icon and Name"
               variant="standard"
               defaultValue={this.state.projectName}
               onChange={this.handleProjectNameChange.bind(this)}
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position="start">
+                  <InputAdornment position="start" sx={{ maxWidth: '24px' }}>
                     <Button
                       onClick={() => {
                         this.setState({ openEmojiPicker: true });
                       }}
+                      sx={{ minWidth: '24px', maxWidth: '24px' }}
                     >
                       {this.state.projectIcon}
                     </Button>
                   </InputAdornment>
                 ),
                 endAdornment: (
-                  <Button onClick={this.handleRandomProjectName.bind(this)}>
+                  <IconButton
+                    onClick={this.handleRandomProjectName.bind(this)}
+                    title="Get a random name."
+                  >
                     <CasinoIcon />
-                  </Button>
+                  </IconButton>
                 ),
               }}
             />

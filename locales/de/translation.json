@@ -101,6 +101,16 @@
   "ENTER_FULLSCREEN": "Vollbild aufrufen",
   "EXIT_FULLSCREEN": "Vollbild verlassen",
 
+  "EXAMPLES": "Beispiele",
+  "EXAMPLE_PHASER_BOUNCING_BALL": "Hüpfender Ball",
+  "EXAMPLE_PHASER_BOUNCING_BALL_DESCRIPTION": "Ein hüpfender Ball mit Boden und Decke.",
+  "EXAMPLE_PHASER_BOUNCING_CUBES": "Hüpfende Würfel",
+  "EXAMPLE_PHASER_BOUNCING_CUBES_DESCRIPTION": "Verschiedene Arten von hüpfenden Würfeln.",
+  "EXAMPLE_PHASER_MOVE_A_SPRITE": "Sprite bewegen",
+  "EXAMPLE_PHASER_MOVE_A_SPRITE_DESCRIPTION": "Bewege ein Sprite mit den Pfeiltasten.",
+  "EXAMPLE_PHASER_SWITCH_GAME_STATE": "Spielstatus wechseln",
+  "EXAMPLE_PHASER_SWITCH_GAME_STATE_DESCRIPTION": "Zwischen verschiedenen Spielzuständen wechseln.",
+
   "CREATE_NEW_GAME_PROJECT": "Erstelle dein eigenes Spiel mit Block-Programmierung ...",
 
   "CREATE_NEW_PROJECT": "Neues Projekt erstellen",

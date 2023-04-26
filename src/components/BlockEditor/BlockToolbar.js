@@ -21,6 +21,8 @@
 
 import React, { createRef, lazy } from 'react';
 
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import Blockly from 'blockly';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Card from '@mui/material/Card';
@@ -317,7 +319,17 @@ export class BlockToolbar extends React.PureComponent {
           >
             <RedoIcon />
           </ToolbarIconButton>
-          <ToolbarButton variant="contained">Create new Variable</ToolbarButton>
+          <ToolbarButton
+            size="small"
+            onClick={() => {
+              Blockly.Variables.createVariableButtonHandler(
+                this.props.blocklyWorkspace
+              );
+            }}
+          >
+            <AttachMoneyIcon sx={{ paddingRight: '5px' }} />
+            Create new Variable
+          </ToolbarButton>
           {this.props.blockEditor.codeEditor && (
             <ToolbarIconButton
               aria-label="code"

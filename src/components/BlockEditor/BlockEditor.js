@@ -185,19 +185,33 @@ export class BlockEditor extends React.PureComponent {
   }
 
   /**
+   * @return {WorkspaceSvg}
+   */
+  getBlocklyWorkspace() {
+    return this.state.blocklyWorkspace;
+  }
+
+  /**
+   * @return {boolean}
+   */
+  hasBlocklyWorkspace() {
+    return !!this.state.blocklyWorkspace;
+  }
+
+  /**
    * @param {string} xml
    * @param {Map<string, string>} files
    * @param {boolean} hasChanged
    */
   loadWorkspace(xml, files = new Map(), hasChanged = false) {
-    if (!this.state.blocklyWorkspace) {
+    if (!this.hasBlocklyWorkspace()) {
       return;
     }
     console.log('Loading workspace ...', xml);
     const parsedXML = this.praseXML(xml, files);
     Blockly.Xml.clearWorkspaceAndLoadFromXml(
       Blockly.utils.xml.textToDom(parsedXML),
-      this.state.blocklyWorkspace
+      this.getBlocklyWorkspace()
     );
 
     // Update state and trigger onLoadWorkspace event.
@@ -209,14 +223,14 @@ export class BlockEditor extends React.PureComponent {
     );
 
     // Clear undo stack.
-    this.state.blocklyWorkspace.clearUndo();
+    this.getBlocklyWorkspace().clearUndo();
 
     // Trigger onLoadWorkspace event.
     if (
       this.props.onLoadWorkspace &&
       typeof this.props.onLoadWorkspace === 'function'
     ) {
-      this.props.onLoadWorkspace(this.state.blocklyWorkspace);
+      this.props.onLoadWorkspace(this.state.getBlocklyWorkspace());
     }
 
     this.resize();
@@ -261,8 +275,8 @@ export class BlockEditor extends React.PureComponent {
 
     // Update undo and redo state.
     this.setState({
-      hasUndo: this.state.blocklyWorkspace?.undoStack_.length > 0,
-      hasRedo: this.state.blocklyWorkspace?.redoStack_.length > 0,
+      hasUndo: this.getBlocklyWorkspace()?.undoStack_.length > 0,
+      hasRedo: this.getBlocklyWorkspace()?.redoStack_.length > 0,
     });
 
     // Throttle XML change to avoid performance issues.
@@ -278,7 +292,7 @@ export class BlockEditor extends React.PureComponent {
           hasChanged: hasChanged,
           xml: xml,
         });
-        const variables = this.state.blocklyWorkspace?.getAllVariables();
+        const variables = this.getBlocklyWorkspace()?.getAllVariables();
         if (variables && variables != this.state.variables) {
           console.log('Variables change', variables);
           this.setState({ variables: variables });

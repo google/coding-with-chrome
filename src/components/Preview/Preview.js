@@ -23,6 +23,7 @@ import AspectRatioIcon from '@mui/icons-material/AspectRatio';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
+import Paper from '@mui/material/Paper';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -206,61 +207,67 @@ export class Preview extends React.PureComponent {
   render() {
     return (
       <React.StrictMode>
-        <PreviewToolbar
-          preview={this}
-          hideURL={this.props.hideURL}
-          readOnly={this.props.readOnly}
-          onFullscreen={this.props.onFullscreen}
-        />
-        <Box className={styles.contentWrapper} ref={this.contentWrapper}>
-          {this.state.loading && (
-            <Backdrop
-              className={styles.contentLoadingScreen}
-              sx={{
-                color: '#fff',
-                position: 'absolute',
-                zIndex: (theme) => theme.zIndex.drawer + 1,
-              }}
-              open={this.state.loading}
-            >
-              <CircularProgress color="inherit" />
-              <span className={styles.contentLoadingScreenTitle}>
-                Loading ...
-              </span>
-            </Backdrop>
-          )}
-          {(this.state.hideContent ||
-            (!this.state.location && !this.state.loading)) && (
-            <Backdrop
-              className={styles.contentResize}
-              sx={{
-                color: '#fff',
-                position: 'absolute',
-                zIndex: (theme) => theme.zIndex.drawer + 1,
-              }}
-              open={
-                this.state.hideContent ||
-                (!this.state.location && !this.state.loading)
-              }
-            >
-              <AspectRatioIcon />
-              <span className={styles.contentLoadingScreenTitle}>Preview</span>
-            </Backdrop>
-          )}
-          <iframe
-            className={`${
-              this.windowId ? styles.contentIframeWindow : styles.contentIframe
-            } ${this.state.hideContent ? styles.contentIframeHidden : ''}`}
-            ref={this.contentIframe}
-            src=""
-            allow="geolocation; microphone; camera; midi; encrypted-media; xr-spatial-tracking; fullscreen"
-            allowFullScreen
-            onLoad={this.handleContentIframeLoad.bind(this)}
-            onError={this.handleContentIframeError.bind(this)}
-            sandbox="allow-scripts allow-modals allow-forms allow-same-origin allow-top-navigation-by-user-activation allow-downloads"
-            title="Preview Content Container"
-          ></iframe>
-        </Box>
+        <Paper elevation={3} square>
+          <PreviewToolbar
+            preview={this}
+            hideURL={this.props.hideURL}
+            readOnly={this.props.readOnly}
+            onFullscreen={this.props.onFullscreen}
+          />
+          <Box className={styles.contentWrapper} ref={this.contentWrapper}>
+            {this.state.loading && (
+              <Backdrop
+                className={styles.contentLoadingScreen}
+                sx={{
+                  color: '#fff',
+                  position: 'absolute',
+                  zIndex: (theme) => theme.zIndex.drawer + 1,
+                }}
+                open={this.state.loading}
+              >
+                <CircularProgress color="inherit" />
+                <span className={styles.contentLoadingScreenTitle}>
+                  Loading ...
+                </span>
+              </Backdrop>
+            )}
+            {(this.state.hideContent ||
+              (!this.state.location && !this.state.loading)) && (
+              <Backdrop
+                className={styles.contentResize}
+                sx={{
+                  color: '#fff',
+                  position: 'absolute',
+                  zIndex: (theme) => theme.zIndex.drawer + 1,
+                }}
+                open={
+                  this.state.hideContent ||
+                  (!this.state.location && !this.state.loading)
+                }
+              >
+                <AspectRatioIcon />
+                <span className={styles.contentLoadingScreenTitle}>
+                  Preview
+                </span>
+              </Backdrop>
+            )}
+            <iframe
+              className={`${
+                this.windowId
+                  ? styles.contentIframeWindow
+                  : styles.contentIframe
+              } ${this.state.hideContent ? styles.contentIframeHidden : ''}`}
+              ref={this.contentIframe}
+              src=""
+              allow="geolocation; microphone; camera; midi; encrypted-media; xr-spatial-tracking; fullscreen"
+              allowFullScreen
+              onLoad={this.handleContentIframeLoad.bind(this)}
+              onError={this.handleContentIframeError.bind(this)}
+              sandbox="allow-scripts allow-modals allow-forms allow-same-origin allow-top-navigation-by-user-activation allow-downloads"
+              title="Preview Content Container"
+            ></iframe>
+          </Box>
+        </Paper>
       </React.StrictMode>
     );
   }

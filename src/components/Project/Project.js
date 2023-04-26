@@ -39,8 +39,8 @@ export class Project {
    * @constructor
    */
   constructor(
-    id,
-    type,
+    id = uuidv4(),
+    type = ProjectType.NONE,
     name = '',
     description = '',
     lastModified = new Date().toISOString()
@@ -171,27 +171,65 @@ export class Project {
   static getProject(id, type = ProjectType.NONE) {
     return new Promise((resolve, reject) => {
       const projectDatabase = new Database(DATABASE_NAME, type);
+      let foundProjectId = false;
       projectDatabase.getAll().then((data) => {
         if (data && data.length > 0) {
           data.forEach((projectEntry) => {
-            if (projectEntry.id === id && projectEntry.type === type) {
-              const project = new Project(
-                projectEntry.id,
-                projectEntry.type,
-                projectEntry.name,
-                projectEntry.description,
-                projectEntry.lastModified
-              );
-              if (projectEntry.icon) {
-                project.setIcon(projectEntry.icon);
+            if (projectEntry.id === id) {
+              foundProjectId = true;
+              if (projectEntry.type === type) {
+                const project = new Project(
+                  projectEntry.id,
+                  projectEntry.type,
+                  projectEntry.name,
+                  projectEntry.description,
+                  projectEntry.lastModified
+                );
+                if (projectEntry.icon) {
+                  project.setIcon(projectEntry.icon);
+                }
+                resolve(project);
+                return;
               }
-              resolve(project);
             }
           });
         }
-        reject(new Error(`Project ${id} with type ${type} not found!`));
+        if (foundProjectId) {
+          reject(new Error(`Found Project ${id} but without type ${type}`));
+        } else {
+          reject(new Error(`Project ${id} with type ${type} not found!`));
+        }
       });
     });
+  }
+
+  /**
+   * @param {string} name
+   * @param {ProjectType} type
+   * @return {Promise}
+   */
+  static getEmptyProject(name, type) {
+    const project = new Project(undefined, type, name);
+    return project.save();
+  }
+
+  /**
+   * @param {ProjectType} type
+   * @return {string}
+   */
+  static getRandomProjectIcon(type) {
+    let iconSet = [];
+    switch (type) {
+      case ProjectType.NONE:
+        iconSet = ['📝'];
+        break;
+      case ProjectType.GAME_EDITOR:
+        iconSet = ['👾', '🎮', '🕹️', '🎲', '🎰', '🎳', '🎯', '🎱', '🎮'];
+        break;
+      default:
+        iconSet = ['📓', '📒', '📕', '📗', '📘', '📙', '📚', '📖'];
+    }
+    return iconSet[Math.floor(Math.random() * iconSet.length)];
   }
 
   /**

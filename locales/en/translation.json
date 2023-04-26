@@ -100,6 +100,16 @@
   "ENTER_FULLSCREEN": "Enter Fullscreen",
   "EXIT_FULLSCREEN": "Exit Fullscreen",
 
+  "EXAMPLES": "Examples",
+  "EXAMPLE_PHASER_BOUNCING_BALL": "Bouncing ball",
+  "EXAMPLE_PHASER_BOUNCING_BALL_DESCRIPTION": "A bouncing ball with floor and ceiling.",
+  "EXAMPLE_PHASER_BOUNCING_CUBES": "Bouncing cubes",
+  "EXAMPLE_PHASER_BOUNCING_CUBES_DESCRIPTION": "Different kind of bouncing cubes.",
+  "EXAMPLE_PHASER_MOVE_A_SPRITE": "Move a sprite",
+  "EXAMPLE_PHASER_MOVE_A_SPRITE_DESCRIPTION": "Move a sprite with the arrow keys.",
+  "EXAMPLE_PHASER_SWITCH_GAME_STATE": "Switch game state",
+  "EXAMPLE_PHASER_SWITCH_GAME_STATE_DESCRIPTION": "Switch between different game states.",
+
   "CREATE_NEW_GAME_PROJECT": "Create your own game using block programming...",
 
   "CREATE_NEW_PROJECT": "Create New Project",

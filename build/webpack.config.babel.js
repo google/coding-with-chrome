@@ -140,7 +140,7 @@ module.exports = (mode = 'development') => ({
         use: ['file-loader'],
       },
       {
-        test: /\.json$/i,
+        test: /\.(json|xml)$/i,
         type: 'asset/resource',
       },
       {
@@ -204,6 +204,14 @@ module.exports = (mode = 'development') => ({
         {
           from: './assets/blockly',
           to: './assets/blockly',
+          globOptions: {
+            dot: true,
+            gitignore: true,
+          },
+        },
+        {
+          from: './assets/examples',
+          to: './assets/examples',
           globOptions: {
             dot: true,
             gitignore: true,

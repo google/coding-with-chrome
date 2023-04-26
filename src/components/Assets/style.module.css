@@ -14,43 +14,18 @@
  * limitations under the License.
  */
 
-.contentWrapper {
+ .contentWrapper {
   position: relative;
   height: calc(100% - 35px);
+  padding: 10px;
   overflow: hidden;
 }
 
-.contentLoadingScreen {
-  height: calc(100%);
-  overflow: hidden;
-  top: 35px;
+.drag_zone, .drag_zone_active {
+ border: 2px dashed #aaa;
+ height: 100%;
 }
 
-.contentLoadingScreenTitle {
-  font-size: 32px;
-  padding-left: 20px;
-}
-
-.locationBar {
-  margin-left: 2px;
-}
-
-.locationBarPrefix {
-  color: #aaa;
-}
-
-iframe.contentIframe {
-  width: 100%;
-  height: calc(100%);
-  border: 0;
-  background-color: #fff;
-}
-
-iframe.contentIframeHidden {
-  display: none;
-}
-
-iframe.contentIframeWindow {
-  height: calc(100% - 35px);
-  background-color: #fff;
+.drag_zone_active {
+  border: 2px dashed #faa;
 }
