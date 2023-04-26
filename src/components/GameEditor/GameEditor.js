@@ -72,7 +72,7 @@ export class GameEditor extends React.PureComponent {
         `[GameEditor] No project ID and name found in URL. Showing Game Setup screen.`
       );
       window.location.hash = `#/game_editor/`;
-      window.location.reload(true);
+      window.location.reload();
     }
 
     // Create references.

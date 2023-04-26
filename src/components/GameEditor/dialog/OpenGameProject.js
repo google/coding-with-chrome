@@ -65,7 +65,7 @@ export class OpenGameProject extends React.PureComponent {
       window.location.hash = `#/game_editor/${event.currentTarget.getAttribute(
         'value'
       )}`;
-      window.location.reload(true);
+      window.location.reload();
     }
   }
 

@@ -1,5 +1,5 @@
 /**
- * @license Copyright 2023 The Coding with Chrome Authors.
+ * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,8 @@ import Toolbar from '@mui/material/Toolbar';
 import { Alert, AlertTitle, Button, Grid, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+import LanguageSetting from '../Settings/LanguageSetting';
+
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { ReactComponent as Logo } from '../../../assets/logo/logo.svg';
@@ -46,9 +48,15 @@ export class SelectScreen extends React.PureComponent {
         <AppBar position="relative">
           <Toolbar>
             <SchoolIcon sx={{ mr: 2 }} />
-            <Typography variant="h6" color="inherit" noWrap>
+            <Typography
+              variant="h6"
+              color="inherit"
+              noWrap
+              sx={{ flexGrow: 1 }}
+            >
               Coding with Chrome
             </Typography>
+            <LanguageSetting color="inherit" />
           </Toolbar>
         </AppBar>
         <Grid

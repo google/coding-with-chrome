@@ -85,7 +85,7 @@ export class NewGameProject extends React.PureComponent {
     // Save project and update url with new project id.
     project.save().then(() => {
       window.location.hash = `#/game_editor/${project.getId()}`;
-      window.location.reload(true);
+      window.location.reload();
     });
   }
 

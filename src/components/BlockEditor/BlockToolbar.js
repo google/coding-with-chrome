@@ -57,6 +57,7 @@ import FileFormat, { ContentType } from '../FileFormat/FileFormat';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 
 import { Toolbar, ToolbarIconButton, ToolbarButton } from '../Toolbar';
+import LanguageSetting from '../Settings/LanguageSetting';
 
 const ConfirmDialog = lazy(() => import('../Dialogs/ConfirmDialog'));
 
@@ -265,7 +266,7 @@ export class BlockToolbar extends React.PureComponent {
    */
   navigateNewProject() {
     window.location.hash = '#/game_editor/';
-    window.location.reload(true);
+    window.location.reload();
   }
 
   /**
@@ -327,9 +328,10 @@ export class BlockToolbar extends React.PureComponent {
               );
             }}
           >
-            <AttachMoneyIcon sx={{ paddingRight: '5px' }} />
+            <AttachMoneyIcon sx={{ marginRight: '5px' }} />
             Create new Variable
           </ToolbarButton>
+          <Typography color="inherit" noWrap sx={{ flexGrow: 1 }}></Typography>
           {this.props.blockEditor.codeEditor && (
             <ToolbarIconButton
               aria-label="code"
@@ -340,6 +342,7 @@ export class BlockToolbar extends React.PureComponent {
               <CodeIcon />
             </ToolbarIconButton>
           )}
+          <LanguageSetting color="primary" />
           {this.props.onFullscreen && (
             <ToolbarIconButton
               title={

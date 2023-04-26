@@ -44,6 +44,7 @@ import { ProjectType } from '../Project/ProjectType';
 
 const NewGameProject = lazy(() => import('./dialog/NewGameProject'));
 const OpenGameProject = lazy(() => import('./dialog/OpenGameProject'));
+import LanguageSetting from '../Settings/LanguageSetting';
 
 /**
  *
@@ -112,7 +113,7 @@ export class GameEditorSelectScreen extends React.PureComponent {
           database.put('workspace', xhr.responseText);
           database.put('lastModified', new Date().toISOString()).then(() => {
             window.location.hash = `#/game_editor/${project.getId()}`;
-            window.location.reload(true);
+            window.location.reload();
           });
         }
       };
@@ -129,9 +130,15 @@ export class GameEditorSelectScreen extends React.PureComponent {
         <AppBar position="relative">
           <Toolbar>
             <VideogameAssetIcon sx={{ mr: 2 }} />
-            <Typography variant="h6" color="inherit" noWrap>
+            <Typography
+              variant="h6"
+              color="inherit"
+              noWrap
+              sx={{ flexGrow: 1 }}
+            >
               Game Editor
             </Typography>
+            <LanguageSetting color="inherit" />
           </Toolbar>
         </AppBar>
 
@@ -172,7 +179,7 @@ export class GameEditorSelectScreen extends React.PureComponent {
                   this.setState({ openNewProject: true });
                 }}
               >
-                <CreateIcon sx={{ paddingRight: '5px' }} />
+                <CreateIcon sx={{ marginRight: '5px' }} />
                 {i18next.t('CREATE_NEW_PROJECT')}
               </Button>
               <Button
@@ -181,7 +188,7 @@ export class GameEditorSelectScreen extends React.PureComponent {
                   this.setState({ openExistingProject: true });
                 }}
               >
-                <FolderOpenIcon sx={{ paddingRight: '5px' }} />
+                <FolderOpenIcon sx={{ marginRight: '5px' }} />
                 {i18next.t('OPEN_PROJECT')}
               </Button>
             </Stack>
