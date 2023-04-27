@@ -24,6 +24,9 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-http-backend';
 import { initReactI18next } from 'react-i18next';
 
+import { APP_BASE_PATH } from '../../constants';
+import { Settings } from '../Settings/Settings';
+
 /**
  * Adding translation support for the whole app
  */
@@ -38,10 +41,17 @@ i18next
       escapeValue: false, // react already safes from xss
     },
     backend: {
-      loadPath: location.host.endsWith('.github.io')
-        ? location.pathname + 'locales/{{lng}}/{{ns}}.json'
-        : '/locales/{{lng}}/{{ns}}.json',
+      loadPath: APP_BASE_PATH + 'locales/{{lng}}/{{ns}}.json',
     },
   });
+
+/**
+ * Check if language is set and change language if needed.
+ */
+Settings.getLanguage().then((language) => {
+  if (language && language !== i18next.resolvedLanguage) {
+    i18next.changeLanguage(language);
+  }
+});
 
 export default i18next;

@@ -26,6 +26,7 @@ import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import i18next from '../App/i18next';
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import { BlocklyWorkspace, WorkspaceSvg } from 'react-blockly';
@@ -117,8 +118,30 @@ export class BlockEditor extends React.PureComponent {
         this.loadWorkspace(workspace);
       }
     });
-
     console.log('Adding block editor with project id: ', this.state.project.id);
+  }
+
+  /**
+   *
+   */
+  componentDidMount() {
+    i18next.on('languageChanged', () => {
+      this.refreshWorkspace();
+      this.forceUpdate();
+    });
+  }
+
+  /**
+   * Refresh the block editor workspace
+   */
+  refreshWorkspace() {
+    if (this.state.blocklyWorkspace) {
+      const xml = this.getXML();
+      Blockly.Xml.clearWorkspaceAndLoadFromXml(
+        Blockly.utils.xml.textToDom(xml),
+        this.getBlocklyWorkspace()
+      );
+    }
   }
 
   /**
@@ -135,13 +158,14 @@ export class BlockEditor extends React.PureComponent {
    *
    */
   async showCodeEditor() {
+    if (!this.codeEditor) {
+      return;
+    }
     console.log('Show Code Editor ...');
     const code = this.getWorkspaceCode();
-    if (this.codeEditor) {
-      this.codeEditor.current.setValue(code);
-    }
     this.setState({ showEditor: true }, () => {
       this.codeEditor.current.resize();
+      this.codeEditor.current.setValue(code);
     });
   }
 
@@ -230,7 +254,7 @@ export class BlockEditor extends React.PureComponent {
       this.props.onLoadWorkspace &&
       typeof this.props.onLoadWorkspace === 'function'
     ) {
-      this.props.onLoadWorkspace(this.state.getBlocklyWorkspace());
+      this.props.onLoadWorkspace(this.getBlocklyWorkspace());
     }
 
     this.resize();
@@ -385,7 +409,7 @@ export class BlockEditor extends React.PureComponent {
       if (this.props.toolbox) {
         this.state.blocklyWorkspace?.updateToolbox(this.props.toolbox);
       }
-      console.log('Refresh toolbox ...');
+      console.log('Refreshing toolbox ...');
       toolbox.refreshSelection();
     }
   }
@@ -523,14 +547,16 @@ export class BlockEditor extends React.PureComponent {
             </MuiAlert>
           </Snackbar>
         </Box>
-        <Box sx={{ display: this.state.showEditor ? 'block' : 'none' }}>
-          <CodeEditor
-            windowId={this.props.windowId}
-            project={project}
-            blockEditor={this}
-            ref={this.codeEditor}
-          ></CodeEditor>
-        </Box>
+        {this.state.showEditor && (
+          <Box sx={{ display: this.state.showEditor ? 'block' : 'none' }}>
+            <CodeEditor
+              windowId={this.props.windowId}
+              project={project}
+              blockEditor={this}
+              ref={this.codeEditor}
+            ></CodeEditor>
+          </Box>
+        )}
       </React.StrictMode>
     );
   }

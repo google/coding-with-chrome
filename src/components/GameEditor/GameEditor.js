@@ -28,6 +28,8 @@ import { Mosaic } from 'react-mosaic-component';
 import PhaserTemplate from './template/PhaserTemplate';
 import { Toolbox } from './toolbox/Toolbox';
 
+import i18next from '../App/i18next';
+
 import { DynamicFileParser } from './parser/DynamicFileParser';
 
 import { PreviewService } from '../../service-worker/preview-service-worker';
@@ -109,6 +111,13 @@ export class GameEditor extends React.PureComponent {
       openExistingProject: false,
       xml: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
     };
+
+    i18next.on('languageChanged', () => {
+      if (this.blockEditorRef.current) {
+        console.log('[GameEditor] Update toolbox after language change.');
+        this.updateToolbox(this.blockEditorRef.current.getBlocklyWorkspace());
+      }
+    });
   }
 
   /**
@@ -284,8 +293,9 @@ export class GameEditor extends React.PureComponent {
       ...this.state.imageFiles,
       ...DynamicFileParser.getPhaserImageFiles(workspace),
     ]);
-    if (phaserAudioFiles.size > 0 || phaserImageFiles.size > 0) {
-      const toolbox = Toolbox.getToolbox(phaserAudioFiles, phaserImageFiles);
+
+    const toolbox = Toolbox.getToolbox(phaserAudioFiles, phaserImageFiles);
+    if (toolbox) {
       this.setState({ toolbox });
       workspace.updateToolbox(toolbox);
     }

@@ -26,6 +26,7 @@ import BuildIcon from '@mui/icons-material/Build';
 import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
 import SchoolIcon from '@mui/icons-material/School';
 import Toolbar from '@mui/material/Toolbar';
+import i18next from '../App/i18next';
 import { Alert, AlertTitle, Button, Grid, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
@@ -39,6 +40,16 @@ import { ReactComponent as Logo } from '../../../assets/logo/logo.svg';
  *
  */
 export class SelectScreen extends React.PureComponent {
+  /**
+   * @param {*} props
+   */
+  constructor(props) {
+    super(props);
+    i18next.on('languageChanged', () => {
+      this.forceUpdate();
+    });
+  }
+
   /**
    * @return {Object}
    */

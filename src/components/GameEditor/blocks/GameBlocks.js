@@ -29,12 +29,15 @@ Blocks['phaser_game'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.runningMan())
-      .appendField(i18next.t('Create Game with name'))
+      .appendField(i18next.t('BLOCKS_PHASER_CREATE_GAME_WITH_NAME'))
       .appendField(
-        new Blockly.FieldTextInput('Unnamed Game', BlocksHelper.validateText),
+        new Blockly.FieldTextInput(
+          i18next.t('UNNAMED_GAME'),
+          BlocksHelper.validateText
+        ),
         'name'
       )
-      .appendField(i18next.t('and size'))
+      .appendField(i18next.t('BLOCKS_PHASER_WITH_THE_SIZE'))
       .appendField(new Blockly.FieldNumber(400, 0, 5760), 'width')
       .appendField('x')
       .appendField(new Blockly.FieldNumber(600, 0, 2160), 'height');
@@ -69,7 +72,7 @@ Blocks['phaser_game_state'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.storage())
-      .appendField(i18next.t('game state'))
+      .appendField(i18next.t('BLOCKS_PHASER_GAME_STATE'))
       .appendField(
         new Blockly.FieldTextInput('main', BlocksHelper.validateText),
         'name'

@@ -34,7 +34,7 @@ Blocks['phaser_render'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.point())
-      .appendField(i18next.t('on render'));
+      .appendField(i18next.t('BLOCKS_PHASER_ON_RENDER'));
     this.appendStatementInput('CODE')
       .appendField(i18next.t('BLOCKS_DO'))
       .setAlign(Blockly.ALIGN_CENTRE)

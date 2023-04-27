@@ -35,7 +35,7 @@ Blocks['phaser_input'] = {
     this.appendDummyInput()
       .appendField(BlocksTemplate.keyboard())
       .appendField(BlocksTemplate.mouse())
-      .appendField('on input');
+      .appendField(i18next.t('BLOCKS_PHASER_ON_INPUT'));
     this.appendStatementInput('CODE')
       .appendField(i18next.t('BLOCKS_DO'))
       .setAlign(Blockly.ALIGN_CENTRE)

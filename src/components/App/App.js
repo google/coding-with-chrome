@@ -34,6 +34,14 @@ const SelectScreen = lazy(() => import('../SelectScreen'));
  */
 class App extends React.Component {
   /**
+   * @param {*} props
+   * @constructor
+   */
+  constructor(props) {
+    super(props);
+  }
+
+  /**
    * @return {Object}
    */
   render() {
@@ -58,4 +66,5 @@ class App extends React.Component {
     );
   }
 }
+
 export default App;

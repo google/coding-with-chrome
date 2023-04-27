@@ -35,16 +35,16 @@ import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
-import i18next from 'i18next';
+import i18next from '../App/i18next';
 
 import { APP_BASE_PATH } from '../../constants';
 import { Database } from '../../utils/db/Database';
 import { Project } from '../Project/Project';
 import { ProjectType } from '../Project/ProjectType';
 
+import LanguageSetting from '../Settings/LanguageSetting';
 const NewGameProject = lazy(() => import('./dialog/NewGameProject'));
 const OpenGameProject = lazy(() => import('./dialog/OpenGameProject'));
-import LanguageSetting from '../Settings/LanguageSetting';
 
 /**
  *
@@ -82,9 +82,22 @@ export class GameEditorSelectScreen extends React.PureComponent {
       },
     ];
     this.state = {
+      hasProjects: false,
       openNewProject: false,
       openExistingProject: false,
     };
+    i18next.on('languageChanged', () => {
+      this.forceUpdate();
+    });
+  }
+
+  /**
+   * Component did mount.
+   */
+  componentDidMount() {
+    Project.hasProjects(ProjectType.GAME_EDITOR).then((hasProjects) => {
+      this.setState({ hasProjects });
+    });
   }
 
   /**
@@ -187,6 +200,7 @@ export class GameEditorSelectScreen extends React.PureComponent {
                 onClick={() => {
                   this.setState({ openExistingProject: true });
                 }}
+                disabled={!this.state.hasProjects}
               >
                 <FolderOpenIcon sx={{ marginRight: '5px' }} />
                 {i18next.t('OPEN_PROJECT')}

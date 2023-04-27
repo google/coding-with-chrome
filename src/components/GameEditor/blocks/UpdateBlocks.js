@@ -36,7 +36,7 @@ Blocks['phaser_update'] = {
     this.setColour(315);
     this.appendDummyInput()
       .appendField(BlocksTemplate.repeat())
-      .appendField(i18next.t('on update'));
+      .appendField(i18next.t('BLOCKS_PHASER_ON_UPDATE'));
     this.appendStatementInput('CODE')
       .appendField(i18next.t('BLOCKS_DO'))
       .setAlign(Blockly.ALIGN_CENTRE)

@@ -30,12 +30,15 @@ import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
 import i18next from 'i18next';
 
+import { Settings } from '../Settings/Settings';
+
 /**
  *
  */
 export class LanguageSetting extends React.PureComponent {
   /**
    * @param {*} props
+   * @constructor
    */
   constructor(props) {
     super(props);
@@ -70,6 +73,7 @@ export class LanguageSetting extends React.PureComponent {
     console.log('Change language to', language);
     i18next.changeLanguage(language).then(() => {
       this.setState({ open: false, language: i18next.resolvedLanguage });
+      Settings.setLanguage(language);
     });
   }
 

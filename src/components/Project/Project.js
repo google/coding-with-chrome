@@ -164,6 +164,26 @@ export class Project {
   }
 
   /**
+   * @param {ProjectType} type
+   * @return {Promise}
+   */
+  static hasProjects(type = ProjectType.NONE) {
+    return new Promise((resolve) => {
+      const projectDatabase = new Database(DATABASE_NAME, type);
+      projectDatabase.getAll().then((data) => {
+        if (data && data.length > 0) {
+          data.forEach((projectEntry) => {
+            if (projectEntry.type === type) {
+              return resolve(true);
+            }
+          });
+        }
+        resolve(false);
+      });
+    });
+  }
+
+  /**
    * @param {string} id
    * @param {ProjectType} type
    * @return {Promise}

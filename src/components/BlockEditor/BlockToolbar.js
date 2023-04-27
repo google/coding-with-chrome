@@ -33,6 +33,7 @@ import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import InfoIcon from '@mui/icons-material/Info';
@@ -49,7 +50,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Typography from '@mui/material/Typography';
 import UndoIcon from '@mui/icons-material/Undo';
-import i18next from 'i18next';
+import i18next from '../App/i18next';
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import { BlocklyWorkspace, WorkspaceSvg } from 'react-blockly';
@@ -81,6 +82,15 @@ export class BlockToolbar extends React.PureComponent {
       showNewFileDialog: false,
       snackbarSaved: false,
     };
+  }
+
+  /**
+   *
+   */
+  componentDidMount() {
+    i18next.on('languageChanged', () => {
+      this.forceUpdate();
+    });
   }
 
   /**
@@ -329,7 +339,7 @@ export class BlockToolbar extends React.PureComponent {
             }}
           >
             <AttachMoneyIcon sx={{ marginRight: '5px' }} />
-            Create new Variable
+            {i18next.t('CREATE_VARIABLE')}
           </ToolbarButton>
           <Typography color="inherit" noWrap sx={{ flexGrow: 1 }}></Typography>
           {this.props.blockEditor.codeEditor && (
@@ -385,15 +395,15 @@ export class BlockToolbar extends React.PureComponent {
                 <ListItemIcon>
                   <CreateIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText>New Project</ListItemText>
+                <ListItemText>{i18next.t('CREATE_NEW_PROJECT')}</ListItemText>
               </MenuItem>
             )}
             {this.props.onOpenProject && (
               <MenuItem onClick={this.handleOpenProject.bind(this)}>
                 <ListItemIcon>
-                  <CreateIcon fontSize="small" />
+                  <FolderOpenIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText>Open Project</ListItemText>
+                <ListItemText>{i18next.t('OPEN_PROJECT')}</ListItemText>
               </MenuItem>
             )}
             <Divider />
@@ -401,7 +411,7 @@ export class BlockToolbar extends React.PureComponent {
               <ListItemIcon>
                 <FileUploadIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText>Import Project</ListItemText>
+              <ListItemText>{i18next.t('IMPORT_PROJECT')}</ListItemText>
               <input
                 ref={this.fileUploadButton}
                 type="file"
@@ -413,7 +423,7 @@ export class BlockToolbar extends React.PureComponent {
               <ListItemIcon>
                 <FileDownloadIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText>Export Project</ListItemText>
+              <ListItemText>{i18next.t('EXPORT_PROJECT')}</ListItemText>
             </MenuItem>
           </MenuList>
           <BottomNavigation
@@ -426,17 +436,19 @@ export class BlockToolbar extends React.PureComponent {
             <BottomNavigationAction label="Language" icon={<LanguageIcon />} />
           </BottomNavigation>
         </Drawer>
-        <ConfirmDialog
-          open={this.state.showNewFileDialog}
-          title={i18next.t('BLOCK_EDITOR_UNSAVED_CHANGED')}
-          text={i18next.t('BLOCK_EDITOR_DIALOG_NEW_PROJECT_TEXT')}
-          confirmText={i18next.t('BLOCK_EDITOR_DIALOG_NEW_PROJECT_CONFIRM')}
-          cancelText={i18next.t('BLOCK_EDITOR_DIALOG_NEW_PROJECT_CANCEL')}
-          onConfirm={this.navigateNewProject.bind(this)}
-          onCancel={() => {
-            this.setState({ showNewFileDialog: false });
-          }}
-        ></ConfirmDialog>
+        {this.state.showNewFileDialog && (
+          <ConfirmDialog
+            open={this.state.showNewFileDialog}
+            title={i18next.t('BLOCK_EDITOR_UNSAVED_CHANGED')}
+            text={i18next.t('BLOCK_EDITOR_DIALOG_NEW_PROJECT_TEXT')}
+            confirmText={i18next.t('BLOCK_EDITOR_DIALOG_NEW_PROJECT_CONFIRM')}
+            cancelText={i18next.t('BLOCK_EDITOR_DIALOG_NEW_PROJECT_CANCEL')}
+            onConfirm={this.navigateNewProject.bind(this)}
+            onCancel={() => {
+              this.setState({ showNewFileDialog: false });
+            }}
+          ></ConfirmDialog>
+        )}
       </React.StrictMode>
     );
   }
