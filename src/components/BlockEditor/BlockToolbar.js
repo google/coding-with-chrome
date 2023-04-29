@@ -26,6 +26,7 @@ import Blockly from 'blockly';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CodeIcon from '@mui/icons-material/Code';
 import CreateIcon from '@mui/icons-material/Create';
@@ -381,6 +382,14 @@ export class BlockToolbar extends React.PureComponent {
               <Typography gutterBottom variant="h5" component="div">
                 {this.props.project.name}
               </Typography>
+              {this.props.project.screenshot && (
+                <CardMedia
+                  component="img"
+                  height="152"
+                  width="270"
+                  image={this.props.project.screenshot}
+                />
+              )}
               <Typography variant="caption" color="text.secondary">
                 {this.props.project.id}
               </Typography>
@@ -474,7 +483,7 @@ BlockToolbar.propTypes = {
   hasRedo: PropTypes.bool,
 
   /** @type {Project} */
-  project: PropTypes.object,
+  project: PropTypes.object.isRequired,
 
   /** @type {function} */
   onFullscreen: PropTypes.func,

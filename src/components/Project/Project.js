@@ -52,6 +52,30 @@ export class Project {
     this.description = description || '';
     this.icon = Project.getDefaultProjectIcon(this.type);
     this.lastModified = lastModified || new Date().toISOString();
+    this.screenshot = '';
+  }
+
+  /**
+   * @return {string}
+   */
+  getScreenshot() {
+    return this.screenshot;
+  }
+
+  /**
+   * @param {string} screenshot
+   * @return {Project}
+   */
+  setScreenshot(screenshot) {
+    this.screenshot = screenshot;
+    return this;
+  }
+
+  /**
+   * @return {boolean}
+   */
+  hasScreenshot() {
+    return !!this.screenshot;
   }
 
   /**
@@ -111,6 +135,7 @@ export class Project {
           name: this.name,
           description: this.description,
           lastModified: this.lastModified,
+          screenshot: this.screenshot,
         })
         .then(() => {
           resolve(this);
@@ -129,6 +154,7 @@ export class Project {
         this.name = data.name;
         this.description = data.description;
         this.lastModified = data.lastModified;
+        this.screenshot = data.screenshot;
       }
     });
     return this;
@@ -154,6 +180,9 @@ export class Project {
             );
             if (projectEntry.icon) {
               project.setIcon(projectEntry.icon);
+            }
+            if (projectEntry.screenshot) {
+              project.setScreenshot(projectEntry.screenshot);
             }
             projects.push(project);
           });
@@ -207,6 +236,9 @@ export class Project {
                 );
                 if (projectEntry.icon) {
                   project.setIcon(projectEntry.icon);
+                }
+                if (projectEntry.screenshot) {
+                  project.setScreenshot(projectEntry.screenshot);
                 }
                 resolve(project);
                 return;

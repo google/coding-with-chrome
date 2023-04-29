@@ -54,14 +54,20 @@ Blocks['phaser_game'] = {
  * @return {string}
  */
 javascriptGenerator['phaser_game'] = function (block) {
-  const text_name = block.getFieldValue('name');
-  const number_width =
-    Number(block.getFieldValue('width')) || 'window.innerWidth';
-  const number_height =
-    Number(block.getFieldValue('height')) || 'window.innerHeight';
   return `
-    const gameName = "${text_name}";
-    let game = new Phaser.Game(${number_width}, ${number_height}, Phaser.AUTO, gameName);
+    const PhaserGameName = "${block.getFieldValue('name') || ''}";
+    const PhaserGameConfig = {
+      autoFocus: false,
+      pixelArt: false,
+      preserveDrawingBuffer: false,
+      powerPreference: 'default',
+      title: PhaserGameName,
+      type: Phaser.AUTO,
+      width: ${Number(block.getFieldValue('width')) || 'window.innerWidth'},
+      height: ${Number(block.getFieldValue('height')) || 'window.innerHeight'},
+    }
+    let game = new Phaser.Game(PhaserGameConfig);
+    window.game = game;
   `;
 };
 

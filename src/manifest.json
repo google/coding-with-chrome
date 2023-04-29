@@ -3,7 +3,7 @@
   "short_name": "Coding with Chrome",
   "orientation": "portrait",
   "display": "standalone",
-  "start_url": "https://google.github.io/coding-with-chrome/",
+  "start_url": "./index.html",
   "description": "Educational Coding Development Environment",
   "background_color": "#fff",
   "theme_color": "red",

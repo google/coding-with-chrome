@@ -37,7 +37,6 @@ import { WindowResizeEvent } from '../Desktop/WindowManager/Events';
 import { javascriptGenerator } from 'blockly/javascript';
 import BlockToolbar from './BlockToolbar';
 import { Database } from '../../utils/db/Database';
-import { Project } from '../Project/Project';
 import { APP_BASE_PATH } from '../../constants';
 
 const CodeEditor = lazy(() => import('../CodeEditor/CodeEditor'));
@@ -67,8 +66,9 @@ export class BlockEditor extends React.PureComponent {
       /** @type {WorkspaceSvg} */
       blocklyWorkspace: null,
 
-      /** @type {Project} */
-      project: props.project || new Project(),
+      /** @type {string} */
+      code: '',
+
       showEditor: false,
       showDrawer: false,
       hasChanged: false,
@@ -93,6 +93,10 @@ export class BlockEditor extends React.PureComponent {
         media: APP_BASE_PATH + 'assets/blockly/',
         trashcan: false,
       },
+      toolbox: props.toolbox || {
+        kind: 'categoryToolbox',
+        contents: [''],
+      },
       snackbarSaved: false,
       variables: [],
       xml: props.content || '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
@@ -100,8 +104,8 @@ export class BlockEditor extends React.PureComponent {
 
     // Databases for saving and loading the workspace.
     this.database = new Database(
-      this.state.project.id,
-      this.state.project.type
+      this.props.project.id,
+      this.props.project.type
     );
 
     // Adding event listener for window resize, if windowId is set.
@@ -118,7 +122,16 @@ export class BlockEditor extends React.PureComponent {
         this.loadWorkspace(workspace);
       }
     });
-    console.log('Adding block editor with project id: ', this.state.project.id);
+
+    // Dynamically loading default toolbox, if not defined.
+    if (!this.props.toolbox) {
+      import('./toolbox/Toolbox').then((module) => {
+        console.log(module.Toolbox);
+        this.setState({ toolbox: module.Toolbox.getToolbox() });
+      });
+    }
+
+    console.log('Adding block editor with project id: ', this.props.project.id);
   }
 
   /**
@@ -162,10 +175,9 @@ export class BlockEditor extends React.PureComponent {
       return;
     }
     console.log('Show Code Editor ...');
-    const code = this.getWorkspaceCode();
     this.setState({ showEditor: true }, () => {
       this.codeEditor.current.resize();
-      this.codeEditor.current.setValue(code);
+      this.codeEditor.current.setValue(this.state.code);
     });
   }
 
@@ -178,7 +190,7 @@ export class BlockEditor extends React.PureComponent {
     if (this.props.template && typeof this.props.template === 'function') {
       code = this.props.template(
         code,
-        this.state.project,
+        this.props.project,
         this.state.blocklyWorkspace
       );
     }
@@ -321,9 +333,17 @@ export class BlockEditor extends React.PureComponent {
           console.log('Variables change', variables);
           this.setState({ variables: variables });
         }
-        if (this.props.onChange && typeof this.props.onChange === 'function') {
-          this.props.onChange(this.getWorkspaceCode());
-        }
+
+        // Processing code.
+        const code = this.getWorkspaceCode();
+        this.setState({ code }, () => {
+          if (
+            this.props.onChange &&
+            typeof this.props.onChange === 'function'
+          ) {
+            this.props.onChange(code);
+          }
+        });
         this.lastXMLContent = xml;
       }
     }, 500);
@@ -347,17 +367,17 @@ export class BlockEditor extends React.PureComponent {
     // Save workspace to database.
     console.log(
       'Saving workspace for',
-      this.state.project,
+      this.props.project,
       'into',
       this.database
     );
-    this.database.put('name', this.state.project.name);
-    this.database.put('description', this.state.project.description);
+    this.database.put('name', this.props.project.name);
+    this.database.put('description', this.props.project.description);
     this.database.put('workspace', this.state.xml);
-    this.database.put('lastModified', this.state.project.lastModified);
+    this.database.put('lastModified', this.props.project.lastModified);
 
     // Store additionally project reference.
-    const project = this.state.project;
+    const project = this.props.project;
     project.setLastModified();
     project.save();
 
@@ -368,16 +388,24 @@ export class BlockEditor extends React.PureComponent {
       hasSaved: true,
       project,
     });
+
+    // Trigger onSaveWorkspace event.
+    if (
+      this.props.onSaveWorkspace &&
+      typeof this.props.onSaveWorkspace === 'function'
+    ) {
+      this.props.onSaveWorkspace(project, this.database, this.state.code);
+    }
   }
 
   /**
    * Export project file.
    */
   handleExportFile() {
-    console.log(`Export  ${this.state.project} ...`);
+    console.log(`Export  ${this.props.project} ...`);
     const textAsBlob = new Blob([this.state.xml], { type: 'text/plain' });
     const downloadLink = document.createElement('a');
-    downloadLink.download = `${this.state.project.name}-${this.state.project.id}.xml`;
+    downloadLink.download = `${this.props.project.name}-${this.props.project.id}.xml`;
     downloadLink.innerHTML = 'Download File';
     if (window.webkitURL != null) {
       // Chrome allows the link to be clicked without actually adding it to the DOM.
@@ -443,67 +471,9 @@ export class BlockEditor extends React.PureComponent {
   }
 
   /**
-   * @return {*}
-   */
-  getToolboxCategory() {
-    const toolboxCategories = {
-      kind: 'categoryToolbox',
-      contents: [
-        {
-          kind: 'category',
-          name: 'Logic',
-          colour: '#5C81A6',
-          contents: [
-            {
-              kind: 'block',
-              type: 'controls_if',
-            },
-            {
-              kind: 'block',
-              type: 'logic_compare',
-            },
-          ],
-        },
-        {
-          kind: 'category',
-          name: 'Math',
-          colour: '#5CA65C',
-          contents: [
-            {
-              kind: 'block',
-              type: 'math_round',
-            },
-            {
-              kind: 'block',
-              type: 'math_number',
-            },
-          ],
-        },
-        {
-          kind: 'category',
-          name: 'Custom',
-          colour: '#5CA699',
-          contents: [
-            {
-              kind: 'block',
-              type: 'new_boundary_function',
-            },
-            {
-              kind: 'block',
-              type: 'return',
-            },
-          ],
-        },
-      ],
-    };
-    return toolboxCategories;
-  }
-
-  /**
    * @return {Object}
    */
   render() {
-    const project = this.props.project || this.state.project;
     return (
       <React.StrictMode>
         <Box sx={{ display: this.state.showEditor ? 'none' : 'block' }}>
@@ -516,7 +486,7 @@ export class BlockEditor extends React.PureComponent {
               hasSaved={this.state.hasSaved}
               hasUndo={this.state.hasUndo}
               hasRedo={this.state.hasRedo}
-              project={project}
+              project={this.props.project}
               onFullscreen={this.props.onFullscreen}
               onNewProject={this.props.onNewProject}
               onOpenProject={this.props.onOpenProject}
@@ -525,9 +495,7 @@ export class BlockEditor extends React.PureComponent {
           <Box>
             <BlocklyWorkspace
               className={this.props.windowId ? styles.fillWindow : styles.fill}
-              toolboxConfiguration={
-                this.props.toolbox || this.getToolboxCategory()
-              }
+              toolboxConfiguration={this.props.toolbox || this.state.toolbox}
               workspaceConfiguration={this.state.config}
               initialXml={this.props.content || ''}
               onInject={this.onLoad.bind(this)}
@@ -543,7 +511,7 @@ export class BlockEditor extends React.PureComponent {
             }}
           >
             <MuiAlert severity="success">
-              Project {project.name} successfully saved!
+              Project {this.props.project.name} successfully saved!
             </MuiAlert>
           </Snackbar>
         </Box>
@@ -551,7 +519,7 @@ export class BlockEditor extends React.PureComponent {
           <Box sx={{ display: this.state.showEditor ? 'block' : 'none' }}>
             <CodeEditor
               windowId={this.props.windowId}
-              project={project}
+              project={this.props.project}
               blockEditor={this}
               ref={this.codeEditor}
             ></CodeEditor>
@@ -573,6 +541,9 @@ BlockEditor.propTypes = {
   onLoadWorkspace: PropTypes.func,
 
   /** @type {function} */
+  onSaveWorkspace: PropTypes.func,
+
+  /** @type {function} */
   onFullscreen: PropTypes.func,
 
   /** @type {function} */
@@ -585,7 +556,7 @@ BlockEditor.propTypes = {
   parseXML: PropTypes.func,
 
   /** @type {Project} */
-  project: PropTypes.object,
+  project: PropTypes.object.isRequired,
 
   /** @type {function} */
   template: PropTypes.func,

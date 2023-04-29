@@ -22,20 +22,15 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import Blockly from 'blockly';
 
-import PhaserMin from '../../../../third_party/phaser-ce/build/phaser.min.js';
+import { APP_BASE_PATH } from '../../../constants/index.js';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+import PhaserMin from '../../../../third_party/phaser-ce/build/phaser.min.js';
 import PhaserExtras from '../../../frameworks/phaser/phaser_extras.min.js';
 
 /**
  * @class
  */
-class PhaserTemplate {
-  static basePath = location.host.endsWith('.github.io')
-    ? location.pathname
-    : '/';
-
+export class PhaserTemplate {
   /**
    * @param {string} code
    * @param {object} project
@@ -52,36 +47,26 @@ class PhaserTemplate {
     })()}
     ${(() => {
       return project
-        ? `<base href="${PhaserTemplate.basePath}preview/${project.id}/" />`
+        ? `<base href="${APP_BASE_PATH}preview/${project.id}/" />`
         : '';
     })()}
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-      }
-      html,
-      body {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-      }
-      canvas {
-        display: block;
-      }
+      * { margin: 0; padding: 0; }
+      html, body { width: 100%; height: 100%; overflow: hidden; }
+      canvas { display: block; }
     </style>
     ${(() => {
       if (PhaserExtras) {
         return `<script>${PhaserExtras}</script>`;
       } else {
-        return '<script src="${PhaserTemplate.basePath}framework/phaser_extras.js"></script>';
+        return `<script src="${APP_BASE_PATH}framework/phaser_extras.js"></script>`;
       }
     })()}
     ${(() => {
       if (PhaserMin) {
         return `<script>${PhaserMin}</script>`;
       } else {
-        return '<script src="${PhaserTemplate.basePath}framework/phaser.min.js"></script>';
+        return `<script src="${APP_BASE_PATH}framework/phaser.min.js"></script>`;
       }
     })()}
   </head>
@@ -94,4 +79,6 @@ class PhaserTemplate {
   }
 }
 
-export default PhaserTemplate;
+export default {
+  PhaserTemplate,
+};

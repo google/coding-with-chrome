@@ -48,6 +48,7 @@ class PhaserExtras {
   }
 
   /**
+   * Add a new sprite to the game.
    * @param {Object} game
    * @param {number} x
    * @param {number} y
@@ -70,6 +71,7 @@ class PhaserExtras {
   }
 
   /**
+   * Generates vertical obstacles.
    * @param {Object} game
    * @param {number} x
    * @param {number} y
@@ -116,6 +118,7 @@ class PhaserExtras {
   }
 
   /**
+   * Generates random vertical obstacles.
    * @param {Object} game
    * @param {number} x
    * @param {number} y
@@ -230,8 +233,86 @@ class PhaserExtras {
       height: height,
     };
   }
+
+  /**
+   * Take a screenshot of the game and return it as a data URL.
+   * @param {Object} game
+   * @return {string}
+   */
+  static takeScreenshot(game) {
+    const aspectRatio = 270 / 152;
+    let width = game.canvas.width;
+    let height = game.canvas.height;
+
+    // Scale down the screenshot to fit the preview.
+    if (width / height > aspectRatio) {
+      width = 270;
+      height = (width / game.canvas.width) * game.canvas.height;
+    } else {
+      height = 152;
+      width = (height / game.canvas.height) * game.canvas.width;
+    }
+
+    // Draw the screenshot on the preview canvas.
+    const preview = document.createElement('canvas');
+    preview.width = 270;
+    preview.height = 152;
+    const ctx = preview.getContext('2d');
+    ctx.fillStyle = 'rgba(0, 0, 0, 0)';
+    ctx.fillRect(0, 0, preview.width, preview.height);
+    ctx.drawImage(
+      game.canvas,
+      0,
+      0,
+      game.canvas.width,
+      game.canvas.height,
+      (270 - width) / 2,
+      (152 - height) / 2,
+      width,
+      height
+    );
+    return preview.toDataURL();
+  }
+
+  /**
+   * Opens a new window with the screenshot.
+   * @param {Object} game
+   */
+  static showScreenshot(game) {
+    const image = new Image();
+    image.src = PhaserExtras.takeScreenshot(game);
+    const screenshotWindow = window.open('');
+    screenshotWindow.document.write(image.outerHTML);
+  }
+
+  /**
+   * Sends the screenshot to the main window.
+   * @param {Object} game
+   */
+  static sendScreenshot(game) {
+    const data = PhaserExtras.takeScreenshot(game);
+    if (data && window.parent) {
+      window.parent.postMessage(
+        {
+          type: 'screenshot',
+          value: data,
+        },
+        `${window.location.protocol}//${window.location.hostname}:${window.location.port}`
+      );
+    }
+  }
 }
 
+// Clear any existing fragments when the page is loaded.
 document.addEventListener('DOMContentLoaded', function () {
   new PhaserExtras().clear();
 });
+
+// Send a screenshot after 500ms when the page is loaded.
+if (window.location.pathname.endsWith('/screenshot')) {
+  window.addEventListener('load', function () {
+    window.setTimeout(() => {
+      PhaserExtras.sendScreenshot(window.game);
+    }, 500);
+  });
+}

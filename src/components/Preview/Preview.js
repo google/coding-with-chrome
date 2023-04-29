@@ -19,13 +19,14 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
+import React, { createRef } from 'react';
+
 import AspectRatioIcon from '@mui/icons-material/AspectRatio';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import styles from './style.module.css';
 import PreviewToolbar from './PreviewToolbar';
@@ -49,8 +50,8 @@ export class Preview extends React.PureComponent {
       hideURL: typeof props.hideURL != 'undefined' ? props.hideURL : false,
     };
     this.windowId = props.windowId;
-    this.contentWrapper = React.createRef();
-    this.contentIframe = React.createRef();
+    this.contentWrapper = createRef();
+    this.contentIframe = createRef();
     this.contentLoadTimer = null;
 
     window.addEventListener('resize', this.resize.bind(this));

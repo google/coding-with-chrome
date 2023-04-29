@@ -15,12 +15,18 @@
  */
 
 /**
- * @fileoverview Project Types.
+ * @fileoverview Language Types.
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-export const ProjectType = {
-  NONE: 'none',
-  BLOCK_EDITOR: 'BlockEditor',
-  GAME_EDITOR: 'GameEditor',
+export const LanguageType = {
+  UNKNOWN: 'unknown',
+  CSS: 'css',
+  HTML: 'html',
+  JAVASCRIPT: 'javascript',
+  JSON: 'json',
+  MARKDOWN: 'markdown',
+  PYTHON: 'python',
+  TEXT: 'text',
+  XML: 'xml',
 };

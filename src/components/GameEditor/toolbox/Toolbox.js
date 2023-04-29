@@ -56,8 +56,7 @@ export class Toolbox {
    * @return {object}
    */
   static getToolbox(audioFiles = new Map(), imageFiles = new Map()) {
-    let toolBox = {};
-    toolBox = {
+    return {
       kind: 'categoryToolbox',
       contents: [
         {
@@ -444,7 +443,6 @@ export class Toolbox {
         },
       ],
     };
-    return toolBox;
   }
 }
 

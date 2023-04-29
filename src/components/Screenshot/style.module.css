@@ -1,11 +1,11 @@
 /**
- * @license Copyright 2020 The Coding with Chrome Authors.
+ * Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Project Types.
- * @author mbordihn@google.com (Markus Bordihn)
- */
-
-export const ProjectType = {
-  NONE: 'none',
-  BLOCK_EDITOR: 'BlockEditor',
-  GAME_EDITOR: 'GameEditor',
-};
+iframe.screenshotIframe {
+  width: 1080px;
+  height: 608px;
+  border: 0;
+  background-color: #fff;
+  display: none;
+  position: absolute;
+}

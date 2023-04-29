@@ -27,6 +27,7 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
 import Container from '@mui/material/Container';
 import CreateIcon from '@mui/icons-material/Create';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
@@ -123,8 +124,8 @@ export class GameEditorSelectScreen extends React.PureComponent {
         if (xhr.readyState === 4 && xhr.status === 200) {
           database.put('name', project.name);
           database.put('description', project.description);
-          database.put('workspace', xhr.responseText);
-          database.put('lastModified', new Date().toISOString()).then(() => {
+          database.put('lastModified', new Date().toISOString());
+          database.put('workspace', xhr.responseText).then(() => {
             window.location.hash = `#/game_editor/${project.getId()}`;
             window.location.reload();
           });
@@ -208,11 +209,13 @@ export class GameEditorSelectScreen extends React.PureComponent {
             </Stack>
           </Container>
         </Box>
-        <Container sx={{ py: 8 }} maxWidth="md">
-          <Typography variant="h6">{i18next.t('EXAMPLES')}</Typography>
-          <Grid container spacing={4}>
+        <Container sx={{ py: 8 }} maxWidth="lg">
+          <Typography component="h2" variant="h5">
+            {i18next.t('EXAMPLES')}
+          </Typography>
+          <Grid container spacing={2}>
             {this.cards.map((card) => (
-              <Grid item key={card.title} xs={12} sm={6} md={4}>
+              <Grid item key={card.title} xs={12} sm={6} md={4} lg={3} xl={3}>
                 <Card
                   sx={{
                     height: '100%',
@@ -220,13 +223,11 @@ export class GameEditorSelectScreen extends React.PureComponent {
                     flexDirection: 'column',
                   }}
                 >
-                  <CardContent
-                    sx={{
-                      pt: '56.25%',
-                    }}
-                  >
-                    {card.logo}
-                  </CardContent>
+                  <CardMedia
+                    sx={{ height: 152 }}
+                    image={card.file.replace('.xml', '.png')}
+                    title="green iguana"
+                  />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
                       {card.title}

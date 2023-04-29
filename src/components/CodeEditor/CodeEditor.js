@@ -34,6 +34,10 @@ import Toolbar from '@mui/material/Toolbar';
 import UndoIcon from '@mui/icons-material/Undo';
 import { redo, undo } from '@codemirror/commands';
 
+// CodeMirror languages
+import { javascript } from '@codemirror/lang-javascript';
+import { html } from '@codemirror/lang-html';
+
 // Lazy load components.
 const CodeMirror = lazy(() => import('@uiw/react-codemirror'));
 
@@ -48,6 +52,8 @@ import { EditorView } from '@codemirror/view';
 import styles from './style.module.css';
 import { Project } from '../Project/Project';
 import { PreviewService } from '../../service-worker/preview-service-worker';
+import { LanguageDetection } from './LanguageDetection';
+import { LanguageType } from './LanguageType';
 
 /**
  *
@@ -62,6 +68,9 @@ export class CodeEditor extends React.PureComponent {
     this.infobar = React.createRef();
     this.state = {
       project: props.project || new Project(),
+
+      /** @type {LanguageDetection} */
+      language: LanguageType.UNKNOWN,
 
       /** @type {string} */
       content: props.content || '',
@@ -83,6 +92,11 @@ export class CodeEditor extends React.PureComponent {
       window.addEventListener('resize', this.resize.bind(this));
     }
 
+    // Try to detect language if content is set.
+    if (this.state.content) {
+      this.setValue(this.state.content);
+    }
+
     console.log('Adding code editor with project id: ', this.projectId);
   }
 
@@ -91,6 +105,14 @@ export class CodeEditor extends React.PureComponent {
    */
   setValue(content) {
     console.log('Set editor content:', content);
+    if (this.state.language === LanguageType.UNKNOWN) {
+      console.log('Try to detect language ...');
+      const language = LanguageDetection.detectByContent(content);
+      if (language !== LanguageType.UNKNOWN) {
+        console.log('Detected language:', language);
+        this.setState({ language });
+      }
+    }
     this.setState({ content });
   }
 
@@ -196,6 +218,13 @@ export class CodeEditor extends React.PureComponent {
    * @return {Object}
    */
   render() {
+    let languageExtensions;
+    if (this.state.language === LanguageType.HTML) {
+      languageExtensions = html();
+    } else if (this.state.language === LanguageType.JAVASCRIPT) {
+      languageExtensions = javascript();
+    }
+
     return (
       <React.StrictMode>
         <AppBar position="static">
@@ -249,9 +278,10 @@ export class CodeEditor extends React.PureComponent {
           value={this.state.content}
           onCreateEditor={this.onCreateEditor.bind(this)}
           onChange={this.onChange.bind(this)}
+          extensions={[languageExtensions]}
         />
         <Box className={styles.infobar} ref={this.infobar}>
-          Test
+          Content Type: {this.state.language}
         </Box>
       </React.StrictMode>
     );

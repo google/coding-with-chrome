@@ -14,13 +14,6 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Project Types.
- * @author mbordihn@google.com (Markus Bordihn)
- */
+import { Screenshot } from './Screenshot';
 
-export const ProjectType = {
-  NONE: 'none',
-  BLOCK_EDITOR: 'BlockEditor',
-  GAME_EDITOR: 'GameEditor',
-};
+export default Screenshot;

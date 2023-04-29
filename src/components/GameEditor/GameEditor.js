@@ -25,7 +25,7 @@ import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
 import { Mosaic } from 'react-mosaic-component';
 
-import PhaserTemplate from './template/PhaserTemplate';
+import { PhaserTemplate } from './template/PhaserTemplate';
 import { Toolbox } from './toolbox/Toolbox';
 
 import i18next from '../App/i18next';
@@ -43,9 +43,10 @@ import { WorkspaceSvg } from 'react-blockly';
 // Lazy load components.
 const Assets = lazy(() => import('../Assets'));
 const BlockEditor = lazy(() => import('../BlockEditor'));
-const Preview = lazy(() => import('../Preview'));
 const NewGameProject = lazy(() => import('./dialog/NewGameProject'));
 const OpenGameProject = lazy(() => import('./dialog/OpenGameProject'));
+const Preview = lazy(() => import('../Preview'));
+const Screenshot = lazy(() => import('../Screenshot'));
 
 import 'react-mosaic-component/react-mosaic-component.css';
 import styles from './style.module.css';
@@ -60,7 +61,7 @@ export class GameEditor extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    // Extract projectId and projectName from URL, if available.
+    // Extract projectId and projectName from URL.
     let projectId;
     const urlData = window.location.hash
       .replace('#/game_editor/', '')
@@ -92,6 +93,7 @@ export class GameEditor extends React.PureComponent {
             this.setState({
               project: project,
               xml: BlocklyTemplate.render(project),
+              isLoaded: true,
             });
           }
         })
@@ -100,24 +102,44 @@ export class GameEditor extends React.PureComponent {
         });
     }
 
+    // Set trusted origin for postMessage and other communication.
+    this.trustedOrigin = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
+
     // Set initial state.
     this.state = {
-      audioFiles: new Map(),
-      imageFiles: new Map(),
+      /** @type {Project} */
       project: props.project,
+
+      /** @type {Map} */
+      audioFiles: new Map(),
+
+      /** @type {Map} */
+      imageFiles: new Map(),
+
+      /** @type {boolean} */
+      isLoaded: props.project,
+
+      leftViewSplitPercentage: 75,
+      rightViewSplitPercentage: 70,
+
       toolbox: Toolbox.getToolbox(),
       blockEditorFullscreen: false,
       openNewProject: false,
       openExistingProject: false,
+      screenshotUrl: '',
       xml: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
     };
 
+    // Listen for language changes.
     i18next.on('languageChanged', () => {
       if (this.blockEditorRef.current) {
         console.log('[GameEditor] Update toolbox after language change.');
         this.updateToolbox(this.blockEditorRef.current.getBlocklyWorkspace());
       }
     });
+
+    // Listen for additional messages like screenshots or errors.
+    window.addEventListener('message', this.handleMessages.bind(this), false);
   }
 
   /**
@@ -135,6 +157,7 @@ export class GameEditor extends React.PureComponent {
           parseXML={this.handleParseXML.bind(this)}
           onChange={this.handleBlockEditorContentChange.bind(this)}
           onLoadWorkspace={this.handleOnLoadWorkspace.bind(this)}
+          onSaveWorkspace={this.handleOnSaveWorkspace.bind(this)}
           onFullscreen={this.handleBlockEditorFullscreen.bind(this)}
           onNewProject={this.handleNewProject.bind(this)}
           onOpenProject={this.handleOpenProject.bind(this)}
@@ -172,14 +195,44 @@ export class GameEditor extends React.PureComponent {
 
   /**
    * Restore specific content on drop event.
+   * @param {MosaicNode<T>} node
    */
-  handleMosaicOnRelease() {
+  handleMosaicOnRelease(node) {
     if (this.previewRef.current) {
       this.previewRef.current.showContent();
       this.previewRef.current.reload();
     }
     if (this.blockEditorRef.current) {
       this.blockEditorRef.current.resize();
+    }
+    if (node.splitPercentage) {
+      this.setState({ leftViewSplitPercentage: node.splitPercentage });
+    }
+    if (node.second && node.second.splitPercentage) {
+      this.setState({ rightViewSplitPercentage: node.second.splitPercentage });
+    }
+  }
+
+  /**
+   * @param {*} event
+   */
+  handleMessages(event) {
+    if (
+      event.origin != this.trustedOrigin ||
+      !event.data ||
+      !event.data.type ||
+      !event.data.value
+    ) {
+      return;
+    }
+    switch (event.data.type) {
+      case 'screenshot':
+        console.log('[GameEditor] Received screenshot...');
+        this.state.project.setScreenshot(event.data.value);
+        this.state.project.save().then(() => {
+          this.setState({ screenshotUrl: '', project: this.state.project });
+        });
+        break;
     }
   }
 
@@ -259,6 +312,7 @@ export class GameEditor extends React.PureComponent {
    * @param {string} code
    */
   handleBlockEditorContentChange(code) {
+    // Update Preview with new code.
     PreviewService.saveHTMLFile(`${this.state.project.id}/`, code).then(() => {
       if (this.previewRef.current) {
         this.previewRef.current.goToHomePage();
@@ -279,6 +333,33 @@ export class GameEditor extends React.PureComponent {
    */
   handleOnLoadWorkspace(workspace) {
     this.updateToolbox(workspace);
+  }
+
+  /**
+   * @param {Project} project
+   * @param {Database} database
+   * @param {string} code
+   */
+  handleOnSaveWorkspace(project, database, code) {
+    console.log('handleOnSaveWorkspace ...', project, database);
+
+    // Prepare Screenshot instance, to take screenshot.
+    const screenshotUrl = `${this.state.project.id}/screenshot`;
+    PreviewService.saveHTMLFile(
+      screenshotUrl,
+      code
+        .replace(', Phaser.AUTO,', ', Phaser.CANVAS,')
+        .replace(
+          'preserveDrawingBuffer: false,',
+          'preserveDrawingBuffer: true,'
+        )
+        .replace("powerPreference: 'default',", "powerPreference: 'low-power',")
+        .replace('width: window.innerWidth,', 'width: 1080,')
+        .replace('height: window.innerHeight,', 'height: 608,')
+    ).then(() => {
+      console.log('Screenshot ready to take ...');
+      this.setState({ screenshotUrl: 'preview/' + screenshotUrl });
+    });
   }
 
   /**
@@ -306,7 +387,9 @@ export class GameEditor extends React.PureComponent {
    */
   render() {
     // Set layout with mosaic and split percentage for left and right view.
-    let leftViewSplitPercentage = this.state.blockEditorFullscreen ? 100 : 75;
+    let leftViewSplitPercentage = this.state.blockEditorFullscreen
+      ? 100
+      : this.state.leftViewSplitPercentage;
     if (this.state.previewFullscreen) {
       leftViewSplitPercentage = 0;
     }
@@ -316,12 +399,15 @@ export class GameEditor extends React.PureComponent {
           direction: 'column',
           first: 'preview',
           second: this.state.previewFullscreen ? '' : 'assets',
-          splitPercentage: this.state.previewFullscreen ? 100 : 70,
+          splitPercentage: this.state.previewFullscreen
+            ? 100
+            : this.state.rightViewSplitPercentage,
         };
 
+    // Render layout with mosaic and split percentage for left and right view.
     return (
       <React.StrictMode>
-        {this.state.project && this.state.project.id && (
+        {this.state.isLoaded && (
           <Box className={styles.layout}>
             <Mosaic
               renderTile={(id) => this.getLayout()[id]}
@@ -353,6 +439,10 @@ export class GameEditor extends React.PureComponent {
               this.setState({ openNewProject: false });
             }}
           />
+        )}
+
+        {this.state.project && this.state.project.id && (
+          <Screenshot url={this.state.screenshotUrl} />
         )}
       </React.StrictMode>
     );

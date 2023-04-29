@@ -21,6 +21,7 @@
 
 import React from 'react';
 
+import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import CasinoIcon from '@mui/icons-material/Casino';
 import Dialog from '@mui/material/Dialog';
@@ -34,13 +35,12 @@ import InputAdornment from '@mui/material/InputAdornment';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import i18next from 'i18next';
 import { v4 as uuidv4 } from 'uuid';
 
+import ProjectNameGenerator from '../generator/ProjectNameGenerator';
+import i18next from '../../App/i18next';
 import { Project } from '../../Project/Project';
 import { ProjectType } from '../../Project/ProjectType';
-
-import ProjectNameGenerator from '../generator/ProjectNameGenerator';
 
 /**
  *
@@ -157,14 +157,14 @@ export class NewGameProject extends React.PureComponent {
           disablePortal
         >
           <DialogTitle>
-            New Game Project
+            {i18next.t('NEW_GAME_PROJECT')}
             <Typography variant="caption" display="block">
               ID: {this.state.projectId}
             </Typography>
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Here you can setup your new game project.
+              {i18next.t('NEW_GAME_PROJECT_DESCRIPTION')}
             </DialogContentText>
             {this.state.openEmojiPicker && (
               <EmojiPicker
@@ -179,7 +179,7 @@ export class NewGameProject extends React.PureComponent {
               fullWidth
               margin="dense"
               id="project_name"
-              label="Project Icon and Name"
+              label={i18next.t('PROJECT_ICON_AND_TITLE')}
               variant="standard"
               defaultValue={this.state.projectName}
               onChange={this.handleProjectNameChange.bind(this)}
@@ -191,6 +191,7 @@ export class NewGameProject extends React.PureComponent {
                         this.setState({ openEmojiPicker: true });
                       }}
                       sx={{ minWidth: '24px', maxWidth: '24px' }}
+                      title={i18next.t('SELECT_PROJECT_ICON')}
                     >
                       {this.state.projectIcon}
                     </Button>
@@ -199,7 +200,7 @@ export class NewGameProject extends React.PureComponent {
                 endAdornment: (
                   <IconButton
                     onClick={this.handleRandomProjectName.bind(this)}
-                    title="Get a random name."
+                    title={i18next.t('GET_RANDOM_PROJECT_NAME')}
                   >
                     <CasinoIcon />
                   </IconButton>
@@ -211,7 +212,7 @@ export class NewGameProject extends React.PureComponent {
               multiline
               fullWidth
               id="outlined-multiline-flexible"
-              label="Project Description"
+              label={i18next.t('PROJECT_DESCRIPTION')}
               margin="dense"
               onChange={this.handleProjectDescriptionChange.bind(this)}
               variant="standard"
@@ -219,7 +220,8 @@ export class NewGameProject extends React.PureComponent {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleCreateProject.bind(this)}>
-              Create Project
+              <AddIcon sx={{ paddingRight: '5px' }} />
+              {i18next.t('CREATE_PROJECT')}
             </Button>
           </DialogActions>
         </Dialog>

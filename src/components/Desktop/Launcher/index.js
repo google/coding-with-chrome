@@ -38,6 +38,8 @@ import styles from './style.module.css';
 import { WindowManager } from '../WindowManager';
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import { WindowCloseEvent } from '../WindowManager/Events';
+import { Project } from '../../Project/Project';
+import { ProjectType } from '../../Project/ProjectType';
 
 /**
  *
@@ -89,8 +91,14 @@ export class Launcher extends React.PureComponent {
       WindowManager.addNewWindow('BlockEditor').then((windowId) => {
         const node = WindowManager.getWindowNode(windowId);
         if (node instanceof HTMLElement) {
-          const root = ReactDOM.createRoot(node);
-          root.render(<module.BlockEditor windowId={windowId} />);
+          Project.getEmptyProject('Untitled', ProjectType.BLOCK_EDITOR).then(
+            (project) => {
+              const root = ReactDOM.createRoot(node);
+              root.render(
+                <module.BlockEditor windowId={windowId} project={project} />
+              );
+            }
+          );
         }
       });
     });
