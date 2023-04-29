@@ -37,14 +37,34 @@ export class Screenshot extends React.PureComponent {
       show: false,
     };
     this.screenshotIframe = createRef();
+    this.screenshotLoadTimer = null;
+  }
+
+  /**
+   *
+   */
+  handleScreenshotIframeLoad() {
+    console.log('Screenshot instance loaded with url', this.props.url);
+    if (this.screenshotLoadTimer) {
+      clearTimeout(this.screenshotLoadTimer);
+    }
+    this.screenshotLoadTimer = setTimeout(() => {
+      if (this.state.show) {
+        console.warn('Removing Screenshot instance, due to timeout!');
+        this.setState({ show: false });
+      }
+    }, 5000);
   }
 
   /**
    * @param {event} event
    */
   handleScreenshotIframeError(event) {
+    if (this.screenshotLoadTimer) {
+      clearTimeout(this.screenshotLoadTimer);
+    }
     console.error(
-      `Screenshot Content Error with url ${this.props.url}:`,
+      `Screenshot Instance error with url ${this.props.url}:`,
       event
     );
     this.setState({ show: false });
@@ -62,8 +82,8 @@ export class Screenshot extends React.PureComponent {
             ref={this.screenshotIframe}
             src={this.props.url}
             allow="geolocation; encrypted-media; xr-spatial-tracking;"
+            onLoad={this.handleScreenshotIframeLoad.bind(this)}
             onError={this.handleScreenshotIframeError.bind(this)}
-            sandbox="allow-scripts allow-modals allow-forms allow-same-origin allow-top-navigation-by-user-activation"
             title="Screenshot Container"
             width="1080"
             height="720"
@@ -75,5 +95,5 @@ export class Screenshot extends React.PureComponent {
 }
 
 Screenshot.propTypes = {
-  url: PropTypes.string,
+  url: PropTypes.string.isRequired,
 };

@@ -297,7 +297,7 @@ class PhaserExtras {
           type: 'screenshot',
           value: data,
         },
-        `${window.location.protocol}//${window.location.hostname}:${window.location.port}`
+        `${window.location.origin}`
       );
     }
   }
@@ -313,6 +313,6 @@ if (window.location.pathname.endsWith('/screenshot')) {
   window.addEventListener('load', function () {
     window.setTimeout(() => {
       PhaserExtras.sendScreenshot(window.game);
-    }, 500);
+    }, 750);
   });
 }

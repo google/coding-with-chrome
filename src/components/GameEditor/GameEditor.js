@@ -19,7 +19,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import React, { lazy } from 'react';
+import React, { createRef, lazy } from 'react';
 
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
@@ -78,10 +78,6 @@ export class GameEditor extends React.PureComponent {
       window.location.reload();
     }
 
-    // Create references.
-    this.previewRef = React.createRef();
-    this.blockEditorRef = React.createRef();
-
     // Set project details from data base.
     if (!props.project) {
       Project.getProject(projectId, ProjectType.GAME_EDITOR)
@@ -103,10 +99,16 @@ export class GameEditor extends React.PureComponent {
     }
 
     // Set trusted origin for postMessage and other communication.
-    this.trustedOrigin = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
+    this.trustedOrigin = `${window.location.origin}`;
 
     // Set initial state.
     this.state = {
+      /** @type {ReactRef} */
+      previewRef: createRef(),
+
+      /** @type {ReactRef} */
+      blockEditorRef: createRef(),
+
       /** @type {Project} */
       project: props.project,
 
@@ -132,9 +134,11 @@ export class GameEditor extends React.PureComponent {
 
     // Listen for language changes.
     i18next.on('languageChanged', () => {
-      if (this.blockEditorRef.current) {
+      if (this.state.blockEditorRef.current) {
         console.log('[GameEditor] Update toolbox after language change.');
-        this.updateToolbox(this.blockEditorRef.current.getBlocklyWorkspace());
+        this.updateToolbox(
+          this.state.blockEditorRef.current.getBlocklyWorkspace()
+        );
       }
     });
 
@@ -149,7 +153,7 @@ export class GameEditor extends React.PureComponent {
     return {
       blockEditor: (
         <BlockEditor
-          ref={this.blockEditorRef}
+          ref={this.state.blockEditorRef}
           type={'GameEditor'}
           content={this.state.xml}
           toolbox={this.state.toolbox}
@@ -167,7 +171,7 @@ export class GameEditor extends React.PureComponent {
       ),
       preview: (
         <Preview
-          ref={this.previewRef}
+          ref={this.state.previewRef}
           base={`preview/${this.state.project.id}/`}
           readOnly={true}
           hideURL={true}
@@ -182,8 +186,8 @@ export class GameEditor extends React.PureComponent {
    * Hide specific content on drag event.
    */
   handleMosaicOnChange() {
-    if (this.previewRef.current) {
-      this.previewRef.current.hideContent();
+    if (this.state.previewRef.current) {
+      this.state.previewRef.current.hideContent();
     }
     if (this.state.blockEditorFullscreen) {
       this.setState({ blockEditorFullscreen: false });
@@ -198,12 +202,12 @@ export class GameEditor extends React.PureComponent {
    * @param {MosaicNode<T>} node
    */
   handleMosaicOnRelease(node) {
-    if (this.previewRef.current) {
-      this.previewRef.current.showContent();
-      this.previewRef.current.reload();
+    if (this.state.previewRef.current) {
+      this.state.previewRef.current.showContent();
+      this.state.previewRef.current.reload();
     }
-    if (this.blockEditorRef.current) {
-      this.blockEditorRef.current.resize();
+    if (this.state.blockEditorRef.current) {
+      this.state.blockEditorRef.current.resize();
     }
     if (node.splitPercentage) {
       this.setState({ leftViewSplitPercentage: node.splitPercentage });
@@ -242,11 +246,11 @@ export class GameEditor extends React.PureComponent {
   handleBlockEditorFullscreen(fullscreen) {
     console.log('handleBlockEditorFullscreen', fullscreen);
     this.setState({ blockEditorFullscreen: fullscreen }, () => {
-      if (this.blockEditorRef) {
-        this.blockEditorRef.current.resize();
+      if (this.state.blockEditorRef) {
+        this.state.blockEditorRef.current.resize();
       }
-      if (!fullscreen && this.previewRef) {
-        this.previewRef.current.updatePreviewLocation();
+      if (!fullscreen && this.state.previewRef) {
+        this.state.previewRef.current.updatePreviewLocation();
       }
     });
   }
@@ -257,11 +261,11 @@ export class GameEditor extends React.PureComponent {
   handlePreviewFullscreen(fullscreen) {
     console.log('handlePreviewFullscreen', fullscreen);
     this.setState({ previewFullscreen: fullscreen }, () => {
-      if (this.blockEditorRef) {
-        this.blockEditorRef.current.resize();
+      if (this.state.blockEditorRef) {
+        this.state.blockEditorRef.current.resize();
       }
-      if (this.previewRef) {
-        this.previewRef.current.updatePreviewLocation();
+      if (this.state.previewRef) {
+        this.state.previewRef.current.updatePreviewLocation();
       }
     });
   }
@@ -303,8 +307,10 @@ export class GameEditor extends React.PureComponent {
       console.error('Unsupported file type', file.type);
       return;
     }
-    if (this.blockEditorRef.current) {
-      this.updateToolbox(this.blockEditorRef.current.getBlocklyWorkspace());
+    if (this.state.blockEditorRef.current) {
+      this.updateToolbox(
+        this.state.blockEditorRef.current.getBlocklyWorkspace()
+      );
     }
   }
 
@@ -314,8 +320,8 @@ export class GameEditor extends React.PureComponent {
   handleBlockEditorContentChange(code) {
     // Update Preview with new code.
     PreviewService.saveHTMLFile(`${this.state.project.id}/`, code).then(() => {
-      if (this.previewRef.current) {
-        this.previewRef.current.goToHomePage();
+      if (this.state.previewRef.current) {
+        this.state.previewRef.current.goToHomePage();
       }
     });
   }
@@ -357,7 +363,7 @@ export class GameEditor extends React.PureComponent {
         .replace('width: window.innerWidth,', 'width: 1080,')
         .replace('height: window.innerHeight,', 'height: 608,')
     ).then(() => {
-      console.log('Screenshot ready to take ...');
+      console.log('Screenshot will be taken from', screenshotUrl);
       this.setState({ screenshotUrl: 'preview/' + screenshotUrl });
     });
   }

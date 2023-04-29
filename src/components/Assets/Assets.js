@@ -113,7 +113,7 @@ export class Assets extends React.PureComponent {
             <ToolbarIconButton aria-label="menu">
               <MenuIcon />
             </ToolbarIconButton>
-            <Typography color="primary" sx={{ flex: 'auto' }}>
+            <Typography color="primary.dark" sx={{ flex: 'auto' }}>
               Assets
             </Typography>
           </Toolbar>

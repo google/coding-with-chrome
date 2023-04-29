@@ -84,6 +84,7 @@ export class Toolbox {
           cssConfig: {
             container: 'icon_add_circle',
           },
+          expanded: 'false',
           contents: CreateToolbox.defaultBlocks.concat([
             {
               kind: 'category',
@@ -171,7 +172,6 @@ export class Toolbox {
               ),
             },
           ]),
-          expanded: 'false',
         },
         {
           kind: 'category',
@@ -180,6 +180,7 @@ export class Toolbox {
           cssConfig: {
             container: 'icon_keyboard',
           },
+          expanded: 'false',
           contents: InputToolbox.eventBlocks.concat(
             InputToolbox.defaultBlocks,
             [
@@ -234,7 +235,6 @@ export class Toolbox {
               },
             ]
           ),
-          expanded: 'false',
         },
         {
           kind: 'category',
@@ -243,6 +243,7 @@ export class Toolbox {
           cssConfig: {
             container: 'icon_repeat',
           },
+          expanded: 'false',
           contents: UpdateToolbox.defaultBlocks.concat([
             {
               kind: 'category',

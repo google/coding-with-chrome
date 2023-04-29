@@ -108,6 +108,10 @@
   padding-left: 16px;
 }
 
+.blocklyTreeIcon {
+  background-image: none !important;
+}
+
 .blocklyTreeIcon.blocklyTreeIconClosed,
 .blocklyTreeIcon.blocklyTreeIconClosedLtr,
 .blocklyTreeIcon.blocklyTreeIconOpen,
