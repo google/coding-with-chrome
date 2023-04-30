@@ -19,11 +19,12 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import React from 'react';
+import React, { lazy } from 'react';
 
 import { Panel } from './Panel';
 import { Launcher } from './Launcher';
-import { WindowManager } from './WindowManager';
+
+const WindowManager = lazy(() => import('./WindowManager'));
 
 import styles from './style.module.css';
 

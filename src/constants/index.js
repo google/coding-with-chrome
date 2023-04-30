@@ -21,7 +21,7 @@
 
 export const APP_NAME = 'Coding with Chrome';
 export const APP_BASE_PATH = location.host.endsWith('.github.io')
-  ? location.pathname
+  ? location.pathname.substring(0, location.pathname.lastIndexOf('/') + 1)
   : '/';
 
 export const CACHE_SERVICE_WORKER_CACHE_NAME = 'Cache';

@@ -295,6 +295,7 @@ export class BlockToolbar extends React.PureComponent {
           </ToolbarIconButton>
           {this.props.hasSaved && this.props.blockEditor && (
             <ToolbarIconButton
+              title={i18next.t('SAVE_PROJECT')}
               aria-label="save"
               disabled={!this.props.hasChanged}
               onClick={() => {
@@ -306,6 +307,7 @@ export class BlockToolbar extends React.PureComponent {
           )}
           {!this.props.hasSaved && this.props.blockEditor && (
             <ToolbarIconButton
+              title={i18next.t('SAVE_PROJECT')}
               aria-label="save_as"
               onClick={() => {
                 this.props.blockEditor.saveWorkspace();
@@ -377,7 +379,7 @@ export class BlockToolbar extends React.PureComponent {
           open={this.state.showDrawer}
           onClose={this.handleCloseDrawer.bind(this)}
         >
-          <Card>
+          <Card sx={{ boxShadow: 3 }}>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
                 {this.props.project.name}
@@ -393,7 +395,10 @@ export class BlockToolbar extends React.PureComponent {
               <Typography variant="caption" color="text.secondary">
                 {this.props.project.id}
               </Typography>
-              <Typography variant="body2">
+              <Typography
+                variant="body2"
+                style={{ wordWrap: 'break-word', maxWidth: 250 }}
+              >
                 {this.props.project.description}
               </Typography>
             </CardContent>
@@ -439,6 +444,7 @@ export class BlockToolbar extends React.PureComponent {
             showLabels
             color="primary"
             className={styles.drawerBottom}
+            sx={{ boxShadow: 3 }}
           >
             <BottomNavigationAction label="About" icon={<InfoIcon />} />
             <BottomNavigationAction label="Settings" icon={<SettingsIcon />} />

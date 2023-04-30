@@ -35,11 +35,13 @@ import UnfoldLessIcon from '@mui/icons-material/UnfoldLess';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 
 import styles from './style.module.css';
-import { WindowManager } from '../WindowManager';
+
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import { WindowCloseEvent } from '../WindowManager/Events';
 import { Project } from '../../Project/Project';
 import { ProjectType } from '../../Project/ProjectType';
+
+import WindowManager from '../WindowManager';
 
 /**
  *

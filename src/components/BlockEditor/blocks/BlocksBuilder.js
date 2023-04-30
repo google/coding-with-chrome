@@ -23,10 +23,6 @@
  * Blocks Builder.
  */
 export class BlocksBuilder {
-  static basePath = location.host.endsWith('.github.io')
-    ? location.pathname
-    : '/';
-
   /**
    * @param {string} name
    * @param {string} filename

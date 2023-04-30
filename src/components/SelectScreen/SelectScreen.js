@@ -26,10 +26,13 @@ import BuildIcon from '@mui/icons-material/Build';
 import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
 import SchoolIcon from '@mui/icons-material/School';
 import Toolbar from '@mui/material/Toolbar';
-import i18next from '../App/i18next';
 import { Alert, AlertTitle, Button, Grid, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+import i18next from '../App/i18next';
+import { APP_BASE_PATH } from '../../constants';
+
+import SettingScreen from '../Settings/SettingScreen';
 import LanguageSetting from '../Settings/LanguageSetting';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -67,17 +70,12 @@ export class SelectScreen extends React.PureComponent {
             >
               Coding with Chrome
             </Typography>
+            <SettingScreen color="inherit" />
             <LanguageSetting color="inherit" />
           </Toolbar>
         </AppBar>
-        <Grid
-          container
-          spacing={3}
-          direction="column"
-          alignItems="center"
-          sx={{ paddingTop: '50px' }}
-        >
-          <Grid item align="center">
+        <Grid container spacing={3} direction="column" alignItems="center">
+          <Grid item justify="flex-start" sx={{ marginTop: '50px' }}>
             <Logo width="100%" height="250px" />
             <Typography variant="h4" align="center">
               Coding with Chrome
@@ -114,6 +112,12 @@ export class SelectScreen extends React.PureComponent {
             >
               Experimental Desktop
             </Button>
+          </Grid>
+          <Grid item justify="space-between">
+            <Typography variant="caption" align="center">
+              Location:{window.location.href} | App Base Path:{APP_BASE_PATH} |
+              Language:{i18next.language} ({i18next.resolvedLanguage})
+            </Typography>
           </Grid>
         </Grid>
       </React.StrictMode>

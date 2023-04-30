@@ -20,6 +20,23 @@
  */
 
 /**
+ * Custom event.
+ */
+export class WindowEventTarget {
+  /**
+   * @type {EventTarget}
+   */
+  static windowEventTarget = new EventTarget();
+
+  /**
+   * @return {EventTarget}
+   */
+  static getTarget() {
+    return WindowEventTarget.windowEventTarget;
+  }
+}
+
+/**
  * Custom window close event.
  */
 export class WindowCloseEvent extends CustomEvent {

@@ -40,8 +40,8 @@ import { html } from '@codemirror/lang-html';
 
 // Lazy load components.
 const CodeMirror = lazy(() => import('@uiw/react-codemirror'));
+const WindowManager = lazy(() => import('../Desktop/WindowManager'));
 
-import { WindowManager } from '../Desktop/WindowManager';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import { WindowResizeEvent } from '../Desktop/WindowManager/Events';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars

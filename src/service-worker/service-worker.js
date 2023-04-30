@@ -36,7 +36,7 @@ export class ServiceWorker {
     this.prefix = '[Service Worker]';
     this.assets = globalThis.APP_ASSETS || [];
     this.scopePath = location.host.endsWith('.github.io')
-      ? location.pathname
+      ? location.pathname.substring(0, location.pathname.lastIndexOf('/') + 1)
       : './';
     this.registered = false;
     console.log(

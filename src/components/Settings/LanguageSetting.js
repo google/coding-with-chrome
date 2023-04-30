@@ -24,11 +24,12 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
 import LanguageIcon from '@mui/icons-material/Language';
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
-import i18next from 'i18next';
+import i18next from '../App/i18next';
 
 import { Settings } from '../Settings/Settings';
 
@@ -48,7 +49,7 @@ export class LanguageSetting extends React.PureComponent {
     };
     this.state = {
       open: false,
-      language: i18next.resolvedLanguage,
+      language: i18next.language || i18next.resolvedLanguage || 'en',
     };
   }
 
@@ -81,34 +82,38 @@ export class LanguageSetting extends React.PureComponent {
    * @return {Object}
    */
   render() {
+    const currentLanguage =
+      i18next.language || i18next.resolvedLanguage || 'en';
     return (
       <React.StrictMode>
         <IconButton
           onClick={this.openLanguageSelection.bind(this)}
           color={this.props.color}
+          title={i18next.t('CHANGE_LANGUAGE')}
         >
           <LanguageIcon sx={{ marginRight: '5px' }} />
           <Typography>{this.state.language}</Typography>
         </IconButton>
         <Dialog onClose={this.handleClose.bind(this)} open={this.state.open}>
-          <DialogTitle>Please select your language</DialogTitle>
-          {Object.keys(this.languages).map((language) => (
-            <Button
-              color="inherit"
-              key={language}
-              style={{
-                fontWeight:
-                  i18next.resolvedLanguage === language ? 'bold' : 'normal',
-              }}
-              type="submit"
-              disabled={i18next.resolvedLanguage === language}
-              onClick={() => {
-                this.handleChangeLanguage(language);
-              }}
-            >
-              {this.languages[language].nativeName}
-            </Button>
-          ))}
+          <DialogTitle>{i18next.t('SELECT_YOUR_LANGUAGE')}</DialogTitle>
+          <DialogContent>
+            {Object.keys(this.languages).map((language) => (
+              <Button
+                color="inherit"
+                key={language}
+                style={{
+                  fontWeight: currentLanguage === language ? 'bold' : 'normal',
+                }}
+                type="submit"
+                disabled={currentLanguage === language}
+                onClick={() => {
+                  this.handleChangeLanguage(language);
+                }}
+              >
+                {this.languages[language].nativeName}
+              </Button>
+            ))}
+          </DialogContent>
         </Dialog>
       </React.StrictMode>
     );

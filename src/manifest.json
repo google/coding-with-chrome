@@ -1,7 +1,7 @@
 {
   "name": "Coding with Chrome Suite",
   "short_name": "Coding with Chrome",
-  "orientation": "portrait",
+  "orientation": "landscape-primary",
   "display": "standalone",
   "start_url": "./index.html",
   "description": "Educational Coding Development Environment",

@@ -28,17 +28,15 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import i18next from '../App/i18next';
 
-// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-import { BlocklyWorkspace, WorkspaceSvg } from 'react-blockly';
-import { WindowManager } from '../Desktop/WindowManager';
+import { BlocklyWorkspace } from 'react-blockly';
 import LegacyBlocks from './blocks/LegacyBlocks';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import { WindowResizeEvent } from '../Desktop/WindowManager/Events';
+import { WindowEventTarget } from '../Desktop/WindowManager/Events';
 import { javascriptGenerator } from 'blockly/javascript';
 import BlockToolbar from './BlockToolbar';
 import { Database } from '../../utils/db/Database';
 import { APP_BASE_PATH } from '../../constants';
 
+// Lazy load components
 const CodeEditor = lazy(() => import('../CodeEditor/CodeEditor'));
 
 import 'material-icons/iconfont/filled.css';
@@ -110,7 +108,7 @@ export class BlockEditor extends React.PureComponent {
 
     // Adding event listener for window resize, if windowId is set.
     if (this.props.windowId) {
-      WindowManager.windowManagerEventTarget.addEventListener(
+      WindowEventTarget.getTarget().addEventListener(
         'windowResize',
         this.handleWindowResize.bind(this)
       );
@@ -315,13 +313,11 @@ export class BlockEditor extends React.PureComponent {
       hasRedo: this.getBlocklyWorkspace()?.redoStack_.length > 0,
     });
 
-    // Throttle XML change to avoid performance issues.
-    if (this.timer.HandleXMLChange) {
-      clearTimeout(this.timer.HandleXMLChange);
+    // Throttle and debounce XML change with a 500ms delay for performance.
+    if (this.timer.handleXMLChange) {
+      clearTimeout(this.timer.handleXMLChange);
     }
-
-    // Trigger XML change after a 500ms delay.
-    this.timer.HandleXMLChange = setTimeout(() => {
+    this.timer.handleXMLChange = setTimeout(() => {
       if (this.lastXMLContent != xml) {
         console.log('XML change', xml);
         this.setState({

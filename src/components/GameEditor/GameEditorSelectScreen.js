@@ -30,6 +30,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Container from '@mui/material/Container';
 import CreateIcon from '@mui/icons-material/Create';
+import DownloadingIcon from '@mui/icons-material/Downloading';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -239,8 +240,10 @@ export class GameEditorSelectScreen extends React.PureComponent {
                       data-file={card.file}
                       data-name={card.title}
                       onClick={this.handleLoadExample.bind(this)}
+                      sx={{ minWidth: '100%' }}
                     >
-                      Load example
+                      <DownloadingIcon sx={{ marginRight: '10px' }} />
+                      {i18next.t('LOAD_EXAMPLE')}
                     </Button>
                   </CardActions>
                 </Card>

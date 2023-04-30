@@ -21,20 +21,18 @@
 
 import Blockly from 'blockly';
 
+import { APP_BASE_PATH } from '../../../constants';
+
 /**
  * Simple Blocks templates.
  */
 export class BlocksTemplate {
-  static basePath = location.host.endsWith('.github.io')
-    ? location.pathname
-    : '/';
-
   /**
    * @return {!Blockly.FieldImage}
    */
   static point = function () {
     return new Blockly.FieldImage(
-      BlocksTemplate.basePath + 'assets/icons/circle_20pt.png',
+      APP_BASE_PATH + 'assets/icons/circle_20pt.png',
       15,
       17,
       '▼'
@@ -46,7 +44,7 @@ export class BlocksTemplate {
    */
   static pointTop = function () {
     return new Blockly.FieldImage(
-      BlocksTemplate.basePath + 'assets/icons/circle_20pt_top.png',
+      APP_BASE_PATH + 'assets/icons/circle_20pt_top.png',
       15,
       17,
       '▼'
@@ -58,7 +56,7 @@ export class BlocksTemplate {
    */
   static addCircle = function () {
     return new Blockly.FieldImage(
-      BlocksTemplate.basePath + 'assets/icons/add_circle_20pt.png',
+      APP_BASE_PATH + 'assets/icons/add_circle_20pt.png',
       18,
       18,
       '▼'
@@ -70,7 +68,7 @@ export class BlocksTemplate {
    */
   static collide = function () {
     return new Blockly.FieldImage(
-      BlocksTemplate.basePath + 'assets/icons/collide_20pt.png',
+      APP_BASE_PATH + 'assets/icons/collide_20pt.png',
       18,
       18,
       '▼'
@@ -82,7 +80,7 @@ export class BlocksTemplate {
    */
   static event = function () {
     return new Blockly.FieldImage(
-      BlocksTemplate.basePath + 'assets/icons/event_20pt.png',
+      APP_BASE_PATH + 'assets/icons/event_20pt.png',
       18,
       18,
       '▼'
@@ -94,7 +92,7 @@ export class BlocksTemplate {
    */
   static runningMan = function () {
     return new Blockly.FieldImage(
-      BlocksTemplate.basePath + 'assets/icons/running_man_20pt.png',
+      APP_BASE_PATH + 'assets/icons/running_man_20pt.png',
       18,
       18,
       '▼'
@@ -106,7 +104,7 @@ export class BlocksTemplate {
    */
   static adjust = function () {
     return new Blockly.FieldImage(
-      BlocksTemplate.basePath + 'assets/icons/adjust_20pt.png',
+      APP_BASE_PATH + 'assets/icons/adjust_20pt.png',
       18,
       18,
       '▼'
@@ -118,7 +116,7 @@ export class BlocksTemplate {
    */
   static image = function () {
     return new Blockly.FieldImage(
-      BlocksTemplate.basePath + 'assets/icons/image_20pt.png',
+      APP_BASE_PATH + 'assets/icons/image_20pt.png',
       18,
       18,
       '▼'
@@ -130,7 +128,7 @@ export class BlocksTemplate {
    */
   static mouse = function () {
     return new Blockly.FieldImage(
-      BlocksTemplate.basePath + 'assets/icons/mouse_20pt.png',
+      APP_BASE_PATH + 'assets/icons/mouse_20pt.png',
       18,
       18,
       '▼'
@@ -142,7 +140,7 @@ export class BlocksTemplate {
    */
   static keyboard = function () {
     return new Blockly.FieldImage(
-      BlocksTemplate.basePath + 'assets/icons/keyboard_20pt.png',
+      APP_BASE_PATH + 'assets/icons/keyboard_20pt.png',
       18,
       18,
       '▼'
@@ -154,7 +152,7 @@ export class BlocksTemplate {
    */
   static repeat = function () {
     return new Blockly.FieldImage(
-      BlocksTemplate.basePath + 'assets/icons/repeat_20pt.png',
+      APP_BASE_PATH + 'assets/icons/repeat_20pt.png',
       18,
       18,
       '▼'
@@ -166,7 +164,7 @@ export class BlocksTemplate {
    */
   static fileDownload = function () {
     return new Blockly.FieldImage(
-      BlocksTemplate.basePath + 'assets/icons/file_download_20pt.png',
+      APP_BASE_PATH + 'assets/icons/file_download_20pt.png',
       18,
       18,
       '▼'
@@ -178,7 +176,7 @@ export class BlocksTemplate {
    */
   static storage = function () {
     return new Blockly.FieldImage(
-      BlocksTemplate.basePath + 'assets/icons/storage_20pt.png',
+      APP_BASE_PATH + 'assets/icons/storage_20pt.png',
       18,
       18,
       '▼'
@@ -190,7 +188,7 @@ export class BlocksTemplate {
    */
   static audio = function () {
     return new Blockly.FieldImage(
-      BlocksTemplate.basePath + 'assets/icons/audio_20pt.png',
+      APP_BASE_PATH + 'assets/icons/audio_20pt.png',
       18,
       18,
       '▼'
@@ -202,7 +200,7 @@ export class BlocksTemplate {
    */
   static timer = function () {
     return new Blockly.FieldImage(
-      BlocksTemplate.basePath + 'assets/icons/timer_20pt.png',
+      APP_BASE_PATH + 'assets/icons/timer_20pt.png',
       18,
       18,
       '▼'
@@ -214,7 +212,7 @@ export class BlocksTemplate {
    */
   static timelapse = function () {
     return new Blockly.FieldImage(
-      BlocksTemplate.basePath + 'assets/icons/timelapse_20pt.png',
+      APP_BASE_PATH + 'assets/icons/timelapse_20pt.png',
       18,
       18,
       '▼'
