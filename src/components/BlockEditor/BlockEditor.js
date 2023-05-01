@@ -267,6 +267,7 @@ export class BlockEditor extends React.PureComponent {
       this.props.onLoadWorkspace(this.getBlocklyWorkspace());
     }
 
+    // Refresh workspace.
     this.resize();
     this.refresh();
   }
@@ -284,10 +285,64 @@ export class BlockEditor extends React.PureComponent {
   }
 
   /**
+   * @param {string} itemId
+   */
+  autoCollapse() {
+    const toolbox = this.state.blocklyWorkspace.toolbox_;
+    const treeRoots = document.getElementsByClassName('blocklyTreeRoot');
+    const activeTree = document.getElementsByClassName('blocklyTreeSelected');
+    if (
+      !toolbox ||
+      !treeRoots ||
+      !treeRoots.length ||
+      !activeTree ||
+      !activeTree.length
+    ) {
+      return;
+    }
+    const activeTreeRoot = activeTree[0].closest('.blocklyTreeRoot');
+    const activeTreeRootId = activeTreeRoot?.firstChild?.id;
+    for (const treeRoot of treeRoots) {
+      const treeRootChild = treeRoot.firstChild;
+      const treeRootId = treeRootChild.id;
+      const treeRootItem = toolbox.getToolboxItemById(treeRootId);
+      if (treeRootItem) {
+        treeRootItem.setExpanded(treeRootId == activeTreeRootId);
+        treeRoot.classList.toggle('expanded', treeRootId == activeTreeRootId);
+        if (treeRootChild.style.backgroundColor) {
+          treeRoot.style.backgroundImage = `linear-gradient(to right, ${treeRootChild.style.backgroundColor} 28px, #0000 0)`;
+        }
+      }
+    }
+  }
+
+  /**
+   * @param {boolean} expand
+   */
+  collapseToolbox(expand = false) {
+    console.log('Collapse toolbox ...');
+    const toolbox = this.state.blocklyWorkspace.toolbox_;
+    const treeRoots = document.getElementsByClassName('blocklyTreeRoot');
+    for (const treeRoot of treeRoots) {
+      const treeRootItem = toolbox.getToolboxItemById(treeRoot.firstChild.id);
+      if (treeRootItem) {
+        treeRootItem.setExpanded(expand);
+      }
+    }
+  }
+
+  /**
    * @param {object} event
    */
   handleBlocklyEvent(event) {
-    this.isDragging = event.type === 'drag';
+    switch (event.type) {
+      case Blockly.Events.TOOLBOX_ITEM_SELECT:
+        if (this.props.autoCollapse) {
+          this.autoCollapse();
+        }
+        break;
+    }
+    this.isDragging = event.type === Blockly.Events.BLOCK_DRAG;
   }
 
   /**
@@ -430,11 +485,9 @@ export class BlockEditor extends React.PureComponent {
   refresh() {
     const toolbox = this.state.blocklyWorkspace?.getToolbox();
     if (toolbox) {
-      if (this.props.toolbox) {
-        this.state.blocklyWorkspace?.updateToolbox(this.props.toolbox);
-      }
       console.log('Refreshing toolbox ...');
       toolbox.refreshSelection();
+      window.setTimeout(this.collapseToolbox.bind(this), 100);
     }
   }
 
@@ -557,6 +610,12 @@ BlockEditor.propTypes = {
   /** @type {function} */
   template: PropTypes.func,
 
+  /** @type {boolean} */
+  autoCollapse: PropTypes.bool,
+
+  /** @type {object} */
   toolbox: PropTypes.object,
+
+  /** @type {string} */
   windowId: PropTypes.string,
 };

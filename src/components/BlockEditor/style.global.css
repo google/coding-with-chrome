@@ -105,7 +105,7 @@
 }
 
 .blocklyToolboxDiv [role='treeitem'] [role='group'] {
-  padding-left: 16px;
+  padding-left: 32px;
 }
 
 .blocklyTreeIcon {
@@ -132,18 +132,52 @@
 .blocklyTreeIcon.blocklyTreeIconClosedLtr::before,
 .blocklyTreeIcon.blocklyTreeIconOpen::before {
   position: absolute;
-  color: rgba(0, 0, 0, 0.9);
+  color: inherit;
   content: 'arrow_drop_down';
   font-family: 'Material Icons';
   font-size: 24px;
 }
 
 .blocklyTreeIcon.blocklyTreeIconOpen::before {
+  color: inherit;
   left: -3px;
 }
 
 .blocklyRootTreeRowItem > .blocklyTreeRow {
   border-left-width: 48px !important;
+}
+
+.blocklyTreeRoot {
+  margin-bottom: 3px;
+  padding-top: 0;
+}
+
+.blocklyTreeRoot > .blocklyTreeRow {
+  border-radius: 0 22px 22px 0;
+  margin-bottom: 0;
+}
+
+.blocklyTreeRoot.expanded > .blocklyTreeRow {
+  border-radius: 0 22px 0 0;
+  box-shadow: none;
+}
+
+.blocklyTreeRoot > .blocklyToolboxContents .blocklyTreeIcon {
+  display: none !important;
+}
+
+.blocklyTreeRoot > .blocklyToolboxContents .blocklyTreeRow {
+  border-radius: 0;
+}
+
+.blocklyTreeRoot.expanded .blocklyToolboxContents {
+  margin-top: 3px;
+}
+
+.blocklyTreeRoot.expanded {
+  padding: 0;
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 
 .blocklyTreeRow {
@@ -152,7 +186,7 @@
   box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
     0 2px 4px -1px rgba(0, 0, 0, 0.2);
   border-radius: 0 22px 22px 0;
-  border-left-width: 32px !important;
+  border-left-width: 28px !important;
   height: 24px;
 }
 
@@ -262,7 +296,7 @@
   color: rgba(255, 255, 255, 0.9);
   font-family: 'Material Icons';
   font-size: 20px;
-  left: 5px;
+  left: 4px;
   top: -2px;
   position: absolute;
 }

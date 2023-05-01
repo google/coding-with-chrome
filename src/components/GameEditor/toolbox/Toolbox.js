@@ -73,16 +73,40 @@ export class Toolbox {
           name: i18next.t('BLOCKS_PHASER_PRELOAD'),
           colour: '165',
           cssConfig: {
-            container: 'icon_file_download',
+            container: 'icon_file_download blocklyTreeRoot',
           },
-          contents: PreloadToolbox,
+          expanded: 'false',
+          contents: PreloadToolbox.concat([
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_FILES'),
+              colour: '150',
+              cssConfig: {
+                container: 'icon_perm_media blocklyTreeChild',
+              },
+              contents: DynamicFilesToolbox.getDynamicImageFilesToolbox(
+                imageFiles
+              ).concat(
+                DynamicFilesToolbox.getDynamicAudioFilesToolbox(audioFiles)
+              ),
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_EXAMPLE_FILES'),
+              colour: '150',
+              cssConfig: {
+                container: 'icon_perm_media blocklyTreeChild',
+              },
+              contents: ExampleFilesToolbox.defaultBlocks,
+            },
+          ]),
         },
         {
           kind: 'category',
           name: i18next.t('BLOCKS_PHASER_CREATE'),
           colour: '30',
           cssConfig: {
-            container: 'icon_add_circle',
+            container: 'icon_add_circle blocklyTreeRoot',
           },
           expanded: 'false',
           contents: CreateToolbox.defaultBlocks.concat([
@@ -91,7 +115,7 @@ export class Toolbox {
               name: i18next.t('BLOCKS_PHASER_AUDIO'),
               colour: '245',
               cssConfig: {
-                container: 'icon_audiotrack',
+                container: 'icon_audiotrack blocklyTreeChild',
               },
               contents: AudioToolbox.createBlocks.concat(
                 AudioToolbox.defaultBlocks
@@ -102,7 +126,7 @@ export class Toolbox {
               name: i18next.t('BLOCKS_PHASER_SPRITE'),
               colour: '225',
               cssConfig: {
-                container: 'icon_portrait',
+                container: 'icon_portrait blocklyTreeChild',
               },
               contents: SpriteToolbox.createBlocks.concat(
                 SpriteToolbox.defaultBlocks
@@ -113,7 +137,7 @@ export class Toolbox {
               name: i18next.t('BLOCKS_PHASER_TILE_SPRITE'),
               colour: '285',
               cssConfig: {
-                container: 'icon_burst_mode',
+                container: 'icon_burst_mode blocklyTreeChild',
               },
               contents: TileSpriteToolbox.createBlocks.concat(
                 TileSpriteToolbox.defaultBlocks
@@ -124,7 +148,7 @@ export class Toolbox {
               name: i18next.t('BLOCKS_PHASER_PHYSICS_SPRITE'),
               colour: '0',
               cssConfig: {
-                container: 'icon_rotate_90_degrees_ccw',
+                container: 'icon_rotate_90_degrees_ccw blocklyTreeChild',
               },
               contents: ArcadePhysicsToolbox.createBlocks.concat(
                 ArcadePhysicsToolbox.defaultBlocks
@@ -135,7 +159,7 @@ export class Toolbox {
               name: i18next.t('BLOCKS_PHASER_TEXT'),
               colour: '255',
               cssConfig: {
-                container: 'icon_format_shapes',
+                container: 'icon_format_shapes blocklyTreeChild',
               },
               contents: TextToolbox.createBlocks.concat(
                 TextToolbox.eventBlocks,
@@ -147,7 +171,7 @@ export class Toolbox {
               name: i18next.t('BLOCKS_PHASER_INPUTS'),
               colour: '255',
               cssConfig: {
-                container: 'icon_keyboard',
+                container: 'icon_keyboard blocklyTreeChild',
               },
               contents: InputToolbox.createBlocks,
             },
@@ -156,7 +180,7 @@ export class Toolbox {
               name: i18next.t('BLOCKS_PHASER_GENERATOR'),
               colour: '105',
               cssConfig: {
-                container: 'icon_extension',
+                container: 'icon_extension blocklyTreeChild',
               },
               contents: GeneratorToolbox,
             },
@@ -165,7 +189,7 @@ export class Toolbox {
               name: i18next.t('BLOCKS_PHASER_WORLD'),
               colour: '345',
               cssConfig: {
-                container: 'icon_computer',
+                container: 'icon_computer blocklyTreeChild',
               },
               contents: WorldToolbox.createBlocks.concat(
                 WorldToolbox.defaultBlocks
@@ -178,7 +202,7 @@ export class Toolbox {
           name: i18next.t('BLOCKS_PHASER_INPUT'),
           colour: '135',
           cssConfig: {
-            container: 'icon_keyboard',
+            container: 'icon_keyboard blocklyTreeRoot',
           },
           expanded: 'false',
           contents: InputToolbox.eventBlocks.concat(
@@ -189,7 +213,7 @@ export class Toolbox {
                 name: i18next.t('BLOCKS_PHASER_AUDIO'),
                 colour: '245',
                 cssConfig: {
-                  container: 'icon_audiotrack',
+                  container: 'icon_audiotrack blocklyTreeChild',
                 },
                 contents: AudioToolbox.defaultBlocks,
               },
@@ -198,7 +222,7 @@ export class Toolbox {
                 name: i18next.t('BLOCKS_PHASER_SPRITE'),
                 colour: '225',
                 cssConfig: {
-                  container: 'icon_portrait',
+                  container: 'icon_portrait blocklyTreeChild',
                 },
                 contents: SpriteToolbox.defaultBlocks,
               },
@@ -207,7 +231,7 @@ export class Toolbox {
                 name: i18next.t('BLOCKS_PHASER_TILE_SPRITE'),
                 colour: '285',
                 cssConfig: {
-                  container: 'icon_burst_mode',
+                  container: 'icon_burst_mode blocklyTreeChild',
                 },
                 contents: TileSpriteToolbox.defaultBlocks,
               },
@@ -216,7 +240,7 @@ export class Toolbox {
                 name: i18next.t('BLOCKS_PHASER_PHYSICS_SPRITE'),
                 colour: '0',
                 cssConfig: {
-                  container: 'icon_rotate_90_degrees_ccw',
+                  container: 'icon_rotate_90_degrees_ccw blocklyTreeChild',
                 },
                 contents: ArcadePhysicsToolbox.defaultBlocks.concat(
                   ArcadePhysicsToolbox.eventBlocks
@@ -227,7 +251,7 @@ export class Toolbox {
                 name: i18next.t('BLOCKS_PHASER_TEXT'),
                 colour: '255',
                 cssConfig: {
-                  container: 'icon_format_shapes',
+                  container: 'icon_format_shapes blocklyTreeChild',
                 },
                 contents: TextToolbox.eventBlocks.concat(
                   TextToolbox.defaultBlocks
@@ -241,7 +265,7 @@ export class Toolbox {
           name: i18next.t('BLOCKS_PHASER_UPDATE'),
           colour: '315',
           cssConfig: {
-            container: 'icon_repeat',
+            container: 'icon_repeat blocklyTreeRoot',
           },
           expanded: 'false',
           contents: UpdateToolbox.defaultBlocks.concat([
@@ -250,7 +274,7 @@ export class Toolbox {
               name: i18next.t('BLOCKS_PHASER_AUDIO'),
               colour: '245',
               cssConfig: {
-                container: 'icon_audiotrack',
+                container: 'icon_audiotrack blocklyTreeChild',
               },
               contents: AudioToolbox.defaultBlocks,
             },
@@ -259,7 +283,7 @@ export class Toolbox {
               name: i18next.t('BLOCKS_PHASER_SPRITE'),
               colour: '225',
               cssConfig: {
-                container: 'icon_portrait',
+                container: 'icon_portrait blocklyTreeChild',
               },
               contents: SpriteToolbox.defaultBlocks,
             },
@@ -268,7 +292,7 @@ export class Toolbox {
               name: i18next.t('BLOCKS_PHASER_TILE_SPRITE'),
               colour: '285',
               cssConfig: {
-                container: 'icon_burst_mode',
+                container: 'icon_burst_mode blocklyTreeChild',
               },
               contents: TileSpriteToolbox.defaultBlocks,
             },
@@ -277,7 +301,7 @@ export class Toolbox {
               name: i18next.t('BLOCKS_PHASER_PHYSICS_SPRITE'),
               colour: '0',
               cssConfig: {
-                container: 'icon_rotate_90_degrees_ccw',
+                container: 'icon_rotate_90_degrees_ccw blocklyTreeChild',
               },
               contents: ArcadePhysicsToolbox.defaultBlocks.concat(
                 ArcadePhysicsToolbox.eventBlocks
@@ -288,7 +312,7 @@ export class Toolbox {
               name: i18next.t('BLOCKS_PHASER_TEXT'),
               colour: '255',
               cssConfig: {
-                container: 'icon_format_shapes',
+                container: 'icon_format_shapes blocklyTreeChild',
               },
               contents: TextToolbox.defaultBlocks,
             },
@@ -297,7 +321,7 @@ export class Toolbox {
               name: i18next.t('BLOCKS_PHASER_INPUTS'),
               colour: '255',
               cssConfig: {
-                container: 'icon_keyboard',
+                container: 'icon_keyboard blocklyTreeChild',
               },
               contents: InputToolbox.defaultBlocks,
             },
@@ -306,7 +330,7 @@ export class Toolbox {
               name: i18next.t('BLOCKS_PHASER_TIME'),
               colour: '350',
               cssConfig: {
-                container: 'icon_access_time',
+                container: 'icon_access_time blocklyTreeChild',
               },
               contents: TimeToolbox.defaultBlocks,
             },
@@ -315,7 +339,7 @@ export class Toolbox {
               name: i18next.t('BLOCKS_PHASER_GROUP'),
               colour: '260',
               cssConfig: {
-                container: 'icon_group_work',
+                container: 'icon_group_work blocklyTreeChild',
               },
               contents: GroupToolbox.defaultBlocks,
             },
@@ -324,7 +348,7 @@ export class Toolbox {
               name: i18next.t('BLOCKS_PHASER_WORLD'),
               colour: '345',
               cssConfig: {
-                container: 'icon_computer',
+                container: 'icon_computer blocklyTreeChild',
               },
               contents: WorldToolbox.updateBlocks.concat(
                 WorldToolbox.defaultBlocks
@@ -340,29 +364,6 @@ export class Toolbox {
             container: 'icon_computer',
           },
           contents: RenderToolbox,
-        },
-        {
-          kind: 'sep',
-        },
-        {
-          kind: 'category',
-          name: i18next.t('BLOCKS_PHASER_FILES'),
-          colour: '150',
-          cssConfig: {
-            container: 'icon_perm_media',
-          },
-          contents: DynamicFilesToolbox.getDynamicImageFilesToolbox(
-            imageFiles
-          ).concat(DynamicFilesToolbox.getDynamicAudioFilesToolbox(audioFiles)),
-        },
-        {
-          kind: 'category',
-          name: i18next.t('BLOCKS_PHASER_EXAMPLE_FILES'),
-          colour: '150',
-          cssConfig: {
-            container: 'icon_perm_media',
-          },
-          contents: ExampleFilesToolbox.defaultBlocks,
         },
         {
           kind: 'sep',

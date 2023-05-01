@@ -50,6 +50,7 @@ const Screenshot = lazy(() => import('../Screenshot'));
 
 import 'react-mosaic-component/react-mosaic-component.css';
 import styles from './style.module.css';
+import './style.global.css';
 
 /**
  *
@@ -165,6 +166,7 @@ export class GameEditor extends React.PureComponent {
           onFullscreen={this.handleBlockEditorFullscreen.bind(this)}
           onNewProject={this.handleNewProject.bind(this)}
           onOpenProject={this.handleOpenProject.bind(this)}
+          autoCollapse={true}
           project={this.state.project}
           windowId={this.props.windowId}
         />

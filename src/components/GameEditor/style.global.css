@@ -14,26 +14,23 @@
  * limitations under the License.
  */
 
-.drawerTop {
-  height: 48px;
+#cwc-app .mosaic-root {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
-.drawerMiddle {
-  flex: auto;
+#cwc-app .mosaic-root > .mosaic-tile:nth-child(1) {
+  margin-top: 0;
+  margin-left: 0;
 }
 
-.drawerBottom {
-  border-top: 1px solid #ccc;
+#cwc-app .mosaic-root > .mosaic-tile:nth-child(3) {
+  margin-top: 0;
+  margin-right: 0;
 }
 
-.snackbarContainer {
-  height: 0 !important;
-}
-
-.fill {
-  height: calc(100vh - 42px);
-}
-
-.fillWindow {
-  height: calc(100vh - 114px);
+#cwc-app .mosaic-root > .mosaic-tile:nth-child(5) {
+  margin-right: 0;
 }
