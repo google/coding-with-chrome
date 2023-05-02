@@ -60,6 +60,7 @@ export class BlockEditor extends React.PureComponent {
     };
     this.lastXMLContent = '';
     this.isDragging = false;
+    this.lastActiveTreeRoot = null;
     this.state = {
       /** @type {WorkspaceSvg} */
       blocklyWorkspace: null,
@@ -124,7 +125,6 @@ export class BlockEditor extends React.PureComponent {
     // Dynamically loading default toolbox, if not defined.
     if (!this.props.toolbox) {
       import('./toolbox/Toolbox').then((module) => {
-        console.log(module.Toolbox);
         this.setState({ toolbox: module.Toolbox.getToolbox() });
       });
     }
@@ -139,6 +139,7 @@ export class BlockEditor extends React.PureComponent {
     i18next.on('languageChanged', () => {
       this.refreshWorkspace();
       this.forceUpdate();
+      this.refresh();
     });
   }
 
@@ -300,8 +301,22 @@ export class BlockEditor extends React.PureComponent {
     ) {
       return;
     }
+    // Get active tree root and only auto-collapse if it has changed.
     const activeTreeRoot = activeTree[0].closest('.blocklyTreeRoot');
+    if (!activeTreeRoot) {
+      return;
+    }
+    if (activeTreeRoot == this.lastActiveTreeRoot) {
+      activeTreeRoot.classList.toggle(
+        'expanded',
+        activeTreeRoot.ariaExpanded === 'true'
+      );
+      return;
+    }
+    this.lastActiveTreeRoot = activeTreeRoot;
     const activeTreeRootId = activeTreeRoot?.firstChild?.id;
+
+    // Collapse all tree roots and expand the active one.
     for (const treeRoot of treeRoots) {
       const treeRootChild = treeRoot.firstChild;
       const treeRootId = treeRootChild.id;
@@ -417,10 +432,7 @@ export class BlockEditor extends React.PureComponent {
   saveWorkspace() {
     // Save workspace to database.
     console.log(
-      'Saving workspace for',
-      this.props.project,
-      'into',
-      this.database
+      `Saving workspace for ${this.props.project} into ${this.database}`
     );
     this.database.put('name', this.props.project.name);
     this.database.put('description', this.props.project.description);

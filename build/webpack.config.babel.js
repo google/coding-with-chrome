@@ -83,7 +83,7 @@ module.exports = (mode = 'development') => ({
   module: {
     rules: [
       {
-        test: /(phaser\.min\.js$|phaser_extras\.min\.js$)/,
+        test: /(phaser-ce\.min\.js$|phaser\.min\.js$|phaser_extras\.min\.js$)/,
         type: 'asset/source',
       },
       {
@@ -172,10 +172,6 @@ module.exports = (mode = 'development') => ({
         {
           from: './assets/favicon/browserconfig.xml',
           to: './browserconfig.xml',
-          globOptions: {
-            dot: true,
-            gitignore: true,
-          },
         },
         {
           from: './assets/logo',
@@ -236,26 +232,18 @@ module.exports = (mode = 'development') => ({
         {
           from: './src/manifest.json',
           to: './manifest.json',
-          globOptions: {
-            dot: true,
-            gitignore: true,
-          },
         },
         {
           from: './third_party/phaser-ce/build/phaser.min.js',
+          to: './framework/phaser-ce.min.js',
+        },
+        {
+          from: './third_party/phaser/dist/phaser.min.js',
           to: './framework/phaser.min.js',
-          globOptions: {
-            dot: true,
-            gitignore: true,
-          },
         },
         {
           from: './src/frameworks/phaser/phaser_extras.js',
           to: './framework/phaser_extras.js',
-          globOptions: {
-            dot: true,
-            gitignore: true,
-          },
         },
       ],
     }),

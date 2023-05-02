@@ -1,6 +1,6 @@
 {
   "name": "coding-with-chrome",
-  "version": "10.0.0c",
+  "version": "10.0.1",
   "description": "Educational Coding Development Environment",
   "repository": {
     "type": "git",
@@ -14,7 +14,7 @@
   "homepage": "https://google.github.io/coding-with-chrome/",
   "devDependencies": {
     "@babel/cli": "^7.21.5",
-    "@babel/core": "^7.21.5",
+    "@babel/core": "^7.21.8",
     "@babel/node": "^7.20.7",
     "@babel/plugin-syntax-jsx": "^7.21.4",
     "@babel/plugin-transform-runtime": "^7.21.4",
@@ -29,8 +29,8 @@
     "@jsdevtools/coverage-istanbul-loader": "^3.0.5",
     "@lhci/cli": "^0.12.0",
     "@mui/icons-material": "^5.11.16",
-    "@mui/material": "^5.12.2",
-    "@mui/styled-engine": "^5.12.0",
+    "@mui/material": "^5.12.3",
+    "@mui/styled-engine": "^5.12.3",
     "@svgr/webpack": "^7.0.0",
     "@types/react": "^18.2.0",
     "@types/serviceworker-webpack-plugin": "^1.0.3",

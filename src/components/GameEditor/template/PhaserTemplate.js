@@ -66,7 +66,7 @@ export class PhaserTemplate {
       if (PhaserMin) {
         return `<script>${PhaserMin}</script>`;
       } else {
-        return `<script src="${APP_BASE_PATH}framework/phaser.min.js"></script>`;
+        return `<script src="${APP_BASE_PATH}framework/phaser-ce.min.js"></script>`;
       }
     })()}
   </head>
