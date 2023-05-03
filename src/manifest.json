@@ -2,6 +2,7 @@
   "name": "Coding with Chrome Suite",
   "short_name": "Coding with Chrome",
   "orientation": "landscape-primary",
+  "display_override": ["fullscreen", "minimal-ui"],
   "display": "standalone",
   "start_url": "./index.html",
   "description": "Educational Coding Development Environment",

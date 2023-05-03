@@ -535,7 +535,7 @@ Blocks['phaser_physics_arcade_sprite_adjust_dimension'] = {
       .appendField(BlocksTemplate.adjust())
       .appendField(i18next.t('BLOCKS_SET'))
       .appendField(i18next.t('physics sprite'));
-    this.appendDummyInput().appendField(i18next.t('dimension to'));
+    this.appendDummyInput().appendField(i18next.t('WITH_DIMENSION'));
     this.appendValueInput('width').setCheck('Number');
     this.appendValueInput('height').appendField('x').setCheck('Number');
     this.setPreviousStatement(true, 'Create');
@@ -591,7 +591,7 @@ Blocks['phaser_physics_arcade_sprite_adjust_dimension_custom'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(i18next.t('BLOCKS_SET'))
-      .appendField(i18next.t('dimension to'));
+      .appendField(i18next.t('WITH_DIMENSION'));
     this.appendValueInput('width').setCheck('Number');
     this.appendValueInput('height').appendField('x').setCheck('Number');
     this.setPreviousStatement(true, ['PhysicsArcadeAttribute']);

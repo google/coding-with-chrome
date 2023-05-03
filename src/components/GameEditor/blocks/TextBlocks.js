@@ -41,7 +41,7 @@ Blocks['phaser_text_add'] = {
     this.appendValueInput('y').appendField('x').setCheck('Number');
     this.appendDummyInput()
       .appendField('y')
-      .appendField(i18next.t('with style'))
+      .appendField(i18next.t('WITH_STYLE'))
       .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
       .appendField(
         new Blockly.FieldTextInput('16px', BlocksHelper.validateText),
@@ -131,13 +131,13 @@ Blocks['phaser_dynamic_text_add'] = {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.addCircle())
       .appendField(i18next.t('BLOCKS_DEFINE'));
-    this.appendDummyInput().appendField(i18next.t('as dynamic text'));
+    this.appendDummyInput().appendField(i18next.t('AS_DYNAMIC_TEXT'));
     this.appendValueInput('text').setCheck('String');
     this.appendValueInput('x').setCheck('Number').appendField(i18next.t('on'));
     this.appendValueInput('y').appendField('x').setCheck('Number');
     this.appendDummyInput()
       .appendField('y')
-      .appendField(i18next.t('with style'))
+      .appendField(i18next.t('WITH_STYLE'))
       .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
       .appendField(
         new Blockly.FieldTextInput('16px', BlocksHelper.validateText),
@@ -241,7 +241,7 @@ Blocks['phaser_dynamic_text_highscore_add'] = {
     this.appendValueInput('y').appendField('x').setCheck('Number');
     this.appendDummyInput()
       .appendField('y')
-      .appendField(i18next.t('with style'))
+      .appendField(i18next.t('WITH_STYLE'))
       .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
       .appendField(
         new Blockly.FieldTextInput('16px', BlocksHelper.validateText),
@@ -338,13 +338,13 @@ Blocks['phaser_action_text_add'] = {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.addCircle())
       .appendField(i18next.t('BLOCKS_DEFINE'));
-    this.appendDummyInput().appendField(i18next.t('as action text'));
+    this.appendDummyInput().appendField(i18next.t('AS_ACTION_TEXT'));
     this.appendValueInput('text').setCheck('String');
     this.appendValueInput('x').setCheck('Number').appendField(i18next.t('on'));
     this.appendValueInput('y').appendField('x').setCheck('Number');
     this.appendDummyInput()
       .appendField('y')
-      .appendField(i18next.t('with style'))
+      .appendField(i18next.t('WITH_STYLE'))
       .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
       .appendField(
         new Blockly.FieldTextInput('16px', BlocksHelper.validateText),

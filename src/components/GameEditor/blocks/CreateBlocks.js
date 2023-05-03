@@ -71,7 +71,7 @@ Blocks['phaser_stage_background_color'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.point())
-      .appendField(i18next.t('set background color'))
+      .appendField(i18next.t('BLOCKS_PHASER_SET_BACKGROUND_COLOR'))
       .appendField(new Blockly.FieldColour('#000000'), 'color');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
@@ -98,7 +98,7 @@ Blocks['phaser_add_background'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.point())
-      .appendField(i18next.t('add background image'))
+      .appendField(i18next.t('BLOCKS_PHASER_ADD_BACKGROUND_IMAGE'))
       .appendField(
         new Blockly.FieldDropdown(BlocksHelper.phaserImage('bg_01')),
         'sprite'
@@ -129,7 +129,7 @@ Blocks['phaser_add_background_scaled'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.point())
-      .appendField(i18next.t('add background image'))
+      .appendField(i18next.t('BLOCKS_PHASER_ADD_BACKGROUND_IMAGE'))
       .appendField(
         new Blockly.FieldDropdown(BlocksHelper.phaserImage('bg_01')),
         'sprite'

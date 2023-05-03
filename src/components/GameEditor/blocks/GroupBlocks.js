@@ -37,7 +37,7 @@ Blocks['phaser_group_add'] = {
       .appendField(BlocksTemplate.addCircle())
       .appendField(i18next.t('BLOCKS_DEFINE'));
     this.appendDummyInput()
-      .appendField(i18next.t('as group'))
+      .appendField(i18next.t('AS_GROUP'))
       .appendField(
         new Blockly.FieldTextInput('group_name', BlocksHelper.validateText),
         'name'

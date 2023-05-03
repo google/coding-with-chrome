@@ -43,7 +43,7 @@ Blocks['phaser_audio_add_bgm'] = {
         'audio'
       )
       .appendField(BlocksTemplate.audio())
-      .appendField(i18next.t('with volume'))
+      .appendField(i18next.t('WITH_VOLUME'))
       .appendField(new Blockly.FieldNumber(100, 0, 200), 'volume')
       .appendField('%')
       .appendField(
@@ -105,13 +105,13 @@ Blocks['phaser_audio_add'] = {
       .appendField(BlocksTemplate.addCircle())
       .appendField(i18next.t('BLOCKS_DEFINE'));
     this.appendDummyInput()
-      .appendField(i18next.t('as audio'))
+      .appendField(i18next.t('AS_AUDIO'))
       .appendField(
         new Blockly.FieldTextInput('audio', BlocksHelper.validateText),
         'audio'
       )
       .appendField(BlocksTemplate.audio())
-      .appendField(i18next.t('with volume'))
+      .appendField(i18next.t('WITH_VOLUME'))
       .appendField(new Blockly.FieldNumber(100, 0, 200), 'volume')
       .appendField('%')
       .appendField(
@@ -162,7 +162,7 @@ Blocks['phaser_audio_play'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.audio())
-      .appendField(i18next.t('play audio'));
+      .appendField(i18next.t('BLOCKS_PHASER_AUDIO_PLAY'));
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(245);
@@ -222,7 +222,7 @@ Blocks['phaser_audio_resume'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.audio())
-      .appendField(i18next.t('resume audio'));
+      .appendField(i18next.t('BLOCKS_PHASER_AUDIO_RESUME'));
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(245);
@@ -252,7 +252,7 @@ Blocks['phaser_audio_stop'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.audio())
-      .appendField(i18next.t('stop audio'));
+      .appendField(i18next.t('BLOCKS_PHASER_AUDIO_STOP'));
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(245);

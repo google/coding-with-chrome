@@ -35,7 +35,7 @@ Blocks['phaser_tile_sprite_background'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.addCircle())
-      .appendField(i18next.t('add background image'))
+      .appendField(i18next.t('BLOCKS_PHASER_ADD_BACKGROUND_IMAGE'))
       .appendField(
         new Blockly.FieldDropdown(BlocksHelper.phaserImage('bg_01')),
         'sprite'
@@ -43,8 +43,7 @@ Blocks['phaser_tile_sprite_background'] = {
       .appendField(BlocksTemplate.image());
     this.appendValueInput('x')
       .setCheck('Number')
-      .appendField(i18next.t('with'))
-      .appendField(i18next.t('autoscroll to'));
+      .appendField(i18next.t('WITH_AUTOSCROLL'));
     this.appendValueInput('y').setCheck('Number').appendField(i18next.t('x'));
     this.appendDummyInput().appendField(i18next.t('y'));
     this.setPreviousStatement(true, 'Create');
@@ -93,7 +92,7 @@ Blocks['phaser_tile_sprite_floor_add'] = {
       .appendField(BlocksTemplate.addCircle())
       .appendField(i18next.t('BLOCKS_DEFINE'));
     this.appendDummyInput()
-      .appendField(i18next.t('as floor'))
+      .appendField(i18next.t('AS_FLOOR'))
       .appendField(
         new Blockly.FieldDropdown(BlocksHelper.phaserImage('floor')),
         'sprite'
@@ -101,8 +100,7 @@ Blocks['phaser_tile_sprite_floor_add'] = {
       .appendField(BlocksTemplate.image());
     this.appendValueInput('x')
       .setCheck('Number')
-      .appendField(i18next.t('with'))
-      .appendField(i18next.t('autoscroll to'));
+      .appendField(i18next.t('WITH_AUTOSCROLL'));
     this.appendValueInput('y').setCheck('Number').appendField(i18next.t('x'));
     this.appendDummyInput().appendField(i18next.t('y'));
     this.setPreviousStatement(true, 'Create');
@@ -164,7 +162,7 @@ Blocks['phaser_tile_sprite_ceiling_add'] = {
       .appendField(BlocksTemplate.addCircle())
       .appendField(i18next.t('BLOCKS_DEFINE'));
     this.appendDummyInput()
-      .appendField(i18next.t('as ceiling'))
+      .appendField(i18next.t('AS_CEILING'))
       .appendField(
         new Blockly.FieldDropdown(BlocksHelper.phaserImage('ceiling')),
         'sprite'
@@ -172,8 +170,7 @@ Blocks['phaser_tile_sprite_ceiling_add'] = {
       .appendField(BlocksTemplate.image());
     this.appendValueInput('x')
       .setCheck('Number')
-      .appendField(i18next.t('with'))
-      .appendField(i18next.t('autoscroll to'));
+      .appendField(i18next.t('WITH_AUTOSCROLL'));
     this.appendValueInput('y').setCheck('Number').appendField(i18next.t('x'));
     this.appendDummyInput().appendField(i18next.t('y'));
     this.setPreviousStatement(true, 'Create');
@@ -235,22 +232,22 @@ Blocks['phaser_tile_sprite_add'] = {
       .appendField(BlocksTemplate.addCircle())
       .appendField(i18next.t('BLOCKS_DEFINE'));
     this.appendDummyInput()
-      .appendField(i18next.t('as tile sprite'))
+      .appendField(i18next.t('AS_TILE_SPRITE'))
       .appendField(
         new Blockly.FieldDropdown(BlocksHelper.phaserImage('tile_sprite')),
         'sprite'
       )
       .appendField(BlocksTemplate.image())
-      .appendField(i18next.t('on position'));
+      .appendField(i18next.t('WITH_POSITION'));
     this.appendValueInput('x').setCheck('Number');
     this.appendValueInput('y').appendField('x').setCheck('Number');
     this.appendDummyInput()
       .appendField('y')
-      .appendField(i18next.t('with size'))
+      .appendField(i18next.t('WITH_SIZE'))
       .appendField(new Blockly.FieldNumber(400), 'width')
       .appendField('x')
       .appendField(new Blockly.FieldNumber(50), 'height')
-      .appendField(i18next.t('and group'))
+      .appendField(i18next.t('WITH_GROUP'))
       .appendField(
         new Blockly.FieldTextInput('', BlocksHelper.validateText),
         'group'
@@ -312,7 +309,7 @@ Blocks['phaser_tile_sprite_adjust'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.adjust())
-      .appendField(i18next.t('set title sprite'));
+      .appendField(i18next.t('BLOCKS_PHASER_TILE_SPRITE_SET'));
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
         [i18next.t('alpha transparent'), 'alpha'],
@@ -384,7 +381,7 @@ Blocks['phaser_tile_sprite_crop'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.adjust())
-      .appendField(i18next.t('crop sprite with'));
+      .appendField(i18next.t('BLOCKS_PHASER_TILE_SPRITE_CROP'));
     this.appendDummyInput()
       .appendField(i18next.t('top'))
       .setAlign(Blockly.ALIGN_RIGHT)
@@ -454,8 +451,7 @@ Blocks['phaser_tile_sprite_destroy'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.point())
-      .appendField(i18next.t('BLOCKS_DESTROY'))
-      .appendField(i18next.t('tile sprite'));
+      .appendField(i18next.t('BLOCKS_PHASER_TILE_SPRITE_DESTROY'));
     this.appendValueInput('variable');
     this.setInputsInline(true);
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
@@ -487,10 +483,10 @@ Blocks['phaser_tile_sprite_autoScroll'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.point())
-      .appendField(i18next.t('set tile sprite'));
+      .appendField(i18next.t('BLOCKS_PHASER_TILE_SPRITE_SET'));
     this.appendValueInput('x')
       .setCheck('Number')
-      .appendField(i18next.t('autoscroll to'));
+      .appendField(i18next.t('WITH_AUTOSCROLL'));
     this.appendValueInput('y').setCheck('Number').appendField(i18next.t('x'));
     this.appendDummyInput().appendField(i18next.t('y'));
     this.setPreviousStatement(true, 'Create');
@@ -532,9 +528,9 @@ Blocks['phaser_tile_sprite_immovable'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.point())
-      .appendField(i18next.t('set tile sprite'));
+      .appendField(i18next.t('BLOCKS_PHASER_TILE_SPRITE_SET'));
     this.appendDummyInput().appendField(
-      i18next.t('as immovable by other objects')
+      i18next.t('AS_IMMOVABLE_BY_OTHER_OBJECTS')
     );
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
