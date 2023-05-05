@@ -44,8 +44,8 @@ Blocks['phaser_tile_sprite_background'] = {
     this.appendValueInput('x')
       .setCheck('Number')
       .appendField(i18next.t('WITH_AUTOSCROLL'));
-    this.appendValueInput('y').setCheck('Number').appendField(i18next.t('x'));
-    this.appendDummyInput().appendField(i18next.t('y'));
+    this.appendValueInput('y').setCheck('Number').appendField('x');
+    this.appendDummyInput().appendField('y');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(285);
@@ -101,8 +101,8 @@ Blocks['phaser_tile_sprite_floor_add'] = {
     this.appendValueInput('x')
       .setCheck('Number')
       .appendField(i18next.t('WITH_AUTOSCROLL'));
-    this.appendValueInput('y').setCheck('Number').appendField(i18next.t('x'));
-    this.appendDummyInput().appendField(i18next.t('y'));
+    this.appendValueInput('y').setCheck('Number').appendField('x');
+    this.appendDummyInput().appendField('y');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(285);
@@ -171,8 +171,8 @@ Blocks['phaser_tile_sprite_ceiling_add'] = {
     this.appendValueInput('x')
       .setCheck('Number')
       .appendField(i18next.t('WITH_AUTOSCROLL'));
-    this.appendValueInput('y').setCheck('Number').appendField(i18next.t('x'));
-    this.appendDummyInput().appendField(i18next.t('y'));
+    this.appendValueInput('y').setCheck('Number').appendField('x');
+    this.appendDummyInput().appendField('y');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(285);
@@ -309,23 +309,23 @@ Blocks['phaser_tile_sprite_adjust'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.adjust())
-      .appendField(i18next.t('BLOCKS_PHASER_TILE_SPRITE_SET'));
+      .appendField(i18next.t('BLOCKS_PHASER_TILE_SPRITE_CHANGE'));
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
-        [i18next.t('alpha transparent'), 'alpha'],
-        [i18next.t('angle'), 'angle'],
-        [i18next.t('anchor'), 'anchor.set'],
-        [i18next.t('buttonMode'), 'buttonMode'],
-        [i18next.t('frame'), 'frame'],
+        [i18next.t('ALPHA_TRANSPARENT'), 'alpha'],
+        [i18next.t('ANGLE'), 'angle'],
+        [i18next.t('ANCHOR'), 'anchor.set'],
+        [i18next.t('BUTTON_MODE'), 'buttonMode'],
+        [i18next.t('FRAME'), 'frame'],
         [i18next.t('BLOCKS_HEIGHT'), 'height'],
-        [i18next.t('rotation'), 'rotation'],
-        [i18next.t('visible'), 'visible'],
+        [i18next.t('ROTATION'), 'rotation'],
+        [i18next.t('VISIBLE'), 'visible'],
         [i18next.t('BLOCKS_WIDTH'), 'width'],
-        [i18next.t('tile position x'), 'tilePosition.y'],
-        [i18next.t('tile position y'), 'tilePosition.y'],
-        [i18next.t('x'), 'x'],
-        [i18next.t('y'), 'y'],
-        [i18next.t('z'), 'y'],
+        [i18next.t('TILE_POSITION_X'), 'tilePosition.y'],
+        [i18next.t('TILE_POSITION_Y'), 'tilePosition.y'],
+        ['x', 'x'],
+        ['y', 'y'],
+        ['z', 'y'],
       ]),
       'property'
     );
@@ -383,19 +383,19 @@ Blocks['phaser_tile_sprite_crop'] = {
       .appendField(BlocksTemplate.adjust())
       .appendField(i18next.t('BLOCKS_PHASER_TILE_SPRITE_CROP'));
     this.appendDummyInput()
-      .appendField(i18next.t('top'))
+      .appendField(i18next.t('TOP'))
       .setAlign(Blockly.ALIGN_RIGHT)
       .appendField(new Blockly.FieldNumber(0, 0), 'top');
     this.appendDummyInput()
-      .appendField(i18next.t('right'))
+      .appendField(i18next.t('RIGHT'))
       .setAlign(Blockly.ALIGN_RIGHT)
       .appendField(new Blockly.FieldNumber(0, 0), 'right');
     this.appendDummyInput()
-      .appendField(i18next.t('bottom'))
+      .appendField(i18next.t('BOTTOM'))
       .setAlign(Blockly.ALIGN_RIGHT)
       .appendField(new Blockly.FieldNumber(0, 0), 'bottom');
     this.appendDummyInput()
-      .appendField(i18next.t('left'))
+      .appendField(i18next.t('LEFT'))
       .setAlign(Blockly.ALIGN_RIGHT)
       .appendField(new Blockly.FieldNumber(0, 0), 'left');
     this.setPreviousStatement(true, 'Create');
@@ -483,12 +483,12 @@ Blocks['phaser_tile_sprite_autoScroll'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.point())
-      .appendField(i18next.t('BLOCKS_PHASER_TILE_SPRITE_SET'));
+      .appendField(i18next.t('BLOCKS_PHASER_TILE_SPRITE_CHANGE'));
     this.appendValueInput('x')
       .setCheck('Number')
       .appendField(i18next.t('WITH_AUTOSCROLL'));
-    this.appendValueInput('y').setCheck('Number').appendField(i18next.t('x'));
-    this.appendDummyInput().appendField(i18next.t('y'));
+    this.appendValueInput('y').setCheck('Number').appendField('x');
+    this.appendDummyInput().appendField('y');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(285);
@@ -528,7 +528,7 @@ Blocks['phaser_tile_sprite_immovable'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.point())
-      .appendField(i18next.t('BLOCKS_PHASER_TILE_SPRITE_SET'));
+      .appendField(i18next.t('BLOCKS_PHASER_TILE_SPRITE_CHANGE'));
     this.appendDummyInput().appendField(
       i18next.t('AS_IMMOVABLE_BY_OTHER_OBJECTS')
     );

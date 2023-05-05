@@ -22,13 +22,16 @@
 import React from 'react';
 
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import MenuIcon from '@mui/icons-material/Menu';
 import Paper from '@mui/material/Paper';
 import PermMediaIcon from '@mui/icons-material/PermMedia';
 import PropTypes from 'prop-types';
-import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import i18next from '../App/i18next';
 
 import { Toolbar, ToolbarIconButton } from '../Toolbar';
 
@@ -49,11 +52,19 @@ export class Assets extends React.PureComponent {
   }
 
   /**
+   *
+   */
+  componentDidMount() {
+    i18next.on('languageChanged', () => {
+      this.forceUpdate();
+    });
+  }
+
+  /**
    * @param {*} event
    */
   handleDragEnter(event) {
     event.preventDefault();
-
     this.setState({
       isDraggingOver: true,
     });
@@ -64,7 +75,6 @@ export class Assets extends React.PureComponent {
    */
   handleDragLeave(event) {
     event.preventDefault();
-
     this.setState({
       isDraggingOver: false,
     });
@@ -103,6 +113,36 @@ export class Assets extends React.PureComponent {
   }
 
   /**
+   *
+   */
+  handleUploadFile() {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'audio/*, image/*';
+    fileInput.onchange = (event) => {
+      const files = event.target.files;
+      if (files.length === 0) {
+        return;
+      }
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (
+          this.props.onDropFile &&
+          typeof this.props.onDropFile === 'function'
+        ) {
+          this.props.onDropFile(file, event.target.result);
+        }
+      };
+      reader.readAsDataURL(file);
+    };
+    fileInput.click();
+    this.setState({
+      isDraggingOver: false,
+    });
+  }
+
+  /**
    * @return {Object}
    */
   render() {
@@ -114,7 +154,7 @@ export class Assets extends React.PureComponent {
               <MenuIcon />
             </ToolbarIconButton>
             <Typography color="primary.dark" sx={{ flex: 'auto' }}>
-              Assets
+              {i18next.t('ASSETS')}
             </Typography>
           </Toolbar>
           <Box className={styles.contentWrapper}>
@@ -128,21 +168,28 @@ export class Assets extends React.PureComponent {
               onDragLeave={this.handleDragLeave.bind(this)}
               onDragOver={this.handleDragOver.bind(this)}
               onDrop={this.handleDrop.bind(this)}
+              component={Stack}
+              direction="column"
+              justifyContent="center"
             >
-              <Stack
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-                spacing={4}
-              >
+              <Stack justifyContent="center" alignItems="center" spacing={2}>
                 <Box>
-                  <PermMediaIcon sx={{ fontSize: 64 }} />
+                  <PermMediaIcon sx={{ fontSize: 48 }} />
                 </Box>
+                <Button
+                  variant="contained"
+                  onClick={this.handleUploadFile.bind(this)}
+                >
+                  <UploadFileIcon
+                    sx={{ paddingRight: '5px', verticalAlign: 'middle' }}
+                  />
+                  {i18next.t('ASSETS_UPLOAD_FILE')}
+                </Button>
                 <Box>
                   <FileUploadIcon
                     sx={{ paddingRight: '5px', verticalAlign: 'middle' }}
                   />
-                  Drop files here
+                  {i18next.t('ASSETS_DROP_FILES_HERE')}
                 </Box>
               </Stack>
             </Box>

@@ -35,7 +35,7 @@ Blocks['phaser_debug_camera'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.point())
-      .appendField(i18next.t('debug camera'));
+      .appendField(i18next.t('BLOCKS_PHASER_DEBUG_CAMERA'));
     this.setPreviousStatement(true, 'Render');
     this.setNextStatement(true, 'Render');
     this.setColour(195);
@@ -59,7 +59,7 @@ Blocks['phaser_debug_pointer'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.point())
-      .appendField(i18next.t('debug pointer'));
+      .appendField(i18next.t('BLOCKS_PHASER_DEBUG_POINTER'));
     this.setPreviousStatement(true, 'Render');
     this.setNextStatement(true, 'Render');
     this.setColour(195);
@@ -83,7 +83,7 @@ Blocks['phaser_debug_sprite'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.point())
-      .appendField(i18next.t('debug sprite'));
+      .appendField(i18next.t('BLOCKS_PHASER_DEBUG_SPRITE'));
     this.setPreviousStatement(true, 'Render');
     this.setNextStatement(true, 'Render');
     this.setColour(195);

@@ -90,7 +90,7 @@ export class SelectScreen extends React.PureComponent {
           </Grid>
           <Grid item>
             <Typography align="center">
-              Please select a option to start.
+              {i18next.t('SELECT_A_OPTION_TO_START')}
             </Typography>
           </Grid>
           <Grid item>
@@ -100,7 +100,7 @@ export class SelectScreen extends React.PureComponent {
               variant="contained"
               startIcon={<BuildIcon />}
             >
-              Game Editor
+              {i18next.t('GAME_EDITOR')}
             </Button>
           </Grid>
           <Grid item>

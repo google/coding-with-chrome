@@ -98,24 +98,24 @@ Blocks['phaser_sprite_adjust'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.adjust())
-      .appendField(i18next.t('BLOCKS_PHASER_SPRITE_SET'));
+      .appendField(i18next.t('BLOCKS_PHASER_SPRITE_CHANGE'));
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
-        [i18next.t('alpha transparent'), 'alpha'],
-        [i18next.t('angle'), 'angle'],
-        [i18next.t('anchor'), 'anchor.set'],
-        [i18next.t('buttonMode'), 'buttonMode'],
+        [i18next.t('ALPHA_TRANSPARENT'), 'alpha'],
+        [i18next.t('ANGLE'), 'angle'],
+        [i18next.t('ANCHOR'), 'anchor.set'],
+        [i18next.t('BUTTON_MODE'), 'buttonMode'],
         [i18next.t('BLOCKS_HEIGHT'), 'height'],
-        [i18next.t('move down'), 'moveDown'],
-        [i18next.t('move left'), 'moveLeft'],
-        [i18next.t('move right'), 'moveRight'],
-        [i18next.t('move up'), 'moveUp'],
-        [i18next.t('rotation'), 'rotation'],
-        [i18next.t('visible'), 'visible'],
+        [i18next.t('MOVE_DOWN'), 'moveDown'],
+        [i18next.t('MOVE_LEFT'), 'moveLeft'],
+        [i18next.t('MOVE_RIGHT'), 'moveRight'],
+        [i18next.t('MOVE_UP'), 'moveUp'],
+        [i18next.t('ROTATION'), 'rotation'],
+        [i18next.t('VISIBLE'), 'visible'],
         [i18next.t('BLOCKS_WIDTH'), 'width'],
-        [i18next.t('x'), 'x'],
-        [i18next.t('y'), 'y'],
-        [i18next.t('z'), 'y'],
+        ['x', 'x'],
+        ['y', 'y'],
+        ['z', 'y'],
       ]),
       'property'
     );
@@ -170,8 +170,8 @@ Blocks['phaser_sprite_adjust_dimension'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.adjust())
-      .appendField(i18next.t('BLOCKS_PHASER_SPRITE_SET'));
-    this.appendDummyInput().appendField(i18next.t('WITH_DIMENSION'));
+      .appendField(i18next.t('BLOCKS_PHASER_SPRITE_CHANGE'));
+    this.appendDummyInput().appendField(i18next.t('TO_DIMENSION'));
     this.appendValueInput('width').setCheck('Number');
     this.appendValueInput('height').appendField('x').setCheck('Number');
     this.setPreviousStatement(true, ['Create', 'Input', 'Update']);
@@ -223,11 +223,11 @@ javascriptGenerator['phaser_sprite_adjust_dimension'] = function (block) {
 Blocks['phaser_sprite_get'] = {
   init: function () {
     this.appendValueInput('variable').appendField(
-      i18next.t('BLOCKS_PHASER_SPRITE_GET')
+      i18next.t('BLOCKS_PHASER_SPRITE_CHANGE')
     );
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
-        [i18next.t('angle'), 'angle'],
+        [i18next.t('ANGLE'), 'angle'],
         ['x', 'x'],
         ['y', 'y'],
       ]),
@@ -295,7 +295,7 @@ Blocks['phaser_sprite_immovable'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.point())
-      .appendField(i18next.t('BLOCKS_PHASER_SPRITE_SET'));
+      .appendField(i18next.t('BLOCKS_PHASER_SPRITE_CHANGE'));
     this.appendDummyInput().appendField(
       i18next.t('AS_IMMOVABLE_BY_OTHER_OBJECTS')
     );

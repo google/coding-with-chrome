@@ -316,7 +316,6 @@ Blocks['phaser_input_mouse_keys_add'] = {
     this.appendDummyInput()
       .appendField(i18next.t('BLOCKS_AS'))
       .appendField(i18next.t('BLOCKS_PHASER_MOUSE_KEYS'))
-      .appendField(i18next.t('capture mouse keys'))
       .appendField(BlocksTemplate.mouse());
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
@@ -352,14 +351,14 @@ Blocks['phaser_input_keyboard_cursor_is_pressed'] = {
   init: function () {
     this.appendValueInput('cursors').appendField(BlocksTemplate.keyboard());
     this.appendDummyInput()
-      .appendField(i18next.t('is pressed'))
+      .appendField(i18next.t('BLOCKS_KEY_IS_PRESSED'))
       .appendField(
         new Blockly.FieldDropdown([
           [i18next.t('BLOCKS_UP'), '.up'],
           [i18next.t('BLOCKS_DOWN'), '.down'],
           [i18next.t('BLOCKS_LEFT'), '.left'],
           [i18next.t('BLOCKS_RIGHT'), '.right'],
-          [i18next.t('key pressed'), ''],
+          [i18next.t('BLOCKS_KEY_PRESSED'), ''],
         ]),
         'direction'
       );
@@ -401,14 +400,14 @@ Blocks['phaser_input_keyboard_cursor_is_hold_pressed'] = {
   init: function () {
     this.appendValueInput('cursors').appendField(BlocksTemplate.keyboard());
     this.appendDummyInput()
-      .appendField(i18next.t('is hold pressed'))
+      .appendField(i18next.t('BLOCKS_KEY_IS_HOLD_PRESSED'))
       .appendField(
         new Blockly.FieldDropdown([
           [i18next.t('BLOCKS_UP'), '.up'],
           [i18next.t('BLOCKS_DOWN'), '.down'],
           [i18next.t('BLOCKS_LEFT'), '.left'],
           [i18next.t('BLOCKS_RIGHT'), '.right'],
-          [i18next.t('key pressed'), ''],
+          [i18next.t('BLOCKS_KEY_PRESSED'), ''],
         ]),
         'direction'
       );
@@ -449,7 +448,7 @@ javascriptGenerator['phaser_input_keyboard_cursor_is_hold_pressed'] = function (
 Blocks['phaser_input_keyboard_key_is_pressed'] = {
   init: function () {
     this.appendValueInput('key').appendField(BlocksTemplate.keyboard());
-    this.appendDummyInput().appendField(i18next.t('is pressed'));
+    this.appendDummyInput().appendField(i18next.t('BLOCKS_KEY_IS_PRESSED'));
     this.setInputsInline(true);
     this.setOutput(true, null);
     this.setColour(135);
@@ -479,7 +478,9 @@ javascriptGenerator['phaser_input_keyboard_key_is_pressed'] = function (block) {
 Blocks['phaser_input_keyboard_key_is_hold_pressed'] = {
   init: function () {
     this.appendValueInput('key').appendField(BlocksTemplate.keyboard());
-    this.appendDummyInput().appendField(i18next.t('is hold pressed'));
+    this.appendDummyInput().appendField(
+      i18next.t('BLOCKS_KEY_IS_HOLD_PRESSED')
+    );
     this.setInputsInline(true);
     this.setOutput(true, null);
     this.setColour(135);
@@ -512,8 +513,7 @@ Blocks['phaser_input_keyboard_code_is_pressed'] = {
   init: function () {
     this.appendValueInput('key').appendField(BlocksTemplate.keyboard());
     this.appendDummyInput()
-      .appendField(i18next.t('is pressed'))
-      .appendField(i18next.t('with'))
+      .appendField(i18next.t('BLOCKS_KEY_IS_PRESSED_WITH'))
       .appendField(
         new Blockly.FieldDropdown([
           ['ShiftLeft', 'ShiftLeft'],
@@ -561,7 +561,7 @@ Blocks['phaser_input_mouse_key_is_pressed'] = {
   init: function () {
     this.appendValueInput('mouse').appendField(BlocksTemplate.mouse());
     this.appendDummyInput()
-      .appendField(i18next.t('is pressed'))
+      .appendField(i18next.t('BLOCKS_KEY_IS_PRESSED'))
       .appendField(
         new Blockly.FieldDropdown([
           [i18next.t('BLOCKS_LEFT'), 'leftButton.isDown'],
@@ -608,7 +608,7 @@ Blocks['phaser_input_mouse_key_is_hold_pressed'] = {
   init: function () {
     this.appendValueInput('mouse').appendField(BlocksTemplate.mouse());
     this.appendDummyInput()
-      .appendField(i18next.t('is hold pressed'))
+      .appendField(i18next.t('BLOCKS_KEY_IS_HOLD_PRESSED'))
       .appendField(
         new Blockly.FieldDropdown([
           [i18next.t('BLOCKS_LEFT'), 'leftButton.isDown'],

@@ -37,13 +37,13 @@ Blocks['phaser_generator_physics_arcade_attributes'] = {
       .appendField(i18next.t('BLOCKS_SET'))
       .appendField(
         new Blockly.FieldDropdown([
-          [i18next.t('acceleration'), 'acceleration.set'],
-          [i18next.t('angle'), 'angle'],
-          [i18next.t('angular velocity'), 'angularVelocity'],
-          [i18next.t('bounce x'), 'bounce.x'],
-          [i18next.t('bounce y'), 'bounce.y'],
-          [i18next.t('bounce'), 'bounce.set'],
-          [i18next.t('allow gravity'), 'allowGravity'],
+          [i18next.t('ACCELERATION'), 'acceleration.set'],
+          [i18next.t('ANGLE'), 'angle'],
+          [i18next.t('ANGULAR_VELOCITY velocity'), 'angularVelocity'],
+          [i18next.t('BOUNCE_X'), 'bounce.x'],
+          [i18next.t('BOUNCE_Y'), 'bounce.y'],
+          [i18next.t('BOUNCE'), 'bounce.set'],
+          [i18next.t('ALLOW_GRAVITY'), 'allowGravity'],
           [
             i18next.t('BLOCKS_PHASER_CHECK_COLLISION_DOWN'),
             'checkCollision.down',
@@ -57,13 +57,13 @@ Blocks['phaser_generator_physics_arcade_attributes'] = {
             i18next.t('BLOCKS_PHASER_CHECK_COLLISION_RIGHT'),
             'checkCollision.right',
           ],
-          [i18next.t('collide world bounds'), 'collideWorldBounds'],
-          [i18next.t('gravity x'), 'gravity.x'],
-          [i18next.t('gravity y'), 'gravity.y'],
-          [i18next.t('immovable'), 'immovable'],
-          [i18next.t('velocity x'), 'velocity.x'],
-          [i18next.t('velocity y'), 'velocity.y'],
-          [i18next.t('velocity'), 'velocity'],
+          [i18next.t('COLLIDE_WORLD_BOUNDS'), 'collideWorldBounds'],
+          [i18next.t('GRAVITY_X'), 'gravity.x'],
+          [i18next.t('GRAVITY_Y'), 'gravity.y'],
+          [i18next.t('IMMOVABLE'), 'immovable'],
+          [i18next.t('VELOCITY_X'), 'velocity.x'],
+          [i18next.t('VELOCITY_Y'), 'velocity.y'],
+          [i18next.t('VELOCITY'), 'velocity'],
           [i18next.t('BLOCKS_WIDTH'), 'width'],
           [i18next.t('BLOCKS_HEIGHT'), 'height'],
         ]),
@@ -110,11 +110,11 @@ Blocks['phaser_generator_vertical_obstacle'] = {
     this.appendValueInput('obstacles')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField(i18next.t('number of obstacles'));
+      .appendField(i18next.t('NUMBER_OF_OBSTACLES'));
     this.appendValueInput('spaces')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField(i18next.t('number of spaces'));
+      .appendField(i18next.t('NUMBER_OF_SPACES'));
     this.appendValueInput('x')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
@@ -126,11 +126,11 @@ Blocks['phaser_generator_vertical_obstacle'] = {
     this.appendValueInput('sprite_top')
       .setCheck('String')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField(i18next.t('top sprite'));
+      .appendField(i18next.t('SPRITE_TOP'));
     this.appendValueInput('sprite_bottom')
       .setCheck('String')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField(i18next.t('bottom sprite'));
+      .appendField(i18next.t('SPRITE_BOTTOM'));
     this.appendValueInput('group')
       .setAlign(Blockly.ALIGN_RIGHT)
       .appendField(i18next.t('BLOCKS_GROUP'));
@@ -239,7 +239,7 @@ Blocks['phaser_generator_random_vertical_obstacle'] = {
     this.appendValueInput('obstacles')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField(i18next.t('number of obstacles'));
+      .appendField(i18next.t('NUMBER_OF_OBSTACLES'));
     this.appendValueInput('x')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
@@ -251,17 +251,17 @@ Blocks['phaser_generator_random_vertical_obstacle'] = {
     this.appendValueInput('sprite_optional')
       .setCheck('String')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField(i18next.t('optional sprite'));
+      .appendField(i18next.t('SPRITE_OPTIONAL'));
     this.appendValueInput('group')
       .setAlign(Blockly.ALIGN_RIGHT)
       .appendField(i18next.t('BLOCKS_GROUP'));
     this.appendDummyInput()
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField(i18next.t('direction'))
+      .appendField(i18next.t('DIRECTION'))
       .appendField(
         new Blockly.FieldDropdown([
-          [i18next.t('start from top'), 'top'],
-          [i18next.t('start from bottom'), 'bottom'],
+          [i18next.t('START_FROM_TOP'), 'top'],
+          [i18next.t('START_FROM_BOTTOM'), 'bottom'],
         ]),
         'direction'
       );

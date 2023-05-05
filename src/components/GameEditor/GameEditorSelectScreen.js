@@ -151,7 +151,7 @@ export class GameEditorSelectScreen extends React.PureComponent {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Game Editor
+              {i18next.t('GAME_EDITOR')}
             </Typography>
             <LanguageSetting color="inherit" />
           </Toolbar>
@@ -172,7 +172,7 @@ export class GameEditorSelectScreen extends React.PureComponent {
               color="text.primary"
               gutterBottom
             >
-              Game Editor
+              {i18next.t('GAME_EDITOR')}
             </Typography>
             <Typography
               variant="h6"

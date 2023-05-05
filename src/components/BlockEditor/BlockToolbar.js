@@ -26,8 +26,8 @@ import Blockly from 'blockly';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
 import CodeIcon from '@mui/icons-material/Code';
 import CreateIcon from '@mui/icons-material/Create';
 import Divider from '@mui/material/Divider';
@@ -56,9 +56,8 @@ import i18next from '../App/i18next';
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import { BlocklyWorkspace, WorkspaceSvg } from 'react-blockly';
 import FileFormat, { ContentType } from '../FileFormat/FileFormat';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 
-import { Toolbar, ToolbarIconButton, ToolbarButton } from '../Toolbar';
+import { Toolbar, ToolbarIconButton } from '../Toolbar';
 import LanguageSetting from '../Settings/LanguageSetting';
 
 const ConfirmDialog = lazy(() => import('../Dialogs/ConfirmDialog'));
@@ -333,17 +332,17 @@ export class BlockToolbar extends React.PureComponent {
           >
             <RedoIcon />
           </ToolbarIconButton>
-          <ToolbarButton
-            size="small"
+          <ToolbarIconButton
+            title={i18next.t('CREATE_VARIABLE')}
+            aria-label="create_variable"
             onClick={() => {
               Blockly.Variables.createVariableButtonHandler(
                 this.props.blocklyWorkspace
               );
             }}
           >
-            <AttachMoneyIcon sx={{ marginRight: '5px' }} />
-            {i18next.t('CREATE_VARIABLE')}
-          </ToolbarButton>
+            <AttachMoneyIcon />
+          </ToolbarIconButton>
           <Typography color="inherit" noWrap sx={{ flexGrow: 1 }}></Typography>
           {this.props.blockEditor.codeEditor && (
             <ToolbarIconButton

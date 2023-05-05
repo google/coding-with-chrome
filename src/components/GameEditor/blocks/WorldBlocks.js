@@ -34,7 +34,7 @@ Blocks['phaser_world_resize'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.adjust())
-      .appendField(i18next.t('set world size'))
+      .appendField(i18next.t('BLOCKS_PHASER_WORLD_SET_SIZE'))
       .appendField(new Blockly.FieldNumber(400, 0, 10000), 'width')
       .appendField('x')
       .appendField(new Blockly.FieldNumber(600, 0, 10000), 'height');
@@ -64,7 +64,7 @@ Blocks['phaser_world_wrap'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.point())
-      .appendField(i18next.t('World wrap sprite'));
+      .appendField(i18next.t('BLOCKS_PHASER_WORLD_WRAP_SPRITE'));
     this.appendValueInput('value')
       .setCheck('Number')
       .appendField(i18next.t('BLOCKS_PADDING'));
@@ -102,11 +102,11 @@ javascriptGenerator['phaser_world_wrap'] = function (block) {
 Blocks['phaser_world_attributes'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField(i18next.t('get world'))
+      .appendField(i18next.t('BLOCKS_PHASER_WORLD_GET'))
       .appendField(
         new Blockly.FieldDropdown([
-          [i18next.t('center x'), 'centerX'],
-          [i18next.t('center y'), 'centerY'],
+          [i18next.t('CENTER_X'), 'centerX'],
+          [i18next.t('CENTER_Y'), 'centerY'],
           [i18next.t('BLOCKS_WIDTH'), 'width'],
           [i18next.t('BLOCKS_HEIGHT'), 'height'],
         ]),
@@ -137,8 +137,7 @@ Blocks['phaser_world_arcade_physics'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.adjust())
-      .appendField(i18next.t('BLOCKS_SET'))
-      .appendField(i18next.t('BLOCKS_PHASER_WORLD_ARCADE_PHYSICS'))
+      .appendField(i18next.t('BLOCKS_PHASER_WORLD_ARCADE_PHYSICS_CHANGE'))
       .appendField(
         new Blockly.FieldDropdown([
           [
@@ -154,9 +153,9 @@ Blocks['phaser_world_arcade_physics'] = {
             i18next.t('BLOCKS_PHASER_CHECK_COLLISION_RIGHT'),
             'checkCollision.right',
           ],
-          [i18next.t('gravity x'), 'gravity.x'],
-          [i18next.t('gravity y'), 'gravity.y'],
-          [i18next.t('pause'), 'isPaused'],
+          [i18next.t('GRAVITY_X'), 'gravity.x'],
+          [i18next.t('GRAVITY_Y'), 'gravity.y'],
+          [i18next.t('PAUSED'), 'isPaused'],
         ]),
         'property'
       );
@@ -196,15 +195,14 @@ Blocks['phaser_world_sort_direction'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.adjust())
-      .appendField(i18next.t('BLOCKS_SET'))
-      .appendField(i18next.t('BLOCKS_PHASER_WORLD_SORT_DIRECTION'))
+      .appendField(i18next.t('BLOCKS_PHASER_WORLD_SORT_DIRECTION_CHANGE'))
       .appendField(
         new Blockly.FieldDropdown([
-          [i18next.t('none'), '0'],
-          [i18next.t('left to right'), '1'],
-          [i18next.t('right to left'), '2'],
-          [i18next.t('top to bottom'), '3'],
-          [i18next.t('bottom to top'), '4'],
+          [i18next.t('NONE'), '0'],
+          [i18next.t('LEFT_TO_RIGHT'), '1'],
+          [i18next.t('RIGHT_TO_LEFT'), '2'],
+          [i18next.t('TOP_TO_BOTTOM'), '3'],
+          [i18next.t('BOTTOM_TO_TOP'), '4'],
         ]),
         'property'
       );

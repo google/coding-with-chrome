@@ -134,9 +134,12 @@ export class GameEditor extends React.PureComponent {
     };
 
     // Listen for language changes.
-    i18next.on('languageChanged', () => {
+    i18next.on('languageChanged', (language) => {
       if (this.state.blockEditorRef.current) {
-        console.log('[GameEditor] Update toolbox after language change.');
+        console.log(
+          '[GameEditor] Update toolbox after language change to',
+          language
+        );
         this.updateToolbox(
           this.state.blockEditorRef.current.getBlocklyWorkspace()
         );
@@ -386,7 +389,6 @@ export class GameEditor extends React.PureComponent {
     const toolbox = Toolbox.getToolbox(phaserAudioFiles, phaserImageFiles);
     if (toolbox) {
       this.setState({ toolbox });
-      workspace.updateToolbox(toolbox);
     }
   }
 

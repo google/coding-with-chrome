@@ -37,7 +37,7 @@ Blocks['phaser_time_event'] = {
       .setCheck('Number')
       .appendField(BlocksTemplate.timelapse())
       .appendField(i18next.t('BLOCKS_PHASER_TIME_EVENT'));
-    this.appendDummyInput().appendField(i18next.t('milliseconds'));
+    this.appendDummyInput().appendField(i18next.t('MILLISECONDS'));
     this.appendStatementInput('func').appendField(i18next.t('BLOCKS_DO'));
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
@@ -78,7 +78,7 @@ Blocks['phaser_time_loop_event'] = {
       .setCheck('Number')
       .appendField(BlocksTemplate.repeat())
       .appendField(i18next.t('BLOCKS_PHASER_TIME_LOOP_EVENT'));
-    this.appendDummyInput().appendField(i18next.t('milliseconds'));
+    this.appendDummyInput().appendField(i18next.t('MILLISECONDS'));
     this.appendStatementInput('func').appendField(i18next.t('BLOCKS_DO'));
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');

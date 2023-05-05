@@ -96,6 +96,8 @@ export class BlockEditor extends React.PureComponent {
         kind: 'categoryToolbox',
         contents: [''],
       },
+      language:
+        props.language || i18next.language || i18next.resolvedLanguage || 'en',
       snackbarSaved: false,
       variables: [],
       xml: props.content || '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
@@ -136,11 +138,32 @@ export class BlockEditor extends React.PureComponent {
    *
    */
   componentDidMount() {
-    i18next.on('languageChanged', () => {
+    // Setting blockly language pack.
+    if (this.state.language !== 'en') {
+      this.changeLanguage(this.state.language);
+    }
+
+    // Adding event listener for language change.
+    i18next.on('languageChanged', (language) => {
       this.refreshWorkspace();
+      if (this.state.language != language) {
+        this.changeLanguage(language);
+      }
       this.forceUpdate();
       this.refresh();
     });
+  }
+
+  /**
+   * @param {*} prevProps
+   */
+  componentDidUpdate(prevProps) {
+    if (this.props.toolbox !== prevProps.toolbox) {
+      if (this.state.blocklyWorkspace) {
+        this.state.blocklyWorkspace.updateToolbox(this.props.toolbox);
+        window.setTimeout(this.collapseToolbox.bind(this), 100);
+      }
+    }
   }
 
   /**
@@ -154,6 +177,20 @@ export class BlockEditor extends React.PureComponent {
         this.getBlocklyWorkspace()
       );
     }
+  }
+
+  /**
+   * Refresh the blockly language pack.
+   * @param {string} language
+   */
+  changeLanguage(language) {
+    this.setState({ language: language }, () => {
+      // Lazy load language pack.
+      import(`blockly/msg/${language}.js`).then((module) => {
+        Blockly.setLocale(module);
+        this.refreshWorkspace();
+      });
+    });
   }
 
   /**
@@ -499,7 +536,6 @@ export class BlockEditor extends React.PureComponent {
     if (toolbox) {
       console.log('Refreshing toolbox ...');
       toolbox.refreshSelection();
-      window.setTimeout(this.collapseToolbox.bind(this), 100);
     }
   }
 
@@ -624,6 +660,9 @@ BlockEditor.propTypes = {
 
   /** @type {boolean} */
   autoCollapse: PropTypes.bool,
+
+  /** @type {string} */
+  language: PropTypes.string,
 
   /** @type {object} */
   toolbox: PropTypes.object,

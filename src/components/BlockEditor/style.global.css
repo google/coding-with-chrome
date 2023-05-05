@@ -64,10 +64,6 @@
   font-size: 14px !important;
 }
 
-.blocklyTreeRoot {
-  padding: 2px 0 0 0;
-}
-
 .blocklyTreeLabel {
   cursor: pointer !important;
   font-family: inherit !important;
@@ -149,6 +145,7 @@
 
 .blocklyTreeRoot {
   margin-bottom: 3px;
+  padding: 2px 0 0 0;
   padding-top: 0;
 }
 

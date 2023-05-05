@@ -35,9 +35,11 @@ Blocks['phaser_text_add'] = {
   init: function () {
     this.appendValueInput('text')
       .appendField(BlocksTemplate.addCircle())
-      .appendField(i18next.t('add text'))
+      .appendField(i18next.t('BLOCKS_PHASER_TEXT_ADD'))
       .setCheck('String');
-    this.appendValueInput('x').setCheck('Number').appendField(i18next.t('on'));
+    this.appendValueInput('x')
+      .setCheck('Number')
+      .appendField(i18next.t('WITH_POSITION'));
     this.appendValueInput('y').appendField('x').setCheck('Number');
     this.appendDummyInput()
       .appendField('y')
@@ -60,10 +62,11 @@ Blocks['phaser_text_add'] = {
           ['Lucida Console', 'Lucida Console'],
           ['Tahoma', 'Tahoma'],
           ['Times New Roman', 'Times New Roman'],
+          ['Trebuchet MS', 'Trebuchet MS, sans-serif'],
           ['Verdana', 'Verdana'],
           ['Webdings', 'Webdings'],
           ['Wingdings', 'Wingdings'],
-          ['sans-serif', 'sans-serif'],
+          ['Sans Serif', 'sans-serif'],
         ]),
         'font'
       );
@@ -156,10 +159,11 @@ Blocks['phaser_dynamic_text_add'] = {
           ['Lucida Console', 'Lucida Console'],
           ['Tahoma', 'Tahoma'],
           ['Times New Roman', 'Times New Roman'],
+          ['Trebuchet MS', 'Trebuchet MS, sans-serif'],
           ['Verdana', 'Verdana'],
           ['Webdings', 'Webdings'],
           ['Wingdings', 'Wingdings'],
-          ['sans-serif', 'sans-serif'],
+          ['Sans Serif', 'sans-serif'],
         ]),
         'font'
       );
@@ -237,7 +241,9 @@ Blocks['phaser_dynamic_text_highscore_add'] = {
       i18next.t('BLOCKS_PHASER_DYNAMIC_TEXT_ADD_HIGHSCORE')
     );
     this.appendValueInput('score').setCheck('Number');
-    this.appendValueInput('x').setCheck('Number').appendField(i18next.t('on'));
+    this.appendValueInput('x')
+      .setCheck('Number')
+      .appendField(i18next.t('WITH_POSITION'));
     this.appendValueInput('y').appendField('x').setCheck('Number');
     this.appendDummyInput()
       .appendField('y')
@@ -340,7 +346,9 @@ Blocks['phaser_action_text_add'] = {
       .appendField(i18next.t('BLOCKS_DEFINE'));
     this.appendDummyInput().appendField(i18next.t('AS_ACTION_TEXT'));
     this.appendValueInput('text').setCheck('String');
-    this.appendValueInput('x').setCheck('Number').appendField(i18next.t('on'));
+    this.appendValueInput('x')
+      .setCheck('Number')
+      .appendField(i18next.t('WITH_POSITION'));
     this.appendValueInput('y').appendField('x').setCheck('Number');
     this.appendDummyInput()
       .appendField('y')
@@ -443,8 +451,8 @@ Blocks['phaser_text_change'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.adjust())
-      .appendField(i18next.t('BLOCKS_CHANGE'));
-    this.appendValueInput('text').appendField(i18next.t('text to'));
+      .appendField(i18next.t('BLOCKS_PHASER_TEXT_CHANGE'));
+    this.appendValueInput('text').appendField(i18next.t('BLOCKS_TO'));
     this.setInputsInline(true);
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);
@@ -538,7 +546,7 @@ Blocks['phaser_text_clicked'] = {
   init: function () {
     this.appendValueInput('variable')
       .appendField(BlocksTemplate.runningMan())
-      .appendField(i18next.t('on click on action text'));
+      .appendField(i18next.t('BLOCKS_PHASER_ACTION_TEXT_ON_CLICK'));
     this.appendStatementInput('func').appendField(i18next.t('BLOCKS_DO'));
     this.setInputsInline(true);
     this.setPreviousStatement(true, 'Create');
