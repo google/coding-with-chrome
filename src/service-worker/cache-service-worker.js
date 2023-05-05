@@ -88,15 +88,18 @@ export class CacheService {
       return;
     }
     event.respondWith(
-      caches.open(CACHE_SERVICE_WORKER_CACHE_NAME).then(function (cache) {
-        return cache.match(event.request).then(function (response) {
-          return (
-            response ||
-            fetch(event.request).then(function (response) {
-              cache.put(event.request, response.clone());
-              return response;
-            })
-          );
+      caches.open(CACHE_SERVICE_WORKER_CACHE_NAME).then((cache) => {
+        return cache.match(event.request).then((cachedResponse) => {
+          // Return cached response if available.
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+
+          // Fetch and cache non-cached request.
+          fetch(event.request).then((response) => {
+            cache.put(event.request, response.clone());
+            return response;
+          });
         });
       })
     );

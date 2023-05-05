@@ -45,7 +45,7 @@
     "css-loader": "^6.7.3",
     "css-minimizer-webpack-plugin": "^5.0.0",
     "emoji-picker-react": "^4.4.9",
-    "eslint": "^8.39.0",
+    "eslint": "^8.40.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-compat": "^4.1.4",

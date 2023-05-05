@@ -46,4 +46,21 @@ export class Settings {
   static setLanguage(language) {
     return Settings.DATABASE.put('language', language);
   }
+
+  /**
+   * @return {Promise}
+   */
+  static getVersion() {
+    return Settings.DATABASE.get('version');
+  }
+
+  /**
+   * @param {string} version
+   * @return {Promise}
+   */
+  static setVersion(version) {
+    return Settings.DATABASE.put('version', version);
+  }
 }
+
+export default Settings;

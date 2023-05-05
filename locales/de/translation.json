@@ -6,6 +6,9 @@
   "AND": "und",
   "ANGLE": "Winkel",
   "ANGULAR_VELOCITY": "Winkelgeschwindigkeit",
+  "ASSETS": "Assets",
+  "ASSETS_DROP_FILES_HERE": "Ziehe deine Assets hierher",
+  "ASSETS_UPLOAD_FILE": "Datei hochladen",
   "AS_ACTION_TEXT": "als Aktion Text",
   "AS_ARCADE_SPRITE": "als Arcade Sprite",
   "AS_AUDIO": "als Ton",
@@ -220,6 +223,8 @@
   "SELECT_A_OPTION_TO_START": "Wähle bitte eine Option, um zu starten",
   "SELECT_PROJECT_ICON": "Projekt Icon auswählen",
   "SELECT_PROJECT_TO_OPEN": "Wähle ein Projekt zum Öffnen aus",
+  "SELECT_SCREEN_SUBTITLE": "Eine pädagogische und webbasierte Entwicklerumgebung",
+  "SELECT_SCREEN_TITLE": "Willkomen zu Coding with Chrome!",
   "SELECT_YOUR_LANGUAGE": "Wähle deine Sprache aus",
   "SORT_BY_DATE": "Sortieren nach Datum",
   "SORT_BY_NAME": "Sortieren nach Name",
@@ -249,10 +254,5 @@
   "WITH_SIZE": "mit der Größe von",
   "WITH_STYLE": "mit dem Stil",
   "WITH_VOLUME": "mit der Lautstärke",
-
-  "ASSETS": "Assets",
-  "ASSETS_UPLOAD_FILE": "Datei hochladen",
-  "ASSETS_DROP_FILES_HERE": "Ziehe deine Assets hierher",
-
   "X": "Platzhalter"
 }

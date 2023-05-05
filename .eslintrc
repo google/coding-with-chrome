@@ -51,6 +51,7 @@
     "serviceworker": true
   },
   "globals": {
+    "APP_VERSION": false,
     "DEVMODE": false,
     "VERSION": false,
     "chrome": true,

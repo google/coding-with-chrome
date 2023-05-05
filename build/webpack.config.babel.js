@@ -27,9 +27,10 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import JsonMinimizerPlugin from 'json-minimizer-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-
 import path from 'path';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import { DefinePlugin } from 'webpack';
+import { version } from '../package.json';
 
 module.exports = (mode = 'development') => ({
   mode: mode == 'deploy' ? 'production' : mode,
@@ -253,6 +254,9 @@ module.exports = (mode = 'development') => ({
       favicon: 'assets/favicon/favicon.ico',
       inject: false,
       enforce: 'post',
+    }),
+    new DefinePlugin({
+      VERSION: JSON.stringify(version),
     }),
   ],
   optimization: {

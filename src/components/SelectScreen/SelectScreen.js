@@ -21,17 +21,29 @@
 
 import React from 'react';
 
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
 import BuildIcon from '@mui/icons-material/Build';
+import Button from '@mui/material/Button';
 import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
 import SchoolIcon from '@mui/icons-material/School';
 import Toolbar from '@mui/material/Toolbar';
-import { Alert, AlertTitle, Button, Grid, Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 
 import i18next from '../App/i18next';
-import { APP_BASE_PATH } from '../../constants';
+import {
+  APP_BASE_PATH,
+  APP_VERSION,
+  CACHE_SERVICE_WORKER_CACHE_NAME,
+} from '../../constants';
 
+import Settings from '../Settings/Settings';
 import SettingScreen from '../Settings/SettingScreen';
 import LanguageSetting from '../Settings/LanguageSetting';
 
@@ -48,8 +60,46 @@ export class SelectScreen extends React.PureComponent {
    */
   constructor(props) {
     super(props);
+    this.state = {
+      showUpdate: false,
+    };
+  }
+
+  /**
+   * Component did mount.
+   */
+  componentDidMount() {
+    // Check for updates
+    Settings.getVersion().then((version) => {
+      if (!version && APP_VERSION) {
+        Settings.setVersion(APP_VERSION);
+      } else if (version && version !== APP_VERSION) {
+        this.setState({
+          showUpdate: true,
+        });
+      }
+    });
+
+    // Update language
     i18next.on('languageChanged', () => {
       this.forceUpdate();
+    });
+  }
+
+  /**
+   * Perform forced update, by clearing the cache and reloading the page.
+   */
+  performUpdate() {
+    caches.open(CACHE_SERVICE_WORKER_CACHE_NAME).then((cache) => {
+      cache.keys().then(function (names) {
+        for (const name of names) {
+          cache.delete(name);
+        }
+      });
+      Settings.setVersion(APP_VERSION);
+      setTimeout(() => {
+        window.location.reload(true);
+      }, 1000);
     });
   }
 
@@ -62,14 +112,30 @@ export class SelectScreen extends React.PureComponent {
         <AppBar position="relative">
           <Toolbar>
             <SchoolIcon sx={{ mr: 2 }} />
-            <Typography
-              variant="h6"
+            <Box sx={{ flexGrow: 1 }}>
+              <Typography
+                variant="h6"
+                color="inherit"
+                noWrap
+                sx={{ flexGrow: 1 }}
+              >
+                {i18next.t('SELECT_SCREEN_TITLE')}
+              </Typography>
+              <Typography color="inherit" variant="caption">
+                {i18next.t('SELECT_SCREEN_SUBTITLE')}
+              </Typography>
+            </Box>
+            <IconButton
+              component={Link}
+              to="/desktop"
               color="inherit"
-              noWrap
-              sx={{ flexGrow: 1 }}
+              sx={{
+                filter: 'opacity(5%)',
+              }}
+              title="Experimental Desktop"
             >
-              Coding with Chrome
-            </Typography>
+              <DesktopWindowsIcon />
+            </IconButton>
             <SettingScreen color="inherit" />
             <LanguageSetting color="inherit" />
           </Toolbar>
@@ -87,6 +153,23 @@ export class SelectScreen extends React.PureComponent {
               This version is experimental and not fully functional. Use at your
               own risk.
             </Alert>
+            {this.state.showUpdate && (
+              <Alert severity="info">
+                <AlertTitle>Update available</AlertTitle>
+                <Typography>
+                  A new version of Coding with Chrome is available. Please click
+                  the following update button to get the latest version.
+                </Typography>
+                <Button
+                  variant="contained"
+                  startIcon={<BrowserUpdatedIcon />}
+                  onClick={this.performUpdate.bind(this)}
+                  sx={{ marginTop: '20px' }}
+                >
+                  Update Coding with Chrome
+                </Button>
+              </Alert>
+            )}
           </Grid>
           <Grid item>
             <Typography align="center">
@@ -103,20 +186,11 @@ export class SelectScreen extends React.PureComponent {
               {i18next.t('GAME_EDITOR')}
             </Button>
           </Grid>
-          <Grid item>
-            <Button
-              component={Link}
-              to="/desktop"
-              variant="outlined"
-              startIcon={<DesktopWindowsIcon />}
-            >
-              Experimental Desktop
-            </Button>
-          </Grid>
           <Grid item justify="space-between">
             <Typography variant="caption" align="center">
               Location:{window.location.href} | App Base Path:{APP_BASE_PATH} |
-              Language:{i18next.language} ({i18next.resolvedLanguage})
+              Language:{i18next.language} ({i18next.resolvedLanguage}) |
+              Version:{APP_VERSION}
             </Typography>
           </Grid>
         </Grid>
