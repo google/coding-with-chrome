@@ -145,20 +145,19 @@ export class ServiceWorker {
 
         // Add assets to cache.
         caches.open(CACHE_SERVICE_WORKER_CACHE_NAME).then((cache) => {
-          cache.addAll(this.assets).then(
-            () => {
-              console.log(
-                `${this.prefix} Added the following assets to the cache service:`,
-                this.assets
-              );
-            },
-            () => {
-              console.log(
-                `${this.prefix} Unable to add the following assets to the cache service:`,
-                this.assets
-              );
-            }
-          );
+          for (const asset of this.assets) {
+            cache.add(asset).then(
+              () => {
+                console.debug(`${this.prefix} Added asset: ${asset}`);
+              },
+              (error) => {
+                console.error(
+                  `${this.prefix} Unable to add asset: ${asset}`,
+                  error
+                );
+              }
+            );
+          }
         });
       }
     } else {

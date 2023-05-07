@@ -104,7 +104,9 @@ Blocks['phaser_generator_vertical_obstacle'] = {
       .appendField(BlocksTemplate.point())
       .appendField(i18next.t('BLOCKS_PHASER_GENERATOR_VERTICAL_OBSTACLE'))
       .appendField(
-        new Blockly.FieldDropdown(BlocksHelper.phaserImage('obstacles')),
+        new Blockly.FieldDropdown(() => {
+          return BlocksHelper.phaserImage('obstacles');
+        }),
         'sprite'
       );
     this.appendValueInput('obstacles')
@@ -233,7 +235,9 @@ Blocks['phaser_generator_random_vertical_obstacle'] = {
         i18next.t('BLOCKS_PHASER_GENERATOR_RANDOM_VERTICAL_OBSTACLE')
       )
       .appendField(
-        new Blockly.FieldDropdown(BlocksHelper.phaserImage('block')),
+        new Blockly.FieldDropdown(() => {
+          return BlocksHelper.phaserImage('block');
+        }),
         'sprite'
       );
     this.appendValueInput('obstacles')
@@ -353,7 +357,9 @@ Blocks['phaser_generator_matrix_block'] = {
       .appendField(BlocksTemplate.point())
       .appendField(i18next.t('BLOCKS_PHASER_GENERATOR_OBSTACLE'))
       .appendField(
-        new Blockly.FieldDropdown(BlocksHelper.phaserImage('block')),
+        new Blockly.FieldDropdown(() => {
+          return BlocksHelper.phaserImage('block');
+        }),
         'sprite'
       );
     this.appendValueInput('x')

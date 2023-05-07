@@ -23,18 +23,18 @@ import React, { createRef, lazy } from 'react';
 
 import Blockly from 'blockly';
 import Box from '@mui/material/Box';
+import MuiAlert from '@mui/material/Alert';
 import PropTypes from 'prop-types';
 import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
 import i18next from '../App/i18next';
-
 import { BlocklyWorkspace } from 'react-blockly';
+
+import BlockToolbar from './BlockToolbar';
 import LegacyBlocks from './blocks/LegacyBlocks';
+import { APP_BASE_PATH } from '../../constants';
+import { Database } from '../../utils/db/Database';
 import { WindowEventTarget } from '../Desktop/WindowManager/Events';
 import { javascriptGenerator } from 'blockly/javascript';
-import BlockToolbar from './BlockToolbar';
-import { Database } from '../../utils/db/Database';
-import { APP_BASE_PATH } from '../../constants';
 
 // Lazy load components
 const CodeEditor = lazy(() => import('../CodeEditor/CodeEditor'));
@@ -152,6 +152,9 @@ export class BlockEditor extends React.PureComponent {
       this.forceUpdate();
       this.refresh();
     });
+
+    // Collapse toolbox after 100ms on the first load.
+    window.setTimeout(this.collapseToolbox.bind(this), 100);
   }
 
   /**

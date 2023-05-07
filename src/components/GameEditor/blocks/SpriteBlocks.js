@@ -39,7 +39,9 @@ Blocks['phaser_sprite_add'] = {
     this.appendDummyInput()
       .appendField(i18next.t('AS_SPRITE'))
       .appendField(
-        new Blockly.FieldDropdown(BlocksHelper.phaserImage('sprite')),
+        new Blockly.FieldDropdown(() => {
+          return BlocksHelper.phaserImage('sprite');
+        }),
         'sprite'
       )
       .appendField(BlocksTemplate.image())

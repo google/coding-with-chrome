@@ -39,7 +39,9 @@ Blocks['phaser_physics_arcade_sprite_add'] = {
     this.appendDummyInput()
       .appendField(i18next.t('AS_PHYSICS_SPRITE'))
       .appendField(
-        new Blockly.FieldDropdown(BlocksHelper.phaserImage('player')),
+        new Blockly.FieldDropdown(() => {
+          return BlocksHelper.phaserImage('player');
+        }),
         'sprite'
       )
       .appendField(BlocksTemplate.image())
@@ -105,7 +107,9 @@ Blocks['phaser_physics_arcade_sprite_ball_add'] = {
     this.appendDummyInput()
       .appendField(i18next.t('AS_BALL'))
       .appendField(
-        new Blockly.FieldDropdown(BlocksHelper.phaserImage('ball')),
+        new Blockly.FieldDropdown(() => {
+          return BlocksHelper.phaserImage('ball');
+        }),
         'sprite'
       )
       .appendField(BlocksTemplate.image())
@@ -180,7 +184,9 @@ Blocks['phaser_physics_arcade_sprite_player_add'] = {
     this.appendDummyInput()
       .appendField(i18next.t('AS_PLAYER'))
       .appendField(
-        new Blockly.FieldDropdown(BlocksHelper.phaserImage('player')),
+        new Blockly.FieldDropdown(() => {
+          return BlocksHelper.phaserImage('player');
+        }),
         'sprite'
       )
       .appendField(BlocksTemplate.image())
@@ -255,7 +261,9 @@ Blocks['phaser_physics_arcade_sprite_paddle_add'] = {
     this.appendDummyInput()
       .appendField(i18next.t('AS_PADDLE'))
       .appendField(
-        new Blockly.FieldDropdown(BlocksHelper.phaserImage('paddle')),
+        new Blockly.FieldDropdown(() => {
+          return BlocksHelper.phaserImage('paddle');
+        }),
         'sprite'
       )
       .appendField(BlocksTemplate.image())

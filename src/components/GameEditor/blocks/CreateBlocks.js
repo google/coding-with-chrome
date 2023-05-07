@@ -100,7 +100,9 @@ Blocks['phaser_add_background'] = {
       .appendField(BlocksTemplate.point())
       .appendField(i18next.t('BLOCKS_PHASER_ADD_BACKGROUND_IMAGE'))
       .appendField(
-        new Blockly.FieldDropdown(BlocksHelper.phaserImage('bg_01')),
+        new Blockly.FieldDropdown(() => {
+          return BlocksHelper.phaserImage('bg_01');
+        }),
         'sprite'
       )
       .appendField(BlocksTemplate.image());
@@ -131,7 +133,9 @@ Blocks['phaser_add_background_scaled'] = {
       .appendField(BlocksTemplate.point())
       .appendField(i18next.t('BLOCKS_PHASER_ADD_BACKGROUND_IMAGE'))
       .appendField(
-        new Blockly.FieldDropdown(BlocksHelper.phaserImage('bg_01')),
+        new Blockly.FieldDropdown(() => {
+          return BlocksHelper.phaserImage('bg_01');
+        }),
         'sprite'
       )
       .appendField(BlocksTemplate.image())
