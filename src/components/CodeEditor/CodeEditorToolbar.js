@@ -21,14 +21,12 @@
 
 import React, { createRef, lazy } from 'react';
 
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import Blockly from 'blockly';
+import ExtensionIcon from '@mui/icons-material/Extension';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import CodeIcon from '@mui/icons-material/Code';
 import CreateIcon from '@mui/icons-material/Create';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
@@ -67,7 +65,7 @@ import styles from './style.module.css';
 /**
  *
  */
-export class BlockToolbar extends React.PureComponent {
+export class CodeEditorToolbar extends React.PureComponent {
   /**
    * @param {*} props
    */
@@ -112,14 +110,14 @@ export class BlockToolbar extends React.PureComponent {
    * Handle Blocks undo
    */
   handleUndo() {
-    this.props.blocklyWorkspace.undo(false);
+    this.props.codeEditor.undo();
   }
 
   /**
    * Handle Blockly redo
    */
   handleRedo() {
-    this.props.blocklyWorkspace.undo(true);
+    this.props.codeEditor.redo();
   }
 
   /**
@@ -198,9 +196,6 @@ export class BlockToolbar extends React.PureComponent {
     const parsedFile = new FileFormat(content || '');
     console.log('Parsed file', parsedFile);
     const projectFiles = new Map();
-    if (!this.props.blocklyWorkspace) {
-      return;
-    }
 
     // Handle additional files, if any.
     if (parsedFile.hasFiles()) {
@@ -332,26 +327,15 @@ export class BlockToolbar extends React.PureComponent {
           >
             <RedoIcon />
           </ToolbarIconButton>
-          <ToolbarIconButton
-            title={i18next.t('CREATE_VARIABLE')}
-            aria-label="create_variable"
-            onClick={() => {
-              Blockly.Variables.createVariableButtonHandler(
-                this.props.blocklyWorkspace
-              );
-            }}
-          >
-            <AttachMoneyIcon />
-          </ToolbarIconButton>
           <Typography color="inherit" noWrap sx={{ flexGrow: 1 }}></Typography>
           {this.props.blockEditor.codeEditor && (
             <ToolbarIconButton
               aria-label="code"
               onClick={() => {
-                this.props.blockEditor.showCodeEditor();
+                this.props.blockEditor.showBlockEditor();
               }}
             >
-              <CodeIcon />
+              <ExtensionIcon />
             </ToolbarIconButton>
           )}
           <LanguageSetting color="primary" />
@@ -468,12 +452,12 @@ export class BlockToolbar extends React.PureComponent {
   }
 }
 
-BlockToolbar.propTypes = {
+CodeEditorToolbar.propTypes = {
   /** @type {BlockEditor} */
   blockEditor: PropTypes.object,
 
-  /** @type {WorkspaceSvg} */
-  blocklyWorkspace: PropTypes.object,
+  /** @type {BlockEditor} */
+  codeEditor: PropTypes.object,
 
   /** @type {boolean} */
   hasChanged: PropTypes.bool,
@@ -500,4 +484,4 @@ BlockToolbar.propTypes = {
   onOpenProject: PropTypes.func,
 };
 
-export default BlockToolbar;
+export default CodeEditorToolbar;

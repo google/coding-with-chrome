@@ -19,41 +19,29 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import React, { lazy } from 'react';
+import React, { createRef, lazy } from 'react';
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import CodeIcon from '@mui/icons-material/Code';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import PreviewIcon from '@mui/icons-material/Preview';
+import Snackbar from '@mui/material/Snackbar';
 import PropTypes from 'prop-types';
-import RedoIcon from '@mui/icons-material/Redo';
-import Toolbar from '@mui/material/Toolbar';
-import UndoIcon from '@mui/icons-material/Undo';
+import MuiAlert from '@mui/material/Alert';
+import i18next from '../App/i18next';
+
+// CodeMirror
+const CodeMirror = lazy(() => import('@uiw/react-codemirror'));
+import { html } from '@codemirror/lang-html';
+import { javascript } from '@codemirror/lang-javascript';
 import { redo, undo } from '@codemirror/commands';
 
-// CodeMirror languages
-import { javascript } from '@codemirror/lang-javascript';
-import { html } from '@codemirror/lang-html';
-
-// Lazy load components.
-const CodeMirror = lazy(() => import('@uiw/react-codemirror'));
-const WindowManager = lazy(() => import('../Desktop/WindowManager'));
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import { WindowResizeEvent } from '../Desktop/WindowManager/Events';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import { EditorState } from '@codemirror/state';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import { EditorView } from '@codemirror/view';
-
-import styles from './style.module.css';
-import { Project } from '../Project/Project';
-import { PreviewService } from '../../service-worker/preview-service-worker';
+import CodeEditorToolbar from './CodeEditorToolbar';
 import { LanguageDetection } from './LanguageDetection';
 import { LanguageType } from './LanguageType';
+import { PreviewService } from '../../service-worker/preview-service-worker';
+import { WindowEventTarget } from '../Desktop/WindowManager/Events';
+
+import styles from './style.module.css';
 
 /**
  *
@@ -64,16 +52,21 @@ export class CodeEditor extends React.PureComponent {
    */
   constructor(props) {
     super(props);
-    this.toolbar = React.createRef();
-    this.infobar = React.createRef();
+    this.toolbar = createRef();
+    this.infobar = createRef();
+    this.timer = {
+      handleContentChange: null,
+    };
+    this.lastCode = '';
     this.state = {
-      project: props.project || new Project(),
-
       /** @type {LanguageDetection} */
       language: LanguageType.UNKNOWN,
 
       /** @type {string} */
       content: props.content || '',
+
+      /** @type {string} */
+      code: '',
 
       /** @type {EditorState|null} */
       editorState: null,
@@ -84,7 +77,7 @@ export class CodeEditor extends React.PureComponent {
 
     // Adding event listener for window resize, if windowId is set.
     if (this.props.windowId) {
-      WindowManager.windowManagerEventTarget.addEventListener(
+      WindowEventTarget.getTarget().addEventListener(
         'windowResize',
         this.handleWindowResize.bind(this)
       );
@@ -97,7 +90,17 @@ export class CodeEditor extends React.PureComponent {
       this.setValue(this.state.content);
     }
 
-    console.log('Adding code editor with project id: ', this.projectId);
+    console.log('Adding code editor with project id: ', this.props.project.id);
+  }
+
+  /**
+   *
+   */
+  componentDidMount() {
+    // Adding event listener for language change.
+    i18next.on('languageChanged', () => {
+      this.forceUpdate();
+    });
   }
 
   /**
@@ -137,9 +140,21 @@ export class CodeEditor extends React.PureComponent {
   /**
    * Handle Editor undo
    */
-  handleUndo() {
+  undo() {
     if (this.state.editorView) {
       undo({
+        state: this.state.editorView.state,
+        dispatch: this.state.editorView.dispatch,
+      });
+    }
+  }
+
+  /**
+   * Handle Editor redo
+   */
+  redo() {
+    if (this.state.editorView) {
+      redo({
         state: this.state.editorView.state,
         dispatch: this.state.editorView.dispatch,
       });
@@ -154,23 +169,25 @@ export class CodeEditor extends React.PureComponent {
   }
 
   /**
-   * Handle Editor redo
-   */
-  handleRedo() {
-    if (this.state.editorView) {
-      redo({
-        state: this.state.editorView.state,
-        dispatch: this.state.editorView.dispatch,
-      });
-    }
-  }
-
-  /**
    * @param {any} content
    */
   onChange(content) {
-    console.log('change', content);
-    this.setState({ content });
+    // Throttle and debounce XML change with a 500ms delay for performance.
+    if (this.timer.handleContentChange) {
+      clearTimeout(this.timer.handleContentChange);
+    }
+    this.timer.handleContentChange = setTimeout(() => {
+      if (this.lastCode == content) {
+        return;
+      }
+      console.log('Content change', content);
+      this.setState({ code: content }, () => {
+        if (this.props.onChange && typeof this.props.onChange === 'function') {
+          this.props.onChange(content);
+        }
+      });
+      this.lastCode = content;
+    }, 500);
   }
 
   /**
@@ -187,29 +204,39 @@ export class CodeEditor extends React.PureComponent {
    * Resize editor content to parent container.
    */
   resize() {
-    if (this.state.editorView) {
-      if (this.state.editorView.dom) {
-        const editorElement = this.state.editorView.dom;
-        const parentElement =
-          editorElement.closest('.wb-body') ||
-          editorElement.closest('.mosaic-tile') ||
-          editorElement.parentElement;
-        if (
-          parentElement &&
-          parentElement.clientHeight > 100 &&
-          parentElement.clientWidth > 100
-        ) {
-          if (this.toolbar.current != null && this.infobar.current != null) {
-            editorElement.style.height =
-              parentElement.clientHeight -
-              this.toolbar.current.clientHeight -
-              this.infobar.current.clientHeight -
-              1 +
-              'px';
-          } else {
-            editorElement.style.height = parentElement.clientHeight + 'px';
-          }
-        }
+    if (!this.state.editorView || !this.state.editorView.dom) {
+      return;
+    }
+    const editorElement = this.state.editorView.dom;
+    const parentElement =
+      editorElement.closest('.wb-body') ||
+      editorElement.closest('.mosaic-tile') ||
+      editorElement.parentElement;
+    if (parentElement) {
+      if (
+        editorElement.parentElement &&
+        editorElement.parentElement != parentElement
+      ) {
+        const toolbarHeight =
+          this.toolbar && this.toolbar.current
+            ? this.toolbar.current.clientHeight || 33
+            : 0;
+        const infobarHeight =
+          this.infobar && this.infobar.current
+            ? this.infobar.current.clientHeight || 25
+            : 0;
+        console.log(
+          'Parent Element ...',
+          parentElement,
+          editorElement,
+          toolbarHeight,
+          infobarHeight,
+          this.toolbar.current
+        );
+        editorElement.style.height =
+          parentElement.clientHeight - toolbarHeight - infobarHeight - 1 + 'px';
+      } else {
+        editorElement.style.height = parentElement.clientHeight + 'px';
       }
     }
   }
@@ -227,61 +254,42 @@ export class CodeEditor extends React.PureComponent {
 
     return (
       <React.StrictMode>
-        <AppBar position="static">
-          <Toolbar
-            variant="dense"
-            className={styles.toolbar}
-            ref={this.toolbar}
+        <Box sx={{ display: this.state.showEditor ? 'none' : 'block' }}>
+          {this.state.editorView && (
+            <CodeEditorToolbar
+              ref={this.toolbar}
+              blockEditor={this.props.blockEditor}
+              codeEditor={this}
+              hasChanged={this.state.hasChanged}
+              hasSaved={this.state.hasSaved}
+              hasUndo={this.state.hasUndo}
+              hasRedo={this.state.hasRedo}
+              project={this.props.project}
+              onFullscreen={this.props.onFullscreen}
+              onNewProject={this.props.onNewProject}
+              onOpenProject={this.props.onOpenProject}
+            />
+          )}
+          <CodeMirror
+            value={this.state.content}
+            onCreateEditor={this.onCreateEditor.bind(this)}
+            onChange={this.onChange.bind(this)}
+            extensions={[languageExtensions]}
+          />
+          <Box className={styles.infobar} ref={this.infobar}>
+            Content Type: {this.state.language}
+          </Box>
+          <Snackbar
+            open={this.state.snackbarSaved}
+            autoHideDuration={6000}
+            onClose={() => {
+              this.setState({ snackbarSaved: false });
+            }}
           >
-            <IconButton edge="start" color="inherit" aria-label="menu">
-              <MenuIcon />
-            </IconButton>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="undo"
-              onClick={this.handleUndo.bind(this)}
-            >
-              <UndoIcon />
-            </IconButton>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="redo"
-              onClick={this.handleRedo.bind(this)}
-            >
-              <RedoIcon />
-            </IconButton>
-            {this.props.blockEditor && (
-              <IconButton
-                edge="start"
-                color="inherit"
-                aria-label="code"
-                onClick={this.props.blockEditor.showBlockEditor.bind(
-                  this.props.blockEditor
-                )}
-              >
-                <CodeIcon />
-              </IconButton>
-            )}
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="preview"
-              onClick={this.handlePreview.bind(this)}
-            >
-              <PreviewIcon />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <CodeMirror
-          value={this.state.content}
-          onCreateEditor={this.onCreateEditor.bind(this)}
-          onChange={this.onChange.bind(this)}
-          extensions={[languageExtensions]}
-        />
-        <Box className={styles.infobar} ref={this.infobar}>
-          Content Type: {this.state.language}
+            <MuiAlert severity="success">
+              Project {this.props.project.name} successfully saved!
+            </MuiAlert>
+          </Snackbar>
         </Box>
       </React.StrictMode>
     );
@@ -289,9 +297,31 @@ export class CodeEditor extends React.PureComponent {
 }
 
 CodeEditor.propTypes = {
-  blockEditor: PropTypes.object,
+  /** @type {string} */
   content: PropTypes.string,
-  project: PropTypes.object,
+
+  /** @type {function} */
+  onChange: PropTypes.func,
+
+  /** @type {BlockEditor} */
+  codeEditor: PropTypes.object,
+
+  /** @type {BlockEditor} */
+  blockEditor: PropTypes.object,
+
+  /** @type {Project} */
+  project: PropTypes.object.isRequired,
+
+  /** @type {function} */
+  onFullscreen: PropTypes.func,
+
+  /** @type {function} */
+  onNewProject: PropTypes.func,
+
+  /** @type {function} */
+  onOpenProject: PropTypes.func,
+
+  /** @type {string} */
   windowId: PropTypes.string,
 };
 

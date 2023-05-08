@@ -27,9 +27,11 @@ import MuiAlert from '@mui/material/Alert';
 import PropTypes from 'prop-types';
 import Snackbar from '@mui/material/Snackbar';
 import i18next from '../App/i18next';
+
+// Blockly
 import { BlocklyWorkspace } from 'react-blockly';
 
-import BlockToolbar from './BlockToolbar';
+import BlockEditorToolbar from './BlockEditorToolbar';
 import LegacyBlocks from './blocks/LegacyBlocks';
 import { APP_BASE_PATH } from '../../constants';
 import { Database } from '../../utils/db/Database';
@@ -428,30 +430,28 @@ export class BlockEditor extends React.PureComponent {
       clearTimeout(this.timer.handleXMLChange);
     }
     this.timer.handleXMLChange = setTimeout(() => {
-      if (this.lastXMLContent != xml) {
-        console.log('XML change', xml);
-        this.setState({
-          hasChanged: hasChanged,
-          xml: xml,
-        });
-        const variables = this.getBlocklyWorkspace()?.getAllVariables();
-        if (variables && variables != this.state.variables) {
-          console.log('Variables change', variables);
-          this.setState({ variables: variables });
-        }
-
-        // Processing code.
-        const code = this.getWorkspaceCode();
-        this.setState({ code }, () => {
-          if (
-            this.props.onChange &&
-            typeof this.props.onChange === 'function'
-          ) {
-            this.props.onChange(code);
-          }
-        });
-        this.lastXMLContent = xml;
+      if (this.lastXMLContent == xml) {
+        return;
       }
+      console.log('XML change', xml);
+      this.setState({
+        hasChanged: hasChanged,
+        xml: xml,
+      });
+      const variables = this.getBlocklyWorkspace()?.getAllVariables();
+      if (variables && variables != this.state.variables) {
+        console.log('Variables change', variables);
+        this.setState({ variables: variables });
+      }
+
+      // Processing code.
+      const code = this.getWorkspaceCode();
+      this.setState({ code }, () => {
+        if (this.props.onChange && typeof this.props.onChange === 'function') {
+          this.props.onChange(code);
+        }
+      });
+      this.lastXMLContent = xml;
     }, 500);
   }
 
@@ -578,7 +578,7 @@ export class BlockEditor extends React.PureComponent {
       <React.StrictMode>
         <Box sx={{ display: this.state.showEditor ? 'none' : 'block' }}>
           {this.state.blocklyWorkspace && (
-            <BlockToolbar
+            <BlockEditorToolbar
               ref={this.toolbar}
               blockEditor={this}
               blocklyWorkspace={this.state.blocklyWorkspace}
@@ -618,10 +618,11 @@ export class BlockEditor extends React.PureComponent {
         {this.state.showEditor && (
           <Box sx={{ display: this.state.showEditor ? 'block' : 'none' }}>
             <CodeEditor
+              ref={this.codeEditor}
               windowId={this.props.windowId}
               project={this.props.project}
               blockEditor={this}
-              ref={this.codeEditor}
+              onChange={this.props.onChange}
             ></CodeEditor>
           </Box>
         )}
