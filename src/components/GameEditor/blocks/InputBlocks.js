@@ -54,8 +54,10 @@ Blocks['phaser_input'] = {
  * @return {string}
  */
 javascriptGenerator['phaser_input'] = function (block) {
-  const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
-  return 'input_: function(e) {\n' + statements_code + '},\n';
+  return `
+  input_ (event) {
+    ${javascriptGenerator.statementToCode(block, 'CODE')}
+  }`;
 };
 
 /**

@@ -54,5 +54,8 @@ Blocks['phaser_render'] = {
  */
 javascriptGenerator['phaser_render'] = function (block) {
   const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
-  return 'render: function(e) {\n' + statements_code + '},\n';
+  return `
+  renderer (event) {
+    ${statements_code}
+  }`;
 };

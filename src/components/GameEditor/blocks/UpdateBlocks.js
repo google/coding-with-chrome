@@ -54,10 +54,11 @@ Blocks['phaser_update'] = {
  */
 javascriptGenerator['phaser_update'] = function (block) {
   const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
-  return (
-    'update: function(e) {\n  if (e) {\n' +
-    '    this.input_(e);\n  }\n' +
-    statements_code +
-    '},\n'
-  );
+  return `
+  update (event) {
+    if (event && this.input_) {
+      this.input_(event);
+    }
+    ${statements_code}
+  }`;
 };

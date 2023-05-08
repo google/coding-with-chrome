@@ -54,8 +54,10 @@ Blocks['phaser_preload'] = {
  * @return {string}
  */
 javascriptGenerator['phaser_preload'] = function (block) {
-  const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
-  return 'preload: function(e) {\n' + statements_code + '},\n';
+  return `
+  preload (event) {
+    ${javascriptGenerator.statementToCode(block, 'CODE')}
+  }`;
 };
 
 /**
@@ -92,7 +94,7 @@ javascriptGenerator['phaser_load_image'] = function (block) {
     'image',
     javascriptGenerator.ORDER_NONE
   );
-  return "game.load.image('" + text_name + "', '" + value_image + "');\n";
+  return "this.load.image('" + text_name + "', '" + value_image + "');\n";
 };
 
 /**

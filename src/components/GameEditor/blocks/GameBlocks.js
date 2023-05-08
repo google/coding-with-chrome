@@ -66,7 +66,7 @@ javascriptGenerator['phaser_game'] = function (block) {
       width: ${Number(block.getFieldValue('width')) || 'window.innerWidth'},
       height: ${Number(block.getFieldValue('height')) || 'window.innerHeight'},
     }
-    let game = new Phaser.Game(PhaserGameConfig);
+    const game = new Phaser.Game(PhaserGameConfig);
     window.game = game;
   `;
 };
@@ -105,18 +105,17 @@ Blocks['phaser_game_state'] = {
  * @return {string}
  */
 javascriptGenerator['phaser_game_state'] = function (block) {
-  const text_name = block.getFieldValue('name');
-  const dropdown_autostart = block.getFieldValue('autostart');
-  const statements_state = javascriptGenerator.statementToCode(block, 'state');
-  return (
-    "game.state.add('" +
-    text_name +
-    "', {\n" +
-    statements_state +
-    '}, ' +
-    (dropdown_autostart == 'true' ? true : false) +
-    ');\n'
-  );
+  const name = block.getFieldValue('name');
+  return `
+  class ${name} extends Phaser.Scene {
+    constructor (config) {
+        super(config);
+    }
+    ${javascriptGenerator.statementToCode(block, 'state')}
+  }
+  game.scene.add('${name}', ${name}, ${
+    block.getFieldValue('autostart') == 'true' ? true : false
+  });`;
 };
 
 /**

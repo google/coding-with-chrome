@@ -24,7 +24,7 @@ import Blockly from 'blockly';
 
 import { APP_BASE_PATH } from '../../../constants/index.js';
 
-import PhaserMin from '../../../../third_party/phaser-ce/build/phaser.min.js';
+import PhaserMin from '../../../../node_modules/phaser/dist/phaser.min.js';
 import PhaserExtras from '../../../frameworks/phaser/phaser_extras.min.js';
 
 /**
@@ -66,7 +66,7 @@ export class PhaserTemplate {
       if (PhaserMin) {
         return `<script>${PhaserMin}</script>`;
       } else {
-        return `<script src="${APP_BASE_PATH}framework/phaser-ce.min.js"></script>`;
+        return `<script src="${APP_BASE_PATH}framework/phaser.min.js"></script>`;
       }
     })()}
   </head>

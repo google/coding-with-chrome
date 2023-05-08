@@ -28,6 +28,25 @@ import { BlocksTemplate } from '../../BlockEditor/blocks/BlocksTemplate';
 
 import i18next from 'i18next';
 
+const phaserTextFonts = [
+  ['Arial Black', 'Arial Black'],
+  ['Arial Narrow', 'Arial Narrow'],
+  ['Arial', 'Arial'],
+  ['Comic Sans MS', 'Comic Sans MS'],
+  ['Courier New', 'Courier New'],
+  ['Georgia', 'Georgia'],
+  ['Helvetica', 'Helvetica'],
+  ['Impact', 'Impact'],
+  ['Lucida Console', 'Lucida Console'],
+  ['Tahoma', 'Tahoma'],
+  ['Times New Roman', 'Times New Roman'],
+  ['Trebuchet MS', 'Trebuchet MS, sans-serif'],
+  ['Verdana', 'Verdana'],
+  ['Webdings', 'Webdings'],
+  ['Wingdings', 'Wingdings'],
+  ['Sans Serif', 'sans-serif'],
+];
+
 /**
  * Add text.
  */
@@ -46,30 +65,10 @@ Blocks['phaser_text_add'] = {
       .appendField(i18next.t('WITH_STYLE'))
       .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
       .appendField(
-        new Blockly.FieldTextInput('16px', BlocksHelper.validateText),
+        new Blockly.FieldTextInput('32px', BlocksHelper.validateText),
         'size'
       )
-      .appendField(
-        new Blockly.FieldDropdown([
-          ['Arial Black', 'Arial Black'],
-          ['Arial Narrow', 'Arial Narrow'],
-          ['Arial', 'Arial'],
-          ['Comic Sans MS', 'Comic Sans MS'],
-          ['Courier New', 'Courier New'],
-          ['Georgia', 'Georgia'],
-          ['Helvetica', 'Helvetica'],
-          ['Impact', 'Impact'],
-          ['Lucida Console', 'Lucida Console'],
-          ['Tahoma', 'Tahoma'],
-          ['Times New Roman', 'Times New Roman'],
-          ['Trebuchet MS', 'Trebuchet MS, sans-serif'],
-          ['Verdana', 'Verdana'],
-          ['Webdings', 'Webdings'],
-          ['Wingdings', 'Wingdings'],
-          ['Sans Serif', 'sans-serif'],
-        ]),
-        'font'
-      );
+      .appendField(new Blockly.FieldDropdown(phaserTextFonts), 'font');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(260);
@@ -109,7 +108,7 @@ javascriptGenerator['phaser_text_add'] = function (block) {
     text_size = text_size + 'px';
   }
   return (
-    'game.add.text(' +
+    'this.add.text(' +
     value_x +
     ', ' +
     value_y +
@@ -146,27 +145,7 @@ Blocks['phaser_dynamic_text_add'] = {
         new Blockly.FieldTextInput('16px', BlocksHelper.validateText),
         'size'
       )
-      .appendField(
-        new Blockly.FieldDropdown([
-          ['Arial Black', 'Arial Black'],
-          ['Arial Narrow', 'Arial Narrow'],
-          ['Arial', 'Arial'],
-          ['Comic Sans MS', 'Comic Sans MS'],
-          ['Courier New', 'Courier New'],
-          ['Georgia', 'Georgia'],
-          ['Helvetica', 'Helvetica'],
-          ['Impact', 'Impact'],
-          ['Lucida Console', 'Lucida Console'],
-          ['Tahoma', 'Tahoma'],
-          ['Times New Roman', 'Times New Roman'],
-          ['Trebuchet MS', 'Trebuchet MS, sans-serif'],
-          ['Verdana', 'Verdana'],
-          ['Webdings', 'Webdings'],
-          ['Wingdings', 'Wingdings'],
-          ['Sans Serif', 'sans-serif'],
-        ]),
-        'font'
-      );
+      .appendField(new Blockly.FieldDropdown(phaserTextFonts), 'font');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(260);
@@ -212,7 +191,7 @@ javascriptGenerator['phaser_dynamic_text_add'] = function (block) {
   }
   return (
     variable +
-    ' = game.add.text(' +
+    ' = this.add.text(' +
     value_x +
     ', ' +
     value_y +
@@ -318,7 +297,7 @@ javascriptGenerator['phaser_dynamic_text_highscore_add'] = function (block) {
   }
   return (
     variable +
-    ' = game.add.text(' +
+    ' = this.add.text(' +
     value_x +
     ', ' +
     value_y +
@@ -423,7 +402,7 @@ javascriptGenerator['phaser_action_text_add'] = function (block) {
   }
   return (
     variable +
-    ' = game.add.text(' +
+    ' = this.add.text(' +
     value_x +
     ', ' +
     value_y +

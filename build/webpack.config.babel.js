@@ -235,11 +235,7 @@ module.exports = (mode = 'development') => ({
           to: './manifest.json',
         },
         {
-          from: './third_party/phaser-ce/build/phaser.min.js',
-          to: './framework/phaser-ce.min.js',
-        },
-        {
-          from: './third_party/phaser/dist/phaser.min.js',
+          from: './node_modules/phaser/dist/phaser.min.js',
           to: './framework/phaser.min.js',
         },
         {

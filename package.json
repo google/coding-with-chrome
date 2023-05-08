@@ -1,6 +1,6 @@
 {
   "name": "coding-with-chrome",
-  "version": "10.0.2",
+  "version": "10.1.0",
   "description": "Educational Coding Development Environment",
   "repository": {
     "type": "git",
@@ -133,5 +133,8 @@
     "prestart": "npm run compress:frameworks",
     "prestart:dev": "npm run compress:frameworks",
     "prestart:lighthouse": "npm run compress:frameworks"
+  },
+  "dependencies": {
+    "phaser": "^3.60.0"
   }
 }

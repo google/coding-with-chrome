@@ -54,14 +54,13 @@ Blocks['phaser_create'] = {
  * @return {string}
  */
 javascriptGenerator['phaser_create'] = function (block) {
-  const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
-  return (
-    'create: function(e) {\n' +
+  return `
+  create (event) {
     // Empty generator groups to make sure game restarts works.
-    '  block_group = null;\n  obstacle_group = null;\n' +
-    statements_code +
-    '},\n'
-  );
+    this.block_group = null;
+    this.obstacle_group = null;
+    ${javascriptGenerator.statementToCode(block, 'CODE')}
+  }`;
 };
 
 /**
@@ -87,8 +86,9 @@ Blocks['phaser_stage_background_color'] = {
  * @return {string}
  */
 javascriptGenerator['phaser_stage_background_color'] = function (block) {
-  const colour_color = block.getFieldValue('color');
-  return "game.stage.backgroundColor = '" + colour_color + "';\n";
+  return `this.cameras.main.setBackgroundColor("${block.getFieldValue(
+    'color'
+  )}");`;
 };
 
 /**
