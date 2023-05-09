@@ -21,6 +21,7 @@
 
 import {
   APP_BASE_PATH,
+  ASSETS_SERVICE_WORKER_CACHE_NAME,
   CACHE_SERVICE_WORKER_CACHE_NAME,
   PREVIEW_SERVICE_WORKER_CACHE_NAME,
 } from '../constants/';
@@ -96,9 +97,31 @@ export class ServiceWorker {
         );
 
       /**
-       * Register Preview Service Worker after onload event.
+       * Register Assets and Preview Service Worker after onload event.
        */
       window.addEventListener('load', () => {
+        navigator.serviceWorker
+          .register(APP_BASE_PATH + 'assets-service-worker.js', {
+            scope: this.scopePath + 'assets/',
+          })
+          .then(
+            (registration) => {
+              console.log(
+                `${this.prefix} Register Assets Service Worker successful with scope: ${registration.scope}`
+              );
+              window.setTimeout(() => {
+                this.prepareAssetsCache();
+              }, 100);
+            },
+            (error) => {
+              console.log(
+                `${this.prefix}
+              Assets Service Worker registration failed: `,
+                error
+              );
+            }
+          );
+
         navigator.serviceWorker
           .register(APP_BASE_PATH + 'preview-service-worker.js', {
             scope: this.scopePath + 'preview/',
@@ -163,6 +186,16 @@ export class ServiceWorker {
     } else {
       console.log(`${this.prefix} Unable to setup Cache Service cache!`);
     }
+  }
+
+  /**
+   * Prepare local assets cache.
+   */
+  prepareAssetsCache() {
+    console.log(`${this.prefix} Prepare local assets cache...`);
+    caches.open(ASSETS_SERVICE_WORKER_CACHE_NAME).then((cache) => {
+      console.log(`${this.prefix} Assets Cache is ready!`, cache);
+    });
   }
 
   /**

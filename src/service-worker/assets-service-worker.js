@@ -15,31 +15,28 @@
  */
 
 /**
- * @fileoverview Preview Service Worker.
+ * @fileoverview Assets Service Worker.
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
 import { EventHandler } from '../utils/event/EventHandler';
 import { EventType } from '../utils/event/EventType';
-import {
-  APP_BASE_PATH,
-  PREVIEW_SERVICE_WORKER_CACHE_NAME,
-} from '../constants/';
+import { APP_BASE_PATH, ASSETS_SERVICE_WORKER_CACHE_NAME } from '../constants/';
 
 /**
- * Service Worker Preview class
+ * Service Worker Assets class
  */
-export class PreviewService {
+export class AssetsService {
   /**
    * @constructor
    */
   constructor() {
-    this.prefix = '[Preview Service]';
-    this.events = new EventHandler('Service Worker: Preview', '', this);
+    this.prefix = '[Assets Service]';
+    this.events = new EventHandler('Service Worker: Assets', '', this);
     this.registered = false;
     this.allowList = location.host.endsWith('.github.io')
-      ? /^(http|https):\/\/([^/]+)\/([^/]+)\/preview\/[^/]+\/?/
-      : /^(http|https):\/\/([^/]+)\/preview\/[^/]+\/?/;
+      ? /^(http|https):\/\/([^/]+)\/([^/]+)\/assets\/[^/]+\/?/
+      : /^(http|https):\/\/([^/]+)\/assets\/[^/]+\/?/;
     this.counter = 0;
   }
 
@@ -57,7 +54,7 @@ export class PreviewService {
     this.events.listen(self, EventType.FETCH, this.fetch);
     this.registered = true;
     console.log(
-      `${this.prefix} Registered Service Worker with cache ${PREVIEW_SERVICE_WORKER_CACHE_NAME} ...`
+      `${this.prefix} Registered Service Worker with cache ${ASSETS_SERVICE_WORKER_CACHE_NAME} ...`
     );
   }
 
@@ -84,24 +81,12 @@ export class PreviewService {
     if (event.request == null || !this.allowList.test(event.request.url)) {
       return;
     }
-    if (event.request.method === 'POST') {
-      event.respondWith(
-        caches.open(PREVIEW_SERVICE_WORKER_CACHE_NAME).then((cache) => {
-          return event.request.text().then((text) => {
-            const response = new Response(text);
-            cache.put(event.request, response.clone());
-            return response;
-          });
-        })
-      );
-    } else if (event.request.method === 'GET') {
+    if (event.request.method === 'GET') {
       // Status URLs for easier testing.
       if (event.request.url.endsWith(APP_BASE_PATH + 'healthz')) {
         event.respondWith(new Response('OK'));
         return;
-      } else if (
-        event.request.url.endsWith(APP_BASE_PATH + 'preview/test123')
-      ) {
+      } else if (event.request.url.endsWith(APP_BASE_PATH + 'asset/test123')) {
         event.respondWith(new Response('Hello World! ' + this.counter++));
         return;
       }
@@ -124,7 +109,7 @@ export class PreviewService {
    * @static
    */
   static async saveHTMLFile(filename, content) {
-    return PreviewService.saveFile(
+    return AssetsService.saveFile(
       filename,
       content,
       'text/html; charset=utf-8'
@@ -143,27 +128,27 @@ export class PreviewService {
     content,
     contentType = 'text/plain; charset=utf-8'
   ) {
-    // Normalize filename to preview path.
-    if (!filename.startsWith(APP_BASE_PATH + 'preview/')) {
+    // Normalize filename to asset path.
+    if (!filename.startsWith(APP_BASE_PATH + 'assets/')) {
       if (filename.startsWith(APP_BASE_PATH)) {
         filename =
           filename.slice(APP_BASE_PATH.length) +
           APP_BASE_PATH +
-          'preview' +
+          'assets' +
           filename;
       } else {
-        filename = APP_BASE_PATH + 'preview/' + filename;
+        filename = APP_BASE_PATH + 'assets/' + filename;
       }
     }
-    const cache = await caches.open(PREVIEW_SERVICE_WORKER_CACHE_NAME);
+    const cache = await caches.open(ASSETS_SERVICE_WORKER_CACHE_NAME);
     const url = filename;
     const response = new Response(content, {
       headers: { 'Content-Type': contentType },
     });
-    console.log('[Preview Service] Save preview file', url, response);
+    console.log('[Assets Service] Save asset file', url, response);
     await cache.put(url, response);
   }
 }
 
 // Initialize Service Worker
-new PreviewService().register();
+new AssetsService().register();

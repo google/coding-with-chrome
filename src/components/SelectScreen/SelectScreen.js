@@ -47,8 +47,6 @@ import Settings from '../Settings/Settings';
 import SettingScreen from '../Settings/SettingScreen';
 import LanguageSetting from '../Settings/LanguageSetting';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import { ReactComponent as Logo } from '../../../assets/logo/logo.svg';
 
 /**

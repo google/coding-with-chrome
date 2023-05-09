@@ -58,16 +58,19 @@ module.exports = (mode = 'development') => ({
   },
   entry: {
     app: ['./src/components/App/index.js', './assets/css/app.css'],
-    serviceWorker: ['./src/service-worker/service-worker.js'],
+    assetsServiceWorker: ['./src/service-worker/assets-service-worker.js'],
     cacheServiceWorker: ['./src/service-worker/cache-service-worker.js'],
     previewServiceWorker: ['./src/service-worker/preview-service-worker.js'],
+    serviceWorker: ['./src/service-worker/service-worker.js'],
   },
   output: {
     publicPath: mode == 'deploy' ? '/coding-with-chrome/' : '/',
     path: path.join(__dirname, '..', 'dist'),
     filename: (pathData) => {
       // Exclude service workers from hashing.
-      if (pathData.chunk.name === 'cacheServiceWorker') {
+      if (pathData.chunk.name === 'assetsServiceWorker') {
+        return 'assets-service-worker.js';
+      } else if (pathData.chunk.name === 'cacheServiceWorker') {
         return 'cache-service-worker.js';
       } else if (pathData.chunk.name === 'previewServiceWorker') {
         return 'preview-service-worker.js';

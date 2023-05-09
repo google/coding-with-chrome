@@ -93,7 +93,7 @@
         </div>
       </div>
     </div>
-    <% for (let item in htmlWebpackPlugin.files.js) { %> <% if (htmlWebpackPlugin.files.js[item] == '/js/serviceWorker.js' || htmlWebpackPlugin.files.js[item] == '/cache-service-worker.js' || htmlWebpackPlugin.files.js[item] == '/preview-service-worker.js') { %> <% } else { %>
+    <% for (let item in htmlWebpackPlugin.files.js) { %> <% if (htmlWebpackPlugin.files.js[item] == '/assetsServiceWorker.js' || htmlWebpackPlugin.files.js[item] == '/cache-service-worker.js' || htmlWebpackPlugin.files.js[item] == '/preview-service-worker.js') { %> <% } else { %>
     <script defer src="<%= htmlWebpackPlugin.files.js[item] %>"></script>
     <% } %> <% } %>
   </body>

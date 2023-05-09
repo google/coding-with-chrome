@@ -77,16 +77,32 @@ export class CacheService {
    * @param {*} event
    */
   fetch(event) {
+    // Refresh cache, as soon we receive a hot-update request.
+    if (
+      event.request.url.endsWith('.hot-update.json') ||
+      event.request.url.endsWith('.hot-update.js')
+    ) {
+      console.log(`${this.prefix} Clear cache for hot update request ...`);
+      caches.open(CACHE_SERVICE_WORKER_CACHE_NAME).then((cache) => {
+        cache.keys().then(function (names) {
+          for (const name of names) {
+            cache.delete(name);
+          }
+        });
+        return;
+      });
+    }
+
+    // Deny requests which are invalid.
     if (
       event.request == null ||
       event.request.url.startsWith('chrome-extension://') ||
       event.request.url.startsWith('ws://') ||
-      event.request.url.endsWith('.hot-update.json') ||
-      event.request.url.endsWith('.hot-update.js') ||
       this.denyList.test(event.request.url)
     ) {
       return;
     }
+
     event.respondWith(
       (async () => {
         // Open browser file cache.
@@ -98,9 +114,9 @@ export class CacheService {
           return cachedResponse;
         }
 
-        // Fetch and cache non-cached request.
+        // Fetch and cache non-cached request, excluding 206 requests.
         const response = await fetch(event.request);
-        if (response.ok) {
+        if (response.ok && response.status != 206) {
           cache.put(event.request, response.clone());
         }
         return response;
