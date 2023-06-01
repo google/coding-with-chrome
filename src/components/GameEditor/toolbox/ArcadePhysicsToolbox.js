@@ -30,7 +30,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_physics_arcade_sprite_ball_add">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_set">
         <field name="VAR">ball</field>
       </block>
     </value>
@@ -87,7 +87,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_physics_arcade_sprite_player_add">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_set">
         <field name="VAR">player</field>
       </block>
     </value>
@@ -111,7 +111,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_physics_arcade_sprite_paddle_add">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_set">
         <field name="VAR">paddle</field>
       </block>
     </value>
@@ -179,7 +179,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_physics_arcade_sprite_add">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_set">
         <field name="VAR">player</field>
       </block>
     </value>
@@ -196,7 +196,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_physics_arcade_out_of_bounds">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">ball</field>
       </block>
     </value>
@@ -210,7 +210,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_physics_arcade_sprite_adjust">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">player</field>
       </block>
     </value>
@@ -224,7 +224,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_physics_arcade_sprite_adjust_dimension">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">player</field>
       </block>
     </value>
@@ -241,7 +241,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_physics_arcade_enable">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">sprite</field>
       </block>
     </value>
@@ -252,7 +252,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_physics_arcade_sprite_destroy">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">sprite</field>
       </block>
     </value>
@@ -263,7 +263,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_physics_arcade_sprite_kill">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">sprite</field>
       </block>
     </value>
@@ -277,19 +277,19 @@ export const eventBlocks = [
     blockxml: `
   <block type="phaser_physics_arcade_overlap">
     <value name="object1">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">ball</field>
       </block>
     </value>
     <value name="object2">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">block_group</field>
       </block>
     </value>
     <statement name="CODE">
       <block type="phaser_physics_arcade_sprite_destroy">
         <value name="variable">
-          <block type="variables_get">
+          <block type="phaser_variable_get">
             <field name="VAR">object2</field>
           </block>
         </value>
@@ -302,12 +302,12 @@ export const eventBlocks = [
     blockxml: `
   <block type="phaser_physics_arcade_overlap">
     <value name="object1">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">player</field>
       </block>
     </value>
     <value name="object2">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">obstacle_group</field>
       </block>
     </value>
@@ -318,12 +318,12 @@ export const eventBlocks = [
     blockxml: `
   <block type="phaser_physics_arcade_collide">
     <value name="object1">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">ball</field>
       </block>
     </value>
     <value name="object2">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">paddle</field>
       </block>
     </value>
@@ -334,12 +334,12 @@ export const eventBlocks = [
     blockxml: `
   <block type="phaser_physics_arcade_collide">
     <value name="object1">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">player</field>
       </block>
     </value>
     <value name="object2">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">floor</field>
       </block>
     </value>

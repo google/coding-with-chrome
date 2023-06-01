@@ -20,6 +20,7 @@
  */
 
 import '../blocks/SpriteBlocks.js';
+import '../blocks/VariableBlocks.js';
 
 /**
  * @type {array}
@@ -30,7 +31,7 @@ export const createBlocks = [
     blockxml: `
     <block type="phaser_sprite_add">
       <value name="variable">
-        <block type="variables_get">
+        <block type="phaser_variable_set">
           <field name="VAR">sprite</field>
         </block>
       </value>
@@ -53,7 +54,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_sprite_adjust">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">sprite</field>
       </block>
     </value>
@@ -67,7 +68,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_sprite_adjust_dimension">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">sprite</field>
       </block>
     </value>
@@ -84,7 +85,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_sprite_get">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">sprite</field>
       </block>
     </value>
@@ -95,7 +96,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_sprite_destroy">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">sprite</field>
       </block>
     </value>
@@ -106,7 +107,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_sprite_immovable">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">sprite</field>
       </block>
     </value>

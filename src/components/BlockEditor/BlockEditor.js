@@ -34,7 +34,9 @@ import { BlocklyWorkspace } from 'react-blockly';
 import BlockEditorToolbar from './BlockEditorToolbar';
 import LegacyBlocks from './blocks/LegacyBlocks';
 import { APP_BASE_PATH } from '../../constants';
+import { BlocksBuilder } from './blocks/BlocksBuilder';
 import { Database } from '../../utils/db/Database';
+import { PreviewService } from '../../service-worker/preview-service-worker';
 import { WindowEventTarget } from '../Desktop/WindowManager/Events';
 import { javascriptGenerator } from 'blockly/javascript';
 
@@ -285,11 +287,41 @@ export class BlockEditor extends React.PureComponent {
       return;
     }
     console.log('Loading workspace ...', xml);
+
+    // Parse XML and construct workspace.
     const parsedXML = this.praseXML(xml, files);
     Blockly.Xml.clearWorkspaceAndLoadFromXml(
       Blockly.utils.xml.textToDom(parsedXML),
       this.getBlocklyWorkspace()
     );
+
+    // Parse assets from workspace, if needed.
+    let assets = new Map();
+    if (
+      this.props.parseAssets &&
+      typeof this.props.parseAssets === 'function'
+    ) {
+      assets = this.props.parseAssets(this.getBlocklyWorkspace());
+      console.log('Assets parsed from workspace: ', assets);
+    }
+    if (assets.size > 0) {
+      for (const [key, value] of assets.entries()) {
+        BlocksBuilder.generateIdFromBase64(value.urlData).then((assetId) => {
+          console.log('Adding asset: ', key, value, assetId);
+          const assetsUrl = value.urlData;
+          const assetsType = assetsUrl.split(':')[1].split(';')[0];
+          fetch(assetsUrl)
+            .then((response) => response.blob())
+            .then((blob) => {
+              PreviewService.saveFile(
+                this.props.project.id + '/' + assetId,
+                blob,
+                assetsType
+              );
+            });
+        });
+      }
+    }
 
     // Update state and trigger onLoadWorkspace event.
     this.setState(
@@ -655,6 +687,9 @@ BlockEditor.propTypes = {
 
   /** @type {function} */
   parseXML: PropTypes.func,
+
+  /** @type {function} */
+  parseAssets: PropTypes.func,
 
   /** @type {Project} */
   project: PropTypes.object.isRequired,

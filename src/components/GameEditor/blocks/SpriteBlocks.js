@@ -81,16 +81,7 @@ javascriptGenerator['phaser_sprite_add'] = function (block) {
       'y',
       javascriptGenerator.ORDER_ATOMIC
     ) || 0;
-  return (
-    variable +
-    ' = game.add.sprite(' +
-    value_x +
-    ', ' +
-    value_y +
-    ", '" +
-    text_sprite +
-    "');\n"
-  );
+  return `${variable} = this.add.sprite(${value_x}, ${value_y}, '${text_sprite}');`;
 };
 
 /**
@@ -207,16 +198,10 @@ javascriptGenerator['phaser_sprite_adjust_dimension'] = function (block) {
       'height',
       javascriptGenerator.ORDER_ATOMIC
     ) || 50;
-  return (
-    variable +
-    '.width = ' +
-    value_width +
-    ';\n' +
-    variable +
-    '.height = ' +
-    value_height +
-    ';\n'
-  );
+  return `
+    ${variable}.displayWidth = ${value_width};
+    ${variable}.displayHeight = ${value_height};
+  `;
 };
 
 /**

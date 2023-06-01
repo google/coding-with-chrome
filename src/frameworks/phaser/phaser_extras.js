@@ -57,7 +57,7 @@ class PhaserExtras {
    * @param {Function=} manipulation
    */
   static addGroupSprite(game, x, y, sprite_name, group, manipulation) {
-    const sprite = game.add.sprite(x, y, sprite_name);
+    const sprite = this.add.sprite(x, y, sprite_name);
     if (group) {
       group.add(sprite);
     }
@@ -220,7 +220,7 @@ class PhaserExtras {
     let width = game.cache.getImage(sprite).width;
     let height = game.cache.getImage(sprite).width;
     if (manipulation) {
-      const testSprite = game.add.sprite(0, 0, sprite);
+      const testSprite = this.add.sprite(0, 0, sprite);
       game.physics.arcade.enable(testSprite);
       testSprite['visible'] = false;
       manipulation(testSprite);
@@ -299,6 +299,32 @@ class PhaserExtras {
         },
         `${window.location.origin}`
       );
+    }
+  }
+}
+
+/**
+ * Helper class for different phaser parts.
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, require-jsdoc, no-unused-vars
+class PhaserHelper {
+  /**
+   * @param {Object} self
+   */
+  static updateHelper(self) {
+    if (!self) {
+      return;
+    }
+
+    // Automatically scroll the background, ceiling, and floor.
+    if (self.ceiling?.scrollFactorX) {
+      self.ceiling.tilePositionX += self.ceiling.scrollFactorX;
+    }
+    if (self.background?.scrollFactorX) {
+      self.background.tilePositionX += self.background.scrollFactorX;
+    }
+    if (self.floor?.scrollFactorX) {
+      self.floor.tilePositionX += self.floor.scrollFactorX;
     }
   }
 }

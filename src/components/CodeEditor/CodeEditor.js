@@ -21,8 +21,6 @@
 
 import React, { createRef, lazy } from 'react';
 
-// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Snackbar from '@mui/material/Snackbar';
 import PropTypes from 'prop-types';

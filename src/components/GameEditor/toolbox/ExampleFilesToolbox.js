@@ -42,12 +42,13 @@ const sampleImageData = [
 // Processing sample images to get dataURL for static image blocks
 const defaultBlocks = [];
 for (const imageData of sampleImageData) {
-  BlocksBuilder.getAsDataURL(imageData[0], imageData[1]).then((data) => {
+  const imageURL = imageData[1];
+  BlocksBuilder.getAsDataURL(imageData[0], imageURL).then((data) => {
     console.log('Add sample image ' + data.name + ' block.');
     defaultBlocks.push(
       PhaserBlocksBuilder.getStaticImageFileBlock(
         data.name,
-        data.filename,
+        imageURL,
         data.dataURL
       )
     );

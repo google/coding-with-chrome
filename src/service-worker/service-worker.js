@@ -21,7 +21,6 @@
 
 import {
   APP_BASE_PATH,
-  ASSETS_SERVICE_WORKER_CACHE_NAME,
   CACHE_SERVICE_WORKER_CACHE_NAME,
   PREVIEW_SERVICE_WORKER_CACHE_NAME,
 } from '../constants/';
@@ -40,6 +39,8 @@ export class ServiceWorker {
       ? location.pathname.substring(0, location.pathname.lastIndexOf('/') + 1)
       : './';
     this.registered = false;
+    this.cachePrepared = false;
+    this.previewCachePrepared = false;
     console.log(
       `${this.prefix} Installing Service Workers for ${APP_BASE_PATH} and scope ${this.scopePath}`
     );
@@ -101,28 +102,6 @@ export class ServiceWorker {
        */
       window.addEventListener('load', () => {
         navigator.serviceWorker
-          .register(APP_BASE_PATH + 'assets-service-worker.js', {
-            scope: this.scopePath + 'assets/',
-          })
-          .then(
-            (registration) => {
-              console.log(
-                `${this.prefix} Register Assets Service Worker successful with scope: ${registration.scope}`
-              );
-              window.setTimeout(() => {
-                this.prepareAssetsCache();
-              }, 100);
-            },
-            (error) => {
-              console.log(
-                `${this.prefix}
-              Assets Service Worker registration failed: `,
-                error
-              );
-            }
-          );
-
-        navigator.serviceWorker
           .register(APP_BASE_PATH + 'preview-service-worker.js', {
             scope: this.scopePath + 'preview/',
           })
@@ -133,7 +112,7 @@ export class ServiceWorker {
               );
               window.setTimeout(() => {
                 this.preparePreviewCache();
-              }, 100);
+              }, 0);
             },
             (error) => {
               console.log(
@@ -155,6 +134,10 @@ export class ServiceWorker {
    * Prepare local offline cache.
    */
   prepareCache() {
+    if (this.cachePrepared) {
+      console.warn(`${this.prefix} Cache is already prepared !`);
+      return;
+    }
     if ('caches' in window) {
       if (this.assets) {
         console.log(
@@ -167,9 +150,12 @@ export class ServiceWorker {
         }
 
         // Add assets to cache.
-        caches.open(CACHE_SERVICE_WORKER_CACHE_NAME).then((cache) => {
+        caches.open(CACHE_SERVICE_WORKER_CACHE_NAME).then(async (cache) => {
           for (const asset of this.assets) {
-            cache.add(asset).then(
+            if (asset.endsWith('.hot-update.js')) {
+              continue;
+            }
+            await cache.add(asset).then(
               () => {
                 console.debug(`${this.prefix} Added asset: ${asset}`);
               },
@@ -186,26 +172,22 @@ export class ServiceWorker {
     } else {
       console.log(`${this.prefix} Unable to setup Cache Service cache!`);
     }
-  }
-
-  /**
-   * Prepare local assets cache.
-   */
-  prepareAssetsCache() {
-    console.log(`${this.prefix} Prepare local assets cache...`);
-    caches.open(ASSETS_SERVICE_WORKER_CACHE_NAME).then((cache) => {
-      console.log(`${this.prefix} Assets Cache is ready!`, cache);
-    });
+    this.cachePrepared = true;
   }
 
   /**
    * Prepare local preview cache.
    */
   preparePreviewCache() {
+    if (this.previewCachePrepared) {
+      console.warn(`${this.prefix} Preview Cache is already prepared !`);
+      return;
+    }
     console.log(`${this.prefix} Prepare local preview cache...`);
     caches.open(PREVIEW_SERVICE_WORKER_CACHE_NAME).then((cache) => {
       console.log(`${this.prefix} Preview Cache is ready!`, cache);
     });
+    this.previewCachePrepared = true;
   }
 }
 

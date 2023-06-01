@@ -40,7 +40,7 @@ export default [
     blockxml: `
   <block type="phaser_debug_sprite">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">sprite</field>
       </block>
     </value>

@@ -89,7 +89,7 @@ Blocks['static_image_file'] = {
  */
 javascriptGenerator['static_image_file'] = function (block) {
   return [
-    block.getFieldValue('urlData') || block.getFieldValue('url'),
+    block.getFieldValue('url') || block.getFieldValue('urlData'),
     javascriptGenerator.ORDER_NONE,
   ];
 };

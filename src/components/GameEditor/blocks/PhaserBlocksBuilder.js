@@ -52,9 +52,10 @@ export class PhaserBlocksBuilder {
    * @param {string} filename
    * @param {string} url
    * @param {string} dataURL
+   * @param {string} id
    * @return {Object}
    */
-  static getDynamicAudioFileBlock(name, filename, url, dataURL) {
+  static getDynamicAudioFileBlock(name, filename, url, dataURL, id = '') {
     return {
       kind: 'block',
       blockxml: `
@@ -62,6 +63,7 @@ export class PhaserBlocksBuilder {
     <field name="name">${name}</field>
     <value name="audio">
       <block type="dynamic_audio_file">
+        <field name="id">${id}</field>
         <field name="filename">${
           filename || url ? url.substring(url.lastIndexOf('/') + 1) : name
         }</field>
@@ -102,9 +104,10 @@ export class PhaserBlocksBuilder {
    * @param {string} filename
    * @param {string} url
    * @param {string} dataURL
+   * @param {string} id
    * @return {Object}
    */
-  static getDynamicImageFileBlock(name, filename, url, dataURL) {
+  static getDynamicImageFileBlock(name, filename, url, dataURL, id = '') {
     return {
       kind: 'block',
       blockxml: `
@@ -112,6 +115,7 @@ export class PhaserBlocksBuilder {
     <field name="name">${name}</field>
     <value name="image">
       <block type="dynamic_image_file">
+        <field name="id">${id}</field>
         <field name="filename">${
           filename || url ? url.substring(url.lastIndexOf('/') + 1) : name
         }</field>

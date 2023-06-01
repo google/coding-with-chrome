@@ -162,6 +162,7 @@ export class GameEditor extends React.PureComponent {
           content={this.state.xml}
           toolbox={this.state.toolbox}
           template={PhaserTemplate.render}
+          parseAssets={this.handleParseAssets.bind(this)}
           parseXML={this.handleParseXML.bind(this)}
           onChange={this.handleBlockEditorContentChange.bind(this)}
           onLoadWorkspace={this.handleOnLoadWorkspace.bind(this)}
@@ -294,8 +295,8 @@ export class GameEditor extends React.PureComponent {
    * @param {string} content
    */
   handleOnDropFile(file, content) {
-    const name = file.name;
-    const filename = name.substring(0, name.lastIndexOf('.'));
+    const filename = file.name;
+    const name = filename.substring(0, filename.lastIndexOf('.'));
     const urlData = content;
     const url = '';
     const fileEntry = {
@@ -371,6 +372,16 @@ export class GameEditor extends React.PureComponent {
       console.log('Screenshot will be taken from', screenshotUrl);
       this.setState({ screenshotUrl: 'preview/' + screenshotUrl });
     });
+  }
+
+  /**
+   * @param {WorkspaceSvg} workspace
+   * @return {Map<string, FileEntry>}
+   */
+  handleParseAssets(workspace) {
+    const phaserAudioFiles = DynamicFileParser.getPhaserAudioFiles(workspace);
+    const phaserImageFiles = DynamicFileParser.getPhaserImageFiles(workspace);
+    return new Map([...phaserAudioFiles, ...phaserImageFiles]);
   }
 
   /**

@@ -93,7 +93,9 @@ javascriptGenerator['phaser_world_wrap'] = function (block) {
     'value',
     javascriptGenerator.ORDER_ATOMIC
   );
-  return 'game.world.wrap(' + variable + ', ' + (value_value || 0) + ');\n';
+  return (
+    'this.physics.world.wrap(' + variable + ', ' + (value_value || 0) + ');\n'
+  );
 };
 
 /**

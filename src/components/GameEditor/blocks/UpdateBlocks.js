@@ -60,5 +60,6 @@ javascriptGenerator['phaser_update'] = function (block) {
       this.input_(event);
     }
     ${statements_code}
+    PhaserHelper.updateHelper(this);
   }`;
 };

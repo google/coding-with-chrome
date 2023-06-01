@@ -89,8 +89,8 @@ export class CacheService {
             cache.delete(name);
           }
         });
-        return;
       });
+      return;
     }
 
     // Deny requests which are invalid.

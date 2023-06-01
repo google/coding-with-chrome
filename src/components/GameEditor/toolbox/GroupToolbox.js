@@ -31,7 +31,7 @@ export const defaultBlocks = [
         <value name="A">
           <block type="phaser_group_count_living">
             <value name="variable">
-              <block type="variables_get">
+              <block type="phaser_variable_get">
                 <field name="VAR">block_group</field>
               </block>
             </value>
@@ -52,7 +52,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_group_count_living">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">block_group</field>
       </block>
     </value>

@@ -26,26 +26,29 @@ import Blockly from 'blockly';
  * Simple Blocks Helper
  */
 export class BlocksHelper {
+  static variableBlockRegExp =
+    /<field\s+name\s*=\s*"VAR"\s*>([\s\S]*?)<\/field>/;
+
   /**
    * @param {string} name
    * @return {!Array}
    */
   static phaserImage(name) {
     let foundName = false;
-    const phaserImageList = [];
-    const blocks = Blockly.getMainWorkspace().getBlocksByType(
+    const imageList = [];
+    const variables = Blockly.getMainWorkspace().getBlocksByType(
       'phaser_load_image',
       true
     );
-    for (const block of blocks) {
+    for (const variable of variables) {
       if (
-        block &&
-        !block['disabled'] &&
-        block['childBlocks_'][0] !== undefined
+        variable &&
+        !variable['disabled'] &&
+        variable['childBlocks_'][0] !== undefined
       ) {
         const imageName =
-          block['inputList'][0]['fieldRow'][2]['value_'] || 'unknown';
-        const childInputList = block['childBlocks_'][0]['inputList'];
+          variable['inputList'][0]['fieldRow'][2]['value_'] || 'unknown';
+        const childInputList = variable['childBlocks_'][0]['inputList'];
         const imageSrc =
           childInputList[0]['fieldRow'][0]['value_'] ||
           childInputList[1]['fieldRow'][0]['value_'];
@@ -54,20 +57,99 @@ export class BlocksHelper {
           imageName,
         ];
         if (name && imageName === name) {
-          phaserImageList.unshift(imageEntry);
+          imageList.unshift(imageEntry);
           foundName = true;
-        } else {
-          phaserImageList.push(imageEntry);
+        } else if (imageEntry) {
+          imageList.push(imageEntry);
         }
       }
     }
     if (name && !foundName) {
-      phaserImageList.unshift([name, name]);
+      imageList.unshift([name, name]);
     }
-    if (!phaserImageList.length) {
-      phaserImageList.push(['none', 'none']);
+    if (!imageList.length) {
+      imageList.push(['none', 'none']);
     }
-    return phaserImageList;
+    return imageList;
+  }
+
+  /**
+   * @param {BlockSvg} blockSvg
+   * @return {!Array}
+   */
+  static phaserVariable(blockSvg) {
+    const variableMap = new Map();
+    const mainWorkspace = Blockly.getMainWorkspace();
+    // Get all variables from the workspace.
+    const variables = mainWorkspace.getBlocksByType('phaser_variable_set');
+    for (const variable of variables) {
+      if (variable && !variable['disabled']) {
+        const variableName =
+          variable['inputList'][0]['fieldRow'][0]['value_'] || '';
+        if (variableName) {
+          variableMap.set(variableName, variableName);
+        }
+      }
+    }
+
+    // Get all variables from the current flyout.
+    if (blockSvg?.isInFlyout) {
+      const flyoutVariables = mainWorkspace
+        .getFlyout()
+        .getWorkspace()
+        .getBlocksByType('phaser_variable_set');
+      for (const flyoutVariable of flyoutVariables) {
+        if (flyoutVariable && !flyoutVariable['disabled']) {
+          const variableName =
+            flyoutVariable['inputList'][0]['fieldRow'][0]['value_'] || '';
+          if (variableName) {
+            variableMap.set(variableName, variableName);
+          }
+        }
+      }
+
+      // Check all toolbox items to find any missing pre-defined variables.
+      const toolboxItems = mainWorkspace.getToolbox().getToolboxItems();
+      for (const toolboxItem of toolboxItems) {
+        if (!toolboxItem?.flyoutItems_?.length) {
+          continue;
+        }
+        const flyoutItems = toolboxItem.flyoutItems_;
+        for (const flyoutItem of flyoutItems) {
+          if (!flyoutItem?.blockxml?.length) {
+            continue;
+          }
+          const variableName = this.extractBlockXMLVariableName(
+            flyoutItem.blockxml
+          );
+          if (variableName) {
+            variableMap.set(variableName, variableName);
+          }
+        }
+      }
+    }
+
+    // Add default variable if no variable is available.
+    if (variableMap.size === 0) {
+      variableMap.set('found_no_variable', 'none');
+    }
+
+    return [].concat([...variableMap.entries()]).sort();
+  }
+
+  /**
+   * @param {String} blockXML
+   * @return {String}
+   */
+  static extractBlockXMLVariableName(blockXML) {
+    if (!blockXML?.includes('phaser_variable_set')) {
+      return '';
+    }
+    const variableMatch = blockXML.match(this.variableBlockRegExp);
+    if (variableMatch) {
+      return variableMatch[1].trim();
+    }
+    return '';
   }
 
   /**

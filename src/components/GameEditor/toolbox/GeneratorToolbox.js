@@ -53,7 +53,7 @@ export default [
       <block type="text"></block>
     </value>
     <value name="group">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">obstacle_group</field>
       </block>
     </value>
@@ -95,7 +95,7 @@ export default [
     </value>
     <field name="direction">bottom</field>
     <value name="group">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">obstacle_group</field>
       </block>
     </value>
@@ -131,7 +131,7 @@ export default [
       </block>
     </value>
     <value name="group">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">block_group</field>
       </block>
     </value>

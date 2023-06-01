@@ -63,7 +63,6 @@ Blocks['phaser_physics_arcade_sprite_add'] = {
  * @return {string}
  */
 javascriptGenerator['phaser_physics_arcade_sprite_add'] = function (block) {
-  const text_sprite = block.getFieldValue('sprite');
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -81,19 +80,14 @@ javascriptGenerator['phaser_physics_arcade_sprite_add'] = function (block) {
       'y',
       javascriptGenerator.ORDER_ATOMIC
     ) || 0;
-  return (
-    variable +
-    ' = game.add.sprite(' +
-    value_x +
-    ', ' +
-    value_y +
-    ", '" +
-    text_sprite +
-    "');\n" +
-    'game.physics.arcade.enable(' +
-    variable +
-    ');\n'
-  );
+
+  return `
+    ${variable} = this.physics.add.sprite(${value_x}, ${value_y}, "${block.getFieldValue(
+    'sprite'
+  )}")
+      .setOrigin(0)
+      .setScrollFactor(0, 1);
+  `;
 };
 
 /**
@@ -134,7 +128,6 @@ Blocks['phaser_physics_arcade_sprite_ball_add'] = {
 javascriptGenerator['phaser_physics_arcade_sprite_ball_add'] = function (
   block
 ) {
-  const text_sprite = block.getFieldValue('sprite');
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -153,24 +146,16 @@ javascriptGenerator['phaser_physics_arcade_sprite_ball_add'] = function (
       javascriptGenerator.ORDER_ATOMIC
     ) || 0;
   const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
-  return (
-    variable +
-    ' = game.add.sprite(' +
-    value_x +
-    ', ' +
-    value_y +
-    ", '" +
-    text_sprite +
-    "');\n" +
-    'game.physics.arcade.enable(' +
-    variable +
-    ');\n' +
-    '(function(arcadeSpriteCustom) {\n' +
-    statements_code +
-    '}(' +
-    variable +
-    '));\n'
-  );
+  return `
+    ${variable} = this.physics.add.sprite(${value_x}, ${value_y}, "${block.getFieldValue(
+    'sprite'
+  )}")
+      .setOrigin(0)
+      .setScrollFactor(0, 1);
+    (function(arcadeSpriteCustom) {
+      ${statements_code}
+    }(${variable}));
+  `;
 };
 
 /**
@@ -232,7 +217,7 @@ javascriptGenerator['phaser_physics_arcade_sprite_player_add'] = function (
   const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
   return (
     variable +
-    ' = game.add.sprite(' +
+    ' = this.add.sprite(' +
     value_x +
     ', ' +
     value_y +
@@ -309,7 +294,7 @@ javascriptGenerator['phaser_physics_arcade_sprite_paddle_add'] = function (
   const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
   return (
     variable +
-    ' = game.add.sprite(' +
+    ' = this.add.sprite(' +
     value_x +
     ', ' +
     value_y +
@@ -393,12 +378,15 @@ javascriptGenerator['phaser_physics_arcade_sprite_adjust'] = function (
   block,
   variableName = ''
 ) {
-  const variable =
+  let variable =
     javascriptGenerator.valueToCode(
       block,
       'variable',
       javascriptGenerator.ORDER_ATOMIC
     ) || variableName;
+  if (!variableName && !variable.startsWith('this.')) {
+    variable = 'this.' + variable;
+  }
   const dropdown_property = block.getFieldValue('property');
   const value_value = javascriptGenerator.valueToCode(
     block,
@@ -634,7 +622,7 @@ javascriptGenerator['phaser_physics_arcade_sprite_destroy'] = function (block) {
     'variable',
     javascriptGenerator.ORDER_ATOMIC
   );
-  return variable + '.destroy();\n';
+  return `${variable}.destroy();`;
 };
 
 /**
@@ -813,21 +801,17 @@ Blocks['phaser_physics_arcade_collide'] = {
  * @return {string}
  */
 javascriptGenerator['phaser_physics_arcade_collide'] = function (block) {
-  const value_object1 = javascriptGenerator.valueToCode(
+  const object1 = javascriptGenerator.valueToCode(
     block,
     'object1',
     javascriptGenerator.ORDER_ATOMIC
   );
-  const value_object2 = javascriptGenerator.valueToCode(
+  const object2 = javascriptGenerator.valueToCode(
     block,
     'object2',
     javascriptGenerator.ORDER_ATOMIC
   );
-  return (
-    'game.physics.arcade.collide(' +
-    value_object1 +
-    ', ' +
-    value_object2 +
-    ');\n'
-  );
+  return `
+    this.physics.add.collider(${object1}, ${object2});
+  `;
 };

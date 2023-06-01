@@ -121,7 +121,7 @@ Blocks['phaser_add_background'] = {
  */
 javascriptGenerator['phaser_add_background'] = function (block) {
   const text_sprite = block.getFieldValue('sprite');
-  return "game.add.image(0, 0, '" + text_sprite + "');\n";
+  return "this.add.image(0, 0, '" + text_sprite + "');\n";
 };
 
 /**
@@ -159,17 +159,17 @@ Blocks['phaser_add_background_scaled'] = {
 javascriptGenerator['phaser_add_background_scaled'] = function (block) {
   const text_sprite = block.getFieldValue('sprite');
   const number_width =
-    Number(block.getFieldValue('width')) || 'game.world.width';
+    Number(block.getFieldValue('width')) || 'this.cameras.main.width';
   const number_height =
-    Number(block.getFieldValue('height')) || 'game.world.height';
+    Number(block.getFieldValue('height')) || 'this.cameras.main.height';
   return (
-    "var backgroundImage = game.add.image(0, 0, '" +
+    "let backgroundImage = game.add.image(0, 0, '" +
     text_sprite +
     "');\n" +
-    'backgroundImage.width = ' +
+    'backgroundImage.dislplayWidth = ' +
     number_width +
     ';\n' +
-    'backgroundImage.height = ' +
+    'backgroundImage.displayHeight = ' +
     number_height +
     ';\n'
   );

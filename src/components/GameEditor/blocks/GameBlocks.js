@@ -26,6 +26,7 @@ import i18next from 'i18next';
  * Phaser Game block.
  */
 Blocks['phaser_game'] = {
+  hat: 'cap',
   init: function () {
     this.appendDummyInput()
       .appendField(BlocksTemplate.runningMan())
@@ -65,6 +66,16 @@ javascriptGenerator['phaser_game'] = function (block) {
       type: Phaser.AUTO,
       width: ${Number(block.getFieldValue('width')) || 'window.innerWidth'},
       height: ${Number(block.getFieldValue('height')) || 'window.innerHeight'},
+      scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+      },
+      physics: {
+        default: 'arcade',
+        arcade: {
+            debug: false
+        }
+      }
     }
     const game = new Phaser.Game(PhaserGameConfig);
     window.game = game;

@@ -46,4 +46,33 @@ export class BlocksBuilder {
       );
     });
   }
+
+  /**
+   * @param {String} base64String
+   * @return {Promise}
+   */
+  static generateIdFromBase64(base64String) {
+    return new Promise((resolve, reject) => {
+      // Remove prefix from base64 string, if exists.
+      const data = base64String.includes(',')
+        ? base64String.substring(base64String.indexOf(',') + 1)
+        : base64String;
+      try {
+        crypto.subtle
+          .digest('SHA-256', new TextEncoder().encode(atob(data)))
+          .then((hashBuffer) => {
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashBase64 = btoa(String.fromCharCode(...hashArray));
+            resolve(
+              hashBase64
+                .replace(/\+/g, '-')
+                .replace(/\//g, '_')
+                .replace(/=+$/, '')
+            );
+          });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
 }

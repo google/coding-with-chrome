@@ -67,7 +67,7 @@ export const updateBlocks = [
     blockxml: `
   <block type="phaser_world_wrap">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_get">
         <field name="VAR">sprite</field>
       </block>
     </value>
