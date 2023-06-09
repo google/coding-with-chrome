@@ -361,6 +361,7 @@ export class GameEditor extends React.PureComponent {
       screenshotUrl,
       code
         .replace(', Phaser.AUTO,', ', Phaser.CANVAS,')
+        .replace('autoFocus: true,', 'autoFocus: false,')
         .replace(
           'preserveDrawingBuffer: false,',
           'preserveDrawingBuffer: true,'

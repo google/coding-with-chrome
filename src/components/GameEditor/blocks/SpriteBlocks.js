@@ -142,7 +142,9 @@ javascriptGenerator['phaser_sprite_adjust'] = function (block) {
   );
   switch (dropdown_property) {
     case 'anchor.set':
-      return variable + '.' + dropdown_property + '(' + value_value + ');\n';
+      return (
+        variable + '.setOrigin(' + value_value + ', ' + value_value + ');\n'
+      );
     case 'moveUp':
       return variable + '.y -= ' + value_value + ';\n';
     case 'moveDown':

@@ -56,6 +56,9 @@ Blocks['phaser_create'] = {
 javascriptGenerator['phaser_create'] = function (block) {
   return `
   create (event) {
+    // Helper function to simplify blocks.
+    this.helper_ = new PhaserHelper(this);
+
     // Empty generator groups to make sure game restarts works.
     this.block_group = null;
     this.obstacle_group = null;

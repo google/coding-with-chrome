@@ -119,18 +119,7 @@ javascriptGenerator['phaser_input_keyboard_cursor_keys_add'] = function (
     'variable',
     javascriptGenerator.ORDER_ATOMIC
   );
-  return (
-    variable +
-    ' = this.input.keyboard.createCursorKeys();\n' +
-    variable +
-    '.down.onDown.add(this.input_, this);\n' +
-    variable +
-    '.left.onDown.add(this.input_, this);\n' +
-    variable +
-    '.right.onDown.add(this.input_, this);\n' +
-    variable +
-    '.up.onDown.add(this.input_, this);\n'
-  );
+  return variable + ' = this.input.keyboard.createCursorKeys();\n';
 };
 
 /**
@@ -435,12 +424,7 @@ javascriptGenerator['phaser_input_keyboard_cursor_is_hold_pressed'] = function (
     javascriptGenerator.ORDER_ATOMIC
   );
   const dropdown_direction = block.getFieldValue('direction');
-  const code =
-    value_cursors +
-    dropdown_direction +
-    '.isDown && e !== ' +
-    value_cursors +
-    dropdown_direction;
+  const code = value_cursors + dropdown_direction + '.isDown';
   return [code, javascriptGenerator.ORDER_NONE];
 };
 
@@ -592,14 +576,7 @@ javascriptGenerator['phaser_input_mouse_key_is_pressed'] = function (block) {
     javascriptGenerator.ORDER_ATOMIC
   );
   const dropdown_direction = block.getFieldValue('direction');
-  const code =
-    value_mouse +
-    '.activePointer.' +
-    dropdown_direction +
-    ' && ' +
-    'e === ' +
-    value_mouse +
-    '.activePointer';
+  const code = value_mouse + '.activePointer.' + dropdown_direction;
   return [code, javascriptGenerator.ORDER_NONE];
 };
 

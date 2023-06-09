@@ -264,6 +264,17 @@ export class BlockEditor extends React.PureComponent {
   }
 
   /**
+   * @return {string}
+   */
+  getPrettyXML() {
+    const xmlDom = Blockly.Xml.workspaceToDom(
+      this.state.blocklyWorkspace,
+      true
+    );
+    return Blockly.Xml.domToText(xmlDom);
+  }
+
+  /**
    * @return {WorkspaceSvg}
    */
   getBlocklyWorkspace() {

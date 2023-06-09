@@ -52,7 +52,8 @@ export class PhaserTemplate {
       html, body { width: 100%; height: 100%; overflow: hidden; }
       canvas { display: block; }
     </style>
-    ${`<script src="${APP_BASE_PATH}framework/phaser_extras.js"></script>`}
+    ${`<script src="${APP_BASE_PATH}framework/phaser_helper.min.js"></script>`}
+    ${`<script src="${APP_BASE_PATH}framework/phaser_extras.min.js"></script>`}
     ${`<script src="${APP_BASE_PATH}framework/phaser.min.js"></script>`}
   </head>
   <body>

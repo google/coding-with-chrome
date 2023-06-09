@@ -64,7 +64,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_dynamic_text_highscore_add">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_set">
         <field name="VAR">highscore</field>
       </block>
     </value>
@@ -84,7 +84,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_dynamic_text_add">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_set">
         <field name="VAR">text</field>
       </block>
     </value>
@@ -106,7 +106,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_action_text_add">
     <value name="variable">
-      <block type="variables_get">
+      <block type="phaser_variable_set">
         <field name="VAR">start_text</field>
       </block>
     </value>

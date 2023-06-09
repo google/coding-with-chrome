@@ -55,11 +55,13 @@ Blocks['phaser_update'] = {
 javascriptGenerator['phaser_update'] = function (block) {
   const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
   return `
-  update (event) {
-    if (event && this.input_) {
-      this.input_(event);
+  update (time, delta) {
+    if (this.helper_) {
+      this.helper_.handleInput();
     }
     ${statements_code}
-    PhaserHelper.updateHelper(this);
+    if (this.helper_) {
+      this.helper_.handleUpdate();
+    }
   }`;
 };

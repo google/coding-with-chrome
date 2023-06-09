@@ -58,7 +58,7 @@ javascriptGenerator['phaser_game'] = function (block) {
   return `
     const PhaserGameName = "${block.getFieldValue('name') || ''}";
     const PhaserGameConfig = {
-      autoFocus: false,
+      autoFocus: true,
       pixelArt: false,
       preserveDrawingBuffer: false,
       powerPreference: 'default',
@@ -156,7 +156,7 @@ Blocks['phaser_game_start'] = {
  */
 javascriptGenerator['phaser_game_start'] = function (block) {
   const text_name = block.getFieldValue('name');
-  return "game.state.start('" + text_name + "');\n";
+  return "this.scene.start('" + text_name + "');\n";
 };
 
 /**
@@ -180,5 +180,5 @@ Blocks['phaser_game_restart'] = {
  * @return {string}
  */
 javascriptGenerator['phaser_game_restart'] = function () {
-  return 'game.state.start(game.state.current);\n';
+  return 'this.scene.restart();\n';
 };

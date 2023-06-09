@@ -86,7 +86,7 @@ javascriptGenerator['phaser_physics_arcade_sprite_add'] = function (block) {
     'sprite'
   )}")
       .setOrigin(0)
-      .setScrollFactor(0, 1);
+      .setScrollFactor(0, 0);
   `;
 };
 

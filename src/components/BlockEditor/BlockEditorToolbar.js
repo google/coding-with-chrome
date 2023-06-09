@@ -226,7 +226,7 @@ export class BlockEditorToolbar extends React.PureComponent {
    */
   handleExportFile() {
     console.log(`Export  ${this.props.project} ...`);
-    const textAsBlob = new Blob([this.props.blockEditor.getXML()], {
+    const textAsBlob = new Blob([this.props.blockEditor.getPrettyXML()], {
       type: 'application/xml',
     });
     const downloadLink = document.createElement('a');

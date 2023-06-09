@@ -127,8 +127,21 @@ Blocks['phaser_world_attributes'] = {
  * @return {any[]}
  */
 javascriptGenerator['phaser_world_attributes'] = function (block) {
-  const dropdown_attribute = block.getFieldValue('attribute');
-  const code = 'game.world.' + dropdown_attribute;
+  let code = '';
+  switch (block.getFieldValue('attribute')) {
+    case 'centerX':
+      code = 'this.cameras.main.width / 2';
+      break;
+    case 'centerY':
+      code = 'this.cameras.main.height / 2';
+      break;
+    case 'width':
+      code = 'this.cameras.main.width';
+      break;
+    case 'height':
+      code = 'this.cameras.main.height';
+      break;
+  }
   return [code, javascriptGenerator.ORDER_NONE];
 };
 

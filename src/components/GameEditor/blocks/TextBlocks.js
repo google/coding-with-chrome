@@ -400,27 +400,18 @@ javascriptGenerator['phaser_action_text_add'] = function (block) {
   if (/^\d+$/.test(text_size)) {
     text_size = text_size + 'px';
   }
-  return (
-    variable +
-    ' = this.add.text(' +
-    value_x +
-    ', ' +
-    value_y +
-    ', ' +
-    value_text +
-    ", { font: '" +
-    text_size +
-    ' ' +
-    text_font +
-    "', " +
-    "fill: '" +
-    text_color +
-    "'});\n" +
-    variable +
-    '.inputEnabled = true;\n' +
-    variable +
-    '.input.useHandCursor = true;\n'
-  );
+  return `
+  ${variable} = this.add.text(${value_x}, ${value_y}, ${value_text}, {
+    font: '${text_size} ${text_font}',
+    fill: '${text_color}'
+  });
+  ${variable}.setInteractive(new Phaser.Geom.Rectangle(0, 0, ${variable}.width, ${variable}.height), Phaser.Geom.Rectangle.Contains);
+  ${variable}.on('pointerover', function (pointer, gameObject) {
+    document.body.style.cursor = 'pointer';
+  });
+  ${variable}.on('pointerout', function (pointer, gameObject) {
+    document.body.style.cursor = 'default';
+  });`;
 };
 
 /**
@@ -548,10 +539,8 @@ javascriptGenerator['phaser_text_clicked'] = function (block) {
     javascriptGenerator.ORDER_ATOMIC
   );
   const statements_func = javascriptGenerator.statementToCode(block, 'func');
-  return (
-    variable +
-    '.events.onInputDown.add(function() {\n' +
-    statements_func +
-    '}, this);\n'
-  );
+  return `
+  ${variable}.on('pointerdown', () => {
+    ${statements_func}
+  });`;
 };

@@ -303,32 +303,6 @@ class PhaserExtras {
   }
 }
 
-/**
- * Helper class for different phaser parts.
- */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, require-jsdoc, no-unused-vars
-class PhaserHelper {
-  /**
-   * @param {Object} self
-   */
-  static updateHelper(self) {
-    if (!self) {
-      return;
-    }
-
-    // Automatically scroll the background, ceiling, and floor.
-    if (self.ceiling?.scrollFactorX) {
-      self.ceiling.tilePositionX += self.ceiling.scrollFactorX;
-    }
-    if (self.background?.scrollFactorX) {
-      self.background.tilePositionX += self.background.scrollFactorX;
-    }
-    if (self.floor?.scrollFactorX) {
-      self.floor.tilePositionX += self.floor.scrollFactorX;
-    }
-  }
-}
-
 // Clear any existing fragments when the page is loaded.
 document.addEventListener('DOMContentLoaded', function () {
   new PhaserExtras().clear();

@@ -239,8 +239,12 @@ module.exports = (mode = 'development') => ({
           to: './framework/phaser.min.js',
         },
         {
-          from: './src/frameworks/phaser/phaser_extras.js',
-          to: './framework/phaser_extras.js',
+          from: './src/frameworks/phaser/phaser_extras.min.js',
+          to: './framework/phaser_extras.min.js',
+        },
+        {
+          from: './src/frameworks/phaser/phaser_helper.min.js',
+          to: './framework/phaser_helper.min.js',
         },
       ],
     }),
