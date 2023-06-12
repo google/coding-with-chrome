@@ -126,8 +126,10 @@ Blocks['phaser_load_audio'] = {
  */
 javascriptGenerator['phaser_load_audio'] = function (block) {
   const text_name = block.getFieldValue('name');
-  const value_audio = javascriptGenerator
-    .valueToCode(block, 'audio', javascriptGenerator.ORDER_NONE)
-    .replace('file:', 'url:/library/');
-  return "game.load.audio('" + text_name + "', '" + value_audio + "');\n";
+  const value_audio = javascriptGenerator.valueToCode(
+    block,
+    'audio',
+    javascriptGenerator.ORDER_NONE
+  );
+  return "this.load.audio('" + text_name + "', '" + value_audio + "');\n";
 };

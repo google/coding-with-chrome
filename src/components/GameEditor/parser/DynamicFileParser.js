@@ -43,9 +43,9 @@ export class DynamicFileParser {
 
           // Read data from dynamic audio file block.
           const childBlock = block['childBlocks_'][0];
-          const filename = childBlock['inputList'][0]['fieldRow'][0]['value_'];
-          const url = childBlock['inputList'][0]['fieldRow'][1]['value_'];
-          const urlData = childBlock['inputList'][0]['fieldRow'][2]['value_'];
+          const filename = childBlock['inputList'][0]['fieldRow'][1]['value_'];
+          const url = childBlock['inputList'][0]['fieldRow'][2]['value_'];
+          const urlData = childBlock['inputList'][0]['fieldRow'][3]['value_'];
           result.set(name, {
             name,
             filename,
@@ -81,7 +81,6 @@ export class DynamicFileParser {
           const urlData = childBlock['inputList'][0]['fieldRow'][0]['value_'];
           const filename = childBlock['inputList'][1]['fieldRow'][0]['value_'];
           const url = childBlock['inputList'][1]['fieldRow'][1]['value_'];
-
           result.set(name, {
             name,
             filename,

@@ -57,11 +57,10 @@ class PhaserExtras {
    * @param {Function=} manipulation
    */
   static addGroupSprite(game, x, y, sprite_name, group, manipulation) {
-    const sprite = this.add.sprite(x, y, sprite_name);
+    const sprite = game.physics.add.sprite(x, y, sprite_name);
     if (group) {
       group.add(sprite);
     }
-    game.physics.arcade.enable(sprite);
     sprite['checkWorldBounds'] = true;
     sprite['outOfBoundsKill'] = true;
     sprite['z'] = 100;
@@ -96,7 +95,10 @@ class PhaserExtras {
     manipulation
   ) {
     const spriteSize = PhaserExtras.getSpriteSize(game, sprite, manipulation);
-    const spriteSpace = game.rnd.integerInRange(0, num_blocks - space - 1);
+    const spriteSpace = Phaser.Math.RND.integerInRange(
+      0,
+      num_blocks - space - 1
+    );
     for (let i = 0; i < num_blocks; i++) {
       if (i < spriteSpace || i >= spriteSpace + space) {
         let groupSprite = sprite;
@@ -141,7 +143,7 @@ class PhaserExtras {
     manipulation
   ) {
     const spriteSize = PhaserExtras.getSpriteSize(game, sprite, manipulation);
-    const numBlocks = game.rnd.integerInRange(0, num_blocks);
+    const numBlocks = Phaser.Math.RND.integerInRange(0, num_blocks);
     if (direction === 'top') {
       y = y - spriteSize.height;
     }
@@ -217,11 +219,10 @@ class PhaserExtras {
    * @return {Object}
    */
   static getSpriteSize(game, sprite, manipulation) {
-    let width = game.cache.getImage(sprite).width;
-    let height = game.cache.getImage(sprite).width;
+    let width = game.textures.get(sprite).width;
+    let height = game.textures.get(sprite).width;
     if (manipulation) {
-      const testSprite = this.add.sprite(0, 0, sprite);
-      game.physics.arcade.enable(testSprite);
+      const testSprite = game.physics.add.sprite(0, 0, sprite);
       testSprite['visible'] = false;
       manipulation(testSprite);
       width = testSprite.width;

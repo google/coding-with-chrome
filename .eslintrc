@@ -82,6 +82,12 @@
       }
     },
     {
+      "files": ["src/frameworks/phaser/*.js"],
+      "globals": {
+        "Phaser": true
+      }
+    },
+    {
       "files": ["src/usr/bin/*.js"],
       "rules": {
         "no-unused-vars": "off",

@@ -62,7 +62,7 @@ javascriptGenerator['phaser_group_add'] = function (block) {
     'variable',
     javascriptGenerator.ORDER_ATOMIC
   );
-  return variable + " = game.add.group(undefined, '" + text_name + "');\n";
+  return variable + " = this.add.group(undefined, '" + text_name + "');\n";
 };
 
 /**

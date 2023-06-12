@@ -196,7 +196,6 @@ Blocks['phaser_physics_arcade_sprite_player_add'] = {
 javascriptGenerator['phaser_physics_arcade_sprite_player_add'] = function (
   block
 ) {
-  const text_sprite = block.getFieldValue('sprite');
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -215,24 +214,16 @@ javascriptGenerator['phaser_physics_arcade_sprite_player_add'] = function (
       javascriptGenerator.ORDER_ATOMIC
     ) || 0;
   const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
-  return (
-    variable +
-    ' = this.add.sprite(' +
-    value_x +
-    ', ' +
-    value_y +
-    ", '" +
-    text_sprite +
-    "');\n" +
-    'game.physics.arcade.enable(' +
-    variable +
-    ');\n' +
-    '(function(arcadeSpriteCustom) {\n' +
-    statements_code +
-    '}(' +
-    variable +
-    '));\n'
-  );
+  return `
+    ${variable} = this.physics.add.sprite(${value_x}, ${value_y}, "${block.getFieldValue(
+    'sprite'
+  )}")
+      .setOrigin(0)
+      .setScrollFactor(0, 1);
+    (function(arcadeSpriteCustom) {
+      ${statements_code}
+    }(${variable}));
+  `;
 };
 
 /**
@@ -767,7 +758,7 @@ javascriptGenerator['phaser_physics_arcade_overlap'] = function (block) {
   );
   const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
   return (
-    'game.physics.arcade.overlap(' +
+    'this.physics.overlap(' +
     value_object1 +
     ', ' +
     value_object2 +

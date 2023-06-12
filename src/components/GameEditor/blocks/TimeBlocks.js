@@ -100,12 +100,8 @@ javascriptGenerator['phaser_time_loop_event'] = function (block) {
     javascriptGenerator.ORDER_ATOMIC
   );
   const statements_func = javascriptGenerator.statementToCode(block, 'func');
-  return (
-    'game.time.events.loop(' +
-    value_time +
-    ', ' +
-    'function() {\n' +
-    statements_func +
-    '}, this);\n'
-  );
+  return `
+  this.time.addEvent({delay: ${value_time},  loop: true, callback: () => {
+    ${statements_func}
+  }, callbackScope: this});`;
 };

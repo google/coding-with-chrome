@@ -197,9 +197,7 @@ javascriptGenerator['phaser_input_keyboard_spacebar_add'] = function (block) {
   );
   return (
     variable +
-    ' = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);\n' +
-    variable +
-    '.onDown.add(this.input_, this);\n'
+    ' = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);\n'
   );
 };
 
@@ -236,7 +234,7 @@ javascriptGenerator['phaser_input_keyboard_shift_add'] = function (block) {
   );
   return (
     variable +
-    ' = this.input.keyboard.addKey(Phaser.KeyCode.SHIFT);\n' +
+    ' = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);\n' +
     variable +
     '.onDown.add(this.input_, this);\n'
   );
@@ -255,13 +253,13 @@ Blocks['phaser_input_keyboard_key_add'] = {
       .appendField(i18next.t('BLOCKS_PHASER_KEYBOARD_KEY'))
       .appendField(
         new Blockly.FieldDropdown([
-          [i18next.t('shift key'), 'Phaser.KeyCode.SHIFT'],
-          [i18next.t('control key'), 'Phaser.KeyCode.CONTROL'],
-          [i18next.t('spacebar'), 'Phaser.KeyCode.SPACEBAR'],
-          ['w', 'Phaser.KeyCode.W'],
-          ['a', 'Phaser.KeyCode.A'],
-          ['s', 'Phaser.KeyCode.S'],
-          ['d', 'Phaser.KeyCode.D'],
+          [i18next.t('shift key'), 'Phaser.Input.Keyboard.KeyCodes.SHIFT'],
+          [i18next.t('control key'), 'Phaser.Input.Keyboard.KeyCodes.CONTROL'],
+          [i18next.t('spacebar'), 'Phaser.Input.Keyboard.KeyCodes.SPACE'],
+          ['w', 'Phaser.Input.Keyboard.KeyCodes.W'],
+          ['a', 'Phaser.Input.Keyboard.KeyCodes.A'],
+          ['s', 'Phaser.Input.Keyboard.KeyCodes.S'],
+          ['d', 'Phaser.Input.Keyboard.KeyCodes.D'],
         ]),
         'keycode'
       )
@@ -287,12 +285,7 @@ javascriptGenerator['phaser_input_keyboard_key_add'] = function (block) {
     javascriptGenerator.ORDER_ATOMIC
   );
   return (
-    variable +
-    ' = this.input.keyboard.addKey(' +
-    dropdown_keycode +
-    ');\n' +
-    variable +
-    '.onDown.add(this.input_, this);\n'
+    variable + ' = this.input.keyboard.addKey(' + dropdown_keycode + ');\n'
   );
 };
 
@@ -375,12 +368,7 @@ javascriptGenerator['phaser_input_keyboard_cursor_is_pressed'] = function (
     javascriptGenerator.ORDER_ATOMIC
   );
   const dropdown_direction = block.getFieldValue('direction');
-  const code =
-    value_cursors +
-    dropdown_direction +
-    '.isDown && e === ' +
-    value_cursors +
-    dropdown_direction;
+  const code = value_cursors + dropdown_direction + '.isDown';
   return [code, javascriptGenerator.ORDER_NONE];
 };
 
@@ -454,7 +442,7 @@ javascriptGenerator['phaser_input_keyboard_key_is_pressed'] = function (block) {
     'key',
     javascriptGenerator.ORDER_ATOMIC
   );
-  const code = value_key + '.isDown && e === ' + value_key;
+  const code = value_key + '.isDown';
   return [code, javascriptGenerator.ORDER_NONE];
 };
 

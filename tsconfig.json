@@ -15,13 +15,6 @@
     "strictNullChecks": true,
     "target": "es2022"
   },
-  "files": [
-    "global.d.ts",
-  ],
-  "exclude": [
-    "build",
-    "node_modules",
-    "test",
-    "types",
-  ]
+  "files": ["global.d.ts"],
+  "exclude": ["build", "node_modules", "test", "types"]
 }

@@ -30,7 +30,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_tile_sprite_background">
     <value name="x">
-      <block type="math_number"><field name="NUM">-50</field></block>
+      <block type="math_number"><field name="NUM">1</field></block>
     </value>
     <value name="y">
       <block type="math_number"><field name="NUM">0</field></block>
@@ -47,7 +47,7 @@ export const createBlocks = [
       </block>
     </value>
     <value name="x">
-      <block type="math_number"><field name="NUM">-50</field></block>
+      <block type="math_number"><field name="NUM">1</field></block>
     </value>
     <value name="y">
       <block type="math_number"><field name="NUM">0</field></block>
@@ -64,7 +64,7 @@ export const createBlocks = [
       </block>
     </value>
     <value name="x">
-      <block type="math_number"><field name="NUM">-50</field></block>
+      <block type="math_number"><field name="NUM">1</field></block>
     </value>
     <value name="y">
       <block type="math_number"><field name="NUM">0</field></block>
@@ -140,7 +140,7 @@ export const defaultBlocks = [
       </block>
     </value>
     <value name="x">
-      <block type="math_number"><field name="NUM">-50</field></block>
+      <block type="math_number"><field name="NUM">1</field></block>
     </value>
     <value name="y">
       <block type="math_number"><field name="NUM">0</field></block>

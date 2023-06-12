@@ -320,16 +320,20 @@ export class BlockEditor extends React.PureComponent {
         BlocksBuilder.generateIdFromBase64(value.urlData).then((assetId) => {
           console.log('Adding asset: ', key, value, assetId);
           const assetsUrl = value.urlData;
-          const assetsType = assetsUrl.split(':')[1].split(';')[0];
-          fetch(assetsUrl)
-            .then((response) => response.blob())
-            .then((blob) => {
-              PreviewService.saveFile(
-                this.props.project.id + '/' + assetId,
-                blob,
-                assetsType
-              );
-            });
+          try {
+            const assetsType = assetsUrl.split(':')[1].split(';')[0];
+            fetch(assetsUrl)
+              .then((response) => response.blob())
+              .then((blob) => {
+                PreviewService.saveFile(
+                  this.props.project.id + '/' + assetId,
+                  blob,
+                  assetsType
+                );
+              });
+          } catch (e) {
+            console.error('Could not parse asset: ', e);
+          }
         });
       }
     }
