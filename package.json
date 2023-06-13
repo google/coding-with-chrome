@@ -133,5 +133,8 @@
     "prestart": "npm run compress:frameworks",
     "prestart:dev": "npm run compress:frameworks",
     "prestart:lighthouse": "npm run compress:frameworks"
+  },
+  "dependencies": {
+    "@lhci/cli": "^0.12.0"
   }
 }

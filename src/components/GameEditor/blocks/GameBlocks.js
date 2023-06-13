@@ -120,7 +120,7 @@ javascriptGenerator['phaser_game_state'] = function (block) {
   return `
   class ${name} extends Phaser.Scene {
     constructor (config) {
-        super(config);
+      super(config);
     }
     ${javascriptGenerator.statementToCode(block, 'state')}
   }

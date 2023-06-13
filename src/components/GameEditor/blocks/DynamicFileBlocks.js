@@ -45,7 +45,6 @@ Blocks['dynamic_image_file'] = {
     const blockId = this.inputList[1]['fieldRow'][0].value_;
     const urlData = this.inputList[0]['fieldRow'][0].value_;
     if (!blockId && urlData) {
-      console.log(urlData);
       BlocksBuilder.generateIdFromBase64(urlData).then((id) => {
         this.inputList[1]['fieldRow'][0].setValue(id);
       });
@@ -91,6 +90,29 @@ javascriptGenerator['dynamic_image_file'] = function (block) {
  * Dynamic audio block for user-selected audios.
  */
 Blocks['dynamic_audio_file'] = {
+  /**
+   * @param {!AbstractEvent} event
+   */
+  onchange: function (event) {
+    // Block is deleted or is in a flyout.
+    if (
+      !this.workspace ||
+      this.workspace.isFlyout ||
+      event.type != Events.BLOCK_CREATE ||
+      event.ids.indexOf(this.id) == -1
+    ) {
+      return;
+    }
+
+    // Generate ID from base64 data, if not set.
+    const blockId = this.inputList[0]['fieldRow'][0].value_;
+    const urlData = this.inputList[0]['fieldRow'][3].value_;
+    if (!blockId && urlData) {
+      BlocksBuilder.generateIdFromBase64(urlData).then((id) => {
+        this.inputList[0]['fieldRow'][0].setValue(id);
+      });
+    }
+  },
   init: function () {
     this.appendDummyInput()
       .appendField(new Blockly.FieldTextInput(''), 'id')
@@ -117,7 +139,10 @@ Blocks['dynamic_audio_file'] = {
  */
 javascriptGenerator['dynamic_audio_file'] = function (block) {
   return [
-    block.getFieldValue('urlData') || block.getFieldValue('url') || '',
+    block.getFieldValue('id') ||
+      block.getFieldValue('urlData') ||
+      block.getFieldValue('url') ||
+      '',
     javascriptGenerator.ORDER_NONE,
   ];
 };

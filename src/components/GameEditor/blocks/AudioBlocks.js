@@ -135,24 +135,18 @@ Blocks['phaser_audio_add'] = {
  * @return {string}
  */
 javascriptGenerator['phaser_audio_add'] = function (block) {
-  const text_audio = block.getFieldValue('audio');
-  const number_volume = block.getFieldValue('volume');
-  const dropdown_loop = block.getFieldValue('loop');
+  const textAudio = block.getFieldValue('audio');
+  const numberVolume = block.getFieldValue('volume');
+  const dropdownLoop = block.getFieldValue('loop');
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
     javascriptGenerator.ORDER_ATOMIC
   );
-  return (
-    variable +
-    " = game.add.audio('" +
-    text_audio +
-    "', " +
-    number_volume / 100 +
-    ', ' +
-    dropdown_loop +
-    ');\n'
-  );
+  return `
+  ${variable} = this.sound.add('${textAudio}', {
+    volume: ${numberVolume}, loop: ${dropdownLoop}
+  });`;
 };
 
 /**

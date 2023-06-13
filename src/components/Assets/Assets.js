@@ -48,6 +48,7 @@ export class Assets extends React.PureComponent {
     super(props);
     this.state = {
       isDraggingOver: false,
+      isProcessing: false,
     };
   }
 
@@ -123,6 +124,11 @@ export class Assets extends React.PureComponent {
               console.log('Return file as is', file.type, file.name);
               this.props.onDropFile(file, base64Encoding);
             }
+            setTimeout(() => {
+              this.setState({
+                isProcessing: false,
+              });
+            }, 500);
           });
         };
         return;
@@ -131,6 +137,11 @@ export class Assets extends React.PureComponent {
       // Return file as data url without optimization.
       console.log('Return file as data url', file.type, file.name);
       this.props.onDropFile(file, base64Encoding);
+      setTimeout(() => {
+        this.setState({
+          isProcessing: false,
+        });
+      }, 500);
     };
     reader.readAsDataURL(file);
   }
@@ -160,6 +171,9 @@ export class Assets extends React.PureComponent {
    */
   handleDragOver(event) {
     event.preventDefault();
+    this.setState({
+      isDraggingOver: true,
+    });
   }
 
   /**
@@ -169,6 +183,7 @@ export class Assets extends React.PureComponent {
     event.preventDefault();
     this.setState({
       isDraggingOver: false,
+      isProcessing: true,
     });
     const files = event.dataTransfer.files;
     if (files.length === 0) {
@@ -189,12 +204,13 @@ export class Assets extends React.PureComponent {
       if (files.length === 0) {
         return;
       }
+      this.setState({
+        isDraggingOver: false,
+        isProcessing: true,
+      });
       this.readFile(files[0]);
     };
     fileInput.click();
-    this.setState({
-      isDraggingOver: false,
-    });
   }
 
   /**
@@ -231,15 +247,21 @@ export class Assets extends React.PureComponent {
                 <Box>
                   <PermMediaIcon sx={{ fontSize: 48 }} />
                 </Box>
-                <Button
-                  variant="contained"
-                  onClick={this.handleUploadFile.bind(this)}
-                >
-                  <UploadFileIcon
-                    sx={{ paddingRight: '5px', verticalAlign: 'middle' }}
-                  />
-                  {i18next.t('ASSETS_UPLOAD_FILE')}
-                </Button>
+                <Box sx={{ minHeight: '36px' }}>
+                  {this.state.isProcessing ? (
+                    <Box>{i18next.t('ASSETS_PROCESSING')}</Box>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      onClick={this.handleUploadFile.bind(this)}
+                    >
+                      <UploadFileIcon
+                        sx={{ paddingRight: '5px', verticalAlign: 'middle' }}
+                      />
+                      {i18next.t('ASSETS_UPLOAD_FILE')}
+                    </Button>
+                  )}
+                </Box>
                 <Box>
                   <FileUploadIcon
                     sx={{ paddingRight: '5px', verticalAlign: 'middle' }}
