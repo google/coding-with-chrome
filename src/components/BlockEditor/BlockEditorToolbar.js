@@ -59,6 +59,7 @@ import FileFormat, { ContentType } from '../FileFormat/FileFormat';
 
 import { Toolbar, ToolbarIconButton } from '../Toolbar';
 import LanguageSetting from '../Settings/LanguageSetting';
+import SettingScreen from '../Settings/SettingScreen';
 
 const ConfirmDialog = lazy(() => import('../Dialogs/ConfirmDialog'));
 
@@ -81,6 +82,8 @@ export class BlockEditorToolbar extends React.PureComponent {
       showEditor: false,
       showNewFileDialog: false,
       snackbarSaved: false,
+      openSettings: false,
+      openLanguageSettings: false,
     };
   }
 
@@ -446,8 +449,24 @@ export class BlockEditorToolbar extends React.PureComponent {
             sx={{ boxShadow: 3 }}
           >
             <BottomNavigationAction label="About" icon={<InfoIcon />} />
-            <BottomNavigationAction label="Settings" icon={<SettingsIcon />} />
-            <BottomNavigationAction label="Language" icon={<LanguageIcon />} />
+            <BottomNavigationAction
+              label="Settings"
+              icon={<SettingsIcon />}
+              onClick={() => {
+                this.setState({
+                  openSettings: true,
+                });
+              }}
+            />
+            <BottomNavigationAction
+              label="Language"
+              icon={<LanguageIcon />}
+              onClick={() => {
+                this.setState({
+                  openLanguageSettings: true,
+                });
+              }}
+            />
           </BottomNavigation>
         </Drawer>
         {this.state.showNewFileDialog && (
@@ -463,6 +482,24 @@ export class BlockEditorToolbar extends React.PureComponent {
             }}
           ></ConfirmDialog>
         )}
+        <SettingScreen
+          color="inherit"
+          open={this.state.openSettings}
+          onClose={() => {
+            this.setState({
+              openSettings: false,
+            });
+          }}
+        />
+        <LanguageSetting
+          color="inherit"
+          open={this.state.openLanguageSettings}
+          onClose={() => {
+            this.setState({
+              openLanguageSettings: false,
+            });
+          }}
+        />
       </React.StrictMode>
     );
   }

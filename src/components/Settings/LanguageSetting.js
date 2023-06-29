@@ -65,6 +65,9 @@ export class LanguageSetting extends React.PureComponent {
    */
   handleClose() {
     this.setState({ open: false });
+    if (this.props.onClose && typeof this.props.onClose === 'function') {
+      this.props.onClose();
+    }
   }
 
   /**
@@ -86,15 +89,20 @@ export class LanguageSetting extends React.PureComponent {
       i18next.language || i18next.resolvedLanguage || 'en';
     return (
       <React.StrictMode>
-        <IconButton
-          onClick={this.openLanguageSelection.bind(this)}
-          color={this.props.color}
-          title={i18next.t('CHANGE_LANGUAGE')}
+        {this.props.showIcon && (
+          <IconButton
+            onClick={this.openLanguageSelection.bind(this)}
+            color={this.props.color}
+            title={i18next.t('CHANGE_LANGUAGE')}
+          >
+            <LanguageIcon sx={{ marginRight: '5px' }} />
+            <Typography>{this.state.language}</Typography>
+          </IconButton>
+        )}
+        <Dialog
+          onClose={this.handleClose.bind(this)}
+          open={this.state.open || this.props.open}
         >
-          <LanguageIcon sx={{ marginRight: '5px' }} />
-          <Typography>{this.state.language}</Typography>
-        </IconButton>
-        <Dialog onClose={this.handleClose.bind(this)} open={this.state.open}>
           <DialogTitle>{i18next.t('SELECT_YOUR_LANGUAGE')}</DialogTitle>
           <DialogContent>
             {Object.keys(this.languages).map((language) => (
@@ -121,7 +129,17 @@ export class LanguageSetting extends React.PureComponent {
 }
 
 LanguageSetting.propTypes = {
+  /** @type {string} */
   color: PropTypes.string,
+
+  /** @type {boolean} */
+  showIcon: PropTypes.bool,
+
+  /** @type {boolean} */
+  open: PropTypes.bool,
+
+  /** @type {function} */
+  onClose: PropTypes.func,
 };
 
 export default LanguageSetting;

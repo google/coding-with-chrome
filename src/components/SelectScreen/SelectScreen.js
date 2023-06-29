@@ -134,8 +134,8 @@ export class SelectScreen extends React.PureComponent {
             >
               <DesktopWindowsIcon />
             </IconButton>
-            <SettingScreen color="inherit" />
-            <LanguageSetting color="inherit" />
+            <SettingScreen color="inherit" showIcon={true} />
+            <LanguageSetting color="inherit" showIcon={true} />
           </Toolbar>
         </AppBar>
         <Grid container spacing={3} direction="column" alignItems="center">

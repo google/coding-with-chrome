@@ -40,6 +40,7 @@ import { PreviewService } from '../../service-worker/preview-service-worker';
 import { WindowEventTarget } from '../Desktop/WindowManager/Events';
 
 import styles from './style.module.css';
+import CodeEditorSettings from '../Settings/CodeEditorSettings';
 
 /**
  *
@@ -71,7 +72,17 @@ export class CodeEditor extends React.PureComponent {
 
       /** @type {EditorView|null} */
       editorView: null,
+
+      /** @type {number} */
+      autoRefresh: CodeEditorSettings.getAutoRefreshDefault(),
     };
+
+    // Loading editor config.
+    CodeEditorSettings.getAutoRefresh().then((value) => {
+      if (typeof value != 'undefined') {
+        this.state.autoRefresh = value;
+      }
+    });
 
     // Adding event listener for window resize, if windowId is set.
     if (this.props.windowId) {
@@ -170,22 +181,28 @@ export class CodeEditor extends React.PureComponent {
    * @param {any} content
    */
   onChange(content) {
-    // Throttle and debounce XML change with a 500ms delay for performance.
+    // Throttle and debounce code change with a 500ms delay for performance.
     if (this.timer.handleContentChange) {
       clearTimeout(this.timer.handleContentChange);
+      this.timer.handleContentChange = null;
     }
-    this.timer.handleContentChange = setTimeout(() => {
-      if (this.lastCode == content) {
-        return;
-      }
-      console.log('Content change', content);
-      this.setState({ code: content }, () => {
-        if (this.props.onChange && typeof this.props.onChange === 'function') {
-          this.props.onChange(content);
+    if (this.state.autoRefresh > 0) {
+      this.timer.handleContentChange = setTimeout(() => {
+        if (this.lastCode == content) {
+          return;
         }
-      });
-      this.lastCode = content;
-    }, 500);
+        console.log('Content change', content);
+        this.setState({ code: content }, () => {
+          if (
+            this.props.onChange &&
+            typeof this.props.onChange === 'function'
+          ) {
+            this.props.onChange(content);
+          }
+        });
+        this.lastCode = content;
+      }, this.state.autoRefresh);
+    }
   }
 
   /**

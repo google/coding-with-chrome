@@ -31,10 +31,13 @@ import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import PropTypes from 'prop-types';
 import SettingsIcon from '@mui/icons-material/Settings';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import i18next from '../App/i18next';
 
 import { CACHE_SERVICE_WORKER_CACHE_NAME } from '../../constants';
+import CodeEditorSettings from '../Settings/CodeEditorSettings';
+import BlockEditorSettings from './BlockEditorSettings';
 
 /**
  *
@@ -48,7 +51,19 @@ export class SettingScreen extends React.PureComponent {
     super(props);
     this.state = {
       open: false,
+      blockEditorAutoRefresh: BlockEditorSettings.getAutoRefreshDefault(),
+      codeEditorAutoRefresh: CodeEditorSettings.getAutoRefreshDefault(),
     };
+    BlockEditorSettings.getAutoRefresh().then((value) => {
+      if (typeof value != 'undefined') {
+        this.state.blockEditorAutoRefresh = value;
+      }
+    });
+    CodeEditorSettings.getAutoRefresh().then((value) => {
+      if (typeof value != 'undefined') {
+        this.state.codeEditorAutoRefresh = value;
+      }
+    });
   }
 
   /**
@@ -63,6 +78,9 @@ export class SettingScreen extends React.PureComponent {
    */
   close() {
     this.setState({ open: false });
+    if (this.props.onClose && typeof this.props.onClose === 'function') {
+      this.props.onClose();
+    }
   }
 
   /**
@@ -91,18 +109,21 @@ export class SettingScreen extends React.PureComponent {
    * @return {Object}
    */
   render() {
+    console.log(this.props.open, this.state.open);
     return (
       <React.StrictMode>
-        <IconButton
-          onClick={this.open.bind(this)}
-          color={this.props.color}
-          title={'Change Settings'}
-        >
-          <SettingsIcon />
-        </IconButton>
+        {this.props.showIcon && (
+          <IconButton
+            onClick={this.open.bind(this)}
+            color={this.props.color}
+            title={'Change Settings'}
+          >
+            <SettingsIcon />
+          </IconButton>
+        )}
         <Dialog
           onClose={this.close.bind(this)}
-          open={this.state.open}
+          open={this.state.open || this.props.open}
           fullWidth={true}
         >
           <DialogTitle>Settings</DialogTitle>
@@ -123,6 +144,40 @@ export class SettingScreen extends React.PureComponent {
                   >
                     Clear Cache
                   </Button>
+                </Grid>
+                <Grid item xs={8} md={8}>
+                  <Typography>Block Editor: auto-refresh time</Typography>
+                </Grid>
+                <Grid item xs={4} md={4}>
+                  <TextField
+                    label="auto-refresh time"
+                    variant="standard"
+                    value={this.state.blockEditorAutoRefresh}
+                    onChange={(event) => {
+                      this.setState({
+                        blockEditorAutoRefresh: event.target.value,
+                      });
+                      BlockEditorSettings.setAutoRefresh(event.target.value);
+                    }}
+                  />
+                  ms
+                </Grid>
+                <Grid item xs={8} md={8}>
+                  <Typography>Code Editor: auto-refresh time</Typography>
+                </Grid>
+                <Grid item xs={4} md={4}>
+                  <TextField
+                    label="auto-refresh time"
+                    variant="standard"
+                    value={this.state.codeEditorAutoRefresh}
+                    onChange={(event) => {
+                      this.setState({
+                        codeEditorAutoRefresh: event.target.value,
+                      });
+                      CodeEditorSettings.setAutoRefresh(event.target.value);
+                    }}
+                  />
+                  ms
                 </Grid>
               </Grid>
             </Box>
@@ -146,7 +201,17 @@ export class SettingScreen extends React.PureComponent {
 }
 
 SettingScreen.propTypes = {
+  /** @type {string} */
   color: PropTypes.string,
+
+  /** @type {boolean} */
+  showIcon: PropTypes.bool,
+
+  /** @type {boolean} */
+  open: PropTypes.bool,
+
+  /** @type {function} */
+  onClose: PropTypes.func,
 };
 
 export default SettingScreen;

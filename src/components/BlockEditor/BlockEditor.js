@@ -47,6 +47,7 @@ import 'material-icons/iconfont/filled.css';
 import 'material-icons/iconfont/outlined.css';
 import styles from './style.module.css';
 import './style.global.css';
+import BlockEditorSettings from '../Settings/BlockEditorSettings';
 
 /**
  *
@@ -65,6 +66,10 @@ export class BlockEditor extends React.PureComponent {
     this.lastXMLContent = '';
     this.isDragging = false;
     this.lastActiveTreeRoot = null;
+    this.changeCache = {
+      xml: '',
+      hasChanged: false,
+    };
     this.state = {
       /** @type {WorkspaceSvg} */
       blocklyWorkspace: null,
@@ -105,6 +110,9 @@ export class BlockEditor extends React.PureComponent {
       snackbarSaved: false,
       variables: [],
       xml: props.content || '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
+
+      /** @type {number} */
+      autoRefresh: BlockEditorSettings.getAutoRefreshDefault(),
     };
 
     // Databases for saving and loading the workspace.
@@ -112,6 +120,13 @@ export class BlockEditor extends React.PureComponent {
       this.props.project.id,
       this.props.project.type
     );
+
+    // Loading editor config.
+    BlockEditorSettings.getAutoRefresh().then((value) => {
+      if (typeof value != 'undefined') {
+        this.state.autoRefresh = value;
+      }
+    });
 
     // Adding event listener for window resize, if windowId is set.
     if (this.props.windowId) {
@@ -134,6 +149,11 @@ export class BlockEditor extends React.PureComponent {
         this.setState({ toolbox: module.Toolbox.getToolbox() });
       });
     }
+
+    // Adding key handler for better idle detection.
+    window.addEventListener('keydown', () => {
+      this.deferXMLChange();
+    });
 
     console.log('Adding block editor with project id: ', this.props.project.id);
   }
@@ -458,6 +478,18 @@ export class BlockEditor extends React.PureComponent {
   }
 
   /**
+   * Defers any existing XML Change event, if needed.
+   */
+  deferXMLChange() {
+    if (!this.timer.handleXMLChange) {
+      return;
+    }
+    if (this.changeCache.xml && this.changeCache.hasChanged) {
+      this.handleXMLChange(this.changeCache.xml, this.changeCache.hasChanged);
+    }
+  }
+
+  /**
    * @param {string} xml
    * @param {boolean} hasChanged
    */
@@ -472,9 +504,16 @@ export class BlockEditor extends React.PureComponent {
       hasRedo: this.getBlocklyWorkspace()?.redoStack_.length > 0,
     });
 
+    // Cache values for defer updates.
+    this.changeCache = {
+      xml: xml,
+      hasChanged: hasChanged,
+    };
+
     // Throttle and debounce XML change with a 500ms delay for performance.
     if (this.timer.handleXMLChange) {
       clearTimeout(this.timer.handleXMLChange);
+      this.timer.handleXMLChange = null;
     }
     this.timer.handleXMLChange = setTimeout(() => {
       if (this.lastXMLContent == xml) {
@@ -499,7 +538,7 @@ export class BlockEditor extends React.PureComponent {
         }
       });
       this.lastXMLContent = xml;
-    }, 500);
+    }, this.state.autoRefresh);
   }
 
   /**
