@@ -493,7 +493,7 @@ CodeEditorToolbar.propTypes = {
   /** @type {BlockEditor} */
   blockEditor: PropTypes.object,
 
-  /** @type {BlockEditor} */
+  /** @type {CodeEditor} */
   codeEditor: PropTypes.object,
 
   /** @type {boolean} */

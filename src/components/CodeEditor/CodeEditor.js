@@ -285,12 +285,20 @@ export class CodeEditor extends React.PureComponent {
               onOpenProject={this.props.onOpenProject}
             />
           )}
-          <CodeMirror
-            value={this.state.content}
-            onCreateEditor={this.onCreateEditor.bind(this)}
-            onChange={this.onChange.bind(this)}
-            extensions={[languageExtensions]}
-          />
+          {languageExtensions ? (
+            <CodeMirror
+              value={this.state.content}
+              onCreateEditor={this.onCreateEditor.bind(this)}
+              onChange={this.onChange.bind(this)}
+              extensions={[languageExtensions]}
+            />
+          ) : (
+            <CodeMirror
+              value={this.state.content}
+              onCreateEditor={this.onCreateEditor.bind(this)}
+              onChange={this.onChange.bind(this)}
+            />
+          )}
           <Box className={styles.infobar} ref={this.infobar}>
             Content Type: {this.state.language}
           </Box>

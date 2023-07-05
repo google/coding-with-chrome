@@ -20,8 +20,6 @@
  */
 
 import React, { createRef, lazy } from 'react';
-
-import Blockly from 'blockly';
 import Box from '@mui/material/Box';
 import MuiAlert from '@mui/material/Alert';
 import PropTypes from 'prop-types';
@@ -29,6 +27,7 @@ import Snackbar from '@mui/material/Snackbar';
 import i18next from '../App/i18next';
 
 // Blockly
+import Blockly from 'blockly';
 import { BlocklyWorkspace } from 'react-blockly';
 
 import BlockEditorToolbar from './BlockEditorToolbar';
@@ -50,7 +49,7 @@ import './style.global.css';
 import BlockEditorSettings from '../Settings/BlockEditorSettings';
 
 /**
- *
+ * Block editor based on Blockly.
  */
 export class BlockEditor extends React.PureComponent {
   /**
@@ -63,7 +62,6 @@ export class BlockEditor extends React.PureComponent {
     this.timer = {
       handleXMLChange: null,
     };
-    this.lastXMLContent = '';
     this.isDragging = false;
     this.lastActiveTreeRoot = null;
     this.changeCache = {
@@ -77,12 +75,25 @@ export class BlockEditor extends React.PureComponent {
       /** @type {string} */
       code: '',
 
+      /** @type {boolean} */
       showEditor: false,
+
+      /** @type {boolean} */
       showDrawer: false,
+
+      /** @type {boolean} */
       hasChanged: false,
+
+      /** @type {boolean} */
       hasSaved: false,
+
+      /** @type {boolean} */
       hasUndo: false,
+
+      /** @type {boolean} */
       hasRedo: false,
+
+      /** @type {object} */
       config: {
         grid: {
           spacing: 20,
@@ -101,27 +112,37 @@ export class BlockEditor extends React.PureComponent {
         media: APP_BASE_PATH + 'assets/blockly/',
         trashcan: false,
       },
+
+      /** @type {object} */
       toolbox: props.toolbox || {
         kind: 'categoryToolbox',
-        contents: [''],
+        contents: [],
       },
+
+      /** @type {string} */
       language:
         props.language || i18next.language || i18next.resolvedLanguage || 'en',
+
+      /** @type {boolean} */
       snackbarSaved: false,
+
+      /** @type {array} */
       variables: [],
-      xml: props.content || '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
+
+      /** @type {string} */
+      xml: '',
 
       /** @type {number} */
       autoRefresh: BlockEditorSettings.getAutoRefreshDefault(),
     };
 
-    // Databases for saving and loading the workspace.
+    // Creating databases for saving and loading the workspace.
     this.database = new Database(
       this.props.project.id,
       this.props.project.type
     );
 
-    // Loading editor config.
+    // Loading user editor config.
     BlockEditorSettings.getAutoRefresh().then((value) => {
       if (typeof value != 'undefined') {
         this.state.autoRefresh = value;
@@ -136,13 +157,6 @@ export class BlockEditor extends React.PureComponent {
       );
     }
 
-    // Loading workspace from database if not empty.
-    this.database.get('workspace').then((workspace) => {
-      if (workspace) {
-        this.loadWorkspace(workspace);
-      }
-    });
-
     // Dynamically loading default toolbox, if not defined.
     if (!this.props.toolbox) {
       import('./toolbox/Toolbox').then((module) => {
@@ -150,7 +164,7 @@ export class BlockEditor extends React.PureComponent {
       });
     }
 
-    // Adding key handler for better idle detection.
+    // Adding key handler for better idle detection and less auto-refreshes.
     window.addEventListener('keydown', () => {
       this.deferXMLChange();
     });
@@ -169,23 +183,29 @@ export class BlockEditor extends React.PureComponent {
 
     // Adding event listener for language change.
     i18next.on('languageChanged', (language) => {
-      this.refreshWorkspace();
-      if (this.state.language != language) {
-        this.changeLanguage(language);
+      if (this.state.language == language) {
+        return;
       }
+      this.refreshWorkspace();
+      this.changeLanguage(language);
       this.forceUpdate();
       this.refresh();
     });
 
-    // Collapse toolbox after 100ms on the first load.
-    window.setTimeout(this.collapseToolbox.bind(this), 100);
+    // Loading workspace from database, if not empty.
+    this.database.get('workspace').then((workspace) => {
+      if (workspace) {
+        console.debug('Loading workspace from database ...');
+        this.loadWorkspace(workspace);
+      }
+    });
   }
 
   /**
    * @param {*} prevProps
    */
   componentDidUpdate(prevProps) {
-    if (this.props.toolbox !== prevProps.toolbox) {
+    if (this.props.toolbox !== prevProps.toolbox && !this.props.toolbox) {
       if (this.state.blocklyWorkspace) {
         this.state.blocklyWorkspace.updateToolbox(this.props.toolbox);
         window.setTimeout(this.collapseToolbox.bind(this), 100);
@@ -211,6 +231,7 @@ export class BlockEditor extends React.PureComponent {
    * @param {string} language
    */
   changeLanguage(language) {
+    console.debug('Change language to', language);
     this.setState({ language: language }, () => {
       // Lazy load language pack.
       import(`blockly/msg/${language}.js`).then((module) => {
@@ -224,7 +245,7 @@ export class BlockEditor extends React.PureComponent {
    *
    */
   showBlockEditor() {
-    console.log('Show Block Editor ...');
+    console.debug('Show Block Editor ...');
     this.setState({ showEditor: false }, () => {
       this.resize();
     });
@@ -237,7 +258,7 @@ export class BlockEditor extends React.PureComponent {
     if (!this.codeEditor) {
       return;
     }
-    console.log('Show Code Editor ...');
+    console.debug('Show Code Editor ...');
     this.setState({ showEditor: true }, () => {
       this.codeEditor.current.resize();
       this.codeEditor.current.setValue(this.state.code);
@@ -315,9 +336,15 @@ export class BlockEditor extends React.PureComponent {
    */
   loadWorkspace(xml, files = new Map(), hasChanged = false) {
     if (!this.hasBlocklyWorkspace()) {
+      console.error(
+        'Unable to load workspace',
+        this.getBlocklyWorkspace(),
+        'with:',
+        xml
+      );
       return;
     }
-    console.log('Loading workspace ...', xml);
+    console.debug('Loading workspace:', xml, files, hasChanged);
 
     // Parse XML and construct workspace.
     const parsedXML = this.praseXML(xml, files);
@@ -339,21 +366,11 @@ export class BlockEditor extends React.PureComponent {
       for (const [key, value] of assets.entries()) {
         BlocksBuilder.generateIdFromBase64(value.urlData).then((assetId) => {
           console.log('Adding asset: ', key, value, assetId);
-          const assetsUrl = value.urlData;
-          try {
-            const assetsType = assetsUrl.split(':')[1].split(';')[0];
-            fetch(assetsUrl)
-              .then((response) => response.blob())
-              .then((blob) => {
-                PreviewService.saveFile(
-                  this.props.project.id + '/' + assetId,
-                  blob,
-                  assetsType
-                );
-              });
-          } catch (e) {
-            console.error('Could not parse asset: ', e);
-          }
+          PreviewService.addAssetFile(
+            this.props.project.id,
+            assetId,
+            value.urlData
+          );
         });
       }
     }
@@ -389,8 +406,13 @@ export class BlockEditor extends React.PureComponent {
     blocklyWorkspace.addChangeListener(this.handleBlocklyEvent.bind(this));
     blocklyWorkspace.addChangeListener(Blockly.Events.disableOrphans);
     this.setState({ blocklyWorkspace }, () => {
-      this.resize();
-      this.refresh();
+      // Loading workspace from predefined values, if defined.
+      if (this.props.content) {
+        this.loadWorkspace(this.props.content);
+      } else {
+        this.resize();
+        this.refresh();
+      }
     });
   }
 
@@ -484,7 +506,11 @@ export class BlockEditor extends React.PureComponent {
     if (!this.timer.handleXMLChange) {
       return;
     }
-    if (this.changeCache.xml && this.changeCache.hasChanged) {
+    if (
+      this.changeCache.xml &&
+      this.changeCache.hasChanged &&
+      this.changeCache.xml != this.state.xml
+    ) {
       this.handleXMLChange(this.changeCache.xml, this.changeCache.hasChanged);
     }
   }
@@ -502,6 +528,8 @@ export class BlockEditor extends React.PureComponent {
     this.setState({
       hasUndo: this.getBlocklyWorkspace()?.undoStack_.length > 0,
       hasRedo: this.getBlocklyWorkspace()?.redoStack_.length > 0,
+      hasChanged,
+      xml,
     });
 
     // Cache values for defer updates.
@@ -510,35 +538,36 @@ export class BlockEditor extends React.PureComponent {
       hasChanged: hasChanged,
     };
 
-    // Throttle and debounce XML change with a 500ms delay for performance.
+    // Throttle and debounce XML change with a delay for performance reasons.
     if (this.timer.handleXMLChange) {
       clearTimeout(this.timer.handleXMLChange);
       this.timer.handleXMLChange = null;
     }
-    this.timer.handleXMLChange = setTimeout(() => {
-      if (this.lastXMLContent == xml) {
-        return;
-      }
-      console.log('XML change', xml);
-      this.setState({
-        hasChanged: hasChanged,
-        xml: xml,
-      });
-      const variables = this.getBlocklyWorkspace()?.getAllVariables();
-      if (variables && variables != this.state.variables) {
-        console.log('Variables change', variables);
-        this.setState({ variables: variables });
-      }
-
-      // Processing code.
-      const code = this.getWorkspaceCode();
-      this.setState({ code }, () => {
-        if (this.props.onChange && typeof this.props.onChange === 'function') {
-          this.props.onChange(code);
+    if (this.state.autoRefresh > 0) {
+      this.timer.handleXMLChange = setTimeout(() => {
+        // Updating stored variables.
+        const variables = this.getBlocklyWorkspace()?.getAllVariables();
+        if (
+          variables &&
+          variables.length > 0 &&
+          variables != this.state.variables
+        ) {
+          console.debug('Variables change', variables);
+          this.setState({ variables: variables });
         }
-      });
-      this.lastXMLContent = xml;
-    }, this.state.autoRefresh);
+
+        // Processing code.
+        const code = this.getWorkspaceCode();
+        this.setState({ code }, () => {
+          if (
+            this.props.onChange &&
+            typeof this.props.onChange === 'function'
+          ) {
+            this.props.onChange(code);
+          }
+        });
+      }, this.state.autoRefresh);
+    }
   }
 
   /**
@@ -683,7 +712,7 @@ export class BlockEditor extends React.PureComponent {
               className={this.props.windowId ? styles.fillWindow : styles.fill}
               toolboxConfiguration={this.props.toolbox || this.state.toolbox}
               workspaceConfiguration={this.state.config}
-              initialXml={this.props.content || ''}
+              initialXml={''}
               onInject={this.onLoad.bind(this)}
               onWorkspaceChange={this.handleWorkspaceChange.bind(this)}
               onXmlChange={this.handleXMLChange.bind(this)}

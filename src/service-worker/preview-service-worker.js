@@ -132,6 +132,26 @@ export class PreviewService {
   }
 
   /**
+   * @param {String} path
+   * @param {String} filename
+   * @param {String} dataURL
+   * @return {Promise}
+   * @static
+   */
+  static async addAssetFile(path, filename, dataURL) {
+    try {
+      const assetsType = dataURL.split(':')[1].split(';')[0];
+      fetch(dataURL)
+        .then((response) => response.blob())
+        .then((blob) => {
+          PreviewService.saveFile(path + '/' + filename, blob, assetsType);
+        });
+    } catch (error) {
+      console.error('Could not add asset: ', error);
+    }
+  }
+
+  /**
    * @param {String} filename
    * @param {String} content
    * @param {String} contentType

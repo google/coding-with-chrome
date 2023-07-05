@@ -109,7 +109,6 @@ export class SettingScreen extends React.PureComponent {
    * @return {Object}
    */
   render() {
-    console.log(this.props.open, this.state.open);
     return (
       <React.StrictMode>
         {this.props.showIcon && (

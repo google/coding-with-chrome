@@ -166,7 +166,7 @@ javascriptGenerator['phaser_add_background_scaled'] = function (block) {
   const number_height =
     Number(block.getFieldValue('height')) || 'this.cameras.main.height';
   return (
-    "let backgroundImage = game.add.image(0, 0, '" +
+    "let backgroundImage = this.add.image(0, 0, '" +
     text_sprite +
     "');\n" +
     'backgroundImage.dislplayWidth = ' +

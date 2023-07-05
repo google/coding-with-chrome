@@ -241,6 +241,10 @@ class PhaserExtras {
    * @return {string}
    */
   static takeScreenshot(game) {
+    if (!game || !game.canvas) {
+      console.warn('Unable to take screenshot for ', game, '!');
+      return;
+    }
     const aspectRatio = 270 / 152;
     let width = game.canvas.width;
     let height = game.canvas.height;

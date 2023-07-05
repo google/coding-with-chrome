@@ -51,6 +51,7 @@ const Screenshot = lazy(() => import('../Screenshot'));
 import 'react-mosaic-component/react-mosaic-component.css';
 import styles from './style.module.css';
 import './style.global.css';
+import { BlocksBuilder } from '../BlockEditor/blocks/BlocksBuilder';
 
 /**
  *
@@ -79,26 +80,6 @@ export class GameEditor extends React.PureComponent {
       window.location.reload();
     }
 
-    // Set project details from data base.
-    if (!props.project) {
-      Project.getProject(projectId, ProjectType.GAME_EDITOR)
-        .then((project) => {
-          if (project) {
-            console.debug(
-              `[GameEditor] Found project ${project} for id ${projectId}.`
-            );
-            this.setState({
-              project: project,
-              xml: BlocklyTemplate.render(project),
-              isLoaded: true,
-            });
-          }
-        })
-        .catch((error) => {
-          console.error(`[GameEditor] ${error}`);
-        });
-    }
-
     // Set trusted origin for postMessage and other communication.
     this.trustedOrigin = `${window.location.origin}`;
 
@@ -120,7 +101,7 @@ export class GameEditor extends React.PureComponent {
       imageFiles: new Map(),
 
       /** @type {boolean} */
-      isLoaded: props.project,
+      isLoaded: props.project || false,
 
       leftViewSplitPercentage: 75,
       rightViewSplitPercentage: 70,
@@ -130,8 +111,35 @@ export class GameEditor extends React.PureComponent {
       openNewProject: false,
       openExistingProject: false,
       screenshotUrl: '',
-      xml: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
+      xml: '',
     };
+
+    // Set project details from data base.
+    if (!props.project) {
+      Project.getProject(projectId, ProjectType.GAME_EDITOR)
+        .then((project) => {
+          if (project) {
+            console.debug(
+              '[GameEditor] Found project',
+              project,
+              'with project id',
+              projectId
+            );
+            this.setState(
+              {
+                project: project,
+                xml: BlocklyTemplate.render(project),
+              },
+              () => {
+                this.setState({ isLoaded: true });
+              }
+            );
+          }
+        })
+        .catch((error) => {
+          console.error(`[GameEditor] ${error}`);
+        });
+    }
 
     // Listen for language changes.
     i18next.on('languageChanged', (language) => {
@@ -313,11 +321,61 @@ export class GameEditor extends React.PureComponent {
       console.error('Unsupported file type', file.type);
       return;
     }
-    if (this.state.blockEditorRef.current) {
-      this.updateToolbox(
-        this.state.blockEditorRef.current.getBlocklyWorkspace()
+
+    // Updating preview cache
+    BlocksBuilder.generateIdFromBase64(urlData).then((assetId) => {
+      PreviewService.addAssetFile(
+        this.props.project?.id || this.state.project?.id,
+        assetId,
+        urlData
       );
-    }
+
+      // Updating block editor
+      if (this.state.blockEditorRef.current) {
+        const blocklyWorkspace =
+          this.state.blockEditorRef.current.getBlocklyWorkspace();
+
+        // Updating toolbox.
+        this.updateToolbox(blocklyWorkspace);
+
+        console.log(blocklyWorkspace);
+
+        if (file.type.startsWith('image/')) {
+          // Adding image block to workspace.
+          const phaserLoadImageBlock =
+            blocklyWorkspace.newBlock('phaser_load_image');
+          phaserLoadImageBlock.getField('name').setValue(name);
+          phaserLoadImageBlock.initSvg();
+          phaserLoadImageBlock.render();
+
+          // Adding dynamic image file.
+          const dynamicImageFile =
+            blocklyWorkspace.newBlock('dynamic_image_file');
+          dynamicImageFile.getField('urlData').setValue(urlData);
+          dynamicImageFile.getField('filename').setValue(filename);
+          dynamicImageFile.getField('url').setValue(assetId);
+          dynamicImageFile.initSvg();
+          dynamicImageFile.render();
+
+          // Connecting both blocks.
+          phaserLoadImageBlock
+            .getInput('image')
+            .connection.connect(dynamicImageFile.outputConnection);
+
+          // Connection to workspace blocks.
+          const phaserPreloadBlock = blocklyWorkspace.getBlocksByType(
+            'phaser_preload'
+          )
+            ? blocklyWorkspace.getBlocksByType('phaser_preload')[0]
+            : false;
+          if (phaserPreloadBlock) {
+            phaserPreloadBlock
+              .getInput('CODE')
+              .connection.connect(phaserLoadImageBlock.previousConnection);
+          }
+        }
+      }
+    });
   }
 
   /**
@@ -389,6 +447,10 @@ export class GameEditor extends React.PureComponent {
    * @param {WorkspaceSvg} workspace
    */
   updateToolbox(workspace) {
+    if (!workspace) {
+      console.warn('Unable to update toolbox for workspace', workspace);
+      return;
+    }
     const phaserAudioFiles = new Map([
       ...this.state.audioFiles,
       ...DynamicFileParser.getPhaserAudioFiles(workspace),

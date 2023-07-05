@@ -101,7 +101,7 @@ export class LanguageSetting extends React.PureComponent {
         )}
         <Dialog
           onClose={this.handleClose.bind(this)}
-          open={this.state.open || this.props.open}
+          open={this.state.open || this.props.open || false}
         >
           <DialogTitle>{i18next.t('SELECT_YOUR_LANGUAGE')}</DialogTitle>
           <DialogContent>
