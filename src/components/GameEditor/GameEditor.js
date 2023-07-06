@@ -40,7 +40,7 @@ import { ProjectType } from '../Project/ProjectType';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import { WorkspaceSvg } from 'react-blockly';
 
-// Lazy load components.
+// Lazy load components, specific components.
 const Assets = lazy(() => import('../Assets'));
 const BlockEditor = lazy(() => import('../BlockEditor'));
 const NewGameProject = lazy(() => import('./dialog/NewGameProject'));
@@ -52,6 +52,7 @@ import 'react-mosaic-component/react-mosaic-component.css';
 import styles from './style.module.css';
 import './style.global.css';
 import { BlocksBuilder } from '../BlockEditor/blocks/BlocksBuilder';
+import GameEditorSettings from '../Settings/GameEditorSettings';
 
 /**
  *
@@ -80,11 +81,19 @@ export class GameEditor extends React.PureComponent {
       window.location.reload();
     }
 
+    // Timer for handling changes
+    this.timer = {
+      handleXMLChange: null,
+    };
+
     // Set trusted origin for postMessage and other communication.
     this.trustedOrigin = `${window.location.origin}`;
 
     // Set initial state.
     this.state = {
+      /** @type {number} */
+      autoRefresh: GameEditorSettings.getAutoRefreshDefault(),
+
       /** @type {ReactRef} */
       previewRef: createRef(),
 
@@ -102,6 +111,9 @@ export class GameEditor extends React.PureComponent {
 
       /** @type {boolean} */
       isLoaded: props.project || false,
+
+      /** @type {boolean} */
+      isFirstRunPreview: true,
 
       leftViewSplitPercentage: 75,
       rightViewSplitPercentage: 70,
@@ -128,7 +140,9 @@ export class GameEditor extends React.PureComponent {
             this.setState(
               {
                 project: project,
-                xml: BlocklyTemplate.render(project),
+                xml: project.getIsEmpty()
+                  ? BlocklyTemplate.render(project)
+                  : '',
               },
               () => {
                 this.setState({ isLoaded: true });
@@ -141,21 +155,27 @@ export class GameEditor extends React.PureComponent {
         });
     }
 
-    // Listen for language changes.
-    i18next.on('languageChanged', (language) => {
-      if (this.state.blockEditorRef.current) {
-        console.log(
-          '[GameEditor] Update toolbox after language change to',
-          language
-        );
-        this.updateToolbox(
-          this.state.blockEditorRef.current.getBlocklyWorkspace()
-        );
+    // Loading user editor config.
+    GameEditorSettings.getAutoRefresh().then((value) => {
+      if (typeof value != 'undefined') {
+        this.state.autoRefresh = value;
       }
     });
 
     // Listen for additional messages like screenshots or errors.
     window.addEventListener('message', this.handleMessages.bind(this), false);
+  }
+
+  /**
+   *
+   */
+  componentDidMount() {
+    // Adding event listener for language change.
+    i18next.on('languageChanged', () => {
+      this.updateToolbox(
+        this.state.blockEditorRef?.current?.getBlocklyWorkspace()
+      );
+    });
   }
 
   /**
@@ -340,39 +360,25 @@ export class GameEditor extends React.PureComponent {
 
         console.log(blocklyWorkspace);
 
+        // Automatically add supported blocks to workspace.
         if (file.type.startsWith('image/')) {
-          // Adding image block to workspace.
-          const phaserLoadImageBlock =
-            blocklyWorkspace.newBlock('phaser_load_image');
-          phaserLoadImageBlock.getField('name').setValue(name);
-          phaserLoadImageBlock.initSvg();
-          phaserLoadImageBlock.render();
-
-          // Adding dynamic image file.
-          const dynamicImageFile =
-            blocklyWorkspace.newBlock('dynamic_image_file');
-          dynamicImageFile.getField('urlData').setValue(urlData);
-          dynamicImageFile.getField('filename').setValue(filename);
-          dynamicImageFile.getField('url').setValue(assetId);
-          dynamicImageFile.initSvg();
-          dynamicImageFile.render();
-
-          // Connecting both blocks.
-          phaserLoadImageBlock
-            .getInput('image')
-            .connection.connect(dynamicImageFile.outputConnection);
-
-          // Connection to workspace blocks.
-          const phaserPreloadBlock = blocklyWorkspace.getBlocksByType(
-            'phaser_preload'
-          )
-            ? blocklyWorkspace.getBlocksByType('phaser_preload')[0]
-            : false;
-          if (phaserPreloadBlock) {
-            phaserPreloadBlock
-              .getInput('CODE')
-              .connection.connect(phaserLoadImageBlock.previousConnection);
-          }
+          BlocksBuilder.addDynamicImageFileToWorkspace(
+            blocklyWorkspace,
+            name,
+            filename,
+            urlData,
+            assetId
+          );
+        } else if (file.type.startsWith('audio/')) {
+          BlocksBuilder.addDynamicAudioFileToWorkspace(
+            blocklyWorkspace,
+            name,
+            filename,
+            urlData,
+            assetId
+          );
+        } else {
+          console.warn('Unsupported block file type:', file.type);
         }
       }
     });
@@ -382,7 +388,31 @@ export class GameEditor extends React.PureComponent {
    * @param {string} code
    */
   handleBlockEditorContentChange(code) {
-    // Update Preview with new code.
+    // Update Preview with new code, if auto-refresh is enabled.
+    if (this.timer.handleXMLChange) {
+      clearTimeout(this.timer.handleXMLChange);
+      this.timer.handleXMLChange = null;
+    }
+
+    // Allow updates for the preview directly on the first run / load and use
+    // auto-fresh for further refresh / updates.
+    if (this.state.isFirstRunPreview) {
+      this.updatePreview(code);
+      this.setState({
+        isFirstRunPreview: false,
+      });
+    } else if (this.state.autoRefresh > 0) {
+      this.timer.handleXMLChange = setTimeout(() => {
+        this.updatePreview(code);
+      }, this.state.autoRefresh);
+    }
+  }
+
+  /**
+   * Updates preview with current code.
+   * @param {string} code
+   */
+  updatePreview(code) {
     PreviewService.saveHTMLFile(`${this.state.project.id}/`, code).then(() => {
       if (this.state.previewRef.current) {
         this.state.previewRef.current.goToHomePage();

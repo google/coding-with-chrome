@@ -40,7 +40,6 @@ import { PreviewService } from '../../service-worker/preview-service-worker';
 import { WindowEventTarget } from '../Desktop/WindowManager/Events';
 
 import styles from './style.module.css';
-import CodeEditorSettings from '../Settings/CodeEditorSettings';
 
 /**
  *
@@ -72,17 +71,7 @@ export class CodeEditor extends React.PureComponent {
 
       /** @type {EditorView|null} */
       editorView: null,
-
-      /** @type {number} */
-      autoRefresh: CodeEditorSettings.getAutoRefreshDefault(),
     };
-
-    // Loading editor config.
-    CodeEditorSettings.getAutoRefresh().then((value) => {
-      if (typeof value != 'undefined') {
-        this.state.autoRefresh = value;
-      }
-    });
 
     // Adding event listener for window resize, if windowId is set.
     if (this.props.windowId) {
@@ -186,23 +175,18 @@ export class CodeEditor extends React.PureComponent {
       clearTimeout(this.timer.handleContentChange);
       this.timer.handleContentChange = null;
     }
-    if (this.state.autoRefresh > 0) {
-      this.timer.handleContentChange = setTimeout(() => {
-        if (this.lastCode == content) {
-          return;
+    this.timer.handleContentChange = setTimeout(() => {
+      if (this.lastCode == content) {
+        return;
+      }
+      console.log('Content change', content);
+      this.setState({ code: content }, () => {
+        if (this.props.onChange && typeof this.props.onChange === 'function') {
+          this.props.onChange(content);
         }
-        console.log('Content change', content);
-        this.setState({ code: content }, () => {
-          if (
-            this.props.onChange &&
-            typeof this.props.onChange === 'function'
-          ) {
-            this.props.onChange(content);
-          }
-        });
-        this.lastCode = content;
-      }, this.state.autoRefresh);
-    }
+      });
+      this.lastCode = content;
+    }, 200);
   }
 
   /**
@@ -240,14 +224,6 @@ export class CodeEditor extends React.PureComponent {
           this.infobar && this.infobar.current
             ? this.infobar.current.clientHeight || 25
             : 0;
-        console.log(
-          'Parent Element ...',
-          parentElement,
-          editorElement,
-          toolbarHeight,
-          infobarHeight,
-          this.toolbar.current
-        );
         editorElement.style.height =
           parentElement.clientHeight - toolbarHeight - infobarHeight - 1 + 'px';
       } else {

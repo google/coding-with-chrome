@@ -30,23 +30,23 @@ export class BlockEditorSettings {
   /**
    * @return {Promise}
    */
-  static getAutoRefresh() {
-    return Settings.DATABASE.get(PREFIX + 'autoRefresh');
+  static getZoomMouseWheel() {
+    return Settings.DATABASE.get(PREFIX + 'zoomMouseWheel');
   }
 
   /**
    * @return {number}
    */
-  static getAutoRefreshDefault() {
-    return 2000;
+  static getZoomMouseWheelDefault() {
+    return true;
   }
 
   /**
-   * @param {string} autoRefresh
+   * @param {boolean} enable
    * @return {Promise}
    */
-  static setAutoRefresh(autoRefresh) {
-    return Settings.DATABASE.put(PREFIX + 'autoRefresh', autoRefresh);
+  static setZoomMouseWheel(enable = this.getZoomMouseWheelDefault()) {
+    return Settings.DATABASE.put(PREFIX + 'zoomMouseWheel', enable);
   }
 }
 

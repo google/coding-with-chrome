@@ -15,41 +15,39 @@
  */
 
 /**
- * @fileoverview Code Editor Setting.
+ * @fileoverview Block Editor Setting.
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
 import { Settings } from './Settings';
 
-const PREFIX = 'codeEditor:';
+const PREFIX = 'gameEditor:';
 
 /**
  * @class
  */
-export class CodeEditorSettings {
+export class GameEditorSettings {
   /**
    * @return {Promise}
    */
-  static getShowZebraStripes() {
-    return Settings.DATABASE.get(PREFIX + 'showZebraStripes');
+  static getAutoRefresh() {
+    return Settings.DATABASE.get(PREFIX + 'autoRefresh');
   }
 
   /**
-   * @return {boolean}
+   * @return {number}
    */
-  static getShowZebraStripesDefault() {
-    return true;
+  static getAutoRefreshDefault() {
+    return 2000;
   }
 
   /**
-   * @param {boolean} showZebraStripes
+   * @param {string} autoRefresh
    * @return {Promise}
    */
-  static setShowZebraStripes(
-    showZebraStripes = this.getShowZebraStripesDefault()
-  ) {
-    return Settings.DATABASE.put(PREFIX + 'showZebraStripes', showZebraStripes);
+  static setAutoRefresh(autoRefresh) {
+    return Settings.DATABASE.put(PREFIX + 'autoRefresh', autoRefresh);
   }
 }
 
-export default CodeEditorSettings;
+export default GameEditorSettings;

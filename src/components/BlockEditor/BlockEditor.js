@@ -31,7 +31,6 @@ import Blockly from 'blockly';
 import { BlocklyWorkspace } from 'react-blockly';
 
 import BlockEditorToolbar from './BlockEditorToolbar';
-import LegacyBlocks from './blocks/LegacyBlocks';
 import { APP_BASE_PATH } from '../../constants';
 import { BlocksBuilder } from './blocks/BlocksBuilder';
 import { Database } from '../../utils/db/Database';
@@ -46,7 +45,6 @@ import 'material-icons/iconfont/filled.css';
 import 'material-icons/iconfont/outlined.css';
 import styles from './style.module.css';
 import './style.global.css';
-import BlockEditorSettings from '../Settings/BlockEditorSettings';
 
 /**
  * Block editor based on Blockly.
@@ -93,6 +91,9 @@ export class BlockEditor extends React.PureComponent {
       /** @type {boolean} */
       hasRedo: false,
 
+      /** @type {boolean} */
+      isFirstXMLUpdate: true,
+
       /** @type {object} */
       config: {
         grid: {
@@ -131,9 +132,6 @@ export class BlockEditor extends React.PureComponent {
 
       /** @type {string} */
       xml: '',
-
-      /** @type {number} */
-      autoRefresh: BlockEditorSettings.getAutoRefreshDefault(),
     };
 
     // Creating databases for saving and loading the workspace.
@@ -141,13 +139,6 @@ export class BlockEditor extends React.PureComponent {
       this.props.project.id,
       this.props.project.type
     );
-
-    // Loading user editor config.
-    BlockEditorSettings.getAutoRefresh().then((value) => {
-      if (typeof value != 'undefined') {
-        this.state.autoRefresh = value;
-      }
-    });
 
     // Adding event listener for window resize, if windowId is set.
     if (this.props.windowId) {
@@ -283,13 +274,9 @@ export class BlockEditor extends React.PureComponent {
 
   /**
    * @param {string} xml
-   * @param {Map<string, string>} files
    * @return {string}
    */
-  praseXML(xml, files = new Map()) {
-    // Search for legacy blocks and replace them.
-    xml = LegacyBlocks.replaceLegacyBlocks(xml, files);
-
+  praseXML(xml) {
     // Handle custom XML parsing, if defined.
     if (this.props.parseXML && typeof this.props.parseXML === 'function') {
       xml = this.props.parseXML(xml);
@@ -543,31 +530,42 @@ export class BlockEditor extends React.PureComponent {
       clearTimeout(this.timer.handleXMLChange);
       this.timer.handleXMLChange = null;
     }
-    if (this.state.autoRefresh > 0) {
-      this.timer.handleXMLChange = setTimeout(() => {
-        // Updating stored variables.
-        const variables = this.getBlocklyWorkspace()?.getAllVariables();
-        if (
-          variables &&
-          variables.length > 0 &&
-          variables != this.state.variables
-        ) {
-          console.debug('Variables change', variables);
-          this.setState({ variables: variables });
-        }
 
-        // Processing code.
-        const code = this.getWorkspaceCode();
-        this.setState({ code }, () => {
-          if (
-            this.props.onChange &&
-            typeof this.props.onChange === 'function'
-          ) {
-            this.props.onChange(code);
-          }
-        });
-      }, this.state.autoRefresh);
+    // Allow fast first XML Change and throttle further XML changes.
+    if (this.state.isFirstXMLUpdate) {
+      this.updateCodeAfterXMLChange();
+      this.setState({
+        isFirstXMLUpdate: false,
+      });
+    } else {
+      this.timer.handleXMLChange = setTimeout(() => {
+        this.updateCodeAfterXMLChange();
+      }, 200);
     }
+  }
+
+  /**
+   * Updates code after xml change.
+   */
+  updateCodeAfterXMLChange() {
+    // Updating stored variables.
+    const variables = this.getBlocklyWorkspace()?.getAllVariables();
+    if (
+      variables &&
+      variables.length > 0 &&
+      variables != this.state.variables
+    ) {
+      console.debug('Variables change', variables);
+      this.setState({ variables: variables });
+    }
+
+    // Processing code.
+    const code = this.getWorkspaceCode();
+    this.setState({ code }, () => {
+      if (this.props.onChange && typeof this.props.onChange === 'function') {
+        this.props.onChange(code);
+      }
+    });
   }
 
   /**
@@ -597,6 +595,7 @@ export class BlockEditor extends React.PureComponent {
     // Store additionally project reference.
     const project = this.props.project;
     project.setLastModified();
+    project.setIsEmpty(!this.state.xml);
     project.save();
 
     // Update states.
@@ -718,17 +717,19 @@ export class BlockEditor extends React.PureComponent {
               onXmlChange={this.handleXMLChange.bind(this)}
             />
           </Box>
-          <Snackbar
-            open={this.state.snackbarSaved}
-            autoHideDuration={6000}
-            onClose={() => {
-              this.setState({ snackbarSaved: false });
-            }}
-          >
-            <MuiAlert severity="success">
-              Project {this.props.project.name} successfully saved!
-            </MuiAlert>
-          </Snackbar>
+          {this.state.snackbarSaved && (
+            <Snackbar
+              open={this.state.snackbarSaved}
+              autoHideDuration={6000}
+              onClose={() => {
+                this.setState({ snackbarSaved: false });
+              }}
+            >
+              <MuiAlert severity="success">
+                Project {this.props.project.name} successfully saved!
+              </MuiAlert>
+            </Snackbar>
+          )}
         </Box>
         {this.state.showEditor && (
           <Box sx={{ display: this.state.showEditor ? 'block' : 'none' }}>

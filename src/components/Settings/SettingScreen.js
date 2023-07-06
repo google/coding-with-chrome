@@ -36,8 +36,7 @@ import Typography from '@mui/material/Typography';
 import i18next from '../App/i18next';
 
 import { CACHE_SERVICE_WORKER_CACHE_NAME } from '../../constants';
-import CodeEditorSettings from '../Settings/CodeEditorSettings';
-import BlockEditorSettings from './BlockEditorSettings';
+import GameEditorSettings from './GameEditorSettings';
 
 /**
  *
@@ -51,17 +50,11 @@ export class SettingScreen extends React.PureComponent {
     super(props);
     this.state = {
       open: false,
-      blockEditorAutoRefresh: BlockEditorSettings.getAutoRefreshDefault(),
-      codeEditorAutoRefresh: CodeEditorSettings.getAutoRefreshDefault(),
+      gameEditorAutoRefresh: GameEditorSettings.getAutoRefreshDefault(),
     };
-    BlockEditorSettings.getAutoRefresh().then((value) => {
+    GameEditorSettings.getAutoRefresh().then((value) => {
       if (typeof value != 'undefined') {
-        this.state.blockEditorAutoRefresh = value;
-      }
-    });
-    CodeEditorSettings.getAutoRefresh().then((value) => {
-      if (typeof value != 'undefined') {
-        this.state.codeEditorAutoRefresh = value;
+        this.state.gameEditorAutoRefresh = value;
       }
     });
   }
@@ -145,35 +138,18 @@ export class SettingScreen extends React.PureComponent {
                   </Button>
                 </Grid>
                 <Grid item xs={8} md={8}>
-                  <Typography>Block Editor: auto-refresh time</Typography>
+                  <Typography>Game Editor: auto-refresh time</Typography>
                 </Grid>
                 <Grid item xs={4} md={4}>
                   <TextField
                     label="auto-refresh time"
                     variant="standard"
-                    value={this.state.blockEditorAutoRefresh}
+                    value={this.state.gameEditorAutoRefresh}
                     onChange={(event) => {
                       this.setState({
-                        blockEditorAutoRefresh: event.target.value,
+                        gameEditorAutoRefresh: event.target.value,
                       });
-                      BlockEditorSettings.setAutoRefresh(event.target.value);
-                    }}
-                  />
-                  ms
-                </Grid>
-                <Grid item xs={8} md={8}>
-                  <Typography>Code Editor: auto-refresh time</Typography>
-                </Grid>
-                <Grid item xs={4} md={4}>
-                  <TextField
-                    label="auto-refresh time"
-                    variant="standard"
-                    value={this.state.codeEditorAutoRefresh}
-                    onChange={(event) => {
-                      this.setState({
-                        codeEditorAutoRefresh: event.target.value,
-                      });
-                      CodeEditorSettings.setAutoRefresh(event.target.value);
+                      GameEditorSettings.setAutoRefresh(event.target.value);
                     }}
                   />
                   ms

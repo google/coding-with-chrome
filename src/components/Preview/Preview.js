@@ -245,6 +245,7 @@ export class Preview extends React.PureComponent {
                   zIndex: (theme) => theme.zIndex.drawer + 1,
                 }}
                 open={this.state.loading}
+                transitionDuration={0}
               >
                 <CircularProgress color="inherit" />
                 <span className={styles.contentLoadingScreenTitle}>
@@ -265,6 +266,7 @@ export class Preview extends React.PureComponent {
                   this.state.hideContent ||
                   (!this.state.location && !this.state.loading)
                 }
+                transitionDuration={0}
               >
                 <AspectRatioIcon />
                 <span className={styles.contentLoadingScreenTitle}>

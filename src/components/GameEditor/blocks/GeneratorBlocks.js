@@ -326,7 +326,7 @@ javascriptGenerator['phaser_generator_random_vertical_obstacle'] = function (
     ' = this.add.group(undefined, ' +
     "'obstacle_group');\n" +
     '}\n' +
-    'PhaserExtras.RandomVerticalObstacleGenerator(\n  game,' +
+    'PhaserExtras.RandomVerticalObstacleGenerator(\n  this,' +
     value_x +
     ', ' +
     value_y +
@@ -519,7 +519,7 @@ javascriptGenerator['phaser_generator_matrix_block'] = function (block) {
     ' = this.add.group(undefined, ' +
     "'block_group');\n" +
     '}\n' +
-    'PhaserExtras.MatrixBlockGenerator(\n  game,' +
+    'PhaserExtras.MatrixBlockGenerator(\n  this,' +
     "'" +
     text_sprite +
     "', " +

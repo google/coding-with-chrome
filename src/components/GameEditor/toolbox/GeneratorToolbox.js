@@ -132,7 +132,7 @@ export default [
     </value>
     <value name="group">
       <block type="phaser_variable_get">
-        <field name="VAR">block_group</field>
+        <field name="VAR">obstacle_group</field>
       </block>
     </value>
   </block>`,

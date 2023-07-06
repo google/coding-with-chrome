@@ -199,7 +199,7 @@ javascriptGenerator['phaser_world_arcade_physics'] = function (block) {
     javascriptGenerator.ORDER_ATOMIC
   );
   return (
-    'game.physics.arcade.' + dropdown_property + ' = ' + value_value + ';\n'
+    'this.physics.world.' + dropdown_property + ' = ' + value_value + ';\n'
   );
 };
 

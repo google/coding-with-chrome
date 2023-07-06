@@ -285,16 +285,13 @@ javascriptGenerator['phaser_physics_arcade_sprite_paddle_add'] = function (
   const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
   return (
     variable +
-    ' = this.add.sprite(' +
+    ' = this.physics.add.sprite(' +
     value_x +
     ', ' +
     value_y +
     ", '" +
     text_sprite +
     "');\n" +
-    'game.physics.arcade.enable(' +
-    variable +
-    ');\n' +
     '(function(arcadeSpriteCustom) {\n' +
     statements_code +
     '}(' +
@@ -340,8 +337,8 @@ Blocks['phaser_physics_arcade_sprite_adjust'] = {
         [i18next.t('VELOCITY_X'), 'velocity.x'],
         [i18next.t('VELOCITY_Y'), 'velocity.y'],
         [i18next.t('VELOCITY'), 'velocity'],
-        [i18next.t('BLOCKS_WIDTH'), 'width'],
-        [i18next.t('BLOCKS_HEIGHT'), 'height'],
+        [i18next.t('BLOCKS_WIDTH'), 'displayWidth'],
+        [i18next.t('BLOCKS_HEIGHT'), 'displayHeight'],
         ['x', 'x'],
         ['y', 'y'],
         ['z', 'z'],
@@ -386,8 +383,8 @@ javascriptGenerator['phaser_physics_arcade_sprite_adjust'] = function (
   );
   switch (dropdown_property) {
     case 'angle':
-    case 'height':
-    case 'width':
+    case 'displayHeight':
+    case 'displayWidth':
     case 'x':
     case 'y':
     case 'z':
@@ -461,8 +458,8 @@ Blocks['phaser_physics_arcade_sprite_adjust_custom'] = {
           [i18next.t('VELOCITY_X'), 'velocity.x'],
           [i18next.t('VELOCITY_Y'), 'velocity.y'],
           [i18next.t('VELOCITY'), 'velocity'],
-          [i18next.t('BLOCKS_WIDTH'), 'width'],
-          [i18next.t('BLOCKS_HEIGHT'), 'height'],
+          [i18next.t('BLOCKS_WIDTH'), 'displayWidth'],
+          [i18next.t('BLOCKS_HEIGHT'), 'displayHeight'],
           ['x', 'x'],
           ['y', 'y'],
           ['z', 'z'],
@@ -555,11 +552,11 @@ javascriptGenerator['phaser_physics_arcade_sprite_adjust_dimension'] =
       ) || 50;
     return (
       variable +
-      '.width = ' +
+      '.displayWidth = ' +
       value_width +
       ';\n' +
       variable +
-      '.height = ' +
+      '.displayHeight = ' +
       value_height +
       ';\n'
     );
@@ -675,7 +672,7 @@ javascriptGenerator['phaser_physics_arcade_enable'] = function (block) {
     'variable',
     javascriptGenerator.ORDER_ATOMIC
   );
-  return 'game.physics.arcade.enable(' + value_variable + ');\n';
+  return 'this.physics.world.enable(' + value_variable + ');\n';
 };
 
 /**

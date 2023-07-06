@@ -196,12 +196,12 @@ class PhaserExtras {
     for (let row = 0; row <= 7; row++) {
       for (let column = 0; column <= 7; column++) {
         if (data[index++]) {
-          const block_x = column * (spriteSize.width + padding) + x;
-          const block_y = row * (spriteSize.height + padding) + y;
+          const blockX = column * (spriteSize.width + padding) + x;
+          const blockY = row * (spriteSize.height + padding) + y;
           PhaserExtras.addGroupSprite(
             game,
-            block_x,
-            block_y,
+            blockX,
+            blockY,
             sprite,
             group,
             manipulation

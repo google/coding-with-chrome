@@ -117,7 +117,7 @@ export class GameEditorSelectScreen extends React.PureComponent {
     targetElement.disabled = true;
 
     // Load example file into new project and open it.
-    Project.getEmptyProject(name, ProjectType.GAME_EDITOR).then((project) => {
+    Project.getDefaultProject(name, ProjectType.GAME_EDITOR).then((project) => {
       const database = new Database(project.id, project.type);
       const xhr = new XMLHttpRequest();
       xhr.open('GET', APP_BASE_PATH + file, true);

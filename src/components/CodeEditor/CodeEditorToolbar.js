@@ -53,7 +53,6 @@ import i18next from '../App/i18next';
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import { BlocklyWorkspace, WorkspaceSvg } from 'react-blockly';
-import FileFormat, { ContentType } from '../FileFormat/FileFormat';
 
 import { Toolbar, ToolbarIconButton } from '../Toolbar';
 import LanguageSetting from '../Settings/LanguageSetting';
@@ -170,7 +169,7 @@ export class CodeEditorToolbar extends React.PureComponent {
    */
   handleImportFileContent(file, content = '') {
     if (file.name.endsWith('.cwc')) {
-      this.handleCodingWithChromeFileFormat(file, content);
+      console.error('.cwc files are no longer supported!');
     } else if (file.name.endsWith('.xml')) {
       this.handleBlocklyFileFormat(file, content);
     } else {
@@ -188,35 +187,6 @@ export class CodeEditorToolbar extends React.PureComponent {
 
     // Load XML content.
     this.props.blockEditor.loadWorkspace(content, new Map(), true);
-  }
-
-  /**
-   * @param {File} file
-   * @param {string|ArrayBuffer|null|undefined} content
-   */
-  handleCodingWithChromeFileFormat(file, content) {
-    console.log('Handle Coding with Chrome file ...', file.name, content);
-    const parsedFile = new FileFormat(content || '');
-    console.log('Parsed file', parsedFile);
-    const projectFiles = new Map();
-
-    // Handle additional files, if any.
-    if (parsedFile.hasFiles()) {
-      console.log('Handle additional files ...');
-      const files = parsedFile.getFiles();
-      files.forEach((file) => {
-        projectFiles.set(file.name, file.content);
-      });
-    }
-
-    // Load XML content.
-    if (parsedFile.hasContent(ContentType.BLOCKLY)) {
-      this.props.blockEditor.loadWorkspace(
-        parsedFile.getContent(ContentType.BLOCKLY),
-        projectFiles,
-        true
-      );
-    }
   }
 
   /**

@@ -42,11 +42,11 @@ Blocks['dynamic_image_file'] = {
     }
 
     // Generate ID from base64 data, if not set.
-    const blockId = this.inputList[1]['fieldRow'][0].value_;
-    const urlData = this.inputList[0]['fieldRow'][0].value_;
+    const blockId = this.getField('id').getValue();
+    const urlData = this.getField('urlData').getValue();
     if (!blockId && urlData) {
       BlocksBuilder.generateIdFromBase64(urlData).then((id) => {
-        this.inputList[1]['fieldRow'][0].setValue(id);
+        this.getField('id').setValue(id);
       });
     }
   },
@@ -81,7 +81,8 @@ javascriptGenerator['dynamic_image_file'] = function (block) {
   return [
     block.getFieldValue('id') ||
       block.getFieldValue('urlData') ||
-      block.getFieldValue('url'),
+      block.getFieldValue('url') ||
+      '',
     javascriptGenerator.ORDER_NONE,
   ];
 };
@@ -105,20 +106,23 @@ Blocks['dynamic_audio_file'] = {
     }
 
     // Generate ID from base64 data, if not set.
-    const blockId = this.inputList[0]['fieldRow'][0].value_;
-    const urlData = this.inputList[0]['fieldRow'][3].value_;
+    const blockId = this.getField('id').getValue();
+    const urlData = this.getField('urlData').getValue();
     if (!blockId && urlData) {
       BlocksBuilder.generateIdFromBase64(urlData).then((id) => {
-        this.inputList[0]['fieldRow'][0].setValue(id);
+        this.getField('id').setValue(id);
       });
     }
   },
   init: function () {
+    this.appendDummyInput().appendField(
+      new Blockly.FieldTextInput(''),
+      'urlData'
+    );
     this.appendDummyInput()
       .appendField(new Blockly.FieldTextInput(''), 'id')
       .appendField(new Blockly.FieldTextInput(''), 'filename')
       .appendField(new Blockly.FieldTextInput(''), 'url')
-      .appendField(new Blockly.FieldTextInput(''), 'urlData')
       .setVisible(false);
     this.getField('urlData').EDITABLE = true;
     this.getField('id').SERIALIZABLE = true;

@@ -45,6 +45,7 @@ export class Project {
     description = '',
     lastModified = new Date().toISOString()
   ) {
+    this.isEmpty = true;
     this.icon = '🎮';
     this.id = id || uuidv4();
     this.type = type || ProjectType.NONE;
@@ -122,6 +123,22 @@ export class Project {
   }
 
   /**
+   * @return {boolean}
+   */
+  getIsEmpty() {
+    return this.isEmpty;
+  }
+
+  /**
+   * @param {boolean} isEmpty
+   * @return {Project}
+   */
+  setIsEmpty(isEmpty) {
+    this.isEmpty = isEmpty;
+    return this;
+  }
+
+  /**
    * @return {Promise<Project>}
    */
   save() {
@@ -136,6 +153,7 @@ export class Project {
           description: this.description,
           lastModified: this.lastModified,
           screenshot: this.screenshot,
+          isEmpty: this.isEmpty,
         })
         .then(() => {
           resolve(this);
@@ -155,6 +173,7 @@ export class Project {
         this.description = data.description;
         this.lastModified = data.lastModified;
         this.screenshot = data.screenshot;
+        this.isEmpty = data.isEmpty;
       }
     });
     return this;
@@ -184,6 +203,7 @@ export class Project {
             if (projectEntry.screenshot) {
               project.setScreenshot(projectEntry.screenshot);
             }
+            project.setIsEmpty = projectEntry.isEmpty;
             projects.push(project);
           });
         }
@@ -240,6 +260,7 @@ export class Project {
                 if (projectEntry.screenshot) {
                   project.setScreenshot(projectEntry.screenshot);
                 }
+                project.isEmpty = projectEntry.isEmpty;
                 resolve(project);
                 return;
               }
@@ -253,6 +274,17 @@ export class Project {
         }
       });
     });
+  }
+
+  /**
+   * @param {string} name
+   * @param {ProjectType} type
+   * @return {Promise}
+   */
+  static getDefaultProject(name, type) {
+    const project = new Project(undefined, type, name);
+    project.setIsEmpty(false);
+    return project.save();
   }
 
   /**
