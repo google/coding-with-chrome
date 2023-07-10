@@ -32,7 +32,6 @@ import { BlocklyWorkspace } from 'react-blockly';
 
 import BlockEditorToolbar from './BlockEditorToolbar';
 import { APP_BASE_PATH } from '../../constants';
-import { BlocksBuilder } from './blocks/BlocksBuilder';
 import { Database } from '../../utils/db/Database';
 import { PreviewService } from '../../service-worker/preview-service-worker';
 import { WindowEventTarget } from '../Desktop/WindowManager/Events';
@@ -45,6 +44,7 @@ import 'material-icons/iconfont/filled.css';
 import 'material-icons/iconfont/outlined.css';
 import styles from './style.module.css';
 import './style.global.css';
+import { Base64 } from '../../utils/file/Base64';
 
 /**
  * Block editor based on Blockly.
@@ -351,7 +351,7 @@ export class BlockEditor extends React.PureComponent {
     }
     if (assets.size > 0) {
       for (const [key, value] of assets.entries()) {
-        BlocksBuilder.generateIdFromBase64(value.urlData).then((assetId) => {
+        Base64.generateIdFromBase64(value.urlData).then((assetId) => {
           console.log('Adding asset: ', key, value, assetId);
           PreviewService.addAssetFile(
             this.props.project.id,

@@ -62,7 +62,9 @@ Blocks['phaser_physics_arcade_sprite_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_physics_arcade_sprite_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_physics_arcade_sprite_add'] = function (
+  block
+) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -125,38 +127,37 @@ Blocks['phaser_physics_arcade_sprite_ball_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_physics_arcade_sprite_ball_add'] = function (
-  block
-) {
-  const variable = javascriptGenerator.valueToCode(
-    block,
-    'variable',
-    javascriptGenerator.ORDER_ATOMIC
-  );
-  const value_x =
-    javascriptGenerator.valueToCode(
+javascriptGenerator.forBlock['phaser_physics_arcade_sprite_ball_add'] =
+  function (block) {
+    const variable = javascriptGenerator.valueToCode(
       block,
-      'x',
+      'variable',
       javascriptGenerator.ORDER_ATOMIC
-    ) || 0;
-  const value_y =
-    javascriptGenerator.valueToCode(
-      block,
-      'y',
-      javascriptGenerator.ORDER_ATOMIC
-    ) || 0;
-  const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
-  return `
+    );
+    const value_x =
+      javascriptGenerator.valueToCode(
+        block,
+        'x',
+        javascriptGenerator.ORDER_ATOMIC
+      ) || 0;
+    const value_y =
+      javascriptGenerator.valueToCode(
+        block,
+        'y',
+        javascriptGenerator.ORDER_ATOMIC
+      ) || 0;
+    const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
+    return `
     ${variable} = this.physics.add.sprite(${value_x}, ${value_y}, "${block.getFieldValue(
-    'sprite'
-  )}")
+      'sprite'
+    )}")
       .setOrigin(0)
       .setScrollFactor(0, 1);
     (function(arcadeSpriteCustom) {
       ${statements_code}
     }(${variable}));
   `;
-};
+  };
 
 /**
  * Add player sprite.
@@ -193,38 +194,37 @@ Blocks['phaser_physics_arcade_sprite_player_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_physics_arcade_sprite_player_add'] = function (
-  block
-) {
-  const variable = javascriptGenerator.valueToCode(
-    block,
-    'variable',
-    javascriptGenerator.ORDER_ATOMIC
-  );
-  const value_x =
-    javascriptGenerator.valueToCode(
+javascriptGenerator.forBlock['phaser_physics_arcade_sprite_player_add'] =
+  function (block) {
+    const variable = javascriptGenerator.valueToCode(
       block,
-      'x',
+      'variable',
       javascriptGenerator.ORDER_ATOMIC
-    ) || 0;
-  const value_y =
-    javascriptGenerator.valueToCode(
-      block,
-      'y',
-      javascriptGenerator.ORDER_ATOMIC
-    ) || 0;
-  const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
-  return `
+    );
+    const value_x =
+      javascriptGenerator.valueToCode(
+        block,
+        'x',
+        javascriptGenerator.ORDER_ATOMIC
+      ) || 0;
+    const value_y =
+      javascriptGenerator.valueToCode(
+        block,
+        'y',
+        javascriptGenerator.ORDER_ATOMIC
+      ) || 0;
+    const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
+    return `
     ${variable} = this.physics.add.sprite(${value_x}, ${value_y}, "${block.getFieldValue(
-    'sprite'
-  )}")
+      'sprite'
+    )}")
       .setOrigin(0)
       .setScrollFactor(0, 1);
     (function(arcadeSpriteCustom) {
       ${statements_code}
     }(${variable}));
   `;
-};
+  };
 
 /**
  * Add paddle sprite.
@@ -261,44 +261,43 @@ Blocks['phaser_physics_arcade_sprite_paddle_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_physics_arcade_sprite_paddle_add'] = function (
-  block
-) {
-  const text_sprite = block.getFieldValue('sprite');
-  const variable = javascriptGenerator.valueToCode(
-    block,
-    'variable',
-    javascriptGenerator.ORDER_ATOMIC
-  );
-  const value_x =
-    javascriptGenerator.valueToCode(
+javascriptGenerator.forBlock['phaser_physics_arcade_sprite_paddle_add'] =
+  function (block) {
+    const text_sprite = block.getFieldValue('sprite');
+    const variable = javascriptGenerator.valueToCode(
       block,
-      'x',
+      'variable',
       javascriptGenerator.ORDER_ATOMIC
-    ) || 0;
-  const value_y =
-    javascriptGenerator.valueToCode(
-      block,
-      'y',
-      javascriptGenerator.ORDER_ATOMIC
-    ) || 0;
-  const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
-  return (
-    variable +
-    ' = this.physics.add.sprite(' +
-    value_x +
-    ', ' +
-    value_y +
-    ", '" +
-    text_sprite +
-    "');\n" +
-    '(function(arcadeSpriteCustom) {\n' +
-    statements_code +
-    '}(' +
-    variable +
-    '));\n'
-  );
-};
+    );
+    const value_x =
+      javascriptGenerator.valueToCode(
+        block,
+        'x',
+        javascriptGenerator.ORDER_ATOMIC
+      ) || 0;
+    const value_y =
+      javascriptGenerator.valueToCode(
+        block,
+        'y',
+        javascriptGenerator.ORDER_ATOMIC
+      ) || 0;
+    const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
+    return (
+      variable +
+      ' = this.physics.add.sprite(' +
+      value_x +
+      ', ' +
+      value_y +
+      ", '" +
+      text_sprite +
+      "');\n" +
+      '(function(arcadeSpriteCustom) {\n' +
+      statements_code +
+      '}(' +
+      variable +
+      '));\n'
+    );
+  };
 
 /**
  * Adjust arcade sprite.
@@ -362,7 +361,7 @@ Blocks['phaser_physics_arcade_sprite_adjust'] = {
  * @param {string=} variableName
  * @return {string}
  */
-javascriptGenerator['phaser_physics_arcade_sprite_adjust'] = function (
+javascriptGenerator.forBlock['phaser_physics_arcade_sprite_adjust'] = function (
   block,
   variableName = ''
 ) {
@@ -483,27 +482,26 @@ Blocks['phaser_physics_arcade_sprite_adjust_custom'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_physics_arcade_sprite_adjust_custom'] = function (
-  block
-) {
-  return javascriptGenerator['phaser_physics_arcade_sprite_adjust'](
-    block,
-    'arcadeSpriteCustom'
-  );
-};
+javascriptGenerator.forBlock['phaser_physics_arcade_sprite_adjust_custom'] =
+  function (block) {
+    return javascriptGenerator.forBlock['phaser_physics_arcade_sprite_adjust'](
+      block,
+      'arcadeSpriteCustom'
+    );
+  };
 
 /**
  * Adjust arcade sprite dimension custom.
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_physics_arcade_sprite_adjust_dimension_custom'] =
-  function (block) {
-    return javascriptGenerator['phaser_physics_arcade_sprite_adjust_dimension'](
-      block,
-      'arcadeSpriteCustom'
-    );
-  };
+javascriptGenerator.forBlock[
+  'phaser_physics_arcade_sprite_adjust_dimension_custom'
+] = function (block) {
+  return javascriptGenerator.forBlock[
+    'phaser_physics_arcade_sprite_adjust_dimension'
+  ](block, 'arcadeSpriteCustom');
+};
 
 /**
  * Adjust arcade sprite dimension.
@@ -530,7 +528,7 @@ Blocks['phaser_physics_arcade_sprite_adjust_dimension'] = {
  * @param {string=} variableName
  * @return {string}
  */
-javascriptGenerator['phaser_physics_arcade_sprite_adjust_dimension'] =
+javascriptGenerator.forBlock['phaser_physics_arcade_sprite_adjust_dimension'] =
   function (block, variableName = '') {
     const variable =
       javascriptGenerator.valueToCode(
@@ -604,14 +602,15 @@ Blocks['phaser_physics_arcade_sprite_destroy'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_physics_arcade_sprite_destroy'] = function (block) {
-  const variable = javascriptGenerator.valueToCode(
-    block,
-    'variable',
-    javascriptGenerator.ORDER_ATOMIC
-  );
-  return `${variable}.destroy();`;
-};
+javascriptGenerator.forBlock['phaser_physics_arcade_sprite_destroy'] =
+  function (block) {
+    const variable = javascriptGenerator.valueToCode(
+      block,
+      'variable',
+      javascriptGenerator.ORDER_ATOMIC
+    );
+    return `${variable}.destroy();`;
+  };
 
 /**
  * Kills arcade sprite.
@@ -636,7 +635,9 @@ Blocks['phaser_physics_arcade_sprite_kill'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_physics_arcade_sprite_kill'] = function (block) {
+javascriptGenerator.forBlock['phaser_physics_arcade_sprite_kill'] = function (
+  block
+) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -666,7 +667,9 @@ Blocks['phaser_physics_arcade_enable'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_physics_arcade_enable'] = function (block) {
+javascriptGenerator.forBlock['phaser_physics_arcade_enable'] = function (
+  block
+) {
   const value_variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -699,7 +702,9 @@ Blocks['phaser_physics_arcade_out_of_bounds'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_physics_arcade_out_of_bounds'] = function (block) {
+javascriptGenerator.forBlock['phaser_physics_arcade_out_of_bounds'] = function (
+  block
+) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -742,7 +747,9 @@ Blocks['phaser_physics_arcade_overlap'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_physics_arcade_overlap'] = function (block) {
+javascriptGenerator.forBlock['phaser_physics_arcade_overlap'] = function (
+  block
+) {
   const value_object1 = javascriptGenerator.valueToCode(
     block,
     'object1',
@@ -788,7 +795,9 @@ Blocks['phaser_physics_arcade_collide'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_physics_arcade_collide'] = function (block) {
+javascriptGenerator.forBlock['phaser_physics_arcade_collide'] = function (
+  block
+) {
   const object1 = javascriptGenerator.valueToCode(
     block,
     'object1',

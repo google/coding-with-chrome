@@ -47,7 +47,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_group_add">
     <value name="variable">
-      <block type="phaser_variable_set">
+      <block type="phaser_variable_group_set">
         <field name="VAR">obstacle_group</field>
       </block>
     </value>

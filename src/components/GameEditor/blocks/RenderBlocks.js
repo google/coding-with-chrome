@@ -52,7 +52,7 @@ Blocks['phaser_render'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_render'] = function (block) {
+javascriptGenerator.forBlock['phaser_render'] = function (block) {
   const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
   return `
   renderer (event) {

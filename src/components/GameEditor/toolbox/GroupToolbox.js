@@ -30,8 +30,8 @@ export const createBlocks = [
     blockxml: `
     <block type="phaser_group_add">
       <value name="variable">
-        <block type="phaser_variable_get">
-          <field name="VAR">obstacle_group</field>
+        <block type="phaser_variable_group_set">
+          <field name="VAR">default_group</field>
         </block>
       </value>
     </block>`,
@@ -51,7 +51,7 @@ export const defaultBlocks = [
         <value name="A">
           <block type="phaser_group_count_living">
             <value name="variable">
-              <block type="phaser_variable_get">
+              <block type="phaser_variable_group_get">
                 <field name="VAR">block_group</field>
               </block>
             </value>
@@ -72,7 +72,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_group_count_living">
     <value name="variable">
-      <block type="phaser_variable_get">
+      <block type="phaser_variable_group_get">
         <field name="VAR">block_group</field>
       </block>
     </value>
@@ -81,5 +81,6 @@ export const defaultBlocks = [
 ];
 
 export default {
+  createBlocks,
   defaultBlocks,
 };

@@ -51,7 +51,7 @@ Blocks['static_audio_file'] = {
  * @param {Blockly.Block} block
  * @return {any[]}
  */
-javascriptGenerator['static_audio_file'] = function (block) {
+javascriptGenerator.forBlock['static_audio_file'] = function (block) {
   return [
     block.getFieldValue('urlData') || block.getFieldValue('url'),
     javascriptGenerator.ORDER_NONE,
@@ -87,7 +87,7 @@ Blocks['static_image_file'] = {
  * @param {Blockly.Block} block
  * @return {any[]}
  */
-javascriptGenerator['static_image_file'] = function (block) {
+javascriptGenerator.forBlock['static_image_file'] = function (block) {
   return [
     block.getFieldValue('url') || block.getFieldValue('urlData'),
     javascriptGenerator.ORDER_NONE,

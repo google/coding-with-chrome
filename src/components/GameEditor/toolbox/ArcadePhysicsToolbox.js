@@ -282,7 +282,7 @@ export const eventBlocks = [
       </block>
     </value>
     <value name="object2">
-      <block type="phaser_variable_get">
+      <block type="phaser_variable_group_get">
         <field name="VAR">block_group</field>
       </block>
     </value>
@@ -307,8 +307,24 @@ export const eventBlocks = [
       </block>
     </value>
     <value name="object2">
-      <block type="phaser_variable_get">
+      <block type="phaser_variable_group_get">
         <field name="VAR">obstacle_group</field>
+      </block>
+    </value>
+  </block>`,
+  },
+  {
+    kind: 'block',
+    blockxml: `
+  <block type="phaser_physics_arcade_overlap">
+    <value name="object1">
+      <block type="phaser_variable_get">
+        <field name="VAR">player</field>
+      </block>
+    </value>
+    <value name="object2">
+      <block type="phaser_variable_get">
+        <field name="VAR">coin</field>
       </block>
     </value>
   </block>`,

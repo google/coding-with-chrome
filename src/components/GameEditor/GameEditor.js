@@ -53,6 +53,7 @@ import styles from './style.module.css';
 import './style.global.css';
 import { BlocksBuilder } from '../BlockEditor/blocks/BlocksBuilder';
 import GameEditorSettings from '../Settings/GameEditorSettings';
+import { Base64 } from '../../utils/file/Base64';
 
 /**
  *
@@ -343,7 +344,7 @@ export class GameEditor extends React.PureComponent {
     }
 
     // Updating preview cache
-    BlocksBuilder.generateIdFromBase64(urlData).then((assetId) => {
+    Base64.generateIdFromBase64(urlData).then((assetId) => {
       PreviewService.addAssetFile(
         this.props.project?.id || this.state.project?.id,
         assetId,
@@ -357,8 +358,6 @@ export class GameEditor extends React.PureComponent {
 
         // Updating toolbox.
         this.updateToolbox(blocklyWorkspace);
-
-        console.log(blocklyWorkspace);
 
         // Automatically add supported blocks to workspace.
         if (file.type.startsWith('image/')) {

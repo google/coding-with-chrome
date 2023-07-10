@@ -62,7 +62,7 @@ Blocks['phaser_variable_set'] = {
  * @param {Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_variable_set'] = function (block) {
+javascriptGenerator.forBlock['phaser_variable_set'] = function (block) {
   const variable = block.getFieldValue('VAR').startsWith('this')
     ? block.getFieldValue('VAR')
     : 'this.' + block.getFieldValue('VAR');
@@ -92,7 +92,79 @@ Blocks['phaser_variable_get'] = {
  * @param {Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_variable_get'] = function (block) {
+javascriptGenerator.forBlock['phaser_variable_get'] = function (block) {
+  const variable = block.getFieldValue('VAR').startsWith('this')
+    ? block.getFieldValue('VAR')
+    : 'this.' + block.getFieldValue('VAR');
+  return [variable, javascriptGenerator.ORDER_ATOMIC];
+};
+
+/**
+ * Set dynamic group variable
+ */
+Blocks['phaser_variable_group_set'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField('Group')
+      .appendField(new Blockly.FieldTextInput('default'), 'VAR');
+    this.setOutput(true, null);
+    this.setColour(330);
+    this.setTooltip('');
+    this.setHelpUrl('');
+    this.setOnChange(() => {
+      const variableName = this.getFieldValue('VAR');
+      if (reservedPhaserVariables.includes(variableName)) {
+        this.setWarningText('Reserved variable name.');
+      } else {
+        this.setWarningText(null);
+      }
+    });
+  },
+};
+
+/**
+ * Set dynamic group variable
+ * @param {Block} block
+ * @return {string}
+ */
+javascriptGenerator.forBlock['phaser_variable_group_set'] = function (block) {
+  const variable = block.getFieldValue('VAR').startsWith('this')
+    ? block.getFieldValue('VAR')
+    : 'this.' + block.getFieldValue('VAR');
+  return [variable, javascriptGenerator.ORDER_ATOMIC];
+};
+
+/**
+ * Get dynamic group variable
+ */
+Blocks['phaser_variable_group_get'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField('Group')
+      .appendField(
+        new Blockly.FieldDropdown(() => {
+          return BlocksHelper.phaserVariable(
+            this,
+            'phaser_variable_group_set',
+            'default_group',
+            'default_group'
+          );
+        }),
+        'VAR'
+      );
+    this.setOutput(true, null);
+    this.setColour(330);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+/**
+ * Get dynamic group variable
+ * @param {Block} block
+ * @return {string}
+ */
+javascriptGenerator.forBlock['phaser_variable_group_get'] = function (block) {
   const variable = block.getFieldValue('VAR').startsWith('this')
     ? block.getFieldValue('VAR')
     : 'this.' + block.getFieldValue('VAR');

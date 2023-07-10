@@ -52,7 +52,7 @@ Blocks['phaser_time_event'] = {
  * @param {Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_time_event'] = function (block) {
+javascriptGenerator.forBlock['phaser_time_event'] = function (block) {
   const value_time = javascriptGenerator.valueToCode(
     block,
     'time',
@@ -93,7 +93,7 @@ Blocks['phaser_time_loop_event'] = {
  * @param {Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_time_loop_event'] = function (block) {
+javascriptGenerator.forBlock['phaser_time_loop_event'] = function (block) {
   const value_time = javascriptGenerator.valueToCode(
     block,
     'time',

@@ -51,7 +51,7 @@ Blocks['phaser_world_resize'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_world_resize'] = function (block) {
+javascriptGenerator.forBlock['phaser_world_resize'] = function (block) {
   const number_width = block.getFieldValue('width');
   const number_height = block.getFieldValue('height');
   return 'game.world.resize(' + number_width + ', ' + number_height + ');\n';
@@ -82,7 +82,7 @@ Blocks['phaser_world_wrap'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_world_wrap'] = function (block) {
+javascriptGenerator.forBlock['phaser_world_wrap'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -126,7 +126,7 @@ Blocks['phaser_world_attributes'] = {
  * @param {Blockly.Block} block
  * @return {any[]}
  */
-javascriptGenerator['phaser_world_attributes'] = function (block) {
+javascriptGenerator.forBlock['phaser_world_attributes'] = function (block) {
   let code = '';
   switch (block.getFieldValue('attribute')) {
     case 'centerX':
@@ -191,7 +191,7 @@ Blocks['phaser_world_arcade_physics'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_world_arcade_physics'] = function (block) {
+javascriptGenerator.forBlock['phaser_world_arcade_physics'] = function (block) {
   const dropdown_property = block.getFieldValue('property');
   const value_value = javascriptGenerator.valueToCode(
     block,
@@ -235,7 +235,7 @@ Blocks['phaser_world_sort_direction'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_world_sort_direction'] = function (block) {
+javascriptGenerator.forBlock['phaser_world_sort_direction'] = function (block) {
   const dropdown_property = block.getFieldValue('property');
   return (
     'game.physics.arcade.sortDirection = ' + Number(dropdown_property) ||

@@ -82,7 +82,7 @@ Blocks['phaser_text_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_text_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_text_add'] = function (block) {
   const text_color = block.getFieldValue('color');
   const text_font = block.getFieldValue('font');
   let text_size = block.getFieldValue('size');
@@ -159,7 +159,7 @@ Blocks['phaser_dynamic_text_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_dynamic_text_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_dynamic_text_add'] = function (block) {
   const text_color = block.getFieldValue('color');
   const text_font = block.getFieldValue('font');
   let text_size = block.getFieldValue('size');
@@ -265,7 +265,7 @@ Blocks['phaser_dynamic_text_highscore_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_dynamic_text_highscore_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_dynamic_text_highscore_add'] = function (block) {
   const text_color = block.getFieldValue('color');
   const text_font = block.getFieldValue('font');
   let text_size = block.getFieldValue('size');
@@ -370,7 +370,7 @@ Blocks['phaser_action_text_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_action_text_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_action_text_add'] = function (block) {
   const text_color = block.getFieldValue('color');
   const text_font = block.getFieldValue('font');
   let text_size = block.getFieldValue('size');
@@ -437,7 +437,7 @@ Blocks['phaser_text_change'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_text_change'] = function (block) {
+javascriptGenerator.forBlock['phaser_text_change'] = function (block) {
   const value_text = javascriptGenerator.valueToCode(
     block,
     'text',
@@ -469,7 +469,7 @@ Blocks['phaser_text_get'] = {
  * @param {Blockly.Block} block
  * @return {any[]}
  */
-javascriptGenerator['phaser_text_get'] = function (block) {
+javascriptGenerator.forBlock['phaser_text_get'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -499,7 +499,7 @@ Blocks['phaser_text_get_number'] = {
  * @param {Blockly.Block} block
  * @return {any[]}
  */
-javascriptGenerator['phaser_text_get_number'] = function (block) {
+javascriptGenerator.forBlock['phaser_text_get_number'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -532,7 +532,7 @@ Blocks['phaser_text_clicked'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_text_clicked'] = function (block) {
+javascriptGenerator.forBlock['phaser_text_clicked'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',

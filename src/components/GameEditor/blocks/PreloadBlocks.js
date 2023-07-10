@@ -53,7 +53,7 @@ Blocks['phaser_preload'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_preload'] = function (block) {
+javascriptGenerator.forBlock['phaser_preload'] = function (block) {
   return `
   preload (event) {
     ${javascriptGenerator.statementToCode(block, 'CODE')}
@@ -87,7 +87,7 @@ Blocks['phaser_load_image'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_load_image'] = function (block) {
+javascriptGenerator.forBlock['phaser_load_image'] = function (block) {
   const text_name = block.getFieldValue('name');
   const value_image = javascriptGenerator.valueToCode(
     block,
@@ -124,7 +124,7 @@ Blocks['phaser_load_audio'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_load_audio'] = function (block) {
+javascriptGenerator.forBlock['phaser_load_audio'] = function (block) {
   const text_name = block.getFieldValue('name');
   const value_audio = javascriptGenerator.valueToCode(
     block,

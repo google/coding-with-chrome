@@ -62,7 +62,7 @@ Blocks['phaser_sprite_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_sprite_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_sprite_add'] = function (block) {
   const text_sprite = block.getFieldValue('sprite');
   const variable = javascriptGenerator.valueToCode(
     block,
@@ -128,7 +128,7 @@ Blocks['phaser_sprite_adjust'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_sprite_adjust'] = function (block) {
+javascriptGenerator.forBlock['phaser_sprite_adjust'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -182,7 +182,7 @@ Blocks['phaser_sprite_adjust_dimension'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_sprite_adjust_dimension'] = function (block) {
+javascriptGenerator.forBlock['phaser_sprite_adjust_dimension'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -234,7 +234,7 @@ Blocks['phaser_sprite_get'] = {
  * @param {Blockly.Block} block
  * @return {any[]}
  */
-javascriptGenerator['phaser_sprite_get'] = function (block) {
+javascriptGenerator.forBlock['phaser_sprite_get'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -268,7 +268,7 @@ Blocks['phaser_sprite_destroy'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_sprite_destroy'] = function (block) {
+javascriptGenerator.forBlock['phaser_sprite_destroy'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -301,7 +301,7 @@ Blocks['phaser_sprite_immovable'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_sprite_immovable'] = function (block) {
+javascriptGenerator.forBlock['phaser_sprite_immovable'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',

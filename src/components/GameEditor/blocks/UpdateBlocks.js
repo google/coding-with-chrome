@@ -52,7 +52,7 @@ Blocks['phaser_update'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_update'] = function (block) {
+javascriptGenerator.forBlock['phaser_update'] = function (block) {
   const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
   return `
   update (time, delta) {

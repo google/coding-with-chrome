@@ -55,7 +55,7 @@ Blocks['phaser_group_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_group_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_group_add'] = function (block) {
   const text_name = block.getFieldValue('name');
   const variable = javascriptGenerator.valueToCode(
     block,
@@ -85,12 +85,12 @@ Blocks['phaser_group_count_living'] = {
  * @param {Blockly.Block} block
  * @return {string[]}
  */
-javascriptGenerator['phaser_group_count_living'] = function (block) {
+javascriptGenerator.forBlock['phaser_group_count_living'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
     javascriptGenerator.ORDER_ATOMIC
   );
-  const code = variable + '.countLiving()';
+  const code = variable + '.getLength()';
   return [code, javascriptGenerator.ORDER_NONE];
 };

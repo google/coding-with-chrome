@@ -53,15 +53,12 @@ Blocks['phaser_create'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_create'] = function (block) {
+javascriptGenerator.forBlock['phaser_create'] = function (block) {
   return `
   create (event) {
     // Helper function to simplify blocks.
     this.helper_ = new PhaserHelper(this);
 
-    // Empty generator groups to make sure game restarts works.
-    this.block_group = null;
-    this.obstacle_group = null;
     ${javascriptGenerator.statementToCode(block, 'CODE')}
   }`;
 };
@@ -88,7 +85,9 @@ Blocks['phaser_stage_background_color'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_stage_background_color'] = function (block) {
+javascriptGenerator.forBlock['phaser_stage_background_color'] = function (
+  block
+) {
   return `this.cameras.main.setBackgroundColor("${block.getFieldValue(
     'color'
   )}");`;
@@ -122,7 +121,7 @@ Blocks['phaser_add_background'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_add_background'] = function (block) {
+javascriptGenerator.forBlock['phaser_add_background'] = function (block) {
   const text_sprite = block.getFieldValue('sprite');
   return "this.add.image(0, 0, '" + text_sprite + "');\n";
 };
@@ -159,7 +158,9 @@ Blocks['phaser_add_background_scaled'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_add_background_scaled'] = function (block) {
+javascriptGenerator.forBlock['phaser_add_background_scaled'] = function (
+  block
+) {
   const text_sprite = block.getFieldValue('sprite');
   const number_width =
     Number(block.getFieldValue('width')) || 'this.cameras.main.width';
@@ -169,7 +170,7 @@ javascriptGenerator['phaser_add_background_scaled'] = function (block) {
     "let backgroundImage = this.add.image(0, 0, '" +
     text_sprite +
     "');\n" +
-    'backgroundImage.dislplayWidth = ' +
+    'backgroundImage.displayWidth = ' +
     number_width +
     ';\n' +
     'backgroundImage.displayHeight = ' +

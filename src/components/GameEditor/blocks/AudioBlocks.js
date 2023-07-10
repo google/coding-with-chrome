@@ -66,7 +66,7 @@ Blocks['phaser_audio_add_bgm'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_audio_add_bgm'] = function (block) {
+javascriptGenerator.forBlock['phaser_audio_add_bgm'] = function (block) {
   const text_audio = block.getFieldValue('audio');
   const number_volume = block.getFieldValue('volume');
   const dropdown_loop = block.getFieldValue('loop');
@@ -134,7 +134,7 @@ Blocks['phaser_audio_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_audio_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_audio_add'] = function (block) {
   const textAudio = block.getFieldValue('audio');
   const numberVolume = block.getFieldValue('volume');
   const dropdownLoop = block.getFieldValue('loop');
@@ -170,7 +170,7 @@ Blocks['phaser_audio_play'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_audio_play'] = function (block) {
+javascriptGenerator.forBlock['phaser_audio_play'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -200,7 +200,7 @@ Blocks['phaser_audio_pause'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_audio_pause'] = function (block) {
+javascriptGenerator.forBlock['phaser_audio_pause'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -230,7 +230,7 @@ Blocks['phaser_audio_resume'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_audio_resume'] = function (block) {
+javascriptGenerator.forBlock['phaser_audio_resume'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -260,7 +260,7 @@ Blocks['phaser_audio_stop'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_audio_stop'] = function (block) {
+javascriptGenerator.forBlock['phaser_audio_stop'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',

@@ -44,7 +44,7 @@ Blocks['controls_infinity_loop'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['controls_infinity_loop'] = function (block) {
+javascriptGenerator.forBlock['controls_infinity_loop'] = function (block) {
   const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
   return `
   let infinity_loop = function() {

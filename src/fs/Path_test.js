@@ -39,7 +39,6 @@ describe('Path', function () {
       'user',
       'file',
     ]);
-    console.log(Path.split('/home/user/file'));
   });
 
   it('.basename', function () {

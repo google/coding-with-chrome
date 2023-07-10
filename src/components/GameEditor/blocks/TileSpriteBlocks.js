@@ -61,7 +61,7 @@ Blocks['phaser_tile_sprite_background'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_tile_sprite_background'] = function (block) {
+javascriptGenerator.forBlock['phaser_tile_sprite_background'] = function (block) {
   const scrollFactorX = javascriptGenerator.valueToCode(
     block,
     'x',
@@ -116,7 +116,7 @@ Blocks['phaser_tile_sprite_floor_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_tile_sprite_floor_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_tile_sprite_floor_add'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -178,7 +178,7 @@ Blocks['phaser_tile_sprite_ceiling_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_tile_sprite_ceiling_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_tile_sprite_ceiling_add'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -250,7 +250,7 @@ Blocks['phaser_tile_sprite_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_tile_sprite_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_tile_sprite_add'] = function (block) {
   const number_width = block.getFieldValue('width');
   const number_height = block.getFieldValue('height');
   const text_sprite = block.getFieldValue('sprite');
@@ -330,7 +330,7 @@ Blocks['phaser_tile_sprite_adjust'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_tile_sprite_adjust'] = function (block) {
+javascriptGenerator.forBlock['phaser_tile_sprite_adjust'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -396,7 +396,7 @@ Blocks['phaser_tile_sprite_crop'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_tile_sprite_crop'] = function (block) {
+javascriptGenerator.forBlock['phaser_tile_sprite_crop'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -452,7 +452,7 @@ Blocks['phaser_tile_sprite_destroy'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_tile_sprite_destroy'] = function (block) {
+javascriptGenerator.forBlock['phaser_tile_sprite_destroy'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -487,7 +487,7 @@ Blocks['phaser_tile_sprite_autoScroll'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_tile_sprite_autoScroll'] = function (block) {
+javascriptGenerator.forBlock['phaser_tile_sprite_autoScroll'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -530,7 +530,7 @@ Blocks['phaser_tile_sprite_immovable'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_tile_sprite_immovable'] = function (block) {
+javascriptGenerator.forBlock['phaser_tile_sprite_immovable'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',

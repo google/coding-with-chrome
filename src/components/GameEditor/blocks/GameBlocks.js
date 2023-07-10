@@ -54,7 +54,7 @@ Blocks['phaser_game'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_game'] = function (block) {
+javascriptGenerator.forBlock['phaser_game'] = function (block) {
   return `
     const PhaserGameName = "${block.getFieldValue('name') || ''}";
     const PhaserGameConfig = {
@@ -115,7 +115,7 @@ Blocks['phaser_game_state'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_game_state'] = function (block) {
+javascriptGenerator.forBlock['phaser_game_state'] = function (block) {
   const name = block.getFieldValue('name');
   return `
   class ${name} extends Phaser.Scene {
@@ -154,7 +154,7 @@ Blocks['phaser_game_start'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_game_start'] = function (block) {
+javascriptGenerator.forBlock['phaser_game_start'] = function (block) {
   const text_name = block.getFieldValue('name');
   return "this.scene.start('" + text_name + "');\n";
 };
@@ -179,6 +179,6 @@ Blocks['phaser_game_restart'] = {
  * Restart Phaser Game.
  * @return {string}
  */
-javascriptGenerator['phaser_game_restart'] = function () {
+javascriptGenerator.forBlock['phaser_game_restart'] = function () {
   return 'this.scene.restart();\n';
 };

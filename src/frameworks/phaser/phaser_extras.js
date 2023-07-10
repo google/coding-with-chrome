@@ -193,11 +193,13 @@ class PhaserExtras {
   ) {
     let index = 0;
     const spriteSize = PhaserExtras.getSpriteSize(game, sprite, manipulation);
+    const spriteWidthFactor = spriteSize.width + padding;
+    const spriteHeightFactor = spriteSize.height + padding;
     for (let row = 0; row <= 7; row++) {
       for (let column = 0; column <= 7; column++) {
         if (data[index++]) {
-          const blockX = column * (spriteSize.width + padding) + x;
-          const blockY = row * (spriteSize.height + padding) + y;
+          const blockX = column * spriteWidthFactor + x;
+          const blockY = row * spriteHeightFactor + y;
           PhaserExtras.addGroupSprite(
             game,
             blockX,
@@ -219,12 +221,15 @@ class PhaserExtras {
    * @return {Object}
    */
   static getSpriteSize(game, sprite, manipulation) {
-    let width = game.textures.get(sprite).width;
-    let height = game.textures.get(sprite).width;
-    if (manipulation) {
+    const texture = game.textures.get(sprite);
+    let width = texture?.source?.[0]?.width;
+    let height = texture?.source?.[0]?.height;
+    if (!width || !height || manipulation) {
       const testSprite = game.physics.add.sprite(0, 0, sprite);
       testSprite['visible'] = false;
-      manipulation(testSprite);
+      if (manipulation && typeof manipulation == 'function') {
+        manipulation(testSprite);
+      }
       width = testSprite.width;
       height = testSprite.height;
       testSprite['destroy']();

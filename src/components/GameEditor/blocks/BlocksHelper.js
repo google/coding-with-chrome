@@ -36,22 +36,21 @@ export class BlocksHelper {
   static phaserImage(name) {
     let foundName = false;
     const imageList = [];
-    const variables = Blockly.getMainWorkspace().getBlocksByType(
+    const imageBlocks = Blockly.getMainWorkspace().getBlocksByType(
       'phaser_load_image',
       true
     );
-    for (const variable of variables) {
+    for (const imageBlock of imageBlocks) {
       if (
-        variable &&
-        !variable['disabled'] &&
-        variable['childBlocks_'][0] !== undefined
+        imageBlock &&
+        !imageBlock['disabled'] &&
+        imageBlock['childBlocks_'][0] !== undefined
       ) {
-        const imageName =
-          variable['inputList'][0]['fieldRow'][2]['value_'] || 'unknown';
-        const childInputList = variable['childBlocks_'][0]['inputList'];
+        const imageName = imageBlock.getFieldValue('name') || 'unknown';
         const imageSrc =
-          childInputList[0]['fieldRow'][0]['value_'] ||
-          childInputList[1]['fieldRow'][0]['value_'];
+          imageBlock.getChildren()?.[0]?.getFieldValue('urlData') ||
+          imageBlock.getChildren()?.[1]?.getFieldValue('id') ||
+          imageBlock.getChildren()?.[1]?.getFieldValue('url');
         const imageEntry = [
           imageSrc ? { src: imageSrc, width: 50, height: 50 } : imageName,
           imageName,
@@ -75,17 +74,24 @@ export class BlocksHelper {
 
   /**
    * @param {BlockSvg} blockSvg
+   * @param {String} blockType
+   * @param {String} defaultName
+   * @param {String} defaultValue
    * @return {!Array}
    */
-  static phaserVariable(blockSvg) {
+  static phaserVariable(
+    blockSvg,
+    blockType = 'phaser_variable_set',
+    defaultName = 'found_no_variable',
+    defaultValue = 'default'
+  ) {
     const variableMap = new Map();
     const mainWorkspace = Blockly.getMainWorkspace();
     // Get all variables from the workspace.
-    const variables = mainWorkspace.getBlocksByType('phaser_variable_set');
-    for (const variable of variables) {
-      if (variable && !variable['disabled']) {
-        const variableName =
-          variable['inputList'][0]['fieldRow'][0]['value_'] || '';
+    const variableBlocks = mainWorkspace.getBlocksByType(blockType);
+    for (const variableBlock of variableBlocks) {
+      if (variableBlock && !variableBlock['disabled']) {
+        const variableName = variableBlock.getFieldValue('VAR') || '';
         if (variableName) {
           variableMap.set(variableName, variableName);
         }
@@ -94,14 +100,13 @@ export class BlocksHelper {
 
     // Get all variables from the current flyout.
     if (blockSvg?.isInFlyout) {
-      const flyoutVariables = mainWorkspace
+      const flyoutVariableBlocks = mainWorkspace
         .getFlyout()
         .getWorkspace()
-        .getBlocksByType('phaser_variable_set');
-      for (const flyoutVariable of flyoutVariables) {
-        if (flyoutVariable && !flyoutVariable['disabled']) {
-          const variableName =
-            flyoutVariable['inputList'][0]['fieldRow'][0]['value_'] || '';
+        .getBlocksByType(blockType);
+      for (const flyoutVariableBlock of flyoutVariableBlocks) {
+        if (flyoutVariableBlock && !flyoutVariableBlock['disabled']) {
+          const variableName = flyoutVariableBlock.getFieldValue('VAR') || '';
           if (variableName) {
             variableMap.set(variableName, variableName);
           }
@@ -129,9 +134,9 @@ export class BlocksHelper {
       }
     }
 
-    // Add default variable if no variable is available.
+    // Add default variable name and value, if no variable is available.
     if (variableMap.size === 0) {
-      variableMap.set('found_no_variable', 'none');
+      variableMap.set(defaultName, defaultValue);
     }
 
     return [].concat([...variableMap.entries()]).sort();
