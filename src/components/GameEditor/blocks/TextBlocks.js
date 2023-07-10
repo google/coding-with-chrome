@@ -265,7 +265,9 @@ Blocks['phaser_dynamic_text_highscore_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator.forBlock['phaser_dynamic_text_highscore_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_dynamic_text_highscore_add'] = function (
+  block
+) {
   const text_color = block.getFieldValue('color');
   const text_font = block.getFieldValue('font');
   let text_size = block.getFieldValue('size');

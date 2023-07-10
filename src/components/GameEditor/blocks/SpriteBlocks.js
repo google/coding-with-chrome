@@ -182,7 +182,9 @@ Blocks['phaser_sprite_adjust_dimension'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator.forBlock['phaser_sprite_adjust_dimension'] = function (block) {
+javascriptGenerator.forBlock['phaser_sprite_adjust_dimension'] = function (
+  block
+) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
