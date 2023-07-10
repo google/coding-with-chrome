@@ -15,12 +15,41 @@
  */
 
 /**
- * @fileoverview Webpack dev config
+ * @fileoverview Code Editor Setting.
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import webpackConfig from './webpack.config.babel';
+import { Settings } from './Settings';
 
-const devConfig = webpackConfig('development');
+const PREFIX = 'codeEditor:';
 
-module.exports = devConfig;
+/**
+ * @class
+ */
+export class CodeEditorSettings {
+  /**
+   * @return {Promise}
+   */
+  static getShowZebraStripes() {
+    return Settings.DATABASE.get(PREFIX + 'showZebraStripes');
+  }
+
+  /**
+   * @return {boolean}
+   */
+  static getShowZebraStripesDefault() {
+    return true;
+  }
+
+  /**
+   * @param {boolean} showZebraStripes
+   * @return {Promise}
+   */
+  static setShowZebraStripes(
+    showZebraStripes = this.getShowZebraStripesDefault()
+  ) {
+    return Settings.DATABASE.put(PREFIX + 'showZebraStripes', showZebraStripes);
+  }
+}
+
+export default CodeEditorSettings;

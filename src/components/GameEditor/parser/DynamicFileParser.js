@@ -38,14 +38,13 @@ export class DynamicFileParser {
           block['childBlocks_'][0]['type'] == 'dynamic_audio_file'
         ) {
           // Read data from phaser load audio block.
-          const name =
-            block['inputList'][0]['fieldRow'][2]['value_'] || 'unknown';
+          const name = block.getField('name').getValue() || 'unknown';
 
           // Read data from dynamic audio file block.
-          const childBlock = block['childBlocks_'][0];
-          const filename = childBlock['inputList'][0]['fieldRow'][0]['value_'];
-          const url = childBlock['inputList'][0]['fieldRow'][1]['value_'];
-          const urlData = childBlock['inputList'][0]['fieldRow'][2]['value_'];
+          const childBlock = block.getChildren()[0];
+          const urlData = childBlock.getField('urlData').getValue();
+          const filename = childBlock.getField('filename').getValue();
+          const url = childBlock.getField('url').getValue();
           result.set(name, {
             name,
             filename,
@@ -73,15 +72,13 @@ export class DynamicFileParser {
           block['childBlocks_'][0]['type'] == 'dynamic_image_file'
         ) {
           // Read data from phaser load image block.
-          const name =
-            block['inputList'][0]['fieldRow'][2]['value_'] || 'unknown';
+          const name = block.getField('name').getValue() || 'unknown';
 
           // Read data from dynamic image file block.
-          const childBlock = block['childBlocks_'][0];
-          const urlData = childBlock['inputList'][0]['fieldRow'][0]['value_'];
-          const filename = childBlock['inputList'][1]['fieldRow'][0]['value_'];
-          const url = childBlock['inputList'][1]['fieldRow'][1]['value_'];
-
+          const childBlock = block.getChildren()[0];
+          const urlData = childBlock.getField('urlData').getValue();
+          const filename = childBlock.getField('filename').getValue();
+          const url = childBlock.getField('url').getValue();
           result.set(name, {
             name,
             filename,

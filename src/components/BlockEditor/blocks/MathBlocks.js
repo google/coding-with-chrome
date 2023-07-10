@@ -40,7 +40,7 @@ Blocks['math_input_angle'] = {
  * @param {Blockly.Block} block
  * @return {string[]}
  */
-javascriptGenerator['math_input_angle'] = function (block) {
+javascriptGenerator.forBlock['math_input_angle'] = function (block) {
   const value_angle = block.getFieldValue('angle');
   const code = value_angle || 0;
   return [code, javascriptGenerator.ORDER_NONE];

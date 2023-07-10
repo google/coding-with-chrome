@@ -69,3 +69,11 @@ To start the app, run the following command:
 ```bash
 npm run start
 ```
+
+### Start the actual app (developer mode)
+
+To start the app, run the following command:
+
+```bash
+npm run start:dev
+```

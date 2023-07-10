@@ -95,8 +95,13 @@ export class PreviewService {
         })
       );
     } else if (event.request.method === 'GET') {
-      // Hardcoded test response.
-      if (event.request.url.endsWith(APP_BASE_PATH + 'preview/test123')) {
+      // Status URLs for easier testing.
+      if (event.request.url.endsWith(APP_BASE_PATH + 'healthz')) {
+        event.respondWith(new Response('OK'));
+        return;
+      } else if (
+        event.request.url.endsWith(APP_BASE_PATH + 'preview/test123')
+      ) {
         event.respondWith(new Response('Hello World! ' + this.counter++));
         return;
       }
@@ -124,6 +129,26 @@ export class PreviewService {
       content,
       'text/html; charset=utf-8'
     );
+  }
+
+  /**
+   * @param {String} path
+   * @param {String} filename
+   * @param {String} dataURL
+   * @return {Promise}
+   * @static
+   */
+  static async addAssetFile(path, filename, dataURL) {
+    try {
+      const assetsType = dataURL.split(':')[1].split(';')[0];
+      fetch(dataURL)
+        .then((response) => response.blob())
+        .then((blob) => {
+          PreviewService.saveFile(path + '/' + filename, blob, assetsType);
+        });
+    } catch (error) {
+      console.error('Could not add asset: ', error);
+    }
   }
 
   /**

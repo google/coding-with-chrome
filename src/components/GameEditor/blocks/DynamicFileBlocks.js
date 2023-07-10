@@ -19,23 +19,49 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import Blockly, { Blocks } from 'blockly';
+import Blockly, { Blocks, Events } from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
+import { Base64 } from '../../../utils/file/Base64';
 
 /**
  * Dynamic image block for user-selected images.
  */
 Blocks['dynamic_image_file'] = {
+  /**
+   * @param {!AbstractEvent} event
+   */
+  onchange: function (event) {
+    // Block is deleted or is in a flyout.
+    if (
+      !this.workspace ||
+      this.workspace.isFlyout ||
+      event.type != Events.BLOCK_CREATE ||
+      event.ids.indexOf(this.id) == -1
+    ) {
+      return;
+    }
+
+    // Generate ID from base64 data, if not set.
+    const blockId = this.getField('id').getValue();
+    const urlData = this.getField('urlData').getValue();
+    if (!blockId && urlData) {
+      Base64.generateIdFromBase64(urlData).then((id) => {
+        this.getField('id').setValue(id);
+      });
+    }
+  },
   init: function () {
     this.appendDummyInput().appendField(
       new Blockly.FieldImage('', 50, 50, ''),
       'urlData'
     );
     this.appendDummyInput()
+      .appendField(new Blockly.FieldTextInput(''), 'id')
       .appendField(new Blockly.FieldTextInput(''), 'filename')
       .appendField(new Blockly.FieldTextInput(''), 'url')
       .setVisible(false);
     this.getField('urlData').EDITABLE = true;
+    this.getField('id').SERIALIZABLE = true;
     this.getField('url').SERIALIZABLE = true;
     this.getField('urlData').SERIALIZABLE = true;
     this.getField('filename').SERIALIZABLE = true;
@@ -51,9 +77,12 @@ Blocks['dynamic_image_file'] = {
  * @param {Blockly.Block} block
  * @return {any[]}
  */
-javascriptGenerator['dynamic_image_file'] = function (block) {
+javascriptGenerator.forBlock['dynamic_image_file'] = function (block) {
   return [
-    block.getFieldValue('urlData') || block.getFieldValue('url'),
+    block.getFieldValue('id') ||
+      block.getFieldValue('urlData') ||
+      block.getFieldValue('url') ||
+      '',
     javascriptGenerator.ORDER_NONE,
   ];
 };
@@ -62,13 +91,41 @@ javascriptGenerator['dynamic_image_file'] = function (block) {
  * Dynamic audio block for user-selected audios.
  */
 Blocks['dynamic_audio_file'] = {
+  /**
+   * @param {!AbstractEvent} event
+   */
+  onchange: function (event) {
+    // Block is deleted or is in a flyout.
+    if (
+      !this.workspace ||
+      this.workspace.isFlyout ||
+      event.type != Events.BLOCK_CREATE ||
+      event.ids.indexOf(this.id) == -1
+    ) {
+      return;
+    }
+
+    // Generate ID from base64 data, if not set.
+    const blockId = this.getField('id').getValue();
+    const urlData = this.getField('urlData').getValue();
+    if (!blockId && urlData) {
+      Base64.generateIdFromBase64(urlData).then((id) => {
+        this.getField('id').setValue(id);
+      });
+    }
+  },
   init: function () {
+    this.appendDummyInput().appendField(
+      new Blockly.FieldTextInput(''),
+      'urlData'
+    );
     this.appendDummyInput()
+      .appendField(new Blockly.FieldTextInput(''), 'id')
       .appendField(new Blockly.FieldTextInput(''), 'filename')
       .appendField(new Blockly.FieldTextInput(''), 'url')
-      .appendField(new Blockly.FieldTextInput(''), 'urlData')
       .setVisible(false);
     this.getField('urlData').EDITABLE = true;
+    this.getField('id').SERIALIZABLE = true;
     this.getField('url').SERIALIZABLE = true;
     this.getField('urlData').SERIALIZABLE = true;
     this.getField('filename').SERIALIZABLE = true;
@@ -84,9 +141,12 @@ Blocks['dynamic_audio_file'] = {
  * @param {Blockly.Block} block
  * @return {any[]}
  */
-javascriptGenerator['dynamic_audio_file'] = function (block) {
+javascriptGenerator.forBlock['dynamic_audio_file'] = function (block) {
   return [
-    block.getFieldValue('urlData') || block.getFieldValue('url') || '',
+    block.getFieldValue('id') ||
+      block.getFieldValue('urlData') ||
+      block.getFieldValue('url') ||
+      '',
     javascriptGenerator.ORDER_NONE,
   ];
 };

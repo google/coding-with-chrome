@@ -46,4 +46,102 @@ export class BlocksBuilder {
       );
     });
   }
+
+  /**
+   * @param {BlocklyWorkSpace} workspace
+   * @param {string} name
+   * @param {string} filename
+   * @param {string} urlData
+   * @param {string} assetId
+   */
+  static addDynamicImageFileToWorkspace(
+    workspace,
+    name,
+    filename,
+    urlData,
+    assetId = ''
+  ) {
+    if (!workspace) {
+      console.warn('Unable to load workspace for image block', name);
+      return;
+    }
+
+    // Adding image block to workspace.
+    const phaserLoadImageBlock = workspace.newBlock('phaser_load_image');
+    phaserLoadImageBlock.getField('name').setValue(name);
+    phaserLoadImageBlock.initSvg();
+    phaserLoadImageBlock.render();
+
+    // Adding dynamic image file.
+    const dynamicImageFile = workspace.newBlock('dynamic_image_file');
+    dynamicImageFile.getField('urlData').setValue(urlData);
+    dynamicImageFile.getField('filename').setValue(filename);
+    dynamicImageFile.getField('url').setValue(assetId);
+    dynamicImageFile.initSvg();
+    dynamicImageFile.render();
+
+    // Connecting both blocks.
+    phaserLoadImageBlock
+      .getInput('image')
+      .connection.connect(dynamicImageFile.outputConnection);
+
+    // Connection to workspace blocks.
+    const phaserPreloadBlock = workspace.getBlocksByType('phaser_preload')
+      ? workspace.getBlocksByType('phaser_preload')[0]
+      : false;
+    if (phaserPreloadBlock) {
+      phaserPreloadBlock
+        .getInput('CODE')
+        .connection.connect(phaserLoadImageBlock.previousConnection);
+    }
+  }
+
+  /**
+   * @param {BlocklyWorkSpace} workspace
+   * @param {string} name
+   * @param {string} filename
+   * @param {string} urlData
+   * @param {string} assetId
+   */
+  static addDynamicAudioFileToWorkspace(
+    workspace,
+    name,
+    filename,
+    urlData,
+    assetId = ''
+  ) {
+    if (!workspace) {
+      console.warn('Unable to load workspace for audio block', name);
+      return;
+    }
+
+    // Adding audio block to workspace.
+    const phaserLoadAudioBlock = workspace.newBlock('phaser_load_audio');
+    phaserLoadAudioBlock.getField('name').setValue(name);
+    phaserLoadAudioBlock.initSvg();
+    phaserLoadAudioBlock.render();
+
+    // Adding dynamic audio file.
+    const dynamicAudioFile = workspace.newBlock('dynamic_audio_file');
+    dynamicAudioFile.getField('urlData').setValue(urlData);
+    dynamicAudioFile.getField('filename').setValue(filename);
+    dynamicAudioFile.getField('url').setValue(assetId);
+    dynamicAudioFile.initSvg();
+    dynamicAudioFile.render();
+
+    // Connecting both blocks.
+    phaserLoadAudioBlock
+      .getInput('audio')
+      .connection.connect(dynamicAudioFile.outputConnection);
+
+    // Connection to workspace blocks.
+    const phaserPreloadBlock = workspace.getBlocksByType('phaser_preload')
+      ? workspace.getBlocksByType('phaser_preload')[0]
+      : false;
+    if (phaserPreloadBlock) {
+      phaserPreloadBlock
+        .getInput('CODE')
+        .connection.connect(phaserLoadAudioBlock.previousConnection);
+    }
+  }
 }

@@ -15,12 +15,39 @@
  */
 
 /**
- * @fileoverview Webpack dev config
+ * @fileoverview Block Editor Setting.
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import webpackConfig from './webpack.config.babel';
+import { Settings } from './Settings';
 
-const devConfig = webpackConfig('development');
+const PREFIX = 'gameEditor:';
 
-module.exports = devConfig;
+/**
+ * @class
+ */
+export class GameEditorSettings {
+  /**
+   * @return {Promise}
+   */
+  static getAutoRefresh() {
+    return Settings.DATABASE.get(PREFIX + 'autoRefresh');
+  }
+
+  /**
+   * @return {number}
+   */
+  static getAutoRefreshDefault() {
+    return 2000;
+  }
+
+  /**
+   * @param {string} autoRefresh
+   * @return {Promise}
+   */
+  static setAutoRefresh(autoRefresh) {
+    return Settings.DATABASE.put(PREFIX + 'autoRefresh', autoRefresh);
+  }
+}
+
+export default GameEditorSettings;

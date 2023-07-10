@@ -57,11 +57,10 @@ class PhaserExtras {
    * @param {Function=} manipulation
    */
   static addGroupSprite(game, x, y, sprite_name, group, manipulation) {
-    const sprite = game.add.sprite(x, y, sprite_name);
+    const sprite = game.physics.add.sprite(x, y, sprite_name);
     if (group) {
       group.add(sprite);
     }
-    game.physics.arcade.enable(sprite);
     sprite['checkWorldBounds'] = true;
     sprite['outOfBoundsKill'] = true;
     sprite['z'] = 100;
@@ -96,7 +95,10 @@ class PhaserExtras {
     manipulation
   ) {
     const spriteSize = PhaserExtras.getSpriteSize(game, sprite, manipulation);
-    const spriteSpace = game.rnd.integerInRange(0, num_blocks - space - 1);
+    const spriteSpace = Phaser.Math.RND.integerInRange(
+      0,
+      num_blocks - space - 1
+    );
     for (let i = 0; i < num_blocks; i++) {
       if (i < spriteSpace || i >= spriteSpace + space) {
         let groupSprite = sprite;
@@ -141,7 +143,7 @@ class PhaserExtras {
     manipulation
   ) {
     const spriteSize = PhaserExtras.getSpriteSize(game, sprite, manipulation);
-    const numBlocks = game.rnd.integerInRange(0, num_blocks);
+    const numBlocks = Phaser.Math.RND.integerInRange(0, num_blocks);
     if (direction === 'top') {
       y = y - spriteSize.height;
     }
@@ -191,15 +193,17 @@ class PhaserExtras {
   ) {
     let index = 0;
     const spriteSize = PhaserExtras.getSpriteSize(game, sprite, manipulation);
+    const spriteWidthFactor = spriteSize.width + padding;
+    const spriteHeightFactor = spriteSize.height + padding;
     for (let row = 0; row <= 7; row++) {
       for (let column = 0; column <= 7; column++) {
         if (data[index++]) {
-          const block_x = column * (spriteSize.width + padding) + x;
-          const block_y = row * (spriteSize.height + padding) + y;
+          const blockX = column * spriteWidthFactor + x;
+          const blockY = row * spriteHeightFactor + y;
           PhaserExtras.addGroupSprite(
             game,
-            block_x,
-            block_y,
+            blockX,
+            blockY,
             sprite,
             group,
             manipulation
@@ -217,13 +221,15 @@ class PhaserExtras {
    * @return {Object}
    */
   static getSpriteSize(game, sprite, manipulation) {
-    let width = game.cache.getImage(sprite).width;
-    let height = game.cache.getImage(sprite).width;
-    if (manipulation) {
-      const testSprite = game.add.sprite(0, 0, sprite);
-      game.physics.arcade.enable(testSprite);
+    const texture = game.textures.get(sprite);
+    let width = texture?.source?.[0]?.width;
+    let height = texture?.source?.[0]?.height;
+    if (!width || !height || manipulation) {
+      const testSprite = game.physics.add.sprite(0, 0, sprite);
       testSprite['visible'] = false;
-      manipulation(testSprite);
+      if (manipulation && typeof manipulation == 'function') {
+        manipulation(testSprite);
+      }
       width = testSprite.width;
       height = testSprite.height;
       testSprite['destroy']();
@@ -240,6 +246,10 @@ class PhaserExtras {
    * @return {string}
    */
   static takeScreenshot(game) {
+    if (!game || !game.canvas) {
+      console.warn('Unable to take screenshot for ', game, '!');
+      return;
+    }
     const aspectRatio = 270 / 152;
     let width = game.canvas.width;
     let height = game.canvas.height;

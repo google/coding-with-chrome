@@ -48,6 +48,7 @@ export class Assets extends React.PureComponent {
     super(props);
     this.state = {
       isDraggingOver: false,
+      isProcessing: false,
     };
   }
 
@@ -58,6 +59,91 @@ export class Assets extends React.PureComponent {
     i18next.on('languageChanged', () => {
       this.forceUpdate();
     });
+  }
+
+  /**
+   * @param {HTMLImageElement} image
+   * @return {Promise<String>}
+   */
+  convertImageToWebP(image) {
+    return new Promise((resolve) => {
+      const canvas = document.createElement('canvas');
+      canvas.width = image.width;
+      canvas.height = image.height;
+      const context = canvas.getContext('2d');
+      context.drawImage(image, 0, 0, image.width, image.height);
+      resolve(canvas.toDataURL('image/webp', 1));
+    });
+  }
+
+  /**
+   * @param {File} file
+   */
+  readFile(file) {
+    if (
+      !file ||
+      !this.props.onDropFile ||
+      typeof this.props.onDropFile != 'function'
+    ) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const base64Encoding = event.target.result;
+
+      // Optimize Images except webp und svg.
+      if (
+        file.type.startsWith('image/') &&
+        file.type != 'image/webp' &&
+        file.type != 'image/gif' &&
+        file.type != 'image/svg+xml' &&
+        file.type != 'image/svg'
+      ) {
+        const image = new Image();
+        image.src = base64Encoding;
+        image.onload = () => {
+          this.convertImageToWebP(image).then((webPBase64Encoding) => {
+            if (webPBase64Encoding.length < base64Encoding.length) {
+              console.log(
+                'Return optimized file as webp',
+                file.type,
+                file.name,
+                'with size',
+                webPBase64Encoding.length,
+                'instead of',
+                base64Encoding.length,
+                'bytes and compression rate of',
+                Math.round(
+                  100 -
+                    (webPBase64Encoding.length / base64Encoding.length) * 100
+                ),
+                '%'
+              );
+              this.props.onDropFile(file, webPBase64Encoding);
+            } else {
+              console.log('Return file as is', file.type, file.name);
+              this.props.onDropFile(file, base64Encoding);
+            }
+            setTimeout(() => {
+              this.setState({
+                isProcessing: false,
+              });
+            }, 500);
+          });
+        };
+        return;
+      }
+
+      // Return file as data url without optimization.
+      console.log('Return file as data url', file.type, file.name);
+      this.props.onDropFile(file, base64Encoding);
+      setTimeout(() => {
+        this.setState({
+          isProcessing: false,
+        });
+      }, 500);
+    };
+    reader.readAsDataURL(file);
   }
 
   /**
@@ -85,6 +171,9 @@ export class Assets extends React.PureComponent {
    */
   handleDragOver(event) {
     event.preventDefault();
+    this.setState({
+      isDraggingOver: true,
+    });
   }
 
   /**
@@ -94,22 +183,13 @@ export class Assets extends React.PureComponent {
     event.preventDefault();
     this.setState({
       isDraggingOver: false,
+      isProcessing: true,
     });
     const files = event.dataTransfer.files;
     if (files.length === 0) {
       return;
     }
-    const file = files[0];
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      if (
-        this.props.onDropFile &&
-        typeof this.props.onDropFile === 'function'
-      ) {
-        this.props.onDropFile(file, event.target.result);
-      }
-    };
-    reader.readAsDataURL(file);
+    this.readFile(files[0]);
   }
 
   /**
@@ -124,22 +204,13 @@ export class Assets extends React.PureComponent {
       if (files.length === 0) {
         return;
       }
-      const file = files[0];
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        if (
-          this.props.onDropFile &&
-          typeof this.props.onDropFile === 'function'
-        ) {
-          this.props.onDropFile(file, event.target.result);
-        }
-      };
-      reader.readAsDataURL(file);
+      this.setState({
+        isDraggingOver: false,
+        isProcessing: true,
+      });
+      this.readFile(files[0]);
     };
     fileInput.click();
-    this.setState({
-      isDraggingOver: false,
-    });
   }
 
   /**
@@ -176,15 +247,21 @@ export class Assets extends React.PureComponent {
                 <Box>
                   <PermMediaIcon sx={{ fontSize: 48 }} />
                 </Box>
-                <Button
-                  variant="contained"
-                  onClick={this.handleUploadFile.bind(this)}
-                >
-                  <UploadFileIcon
-                    sx={{ paddingRight: '5px', verticalAlign: 'middle' }}
-                  />
-                  {i18next.t('ASSETS_UPLOAD_FILE')}
-                </Button>
+                <Box sx={{ minHeight: '36px' }}>
+                  {this.state.isProcessing ? (
+                    <Box>{i18next.t('ASSETS_PROCESSING')}</Box>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      onClick={this.handleUploadFile.bind(this)}
+                    >
+                      <UploadFileIcon
+                        sx={{ paddingRight: '5px', verticalAlign: 'middle' }}
+                      />
+                      {i18next.t('ASSETS_UPLOAD_FILE')}
+                    </Button>
+                  )}
+                </Box>
                 <Box>
                   <FileUploadIcon
                     sx={{ paddingRight: '5px', verticalAlign: 'middle' }}

@@ -22,10 +22,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import Blockly from 'blockly';
 
-import { APP_BASE_PATH } from '../../../constants/index.js';
-
-import PhaserMin from '../../../../third_party/phaser-ce/build/phaser.min.js';
-import PhaserExtras from '../../../frameworks/phaser/phaser_extras.min.js';
+import { APP_BASE_PATH, PREVIEW_BASE_PATH } from '../../../constants/index.js';
 
 /**
  * @class
@@ -47,7 +44,7 @@ export class PhaserTemplate {
     })()}
     ${(() => {
       return project
-        ? `<base href="${APP_BASE_PATH}preview/${project.id}/" />`
+        ? `<base href="${PREVIEW_BASE_PATH}preview/${project.id}/" />`
         : '';
     })()}
     <style>
@@ -55,20 +52,9 @@ export class PhaserTemplate {
       html, body { width: 100%; height: 100%; overflow: hidden; }
       canvas { display: block; }
     </style>
-    ${(() => {
-      if (PhaserExtras) {
-        return `<script>${PhaserExtras}</script>`;
-      } else {
-        return `<script src="${APP_BASE_PATH}framework/phaser_extras.js"></script>`;
-      }
-    })()}
-    ${(() => {
-      if (PhaserMin) {
-        return `<script>${PhaserMin}</script>`;
-      } else {
-        return `<script src="${APP_BASE_PATH}framework/phaser-ce.min.js"></script>`;
-      }
-    })()}
+    ${`<script src="${APP_BASE_PATH}framework/phaser_helper.min.js"></script>`}
+    ${`<script src="${APP_BASE_PATH}framework/phaser_extras.min.js"></script>`}
+    ${`<script src="${APP_BASE_PATH}framework/phaser.min.js"></script>`}
   </head>
   <body>
     <script>

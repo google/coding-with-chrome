@@ -58,9 +58,9 @@ module.exports = (mode = 'development') => ({
   },
   entry: {
     app: ['./src/components/App/index.js', './assets/css/app.css'],
-    serviceWorker: ['./src/service-worker/service-worker.js'],
     cacheServiceWorker: ['./src/service-worker/cache-service-worker.js'],
     previewServiceWorker: ['./src/service-worker/preview-service-worker.js'],
+    serviceWorker: ['./src/service-worker/service-worker.js'],
   },
   output: {
     publicPath: mode == 'deploy' ? '/coding-with-chrome/' : '/',
@@ -235,16 +235,16 @@ module.exports = (mode = 'development') => ({
           to: './manifest.json',
         },
         {
-          from: './third_party/phaser-ce/build/phaser.min.js',
-          to: './framework/phaser-ce.min.js',
-        },
-        {
-          from: './third_party/phaser/dist/phaser.min.js',
+          from: './node_modules/phaser/dist/phaser.min.js',
           to: './framework/phaser.min.js',
         },
         {
-          from: './src/frameworks/phaser/phaser_extras.js',
-          to: './framework/phaser_extras.js',
+          from: './src/frameworks/phaser/phaser_extras.min.js',
+          to: './framework/phaser_extras.min.js',
+        },
+        {
+          from: './src/frameworks/phaser/phaser_helper.min.js',
+          to: './framework/phaser_helper.min.js',
         },
       ],
     }),

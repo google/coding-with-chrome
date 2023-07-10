@@ -40,6 +40,10 @@ export class Preview extends React.PureComponent {
    */
   constructor(props) {
     super(props);
+    this.timer = {
+      handleResize: null,
+      handleReload: null,
+    };
     this.state = {
       base: props.base || '/preview/',
       hideContent: false,
@@ -61,7 +65,13 @@ export class Preview extends React.PureComponent {
    * Resize editor content to parent container.
    */
   resize() {
-    this.reload();
+    if (this.timer.handleResize) {
+      window.clearTimeout(this.timer.handleResize);
+      delete this.timer.handleResize;
+    }
+    this.timer.handleResize = window.setTimeout(() => {
+      this.reload();
+    }, 100);
   }
 
   /**
@@ -164,15 +174,25 @@ export class Preview extends React.PureComponent {
   }
 
   /**
-   * Reloads the iframe content.
+   * Reloads the iframe content with a debounce of 100ms.
    */
   reload() {
-    if (!this.contentIframe || !this.contentIframe.current?.contentWindow) {
+    if (
+      !this.contentIframe ||
+      !this.contentIframe.current?.contentWindow ||
+      !this.state.location
+    ) {
       return;
     }
-    console.log('Reloading Iframe ...');
-    this.setState({ loaded: false, loading: true });
-    this.contentIframe.current.contentWindow.location.reload();
+    if (this.timer.handleReload) {
+      window.clearTimeout(this.timer.handleReload);
+      delete this.timer.handleReload;
+    }
+    this.timer.handleReload = window.setTimeout(() => {
+      console.log('Reloading Iframe ...');
+      this.setState({ loaded: false, loading: true });
+      this.contentIframe.current.contentWindow.location.reload();
+    }, 100);
   }
 
   /**
@@ -225,6 +245,7 @@ export class Preview extends React.PureComponent {
                   zIndex: (theme) => theme.zIndex.drawer + 1,
                 }}
                 open={this.state.loading}
+                transitionDuration={0}
               >
                 <CircularProgress color="inherit" />
                 <span className={styles.contentLoadingScreenTitle}>
@@ -245,6 +266,7 @@ export class Preview extends React.PureComponent {
                   this.state.hideContent ||
                   (!this.state.location && !this.state.loading)
                 }
+                transitionDuration={0}
               >
                 <AspectRatioIcon />
                 <span className={styles.contentLoadingScreenTitle}>

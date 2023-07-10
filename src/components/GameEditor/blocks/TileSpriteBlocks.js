@@ -61,28 +61,26 @@ Blocks['phaser_tile_sprite_background'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_tile_sprite_background'] = function (block) {
-  const text_sprite = block.getFieldValue('sprite');
-  const value_x = javascriptGenerator.valueToCode(
+javascriptGenerator.forBlock['phaser_tile_sprite_background'] = function (
+  block
+) {
+  const scrollFactorX = javascriptGenerator.valueToCode(
     block,
     'x',
     javascriptGenerator.ORDER_ATOMIC
   );
-  const value_y = javascriptGenerator.valueToCode(
+  const scrollFactorY = javascriptGenerator.valueToCode(
     block,
     'y',
     javascriptGenerator.ORDER_ATOMIC
   );
-  return (
-    'game.add.tileSprite(0, 0, game.world.width, game.world.height,' +
-    "'" +
-    text_sprite +
-    "').autoScroll(" +
-    value_x +
-    ', ' +
-    value_y +
-    ');\n'
-  );
+  return `
+    this.background = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, "${block.getFieldValue(
+      'sprite'
+    )}")
+      .setOrigin(0)
+      .setScrollFactor(${scrollFactorX}, ${scrollFactorY});
+  `;
 };
 
 /**
@@ -120,41 +118,33 @@ Blocks['phaser_tile_sprite_floor_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_tile_sprite_floor_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_tile_sprite_floor_add'] = function (
+  block
+) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
     javascriptGenerator.ORDER_ATOMIC
   );
-  const text_sprite = block.getFieldValue('sprite');
-  const value_x = javascriptGenerator.valueToCode(
+  const scrollFactorX = javascriptGenerator.valueToCode(
     block,
     'x',
     javascriptGenerator.ORDER_ATOMIC
   );
-  const value_y = javascriptGenerator.valueToCode(
+  const scrollFactorY = javascriptGenerator.valueToCode(
     block,
     'y',
     javascriptGenerator.ORDER_ATOMIC
   );
-  return (
-    variable +
-    ' = game.add.tileSprite(0, (game.world.height - 50), ' +
-    "game.world.width, 50, '" +
-    text_sprite +
-    "');\n" +
-    variable +
-    '.autoScroll(' +
-    value_x +
-    ', ' +
-    value_y +
-    ');\n' +
-    'game.physics.arcade.enable(' +
-    variable +
-    ');\n' +
-    variable +
-    '.body.immovable = true;\n'
-  );
+  return `
+    ${variable} = this.add.tileSprite(0, (this.cameras.main.height - 50), this.cameras.main.width, 50, "${block.getFieldValue(
+    'sprite'
+  )}")
+      .setOrigin(0)
+      .setScrollFactor(${scrollFactorX}, ${scrollFactorY});
+    this.physics.add.existing(${variable}, false);
+    ${variable}.body.immovable = true;
+  `;
 };
 
 /**
@@ -192,41 +182,34 @@ Blocks['phaser_tile_sprite_ceiling_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_tile_sprite_ceiling_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_tile_sprite_ceiling_add'] = function (
+  block
+) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
     javascriptGenerator.ORDER_ATOMIC
   );
-  const text_sprite = block.getFieldValue('sprite');
-  const value_x = javascriptGenerator.valueToCode(
+  const scrollFactorX = javascriptGenerator.valueToCode(
     block,
     'x',
     javascriptGenerator.ORDER_ATOMIC
   );
-  const value_y = javascriptGenerator.valueToCode(
+  const scrollFactorY = javascriptGenerator.valueToCode(
     block,
     'y',
     javascriptGenerator.ORDER_ATOMIC
   );
-  return (
-    variable +
-    ' = game.add.tileSprite(0, 0, ' +
-    "game.world.width, 50, '" +
-    text_sprite +
-    "');\n" +
-    variable +
-    '.autoScroll(' +
-    value_x +
-    ', ' +
-    value_y +
-    ');\n' +
-    'game.physics.arcade.enable(' +
-    variable +
-    ');\n' +
-    variable +
-    '.body.immovable = true;\n'
-  );
+
+  return `
+    ${variable} = this.add.tileSprite(0, 0, this.cameras.main.width, 50, "${block.getFieldValue(
+    'sprite'
+  )}")
+      .setOrigin(0)
+      .setScrollFactor(${scrollFactorX}, ${scrollFactorY});
+    this.physics.add.existing(${variable}, false);
+    ${variable}.body.immovable = true;
+  `;
 };
 
 /**
@@ -273,7 +256,7 @@ Blocks['phaser_tile_sprite_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_tile_sprite_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_tile_sprite_add'] = function (block) {
   const number_width = block.getFieldValue('width');
   const number_height = block.getFieldValue('height');
   const text_sprite = block.getFieldValue('sprite');
@@ -296,7 +279,7 @@ javascriptGenerator['phaser_tile_sprite_add'] = function (block) {
     ) || 0;
   return (
     variable +
-    ' = game.add.tileSprite(' +
+    ' = this.add.tileSprite(' +
     value_x +
     ', ' +
     value_y +
@@ -353,7 +336,7 @@ Blocks['phaser_tile_sprite_adjust'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_tile_sprite_adjust'] = function (block) {
+javascriptGenerator.forBlock['phaser_tile_sprite_adjust'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -419,7 +402,7 @@ Blocks['phaser_tile_sprite_crop'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_tile_sprite_crop'] = function (block) {
+javascriptGenerator.forBlock['phaser_tile_sprite_crop'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -475,7 +458,7 @@ Blocks['phaser_tile_sprite_destroy'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_tile_sprite_destroy'] = function (block) {
+javascriptGenerator.forBlock['phaser_tile_sprite_destroy'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -510,7 +493,9 @@ Blocks['phaser_tile_sprite_autoScroll'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_tile_sprite_autoScroll'] = function (block) {
+javascriptGenerator.forBlock['phaser_tile_sprite_autoScroll'] = function (
+  block
+) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -553,7 +538,9 @@ Blocks['phaser_tile_sprite_immovable'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_tile_sprite_immovable'] = function (block) {
+javascriptGenerator.forBlock['phaser_tile_sprite_immovable'] = function (
+  block
+) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',

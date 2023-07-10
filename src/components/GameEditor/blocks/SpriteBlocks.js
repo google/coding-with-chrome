@@ -62,7 +62,7 @@ Blocks['phaser_sprite_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_sprite_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_sprite_add'] = function (block) {
   const text_sprite = block.getFieldValue('sprite');
   const variable = javascriptGenerator.valueToCode(
     block,
@@ -81,16 +81,7 @@ javascriptGenerator['phaser_sprite_add'] = function (block) {
       'y',
       javascriptGenerator.ORDER_ATOMIC
     ) || 0;
-  return (
-    variable +
-    ' = game.add.sprite(' +
-    value_x +
-    ', ' +
-    value_y +
-    ", '" +
-    text_sprite +
-    "');\n"
-  );
+  return `${variable} = this.add.sprite(${value_x}, ${value_y}, '${text_sprite}');`;
 };
 
 /**
@@ -137,7 +128,7 @@ Blocks['phaser_sprite_adjust'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_sprite_adjust'] = function (block) {
+javascriptGenerator.forBlock['phaser_sprite_adjust'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -151,7 +142,9 @@ javascriptGenerator['phaser_sprite_adjust'] = function (block) {
   );
   switch (dropdown_property) {
     case 'anchor.set':
-      return variable + '.' + dropdown_property + '(' + value_value + ');\n';
+      return (
+        variable + '.setOrigin(' + value_value + ', ' + value_value + ');\n'
+      );
     case 'moveUp':
       return variable + '.y -= ' + value_value + ';\n';
     case 'moveDown':
@@ -189,7 +182,9 @@ Blocks['phaser_sprite_adjust_dimension'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_sprite_adjust_dimension'] = function (block) {
+javascriptGenerator.forBlock['phaser_sprite_adjust_dimension'] = function (
+  block
+) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -207,16 +202,10 @@ javascriptGenerator['phaser_sprite_adjust_dimension'] = function (block) {
       'height',
       javascriptGenerator.ORDER_ATOMIC
     ) || 50;
-  return (
-    variable +
-    '.width = ' +
-    value_width +
-    ';\n' +
-    variable +
-    '.height = ' +
-    value_height +
-    ';\n'
-  );
+  return `
+    ${variable}.displayWidth = ${value_width};
+    ${variable}.displayHeight = ${value_height};
+  `;
 };
 
 /**
@@ -247,7 +236,7 @@ Blocks['phaser_sprite_get'] = {
  * @param {Blockly.Block} block
  * @return {any[]}
  */
-javascriptGenerator['phaser_sprite_get'] = function (block) {
+javascriptGenerator.forBlock['phaser_sprite_get'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -281,7 +270,7 @@ Blocks['phaser_sprite_destroy'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_sprite_destroy'] = function (block) {
+javascriptGenerator.forBlock['phaser_sprite_destroy'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -314,7 +303,7 @@ Blocks['phaser_sprite_immovable'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_sprite_immovable'] = function (block) {
+javascriptGenerator.forBlock['phaser_sprite_immovable'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',

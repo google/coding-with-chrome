@@ -15,12 +15,39 @@
  */
 
 /**
- * @fileoverview Webpack dev config
+ * @fileoverview Block Editor Setting.
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import webpackConfig from './webpack.config.babel';
+import { Settings } from './Settings';
 
-const devConfig = webpackConfig('development');
+const PREFIX = 'blockEditor:';
 
-module.exports = devConfig;
+/**
+ * @class
+ */
+export class BlockEditorSettings {
+  /**
+   * @return {Promise}
+   */
+  static getZoomMouseWheel() {
+    return Settings.DATABASE.get(PREFIX + 'zoomMouseWheel');
+  }
+
+  /**
+   * @return {number}
+   */
+  static getZoomMouseWheelDefault() {
+    return true;
+  }
+
+  /**
+   * @param {boolean} enable
+   * @return {Promise}
+   */
+  static setZoomMouseWheel(enable = this.getZoomMouseWheelDefault()) {
+    return Settings.DATABASE.put(PREFIX + 'zoomMouseWheel', enable);
+  }
+}
+
+export default BlockEditorSettings;

@@ -52,12 +52,16 @@ Blocks['phaser_update'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_update'] = function (block) {
+javascriptGenerator.forBlock['phaser_update'] = function (block) {
   const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
-  return (
-    'update: function(e) {\n  if (e) {\n' +
-    '    this.input_(e);\n  }\n' +
-    statements_code +
-    '},\n'
-  );
+  return `
+  update (time, delta) {
+    if (this.helper_) {
+      this.helper_.handleInput();
+    }
+    ${statements_code}
+    if (this.helper_) {
+      this.helper_.handleUpdate();
+    }
+  }`;
 };

@@ -53,9 +53,11 @@ Blocks['phaser_preload'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_preload'] = function (block) {
-  const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
-  return 'preload: function(e) {\n' + statements_code + '},\n';
+javascriptGenerator.forBlock['phaser_preload'] = function (block) {
+  return `
+  preload (event) {
+    ${javascriptGenerator.statementToCode(block, 'CODE')}
+  }`;
 };
 
 /**
@@ -85,14 +87,14 @@ Blocks['phaser_load_image'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_load_image'] = function (block) {
+javascriptGenerator.forBlock['phaser_load_image'] = function (block) {
   const text_name = block.getFieldValue('name');
   const value_image = javascriptGenerator.valueToCode(
     block,
     'image',
     javascriptGenerator.ORDER_NONE
   );
-  return "game.load.image('" + text_name + "', '" + value_image + "');\n";
+  return "this.load.image('" + text_name + "', '" + value_image + "');\n";
 };
 
 /**
@@ -122,10 +124,12 @@ Blocks['phaser_load_audio'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_load_audio'] = function (block) {
+javascriptGenerator.forBlock['phaser_load_audio'] = function (block) {
   const text_name = block.getFieldValue('name');
-  const value_audio = javascriptGenerator
-    .valueToCode(block, 'audio', javascriptGenerator.ORDER_NONE)
-    .replace('file:', 'url:/library/');
-  return "game.load.audio('" + text_name + "', '" + value_audio + "');\n";
+  const value_audio = javascriptGenerator.valueToCode(
+    block,
+    'audio',
+    javascriptGenerator.ORDER_NONE
+  );
+  return "this.load.audio('" + text_name + "', '" + value_audio + "');\n";
 };

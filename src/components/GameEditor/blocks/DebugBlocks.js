@@ -48,7 +48,7 @@ Blocks['phaser_debug_camera'] = {
  * Debug camera.
  * @return {string}
  */
-javascriptGenerator['phaser_debug_camera'] = function () {
+javascriptGenerator.forBlock['phaser_debug_camera'] = function () {
   return 'game.debug.cameraInfo(game.camera, 32, 32);\n';
 };
 
@@ -72,7 +72,7 @@ Blocks['phaser_debug_pointer'] = {
  * Debug pointer.
  * @return {string}
  */
-javascriptGenerator['phaser_debug_pointer'] = function () {
+javascriptGenerator.forBlock['phaser_debug_pointer'] = function () {
   return 'game.debug.pointer(game.input.activePointer);\n';
 };
 
@@ -97,7 +97,7 @@ Blocks['phaser_debug_sprite'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_debug_sprite'] = function (block) {
+javascriptGenerator.forBlock['phaser_debug_sprite'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',

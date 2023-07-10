@@ -53,10 +53,10 @@ import i18next from '../App/i18next';
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import { BlocklyWorkspace, WorkspaceSvg } from 'react-blockly';
-import FileFormat, { ContentType } from '../FileFormat/FileFormat';
 
 import { Toolbar, ToolbarIconButton } from '../Toolbar';
 import LanguageSetting from '../Settings/LanguageSetting';
+import SettingScreen from '../Settings/SettingScreen';
 
 const ConfirmDialog = lazy(() => import('../Dialogs/ConfirmDialog'));
 
@@ -79,6 +79,8 @@ export class CodeEditorToolbar extends React.PureComponent {
       showEditor: false,
       showNewFileDialog: false,
       snackbarSaved: false,
+      openSettings: false,
+      openLanguageSettings: false,
     };
   }
 
@@ -167,7 +169,7 @@ export class CodeEditorToolbar extends React.PureComponent {
    */
   handleImportFileContent(file, content = '') {
     if (file.name.endsWith('.cwc')) {
-      this.handleCodingWithChromeFileFormat(file, content);
+      console.error('.cwc files are no longer supported!');
     } else if (file.name.endsWith('.xml')) {
       this.handleBlocklyFileFormat(file, content);
     } else {
@@ -185,35 +187,6 @@ export class CodeEditorToolbar extends React.PureComponent {
 
     // Load XML content.
     this.props.blockEditor.loadWorkspace(content, new Map(), true);
-  }
-
-  /**
-   * @param {File} file
-   * @param {string|ArrayBuffer|null|undefined} content
-   */
-  handleCodingWithChromeFileFormat(file, content) {
-    console.log('Handle Coding with Chrome file ...', file.name, content);
-    const parsedFile = new FileFormat(content || '');
-    console.log('Parsed file', parsedFile);
-    const projectFiles = new Map();
-
-    // Handle additional files, if any.
-    if (parsedFile.hasFiles()) {
-      console.log('Handle additional files ...');
-      const files = parsedFile.getFiles();
-      files.forEach((file) => {
-        projectFiles.set(file.name, file.content);
-      });
-    }
-
-    // Load XML content.
-    if (parsedFile.hasContent(ContentType.BLOCKLY)) {
-      this.props.blockEditor.loadWorkspace(
-        parsedFile.getContent(ContentType.BLOCKLY),
-        projectFiles,
-        true
-      );
-    }
   }
 
   /**
@@ -430,8 +403,24 @@ export class CodeEditorToolbar extends React.PureComponent {
             sx={{ boxShadow: 3 }}
           >
             <BottomNavigationAction label="About" icon={<InfoIcon />} />
-            <BottomNavigationAction label="Settings" icon={<SettingsIcon />} />
-            <BottomNavigationAction label="Language" icon={<LanguageIcon />} />
+            <BottomNavigationAction
+              label="Settings"
+              icon={<SettingsIcon />}
+              onClick={() => {
+                this.setState({
+                  openSettings: true,
+                });
+              }}
+            />
+            <BottomNavigationAction
+              label="Language"
+              icon={<LanguageIcon />}
+              onClick={() => {
+                this.setState({
+                  openLanguageSettings: true,
+                });
+              }}
+            />
           </BottomNavigation>
         </Drawer>
         {this.state.showNewFileDialog && (
@@ -447,6 +436,24 @@ export class CodeEditorToolbar extends React.PureComponent {
             }}
           ></ConfirmDialog>
         )}
+        <SettingScreen
+          color="inherit"
+          open={this.state.openSettings}
+          onClose={() => {
+            this.setState({
+              openSettings: false,
+            });
+          }}
+        />
+        <LanguageSetting
+          color="inherit"
+          open={this.state.openLanguageSettings}
+          onClose={() => {
+            this.setState({
+              openLanguageSettings: false,
+            });
+          }}
+        />
       </React.StrictMode>
     );
   }
@@ -456,7 +463,7 @@ CodeEditorToolbar.propTypes = {
   /** @type {BlockEditor} */
   blockEditor: PropTypes.object,
 
-  /** @type {BlockEditor} */
+  /** @type {CodeEditor} */
   codeEditor: PropTypes.object,
 
   /** @type {boolean} */

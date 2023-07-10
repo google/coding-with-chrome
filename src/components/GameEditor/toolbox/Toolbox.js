@@ -186,6 +186,15 @@ export class Toolbox {
             },
             {
               kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_GROUP'),
+              colour: '260',
+              cssConfig: {
+                container: 'icon_group_work blocklyTreeChild',
+              },
+              contents: GroupToolbox.createBlocks,
+            },
+            {
+              kind: 'category',
               name: i18next.t('BLOCKS_PHASER_WORLD'),
               colour: '345',
               cssConfig: {

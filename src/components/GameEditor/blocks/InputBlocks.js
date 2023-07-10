@@ -53,9 +53,11 @@ Blocks['phaser_input'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_input'] = function (block) {
-  const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
-  return 'input_: function(e) {\n' + statements_code + '},\n';
+javascriptGenerator.forBlock['phaser_input'] = function (block) {
+  return `
+  input_ (event) {
+    ${javascriptGenerator.statementToCode(block, 'CODE')}
+  }`;
 };
 
 /**
@@ -79,7 +81,7 @@ Blocks['phaser_input_body'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_input_body'] = function (block) {
+javascriptGenerator.forBlock['phaser_input_body'] = function (block) {
   const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
   return statements_code;
 };
@@ -109,27 +111,15 @@ Blocks['phaser_input_keyboard_cursor_keys_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_input_keyboard_cursor_keys_add'] = function (
-  block
-) {
-  const variable = javascriptGenerator.valueToCode(
-    block,
-    'variable',
-    javascriptGenerator.ORDER_ATOMIC
-  );
-  return (
-    variable +
-    ' = this.input.keyboard.createCursorKeys();\n' +
-    variable +
-    '.down.onDown.add(this.input_, this);\n' +
-    variable +
-    '.left.onDown.add(this.input_, this);\n' +
-    variable +
-    '.right.onDown.add(this.input_, this);\n' +
-    variable +
-    '.up.onDown.add(this.input_, this);\n'
-  );
-};
+javascriptGenerator.forBlock['phaser_input_keyboard_cursor_keys_add'] =
+  function (block) {
+    const variable = javascriptGenerator.valueToCode(
+      block,
+      'variable',
+      javascriptGenerator.ORDER_ATOMIC
+    );
+    return variable + ' = this.input.keyboard.createCursorKeys();\n';
+  };
 
 /**
  * Add keyboard WASD keys.
@@ -156,7 +146,9 @@ Blocks['phaser_input_keyboard_wasd_keys_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_input_keyboard_wasd_keys_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_input_keyboard_wasd_keys_add'] = function (
+  block
+) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -198,7 +190,9 @@ Blocks['phaser_input_keyboard_spacebar_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_input_keyboard_spacebar_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_input_keyboard_spacebar_add'] = function (
+  block
+) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -206,9 +200,7 @@ javascriptGenerator['phaser_input_keyboard_spacebar_add'] = function (block) {
   );
   return (
     variable +
-    ' = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);\n' +
-    variable +
-    '.onDown.add(this.input_, this);\n'
+    ' = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);\n'
   );
 };
 
@@ -237,7 +229,9 @@ Blocks['phaser_input_keyboard_shift_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_input_keyboard_shift_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_input_keyboard_shift_add'] = function (
+  block
+) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -245,7 +239,7 @@ javascriptGenerator['phaser_input_keyboard_shift_add'] = function (block) {
   );
   return (
     variable +
-    ' = this.input.keyboard.addKey(Phaser.KeyCode.SHIFT);\n' +
+    ' = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);\n' +
     variable +
     '.onDown.add(this.input_, this);\n'
   );
@@ -264,13 +258,13 @@ Blocks['phaser_input_keyboard_key_add'] = {
       .appendField(i18next.t('BLOCKS_PHASER_KEYBOARD_KEY'))
       .appendField(
         new Blockly.FieldDropdown([
-          [i18next.t('shift key'), 'Phaser.KeyCode.SHIFT'],
-          [i18next.t('control key'), 'Phaser.KeyCode.CONTROL'],
-          [i18next.t('spacebar'), 'Phaser.KeyCode.SPACEBAR'],
-          ['w', 'Phaser.KeyCode.W'],
-          ['a', 'Phaser.KeyCode.A'],
-          ['s', 'Phaser.KeyCode.S'],
-          ['d', 'Phaser.KeyCode.D'],
+          [i18next.t('shift key'), 'Phaser.Input.Keyboard.KeyCodes.SHIFT'],
+          [i18next.t('control key'), 'Phaser.Input.Keyboard.KeyCodes.CONTROL'],
+          [i18next.t('spacebar'), 'Phaser.Input.Keyboard.KeyCodes.SPACE'],
+          ['w', 'Phaser.Input.Keyboard.KeyCodes.W'],
+          ['a', 'Phaser.Input.Keyboard.KeyCodes.A'],
+          ['s', 'Phaser.Input.Keyboard.KeyCodes.S'],
+          ['d', 'Phaser.Input.Keyboard.KeyCodes.D'],
         ]),
         'keycode'
       )
@@ -288,7 +282,9 @@ Blocks['phaser_input_keyboard_key_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_input_keyboard_key_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_input_keyboard_key_add'] = function (
+  block
+) {
   const dropdown_keycode = block.getFieldValue('keycode');
   const variable = javascriptGenerator.valueToCode(
     block,
@@ -296,12 +292,7 @@ javascriptGenerator['phaser_input_keyboard_key_add'] = function (block) {
     javascriptGenerator.ORDER_ATOMIC
   );
   return (
-    variable +
-    ' = this.input.keyboard.addKey(' +
-    dropdown_keycode +
-    ');\n' +
-    variable +
-    '.onDown.add(this.input_, this);\n'
+    variable + ' = this.input.keyboard.addKey(' + dropdown_keycode + ');\n'
   );
 };
 
@@ -330,7 +321,7 @@ Blocks['phaser_input_mouse_keys_add'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_input_mouse_keys_add'] = function (block) {
+javascriptGenerator.forBlock['phaser_input_mouse_keys_add'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
@@ -375,23 +366,17 @@ Blocks['phaser_input_keyboard_cursor_is_pressed'] = {
  * @param {Blockly.Block} block
  * @return {string[]}
  */
-javascriptGenerator['phaser_input_keyboard_cursor_is_pressed'] = function (
-  block
-) {
-  const value_cursors = javascriptGenerator.valueToCode(
-    block,
-    'cursors',
-    javascriptGenerator.ORDER_ATOMIC
-  );
-  const dropdown_direction = block.getFieldValue('direction');
-  const code =
-    value_cursors +
-    dropdown_direction +
-    '.isDown && e === ' +
-    value_cursors +
-    dropdown_direction;
-  return [code, javascriptGenerator.ORDER_NONE];
-};
+javascriptGenerator.forBlock['phaser_input_keyboard_cursor_is_pressed'] =
+  function (block) {
+    const value_cursors = javascriptGenerator.valueToCode(
+      block,
+      'cursors',
+      javascriptGenerator.ORDER_ATOMIC
+    );
+    const dropdown_direction = block.getFieldValue('direction');
+    const code = value_cursors + dropdown_direction + '.isDown';
+    return [code, javascriptGenerator.ORDER_NONE];
+  };
 
 /**
  * Keyboard cursor is hold pressed.
@@ -424,23 +409,17 @@ Blocks['phaser_input_keyboard_cursor_is_hold_pressed'] = {
  * @param {Blockly.Block} block
  * @return {string[]}
  */
-javascriptGenerator['phaser_input_keyboard_cursor_is_hold_pressed'] = function (
-  block
-) {
-  const value_cursors = javascriptGenerator.valueToCode(
-    block,
-    'cursors',
-    javascriptGenerator.ORDER_ATOMIC
-  );
-  const dropdown_direction = block.getFieldValue('direction');
-  const code =
-    value_cursors +
-    dropdown_direction +
-    '.isDown && e !== ' +
-    value_cursors +
-    dropdown_direction;
-  return [code, javascriptGenerator.ORDER_NONE];
-};
+javascriptGenerator.forBlock['phaser_input_keyboard_cursor_is_hold_pressed'] =
+  function (block) {
+    const value_cursors = javascriptGenerator.valueToCode(
+      block,
+      'cursors',
+      javascriptGenerator.ORDER_ATOMIC
+    );
+    const dropdown_direction = block.getFieldValue('direction');
+    const code = value_cursors + dropdown_direction + '.isDown';
+    return [code, javascriptGenerator.ORDER_NONE];
+  };
 
 /**
  * Keyboard key is pressed.
@@ -462,15 +441,16 @@ Blocks['phaser_input_keyboard_key_is_pressed'] = {
  * @param {Blockly.Block} block
  * @return {string[]}
  */
-javascriptGenerator['phaser_input_keyboard_key_is_pressed'] = function (block) {
-  const value_key = javascriptGenerator.valueToCode(
-    block,
-    'key',
-    javascriptGenerator.ORDER_ATOMIC
-  );
-  const code = value_key + '.isDown && e === ' + value_key;
-  return [code, javascriptGenerator.ORDER_NONE];
-};
+javascriptGenerator.forBlock['phaser_input_keyboard_key_is_pressed'] =
+  function (block) {
+    const value_key = javascriptGenerator.valueToCode(
+      block,
+      'key',
+      javascriptGenerator.ORDER_ATOMIC
+    );
+    const code = value_key + '.isDown';
+    return [code, javascriptGenerator.ORDER_NONE];
+  };
 
 /**
  * Keyboard key hold is pressed.
@@ -494,17 +474,16 @@ Blocks['phaser_input_keyboard_key_is_hold_pressed'] = {
  * @param {Blockly.Block} block
  * @return {string[]}
  */
-javascriptGenerator['phaser_input_keyboard_key_is_hold_pressed'] = function (
-  block
-) {
-  const value_key = javascriptGenerator.valueToCode(
-    block,
-    'key',
-    javascriptGenerator.ORDER_ATOMIC
-  );
-  const code = value_key + '.isDown && e !== ' + value_key;
-  return [code, javascriptGenerator.ORDER_NONE];
-};
+javascriptGenerator.forBlock['phaser_input_keyboard_key_is_hold_pressed'] =
+  function (block) {
+    const value_key = javascriptGenerator.valueToCode(
+      block,
+      'key',
+      javascriptGenerator.ORDER_ATOMIC
+    );
+    const code = value_key + '.isDown && e !== ' + value_key;
+    return [code, javascriptGenerator.ORDER_NONE];
+  };
 
 /**
  * Keyboard code is pressed.
@@ -535,24 +514,23 @@ Blocks['phaser_input_keyboard_code_is_pressed'] = {
  * @param {Blockly.Block} block
  * @return {string[]}
  */
-javascriptGenerator['phaser_input_keyboard_code_is_pressed'] = function (
-  block
-) {
-  const value_key = javascriptGenerator.valueToCode(
-    block,
-    'key',
-    javascriptGenerator.ORDER_ATOMIC
-  );
-  const dropdown_code = block.getFieldValue('code');
-  const code =
-    value_key +
-    '.isDown && e === ' +
-    value_key +
-    ' && e.event.code === "' +
-    dropdown_code +
-    '"';
-  return [code, javascriptGenerator.ORDER_NONE];
-};
+javascriptGenerator.forBlock['phaser_input_keyboard_code_is_pressed'] =
+  function (block) {
+    const value_key = javascriptGenerator.valueToCode(
+      block,
+      'key',
+      javascriptGenerator.ORDER_ATOMIC
+    );
+    const dropdown_code = block.getFieldValue('code');
+    const code =
+      value_key +
+      '.isDown && e === ' +
+      value_key +
+      ' && e.event.code === "' +
+      dropdown_code +
+      '"';
+    return [code, javascriptGenerator.ORDER_NONE];
+  };
 
 /**
  * Mouse key is pressed.
@@ -583,21 +561,16 @@ Blocks['phaser_input_mouse_key_is_pressed'] = {
  * @param {Blockly.Block} block
  * @return {string[]}
  */
-javascriptGenerator['phaser_input_mouse_key_is_pressed'] = function (block) {
+javascriptGenerator.forBlock['phaser_input_mouse_key_is_pressed'] = function (
+  block
+) {
   const value_mouse = javascriptGenerator.valueToCode(
     block,
     'mouse',
     javascriptGenerator.ORDER_ATOMIC
   );
   const dropdown_direction = block.getFieldValue('direction');
-  const code =
-    value_mouse +
-    '.activePointer.' +
-    dropdown_direction +
-    ' && ' +
-    'e === ' +
-    value_mouse +
-    '.activePointer';
+  const code = value_mouse + '.activePointer.' + dropdown_direction;
   return [code, javascriptGenerator.ORDER_NONE];
 };
 
@@ -630,22 +603,21 @@ Blocks['phaser_input_mouse_key_is_hold_pressed'] = {
  * @param {Blockly.Block} block
  * @return {string[]}
  */
-javascriptGenerator['phaser_input_mouse_key_is_hold_pressed'] = function (
-  block
-) {
-  const value_mouse = javascriptGenerator.valueToCode(
-    block,
-    'mouse',
-    javascriptGenerator.ORDER_ATOMIC
-  );
-  const dropdown_direction = block.getFieldValue('direction');
-  const code =
-    value_mouse +
-    '.activePointer.' +
-    dropdown_direction +
-    ' && ' +
-    'e !== ' +
-    value_mouse +
-    '.activePointer';
-  return [code, javascriptGenerator.ORDER_NONE];
-};
+javascriptGenerator.forBlock['phaser_input_mouse_key_is_hold_pressed'] =
+  function (block) {
+    const value_mouse = javascriptGenerator.valueToCode(
+      block,
+      'mouse',
+      javascriptGenerator.ORDER_ATOMIC
+    );
+    const dropdown_direction = block.getFieldValue('direction');
+    const code =
+      value_mouse +
+      '.activePointer.' +
+      dropdown_direction +
+      ' && ' +
+      'e !== ' +
+      value_mouse +
+      '.activePointer';
+    return [code, javascriptGenerator.ORDER_NONE];
+  };

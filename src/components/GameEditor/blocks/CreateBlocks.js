@@ -53,15 +53,14 @@ Blocks['phaser_create'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_create'] = function (block) {
-  const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
-  return (
-    'create: function(e) {\n' +
-    // Empty generator groups to make sure game restarts works.
-    '  block_group = null;\n  obstacle_group = null;\n' +
-    statements_code +
-    '},\n'
-  );
+javascriptGenerator.forBlock['phaser_create'] = function (block) {
+  return `
+  create (event) {
+    // Helper function to simplify blocks.
+    this.helper_ = new PhaserHelper(this);
+
+    ${javascriptGenerator.statementToCode(block, 'CODE')}
+  }`;
 };
 
 /**
@@ -86,9 +85,12 @@ Blocks['phaser_stage_background_color'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_stage_background_color'] = function (block) {
-  const colour_color = block.getFieldValue('color');
-  return "game.stage.backgroundColor = '" + colour_color + "';\n";
+javascriptGenerator.forBlock['phaser_stage_background_color'] = function (
+  block
+) {
+  return `this.cameras.main.setBackgroundColor("${block.getFieldValue(
+    'color'
+  )}");`;
 };
 
 /**
@@ -119,9 +121,9 @@ Blocks['phaser_add_background'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_add_background'] = function (block) {
+javascriptGenerator.forBlock['phaser_add_background'] = function (block) {
   const text_sprite = block.getFieldValue('sprite');
-  return "game.add.image(0, 0, '" + text_sprite + "');\n";
+  return "this.add.image(0, 0, '" + text_sprite + "');\n";
 };
 
 /**
@@ -156,20 +158,22 @@ Blocks['phaser_add_background_scaled'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_add_background_scaled'] = function (block) {
+javascriptGenerator.forBlock['phaser_add_background_scaled'] = function (
+  block
+) {
   const text_sprite = block.getFieldValue('sprite');
   const number_width =
-    Number(block.getFieldValue('width')) || 'game.world.width';
+    Number(block.getFieldValue('width')) || 'this.cameras.main.width';
   const number_height =
-    Number(block.getFieldValue('height')) || 'game.world.height';
+    Number(block.getFieldValue('height')) || 'this.cameras.main.height';
   return (
-    "var backgroundImage = game.add.image(0, 0, '" +
+    "let backgroundImage = this.add.image(0, 0, '" +
     text_sprite +
     "');\n" +
-    'backgroundImage.width = ' +
+    'backgroundImage.displayWidth = ' +
     number_width +
     ';\n' +
-    'backgroundImage.height = ' +
+    'backgroundImage.displayHeight = ' +
     number_height +
     ';\n'
   );

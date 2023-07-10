@@ -86,14 +86,13 @@ Blocks['phaser_generator_physics_arcade_attributes'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_generator_physics_arcade_attributes'] = function (
-  block
-) {
-  return javascriptGenerator['phaser_physics_arcade_sprite_adjust'](
-    block,
-    'arcadeSpriteCustom'
-  );
-};
+javascriptGenerator.forBlock['phaser_generator_physics_arcade_attributes'] =
+  function (block) {
+    return javascriptGenerator.forBlock['phaser_physics_arcade_sprite_adjust'](
+      block,
+      'arcadeSpriteCustom'
+    );
+  };
 
 /**
  * Vertical obstacle generator.
@@ -151,7 +150,9 @@ Blocks['phaser_generator_vertical_obstacle'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_generator_vertical_obstacle'] = function (block) {
+javascriptGenerator.forBlock['phaser_generator_vertical_obstacle'] = function (
+  block
+) {
   const text_sprite = block.getFieldValue('sprite');
   const value_obstacles = javascriptGenerator.valueToCode(
     block,
@@ -197,10 +198,10 @@ javascriptGenerator['phaser_generator_vertical_obstacle'] = function (block) {
     value_group +
     ') {\n  ' +
     value_group +
-    ' = game.add.group(undefined, ' +
+    ' = this.add.group(undefined, ' +
     "'obstacle_group');\n" +
     '}\n' +
-    'PhaserExtras.VerticalObstacleGenerator(game, \n  ' +
+    'PhaserExtras.VerticalObstacleGenerator(this, \n  ' +
     value_x +
     ', ' +
     value_y +
@@ -284,69 +285,68 @@ Blocks['phaser_generator_random_vertical_obstacle'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_generator_random_vertical_obstacle'] = function (
-  block
-) {
-  const text_sprite = block.getFieldValue('sprite');
-  const value_obstacles = javascriptGenerator.valueToCode(
-    block,
-    'obstacles',
-    javascriptGenerator.ORDER_ATOMIC
-  );
-  const value_sprite_optional = javascriptGenerator.valueToCode(
-    block,
-    'sprite_optional',
-    javascriptGenerator.ORDER_ATOMIC
-  );
-  const value_group = javascriptGenerator.valueToCode(
-    block,
-    'group',
-    javascriptGenerator.ORDER_ATOMIC
-  );
-  const value_x = javascriptGenerator.valueToCode(
-    block,
-    'x',
-    javascriptGenerator.ORDER_ATOMIC
-  );
-  const value_y = javascriptGenerator.valueToCode(
-    block,
-    'y',
-    javascriptGenerator.ORDER_ATOMIC
-  );
-  const dropdown_direction = block.getFieldValue('direction');
-  const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
+javascriptGenerator.forBlock['phaser_generator_random_vertical_obstacle'] =
+  function (block) {
+    const text_sprite = block.getFieldValue('sprite');
+    const value_obstacles = javascriptGenerator.valueToCode(
+      block,
+      'obstacles',
+      javascriptGenerator.ORDER_ATOMIC
+    );
+    const value_sprite_optional = javascriptGenerator.valueToCode(
+      block,
+      'sprite_optional',
+      javascriptGenerator.ORDER_ATOMIC
+    );
+    const value_group = javascriptGenerator.valueToCode(
+      block,
+      'group',
+      javascriptGenerator.ORDER_ATOMIC
+    );
+    const value_x = javascriptGenerator.valueToCode(
+      block,
+      'x',
+      javascriptGenerator.ORDER_ATOMIC
+    );
+    const value_y = javascriptGenerator.valueToCode(
+      block,
+      'y',
+      javascriptGenerator.ORDER_ATOMIC
+    );
+    const dropdown_direction = block.getFieldValue('direction');
+    const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
 
-  return (
-    'if (typeof ' +
-    value_group +
-    " === 'undefined' || !" +
-    value_group +
-    ') {\n  ' +
-    value_group +
-    ' = game.add.group(undefined, ' +
-    "'obstacle_group');\n" +
-    '}\n' +
-    'PhaserExtras.RandomVerticalObstacleGenerator(\n  game,' +
-    value_x +
-    ', ' +
-    value_y +
-    ', ' +
-    value_obstacles +
-    ", '" +
-    text_sprite +
-    "', " +
-    value_sprite_optional +
-    ', ' +
-    value_group +
-    ", '" +
-    dropdown_direction +
-    "', " +
-    (statements_code
-      ? 'function(arcadeSpriteCustom) {\n' + statements_code + '}'
-      : '') +
-    ');\n'
-  );
-};
+    return (
+      'if (typeof ' +
+      value_group +
+      " === 'undefined' || !" +
+      value_group +
+      ') {\n  ' +
+      value_group +
+      ' = this.add.group(undefined, ' +
+      "'obstacle_group');\n" +
+      '}\n' +
+      'PhaserExtras.RandomVerticalObstacleGenerator(\n  this,' +
+      value_x +
+      ', ' +
+      value_y +
+      ', ' +
+      value_obstacles +
+      ", '" +
+      text_sprite +
+      "', " +
+      value_sprite_optional +
+      ', ' +
+      value_group +
+      ", '" +
+      dropdown_direction +
+      "', " +
+      (statements_code
+        ? 'function(arcadeSpriteCustom) {\n' + statements_code + '}'
+        : '') +
+      ');\n'
+    );
+  };
 
 /**
  * Obstacle generator matrix.
@@ -482,7 +482,9 @@ Blocks['phaser_generator_matrix_block'] = {
  * @param {Blockly.Block} block
  * @return {string}
  */
-javascriptGenerator['phaser_generator_matrix_block'] = function (block) {
+javascriptGenerator.forBlock['phaser_generator_matrix_block'] = function (
+  block
+) {
   const text_sprite = block.getFieldValue('sprite');
   const value_x = javascriptGenerator.valueToCode(
     block,
@@ -516,10 +518,10 @@ javascriptGenerator['phaser_generator_matrix_block'] = function (block) {
     value_group +
     ') {\n  ' +
     value_group +
-    ' = game.add.group(undefined, ' +
+    ' = this.add.group(undefined, ' +
     "'block_group');\n" +
     '}\n' +
-    'PhaserExtras.MatrixBlockGenerator(\n  game,' +
+    'PhaserExtras.MatrixBlockGenerator(\n  this,' +
     "'" +
     text_sprite +
     "', " +

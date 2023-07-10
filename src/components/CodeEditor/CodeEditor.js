@@ -21,8 +21,6 @@
 
 import React, { createRef, lazy } from 'react';
 
-// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Snackbar from '@mui/material/Snackbar';
 import PropTypes from 'prop-types';
@@ -172,9 +170,10 @@ export class CodeEditor extends React.PureComponent {
    * @param {any} content
    */
   onChange(content) {
-    // Throttle and debounce XML change with a 500ms delay for performance.
+    // Throttle and debounce code change with a 500ms delay for performance.
     if (this.timer.handleContentChange) {
       clearTimeout(this.timer.handleContentChange);
+      this.timer.handleContentChange = null;
     }
     this.timer.handleContentChange = setTimeout(() => {
       if (this.lastCode == content) {
@@ -187,7 +186,7 @@ export class CodeEditor extends React.PureComponent {
         }
       });
       this.lastCode = content;
-    }, 500);
+    }, 200);
   }
 
   /**
@@ -225,14 +224,6 @@ export class CodeEditor extends React.PureComponent {
           this.infobar && this.infobar.current
             ? this.infobar.current.clientHeight || 25
             : 0;
-        console.log(
-          'Parent Element ...',
-          parentElement,
-          editorElement,
-          toolbarHeight,
-          infobarHeight,
-          this.toolbar.current
-        );
         editorElement.style.height =
           parentElement.clientHeight - toolbarHeight - infobarHeight - 1 + 'px';
       } else {
@@ -270,12 +261,20 @@ export class CodeEditor extends React.PureComponent {
               onOpenProject={this.props.onOpenProject}
             />
           )}
-          <CodeMirror
-            value={this.state.content}
-            onCreateEditor={this.onCreateEditor.bind(this)}
-            onChange={this.onChange.bind(this)}
-            extensions={[languageExtensions]}
-          />
+          {languageExtensions ? (
+            <CodeMirror
+              value={this.state.content}
+              onCreateEditor={this.onCreateEditor.bind(this)}
+              onChange={this.onChange.bind(this)}
+              extensions={[languageExtensions]}
+            />
+          ) : (
+            <CodeMirror
+              value={this.state.content}
+              onCreateEditor={this.onCreateEditor.bind(this)}
+              onChange={this.onChange.bind(this)}
+            />
+          )}
           <Box className={styles.infobar} ref={this.infobar}>
             Content Type: {this.state.language}
           </Box>

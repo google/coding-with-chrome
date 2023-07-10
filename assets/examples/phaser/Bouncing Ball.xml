@@ -1,1 +1,227 @@
-<xml xmlns="https://developers.google.com/blockly/xml"><variables><variable id="t@^lcg5vyT^rC=(a!|Mk">ceiling</variable><variable id="dmxd1LL}6#U_=}ztO@P1">floor</variable><variable id="XJsMFQ~k_+1Hb^@#aad/">ball</variable></variables><block type="phaser_game" id="_:C:ip:!a(1V~n}$mPo!" x="-370" y="-250"><field name="name">Bouncing ball</field><field name="width">0</field><field name="height">0</field><next><block type="phaser_game_state" id="iV*@am_AoN4!LHKlFM*L"><field name="name">main</field><field name="autostart">true</field><statement name="state"><block type="phaser_preload" id="uM+=:W,-)nkFzJW3B/,6"><statement name="CODE"><block type="phaser_load_image" id="3b|(_%dmM4-~IO3;u|J}"><field name="name">ceiling</field><value name="image"><block type="static_image_file" id="cz:D[5C#Jdw@}r2*K=TC"><field name="urlData">data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyAQMAAAAk8RryAAAABlBMVEVcvPwAXJwoG/B+AAAAPUlEQVQY02P4DwYHGBoYQMBhlMZBt59nPtEApFsEmjSgtCoDEt08ofkQWH1AEysazdEA0t/PBKRxmg+LBwDPjDxK1kqocgAAAABJRU5ErkJggg==</field><field name="filename"></field><field name="url">/assets/phaser/samples/50px_blue.png</field></block></value><next><block type="phaser_load_image" id="7-IL9zt3Vc++18=~kkLK"><field name="name">floor</field><value name="image"><block type="static_image_file" id="6va=|CqbwA/ir^DnUJ%f"><field name="urlData">data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyAQMAAAAk8RryAAAABlBMVEXQ/FxgnAAuZaaQAAAAPUlEQVQY02P4DwYHGBoYQMBhlMZBt59nPtEApFsEmjSgtCoDEt08ofkQWH1AEysazdEA0t/PBKRxmg+LBwDPjDxK1kqocgAAAABJRU5ErkJggg==</field><field name="filename"></field><field name="url">/assets/phaser/samples/50px_green.png</field></block></value><next><block type="phaser_load_image" id="mphZWN@mQ{w6EI0zV1`5"><field name="name">ball</field><value name="image"><block type="static_image_file" id="m82Q2vVxQ1#$!99E$PJ;"><field name="urlData">data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAASFBMVEUAAAD/QEDu7u7RDw/5OTniISHXFhbyMTHnJyf9WlrrKyvNDAzJCQn7amr+Tk7+Rkbyx8fcHBz8Y2P8YGDw3t7xzs73kpL5fHxpXOCFAAAAAXRSTlMAQObYZgAAAQ9JREFUSMe9lksOgzAMROM4ISQF+m/vf9MiI+qqJcGz6dsAEqPxxAjbbcKOZ+aLDe5iCiSEFNkg6OV1JeyoONEG5VAVHHqqECuijuqEreqGSE3Ov5JEO/TfHqKAND0ZOFuT05SveZI7VgVTneN4996frnJuetaloXj4haf0x2Iy+pXLZ2mpkePmV05HIir7JtkrWW1Ksy5lfKdhQlyC9sSWZabTxltObK0skGDoi5A0iqX7axjaY8qXPOmjpMdgXNIBkr8Wxo4JI0grIZJ8MBDRofnls2Q0ykwB60JtWH+uRopbYMxEKEASzEZ/sPbeMD4sgCEGjjFVDPB4xYc4virgC0mDAV178OVKYaGyw70A7RINOp90pO0AAAAASUVORK5CYII=</field><field name="filename"></field><field name="url">/assets/phaser/samples/ball_red.png</field></block></value><next><block type="phaser_load_image" id="m,3biqZ,Vo7@zk^U=;3["><field name="name">bg_01</field><value name="image"><block type="static_image_file" id="{JsJ6Y]I`m2oU{eiEIJ]"><field name="urlData">data:image/png;base64,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</field><field name="filename"></field><field name="url">/assets/phaser/samples/bg/bg_01.png</field></block></value></block></next></block></next></block></next></block></statement><next><block type="phaser_create" id="!E6tV7Q+wHo-ee(i7##:"><statement name="CODE"><block type="phaser_tile_sprite_background" id=":M]no-NRw$1TcIFuSz9p"><field name="sprite">bg_01</field><value name="x"><block type="math_number" id="}-1Pnv%rLdl*InJ)k,mi"><field name="NUM">-50</field></block></value><value name="y"><block type="math_number" id="#J[/;6]GQh]x@NE?)Y}2"><field name="NUM">0</field></block></value><next><block type="phaser_tile_sprite_ceiling_add" id="K7#1H]Uh`*aP5I_/3Fst"><field name="sprite">ceiling</field><value name="variable"><block type="variables_get" id=",jv(5[I]$*%`-g%cgH+)"><field name="VAR" id="t@^lcg5vyT^rC=(a!|Mk">ceiling</field></block></value><value name="x"><block type="math_number" id="]S?+=57mWgWmivTJmY!0"><field name="NUM">-50</field></block></value><value name="y"><block type="math_number" id="emV52uCX.Iko+7v3vZ|-"><field name="NUM">0</field></block></value><next><block type="phaser_tile_sprite_floor_add" id=".-/C19YR`Q5|IOq#U;.R"><field name="sprite">floor</field><value name="variable"><block type="variables_get" id="(v,p1:gXEcxU)4nG:M8;"><field name="VAR" id="dmxd1LL}6#U_=}ztO@P1">floor</field></block></value><value name="x"><block type="math_number" id="^vISyLWU,NBJ5n8v{D/u"><field name="NUM">-50</field></block></value><value name="y"><block type="math_number" id="lqe*txhcP:,7$vGqJcjI"><field name="NUM">0</field></block></value><next><block type="phaser_physics_arcade_sprite_ball_add" id="y7I,Y1Twrz.y6=gk[:z9"><field name="sprite">ball</field><value name="variable"><block type="variables_get" id="G]FkZon:|h!:Zh[$],tg"><field name="VAR" id="XJsMFQ~k_+1Hb^@#aad/">ball</field></block></value><value name="x"><block type="math_number" id="1FRGaPS#Obza9Ff(0eMi"><field name="NUM">50</field></block></value><value name="y"><block type="math_number" id="s`^rU$I[x?:++d0,`)9t"><field name="NUM">50</field></block></value><statement name="CODE"><block type="phaser_physics_arcade_sprite_adjust_custom" id="?^Xlg^mD1M.IeymjwXmH"><field name="property">velocity.x</field><value name="value"><block type="math_number" id="h6PL{(i1LUkPsF|W=u1R"><field name="NUM">10</field></block></value><next><block type="phaser_physics_arcade_sprite_adjust_custom" id="%Dl=05H-!!4$L37B+Yiy"><field name="property">velocity.y</field><value name="value"><block type="math_number" id=")VRi3;hilcWJtl@ewO8O"><field name="NUM">120</field></block></value><next><block type="phaser_physics_arcade_sprite_adjust_custom" id="vcfEw!2?6?cVlkEa$nN~"><field name="property">bounce.set</field><value name="value"><block type="math_number" id="/^c).ce!h$GVSSNC8Wgz"><field name="NUM">1</field></block></value></block></next></block></next></block></statement></block></next></block></next></block></next></block></statement><next><block type="phaser_input" id="lm910zr/|`/4PZ,ljd=("><next><block type="phaser_update" id="qJ=nKj{4;0vg4?9n(*b9"><statement name="CODE"><block type="phaser_physics_arcade_collide" id="3mXA3IjaW4~3x{-}(1_D"><value name="object1"><block type="variables_get" id="YBF2s|0=h,=~SGnBJx:w"><field name="VAR" id="XJsMFQ~k_+1Hb^@#aad/">ball</field></block></value><value name="object2"><block type="variables_get" id="-_4_rgQPF1{5$d~JkjS8"><field name="VAR" id="dmxd1LL}6#U_=}ztO@P1">floor</field></block></value><next><block type="phaser_physics_arcade_collide" id="3(jeq7JOYwqvnS9profV"><value name="object1"><block type="variables_get" id="D2((AO[(U{E+ZE^Cp2?R"><field name="VAR" id="XJsMFQ~k_+1Hb^@#aad/">ball</field></block></value><value name="object2"><block type="variables_get" id="{^s3rx7`y`3zm=ceFGsx"><field name="VAR" id="t@^lcg5vyT^rC=(a!|Mk">ceiling</field></block></value><next><block type="phaser_world_wrap" id="R.s^XJ4x7.Ap}@wWb{ee"><value name="variable"><block type="variables_get" id="1Y4.N$SO$9Y`tn#y3a;S"><field name="VAR" id="XJsMFQ~k_+1Hb^@#aad/">ball</field></block></value><value name="value"><block type="math_number" id="{$3_Nkf#@2~!IKWqv4@~"><field name="NUM">0</field></block></value></block></next></block></next></block></statement><next><block type="phaser_render" id="/JSHMeENAyQYU~qv7nx1" collapsed="true"></block></next></block></next></block></next></block></next></block></statement></block></next></block></xml>
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="phaser_game" id="ahWf]SS(%Pr;j(D7$F#%" x="-250" y="-250">
+    <field name="name">Bouncing ball</field>
+    <field name="width">0</field>
+    <field name="height">0</field>
+    <next>
+      <block type="phaser_game_state" id="oI4[E2k-j56@d*n3H5vP">
+        <field name="name">main</field>
+        <field name="autostart">true</field>
+        <statement name="state">
+          <block type="phaser_preload" id="U98]b^tvVOHNRO}4w?h.">
+            <statement name="CODE">
+              <block type="phaser_load_image" id="|@90V^vr?f]BhUPlS~[c">
+                <field name="name">50px_blue</field>
+                <value name="image">
+                  <block type="static_image_file" id="n[F1sVPV.%dok3:CI|Aq">
+                    <field name="urlData">data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyAQMAAAAk8RryAAAABlBMVEVcvPwAXJwoG/B+AAAAPUlEQVQY02P4DwYHGBoYQMBhlMZBt59nPtEApFsEmjSgtCoDEt08ofkQWH1AEysazdEA0t/PBKRxmg+LBwDPjDxK1kqocgAAAABJRU5ErkJggg==</field>
+                    <field name="filename">50px_blue.png</field>
+                    <field name="url">/assets/phaser/samples/50px_blue.png</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="phaser_load_image" id="SPbSlFgTaf^{N^`^}hA]">
+                    <field name="name">50px_green</field>
+                    <value name="image">
+                      <block type="static_image_file" id="sff_~Q3C|hEWP!gbfbOg">
+                        <field name="urlData">data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyAQMAAAAk8RryAAAABlBMVEXQ/FxgnAAuZaaQAAAAPUlEQVQY02P4DwYHGBoYQMBhlMZBt59nPtEApFsEmjSgtCoDEt08ofkQWH1AEysazdEA0t/PBKRxmg+LBwDPjDxK1kqocgAAAABJRU5ErkJggg==</field>
+                        <field name="filename">50px_green.png</field>
+                        <field name="url">/assets/phaser/samples/50px_green.png</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="phaser_load_image" id="n.dl]K]UpO0`;,tb6.B@">
+                        <field name="name">ball_red</field>
+                        <value name="image">
+                          <block type="static_image_file" id="O!D8MO/-04A1[;evm2e4">
+                            <field name="urlData">data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAASFBMVEUAAAD/QEDu7u7RDw/5OTniISHXFhbyMTHnJyf9WlrrKyvNDAzJCQn7amr+Tk7+Rkbyx8fcHBz8Y2P8YGDw3t7xzs73kpL5fHxpXOCFAAAAAXRSTlMAQObYZgAAAQ9JREFUSMe9lksOgzAMROM4ISQF+m/vf9MiI+qqJcGz6dsAEqPxxAjbbcKOZ+aLDe5iCiSEFNkg6OV1JeyoONEG5VAVHHqqECuijuqEreqGSE3Ov5JEO/TfHqKAND0ZOFuT05SveZI7VgVTneN4996frnJuetaloXj4haf0x2Iy+pXLZ2mpkePmV05HIir7JtkrWW1Ksy5lfKdhQlyC9sSWZabTxltObK0skGDoi5A0iqX7axjaY8qXPOmjpMdgXNIBkr8Wxo4JI0grIZJ8MBDRofnls2Q0ykwB60JtWH+uRopbYMxEKEASzEZ/sPbeMD4sgCEGjjFVDPB4xYc4virgC0mDAV178OVKYaGyw70A7RINOp90pO0AAAAASUVORK5CYII=</field>
+                            <field name="filename">ball_red.png</field>
+                            <field name="url">/assets/phaser/samples/ball_red.png</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="phaser_load_image" id="Il:%id=splvxVMwJ{P/T">
+                            <field name="name">bg_01</field>
+                            <value name="image">
+                              <block type="static_image_file" id="3g)1$=zph^)MsdQVA]/|">
+                                <field name="urlData">data:image/png;base64,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</field>
+                                <field name="filename">bg_01.png</field>
+                                <field name="url">/assets/phaser/samples/bg/bg_01.png</field>
+                              </block>
+                            </value>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <next>
+              <block type="phaser_create" id="Ga~p4)-,.(a9h;)%6T~`">
+                <statement name="CODE">
+                  <block type="phaser_tile_sprite_background" id="i/YAr_F8SEeLK8cr`Vhf">
+                    <field name="sprite">bg_01</field>
+                    <value name="x">
+                      <block type="math_number" id="m$m_KvQ5X(3.Dy+,._iK">
+                        <field name="NUM">1</field>
+                      </block>
+                    </value>
+                    <value name="y">
+                      <block type="math_number" id="cZ-OZgGCBLyCkMn{U_A=">
+                        <field name="NUM">0</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="phaser_tile_sprite_floor_add" id="6W}`0_|nGcX4b^szBxYY">
+                        <field name="sprite">50px_blue</field>
+                        <value name="variable">
+                          <block type="phaser_variable_set" id="6WptI`;;0o1VP030vSAK">
+                            <field name="VAR">floor</field>
+                          </block>
+                        </value>
+                        <value name="x">
+                          <block type="math_number" id="t8me9nf8:;CW%]zcu3CO">
+                            <field name="NUM">2</field>
+                          </block>
+                        </value>
+                        <value name="y">
+                          <block type="math_number" id="Su#$`UkP=gv#Jm5_:LUm">
+                            <field name="NUM">0</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="phaser_tile_sprite_ceiling_add" id="S8Q=q*_1M2(V$:TC1)Pz">
+                            <field name="sprite">50px_green</field>
+                            <value name="variable">
+                              <block type="phaser_variable_set" id="ixsDRN][[!OXjFzmfVad">
+                                <field name="VAR">ceiling</field>
+                              </block>
+                            </value>
+                            <value name="x">
+                              <block type="math_number" id="i,mmgYW*PqZv.lqhWbC(">
+                                <field name="NUM">3</field>
+                              </block>
+                            </value>
+                            <value name="y">
+                              <block type="math_number" id=".Vdptb;cYn[XaUg-ZS7I">
+                                <field name="NUM">0</field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="phaser_physics_arcade_sprite_ball_add" id="%d_I?(fqrWfY=F_a|Cg7">
+                                <field name="sprite">ball_red</field>
+                                <value name="variable">
+                                  <block type="phaser_variable_set" id="U.{?umOpG_^LunY!zone">
+                                    <field name="VAR">ball</field>
+                                  </block>
+                                </value>
+                                <value name="x">
+                                  <block type="math_number" id="R|4^/m!r3sJEkm{yT{~Z">
+                                    <field name="NUM">50</field>
+                                  </block>
+                                </value>
+                                <value name="y">
+                                  <block type="math_number" id="B[!/|zsx7Oa30aGeir8:">
+                                    <field name="NUM">100</field>
+                                  </block>
+                                </value>
+                                <statement name="CODE">
+                                  <block type="phaser_physics_arcade_sprite_adjust_custom" id="~|#tjK[_9#qmJjFiTE=T">
+                                    <field name="property">velocity.x</field>
+                                    <value name="value">
+                                      <block type="math_number" id="%^dSN={B#8}*K4FY9[R@">
+                                        <field name="NUM">50</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="phaser_physics_arcade_sprite_adjust_custom" id="+,wz[|5Bbe{_~y^2QQ:q">
+                                        <field name="property">velocity.y</field>
+                                        <value name="value">
+                                          <block type="math_number" id="7QJ6{-Yb(G4EWYASO~E|">
+                                            <field name="NUM">100</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="phaser_physics_arcade_sprite_adjust_custom" id=")iB=smp5%ub7ZLQmrLkx">
+                                            <field name="property">bounce.set</field>
+                                            <value name="value">
+                                              <block type="math_number" id="s7uWm:@7ljy^J[g7M,}3">
+                                                <field name="NUM">1</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </statement>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+                <next>
+                  <block type="phaser_input" id="%t)UDZm3W2A-l/IxN%;:">
+                    <next>
+                      <block type="phaser_update" id="6`2whlu}TYeey?:ULy1N">
+                        <statement name="CODE">
+                          <block type="phaser_world_wrap" id="{uRg^O.JQ`o0t=FjUy`-">
+                            <value name="variable">
+                              <block type="phaser_variable_get" id="5Ea%B_QJJb/5TAy|~c0X">
+                                <field name="VAR">ball</field>
+                              </block>
+                            </value>
+                            <value name="value">
+                              <block type="math_number" id="[:{p2;=:_$ll#^QsI?!]">
+                                <field name="NUM">0</field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="phaser_physics_arcade_collide" id="xyw7b,|vI*;%]G2UlKB=">
+                                <value name="object1">
+                                  <block type="phaser_variable_get" id="X17f.JfU4(Sz)anD8pKl">
+                                    <field name="VAR">ball</field>
+                                  </block>
+                                </value>
+                                <value name="object2">
+                                  <block type="phaser_variable_get" id=",]~mK}4^iPVC.or+MpG@">
+                                    <field name="VAR">floor</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="phaser_physics_arcade_collide" id="6s}Uk/)WpN2+i*Kf*Wxn">
+                                    <value name="object1">
+                                      <block type="phaser_variable_get" id="b}x]u5VN:pX!DkIt1/7x">
+                                        <field name="VAR">ball</field>
+                                      </block>
+                                    </value>
+                                    <value name="object2">
+                                      <block type="phaser_variable_get" id="w762PxA5A(Z7K#r)3%pr">
+                                        <field name="VAR">ceiling</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </statement>
+                        <next>
+                          <block type="phaser_render" id="#4P]SsRt90JI51J|wXz;" collapsed="true"></block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </next>
+  </block>
+</xml>

@@ -47,8 +47,6 @@ import Settings from '../Settings/Settings';
 import SettingScreen from '../Settings/SettingScreen';
 import LanguageSetting from '../Settings/LanguageSetting';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import { ReactComponent as Logo } from '../../../assets/logo/logo.svg';
 
 /**
@@ -136,8 +134,8 @@ export class SelectScreen extends React.PureComponent {
             >
               <DesktopWindowsIcon />
             </IconButton>
-            <SettingScreen color="inherit" />
-            <LanguageSetting color="inherit" />
+            <SettingScreen color="inherit" showIcon={true} />
+            <LanguageSetting color="inherit" showIcon={true} />
           </Toolbar>
         </AppBar>
         <Grid container spacing={3} direction="column" alignItems="center">

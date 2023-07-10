@@ -35,6 +35,7 @@
     "fullscreen",
     "gamepad",
     "Ghostery",
+    "healthz",
     "HIGHSCORE",
     "iconfont",
     "indexeddb",
@@ -91,13 +92,12 @@
     "xlink",
     "yandex"
   ],
-  "cSpell.ignorePaths" : [
+  "cSpell.ignorePaths": [
+    "package.json",
+    "package-lock.json",
     "*.yml",
     ".vscode",
     "locales",
     "node_modules"
   ],
-  "[xml]": {
-    "editor.defaultFormatter": "DotJoshJohnson.xml"
-  },
 }
