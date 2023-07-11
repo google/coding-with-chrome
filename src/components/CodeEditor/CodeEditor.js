@@ -77,7 +77,7 @@ export class CodeEditor extends React.PureComponent {
     if (this.props.windowId) {
       WindowEventTarget.getTarget().addEventListener(
         'windowResize',
-        this.handleWindowResize.bind(this)
+        this.handleWindowResize.bind(this),
       );
     } else {
       window.addEventListener('resize', this.resize.bind(this));

@@ -173,10 +173,10 @@ class ProjectNameGenerator {
   static generate(language = 'en') {
     const languageData = projectNames[language] || projectNames.en;
     const adjectiveIndex = Math.floor(
-      Math.random() * languageData.adjectives.length
+      Math.random() * languageData.adjectives.length,
     );
     const substantiveIndex = Math.floor(
-      Math.random() * languageData.substantives.length
+      Math.random() * languageData.substantives.length,
     );
     const adjective = languageData.adjectives[adjectiveIndex];
     const substantive = languageData.substantives[substantiveIndex];

@@ -24,7 +24,7 @@ import webpackConfig from './webpack.config.babel.js';
 // Cleanup existing webpack config for unit tests.
 const testConfig = webpackConfig();
 testConfig.plugins = testConfig.plugins.filter(
-  (p) => !(p instanceof HtmlWebpackPlugin)
+  (p) => !(p instanceof HtmlWebpackPlugin),
 );
 testConfig.module.rules.push({
   test: /\.js$|\.jsx$/,

@@ -73,7 +73,7 @@ describe('FileContent', function () {
 
   it('.toBlob (data url)', function (done) {
     const blobBase64 = FileContent.toBlob(
-      'data:text/plain;base64,SGVsbG8gV29ybGQ='
+      'data:text/plain;base64,SGVsbG8gV29ybGQ=',
     );
     expect(blobBase64.type).toBe('text/plain');
     FileContent.blobToText(blobBase64).then((text) => {
@@ -85,7 +85,7 @@ describe('FileContent', function () {
   it('.base64ToBlob (error)', function (done) {
     const blobBase64 = FileContent.base64ToBlob(
       'SGVsbG8gV29ybGQ2=',
-      'text/plain'
+      'text/plain',
     );
     expect(blobBase64.type).toBe('text/plain');
     FileContent.blobToText(blobBase64).then((text) => {
@@ -97,7 +97,7 @@ describe('FileContent', function () {
   it('.base64ToBlob', function (done) {
     const blobBase64 = FileContent.base64ToBlob(
       'SGVsbG8gV29ybGQ=',
-      'text/plain'
+      'text/plain',
     );
     expect(blobBase64.type).toBe('text/plain');
     FileContent.blobToText(blobBase64).then((text) => {
@@ -108,7 +108,7 @@ describe('FileContent', function () {
 
   it('dataURLToBlob (base64)', function (done) {
     const blobBase64 = FileContent.dataURLToBlob(
-      'data:text/plain;base64,SGVsbG8gV29ybGQ='
+      'data:text/plain;base64,SGVsbG8gV29ybGQ=',
     );
     expect(blobBase64.type).toBe('text/plain');
     FileContent.blobToText(blobBase64).then((text) => {
@@ -119,7 +119,7 @@ describe('FileContent', function () {
 
   it('dataURLToBlob (url encode)', function (done) {
     const blobURLEncode = FileContent.dataURLToBlob(
-      'data:text/plain,Hello%20World!'
+      'data:text/plain,Hello%20World!',
     );
     expect(blobURLEncode.type).toBe('text/plain');
     FileContent.blobToText(blobURLEncode).then((text) => {
@@ -131,7 +131,7 @@ describe('FileContent', function () {
   it('urlEncodedToBlob', function () {
     const blobURLEncode = FileContent.urlEncodedToBlob(
       'Hello%20World!',
-      'text/plain'
+      'text/plain',
     );
     expect(blobURLEncode.type).toBe('text/plain');
   });

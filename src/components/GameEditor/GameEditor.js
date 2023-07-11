@@ -76,7 +76,7 @@ export class GameEditor extends React.PureComponent {
       console.debug(`[GameEditor] Found project ID ${projectId} in URL.`);
     } else {
       console.debug(
-        `[GameEditor] No project ID and name found in URL. Showing Game Setup screen.`
+        `[GameEditor] No project ID and name found in URL. Showing Game Setup screen.`,
       );
       window.location.hash = `#/game_editor/`;
       window.location.reload();
@@ -136,7 +136,7 @@ export class GameEditor extends React.PureComponent {
               '[GameEditor] Found project',
               project,
               'with project id',
-              projectId
+              projectId,
             );
             this.setState(
               {
@@ -147,7 +147,7 @@ export class GameEditor extends React.PureComponent {
               },
               () => {
                 this.setState({ isLoaded: true });
-              }
+              },
             );
           }
         })
@@ -174,7 +174,7 @@ export class GameEditor extends React.PureComponent {
     // Adding event listener for language change.
     i18next.on('languageChanged', () => {
       this.updateToolbox(
-        this.state.blockEditorRef?.current?.getBlocklyWorkspace()
+        this.state.blockEditorRef?.current?.getBlocklyWorkspace(),
       );
     });
   }
@@ -348,7 +348,7 @@ export class GameEditor extends React.PureComponent {
       PreviewService.addAssetFile(
         this.props.project?.id || this.state.project?.id,
         assetId,
-        urlData
+        urlData,
       );
 
       // Updating block editor
@@ -366,7 +366,7 @@ export class GameEditor extends React.PureComponent {
             name,
             filename,
             urlData,
-            assetId
+            assetId,
           );
         } else if (file.type.startsWith('audio/')) {
           BlocksBuilder.addDynamicAudioFileToWorkspace(
@@ -374,7 +374,7 @@ export class GameEditor extends React.PureComponent {
             name,
             filename,
             urlData,
-            assetId
+            assetId,
           );
         } else {
           console.warn('Unsupported block file type:', file.type);
@@ -451,11 +451,11 @@ export class GameEditor extends React.PureComponent {
         .replace('autoFocus: true,', 'autoFocus: false,')
         .replace(
           'preserveDrawingBuffer: false,',
-          'preserveDrawingBuffer: true,'
+          'preserveDrawingBuffer: true,',
         )
         .replace("powerPreference: 'default',", "powerPreference: 'low-power',")
         .replace('width: window.innerWidth,', 'width: 1080,')
-        .replace('height: window.innerHeight,', 'height: 608,')
+        .replace('height: window.innerHeight,', 'height: 608,'),
     ).then(() => {
       console.log('Screenshot will be taken from', screenshotUrl);
       this.setState({ screenshotUrl: 'preview/' + screenshotUrl });

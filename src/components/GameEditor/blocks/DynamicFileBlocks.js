@@ -53,7 +53,7 @@ Blocks['dynamic_image_file'] = {
   init: function () {
     this.appendDummyInput().appendField(
       new Blockly.FieldImage('', 50, 50, ''),
-      'urlData'
+      'urlData',
     );
     this.appendDummyInput()
       .appendField(new Blockly.FieldTextInput(''), 'id')
@@ -117,7 +117,7 @@ Blocks['dynamic_audio_file'] = {
   init: function () {
     this.appendDummyInput().appendField(
       new Blockly.FieldTextInput(''),
-      'urlData'
+      'urlData',
     );
     this.appendDummyInput()
       .appendField(new Blockly.FieldTextInput(''), 'id')

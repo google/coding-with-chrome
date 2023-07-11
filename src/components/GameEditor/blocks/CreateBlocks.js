@@ -86,10 +86,10 @@ Blocks['phaser_stage_background_color'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_stage_background_color'] = function (
-  block
+  block,
 ) {
   return `this.cameras.main.setBackgroundColor("${block.getFieldValue(
-    'color'
+    'color',
   )}");`;
 };
 
@@ -105,7 +105,7 @@ Blocks['phaser_add_background'] = {
         new Blockly.FieldDropdown(() => {
           return BlocksHelper.phaserImage('bg_01');
         }),
-        'sprite'
+        'sprite',
       )
       .appendField(BlocksTemplate.image());
     this.setPreviousStatement(true, 'Create');
@@ -138,7 +138,7 @@ Blocks['phaser_add_background_scaled'] = {
         new Blockly.FieldDropdown(() => {
           return BlocksHelper.phaserImage('bg_01');
         }),
-        'sprite'
+        'sprite',
       )
       .appendField(BlocksTemplate.image())
       .appendField('with size')
@@ -159,7 +159,7 @@ Blocks['phaser_add_background_scaled'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_add_background_scaled'] = function (
-  block
+  block,
 ) {
   const text_sprite = block.getFieldValue('sprite');
   const number_width =

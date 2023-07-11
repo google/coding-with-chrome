@@ -40,7 +40,7 @@ Blocks['phaser_tile_sprite_background'] = {
         new Blockly.FieldDropdown(() => {
           return BlocksHelper.phaserImage('bg_01');
         }),
-        'sprite'
+        'sprite',
       )
       .appendField(BlocksTemplate.image());
     this.appendValueInput('x')
@@ -62,21 +62,21 @@ Blocks['phaser_tile_sprite_background'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_tile_sprite_background'] = function (
-  block
+  block,
 ) {
   const scrollFactorX = javascriptGenerator.valueToCode(
     block,
     'x',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const scrollFactorY = javascriptGenerator.valueToCode(
     block,
     'y',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   return `
     this.background = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, "${block.getFieldValue(
-      'sprite'
+      'sprite',
     )}")
       .setOrigin(0)
       .setScrollFactor(${scrollFactorX}, ${scrollFactorY});
@@ -97,7 +97,7 @@ Blocks['phaser_tile_sprite_floor_add'] = {
         new Blockly.FieldDropdown(() => {
           return BlocksHelper.phaserImage('floor');
         }),
-        'sprite'
+        'sprite',
       )
       .appendField(BlocksTemplate.image());
     this.appendValueInput('x')
@@ -119,27 +119,27 @@ Blocks['phaser_tile_sprite_floor_add'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_tile_sprite_floor_add'] = function (
-  block
+  block,
 ) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const scrollFactorX = javascriptGenerator.valueToCode(
     block,
     'x',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const scrollFactorY = javascriptGenerator.valueToCode(
     block,
     'y',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   return `
     ${variable} = this.add.tileSprite(0, (this.cameras.main.height - 50), this.cameras.main.width, 50, "${block.getFieldValue(
-    'sprite'
-  )}")
+      'sprite',
+    )}")
       .setOrigin(0)
       .setScrollFactor(${scrollFactorX}, ${scrollFactorY});
     this.physics.add.existing(${variable}, false);
@@ -161,7 +161,7 @@ Blocks['phaser_tile_sprite_ceiling_add'] = {
         new Blockly.FieldDropdown(() => {
           return BlocksHelper.phaserImage('ceiling');
         }),
-        'sprite'
+        'sprite',
       )
       .appendField(BlocksTemplate.image());
     this.appendValueInput('x')
@@ -183,28 +183,28 @@ Blocks['phaser_tile_sprite_ceiling_add'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_tile_sprite_ceiling_add'] = function (
-  block
+  block,
 ) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const scrollFactorX = javascriptGenerator.valueToCode(
     block,
     'x',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const scrollFactorY = javascriptGenerator.valueToCode(
     block,
     'y',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
 
   return `
     ${variable} = this.add.tileSprite(0, 0, this.cameras.main.width, 50, "${block.getFieldValue(
-    'sprite'
-  )}")
+      'sprite',
+    )}")
       .setOrigin(0)
       .setScrollFactor(${scrollFactorX}, ${scrollFactorY});
     this.physics.add.existing(${variable}, false);
@@ -226,7 +226,7 @@ Blocks['phaser_tile_sprite_add'] = {
         new Blockly.FieldDropdown(() => {
           return BlocksHelper.phaserImage('tile_sprite');
         }),
-        'sprite'
+        'sprite',
       )
       .appendField(BlocksTemplate.image())
       .appendField(i18next.t('WITH_POSITION'));
@@ -241,7 +241,7 @@ Blocks['phaser_tile_sprite_add'] = {
       .appendField(i18next.t('WITH_GROUP'))
       .appendField(
         new Blockly.FieldTextInput('', BlocksHelper.validateText),
-        'group'
+        'group',
       );
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
@@ -263,19 +263,19 @@ javascriptGenerator.forBlock['phaser_tile_sprite_add'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const value_x =
     javascriptGenerator.valueToCode(
       block,
       'x',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || 0;
   const value_y =
     javascriptGenerator.valueToCode(
       block,
       'y',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || 0;
   return (
     variable +
@@ -318,7 +318,7 @@ Blocks['phaser_tile_sprite_adjust'] = {
         ['y', 'y'],
         ['z', 'y'],
       ]),
-      'property'
+      'property',
     );
     this.appendValueInput('value')
       .setCheck('Number')
@@ -340,13 +340,13 @@ javascriptGenerator.forBlock['phaser_tile_sprite_adjust'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const dropdown_property = block.getFieldValue('property');
   const value_value = javascriptGenerator.valueToCode(
     block,
     'value',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   switch (dropdown_property) {
     case 'anchor.set':
@@ -406,7 +406,7 @@ javascriptGenerator.forBlock['phaser_tile_sprite_crop'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const number_top = block.getFieldValue('top');
   const number_right = block.getFieldValue('right');
@@ -462,7 +462,7 @@ javascriptGenerator.forBlock['phaser_tile_sprite_destroy'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   return variable + '.destroy();\n';
 };
@@ -494,22 +494,22 @@ Blocks['phaser_tile_sprite_autoScroll'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_tile_sprite_autoScroll'] = function (
-  block
+  block,
 ) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const value_x = javascriptGenerator.valueToCode(
     block,
     'x',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const value_y = javascriptGenerator.valueToCode(
     block,
     'y',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   return variable + '.autoScroll(' + value_x + ', ' + value_y + ');\n';
 };
@@ -523,7 +523,7 @@ Blocks['phaser_tile_sprite_immovable'] = {
       .appendField(BlocksTemplate.point())
       .appendField(i18next.t('BLOCKS_PHASER_TILE_SPRITE_CHANGE'));
     this.appendDummyInput().appendField(
-      i18next.t('AS_IMMOVABLE_BY_OTHER_OBJECTS')
+      i18next.t('AS_IMMOVABLE_BY_OTHER_OBJECTS'),
     );
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
@@ -539,12 +539,12 @@ Blocks['phaser_tile_sprite_immovable'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_tile_sprite_immovable'] = function (
-  block
+  block,
 ) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   return (
     'game.physics.arcade.enable(' +

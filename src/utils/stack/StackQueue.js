@@ -77,7 +77,7 @@ export class StackQueue {
   addPromise(command, callback, group) {
     this.addStack_(
       new StackEntry(StackType.PROMISE, command, '', callback),
-      group
+      group,
     );
   }
 
@@ -92,7 +92,7 @@ export class StackQueue {
     if (command && command instanceof Function) {
       this.addStack_(
         new StackEntry(StackType.PROMISE_RAISE_ERROR, command, '', callback),
-        group
+        group,
       );
     }
   }

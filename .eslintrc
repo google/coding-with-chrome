@@ -46,7 +46,6 @@
   },
   "env": {
     "browser": true,
-    "node": true,
     "es2022": true,
     "serviceworker": true
   },
@@ -67,6 +66,16 @@
   "overrides": [
     {
       "files": ["**/*_test.js"],
+      "env": {
+        "browser": true,
+        "node": true,
+        "es2022": true,
+        "jasmine": true,
+        "serviceworker": true
+      }
+    },
+    {
+      "files": ["**/*.conf.babel.js", "build/**/*.babel.js", "lighthouserc.js"],
       "env": {
         "browser": true,
         "node": true,

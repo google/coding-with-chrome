@@ -43,7 +43,7 @@ export class Project {
     type = ProjectType.NONE,
     name = '',
     description = '',
-    lastModified = new Date().toISOString()
+    lastModified = new Date().toISOString(),
   ) {
     this.isEmpty = true;
     this.icon = '🎮';
@@ -195,7 +195,7 @@ export class Project {
               projectEntry.type,
               projectEntry.name,
               projectEntry.description,
-              projectEntry.lastModified
+              projectEntry.lastModified,
             );
             if (projectEntry.icon) {
               project.setIcon(projectEntry.icon);
@@ -252,7 +252,7 @@ export class Project {
                   projectEntry.type,
                   projectEntry.name,
                   projectEntry.description,
-                  projectEntry.lastModified
+                  projectEntry.lastModified,
                 );
                 if (projectEntry.icon) {
                   project.setIcon(projectEntry.icon);

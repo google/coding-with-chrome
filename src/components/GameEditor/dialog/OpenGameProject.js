@@ -74,10 +74,10 @@ export class OpenGameProject extends React.PureComponent {
       this.setState({
         projects,
         projectsByDate: [...projects].sort((a, b) =>
-          a.lastModified > b.lastModified ? -1 : 1
+          a.lastModified > b.lastModified ? -1 : 1,
         ),
         projectsByName: [...projects].sort((a, b) =>
-          a.name > b.name ? 1 : -1
+          a.name > b.name ? 1 : -1,
         ),
       });
     });
@@ -91,7 +91,7 @@ export class OpenGameProject extends React.PureComponent {
       console.log(event.currentTarget.getAttribute('value'));
       // Update url with new project id and project name.
       window.location.hash = `#/game_editor/${event.currentTarget.getAttribute(
-        'value'
+        'value',
       )}`;
       window.location.reload();
     }

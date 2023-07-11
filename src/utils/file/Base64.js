@@ -46,7 +46,7 @@ export class Base64 {
                 .replace(/\+/g, '-')
                 .replace(/\//g, '_')
                 .replace(/=+$/, '') +
-                (addFilePrefix && fileType ? '.' + fileType : '')
+                (addFilePrefix && fileType ? '.' + fileType : ''),
             );
           });
       } catch (error) {

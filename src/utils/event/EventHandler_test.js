@@ -57,7 +57,7 @@ describe('EventHandler', function () {
     const Key2 = testEventHandler.listen(
       target,
       EventType.CLICK,
-      listener.test
+      listener.test,
     );
     expect(Key2).toEqual(testEventHandler.getLength());
   });
@@ -75,7 +75,7 @@ describe('EventHandler', function () {
       eventHandler = testEventHandler.listen(
         'test_not_existing',
         EventType.CLICK,
-        listener.test
+        listener.test,
       );
     }).toThrowError(/Unable to find element test-test_not_existing/);
     expect(eventHandler).toBe(null);
@@ -94,7 +94,7 @@ describe('EventHandler', function () {
     const testEvent = testEventHandler.listen(
       target,
       EventType.CLICK,
-      listener.test
+      listener.test,
     );
     target.click();
     testEventHandler.unlisten(testEvent);
@@ -126,7 +126,7 @@ describe('EventHandler with scope', function () {
     const Key2 = testEventHandler.listen(
       target,
       EventType.CLICK,
-      listener.test
+      listener.test,
     );
     expect(Key2).toEqual(testEventHandler.getLength());
   });
@@ -151,7 +151,7 @@ describe('EventHandler with scope', function () {
     const testEvent = testEventHandler.listen(
       target,
       EventType.CLICK,
-      listener.test
+      listener.test,
     );
     target.click();
     testEventHandler.unlisten(testEvent);

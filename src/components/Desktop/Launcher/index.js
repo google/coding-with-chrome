@@ -97,9 +97,9 @@ export class Launcher extends React.PureComponent {
             (project) => {
               const root = ReactDOM.createRoot(node);
               root.render(
-                <module.BlockEditor windowId={windowId} project={project} />
+                <module.BlockEditor windowId={windowId} project={project} />,
               );
-            }
+            },
           );
         }
       });
@@ -151,7 +151,7 @@ export class Launcher extends React.PureComponent {
                 if (event.getWindowId() == windowId) {
                   terminalGui.close();
                 }
-              }
+              },
             );
           }
         }

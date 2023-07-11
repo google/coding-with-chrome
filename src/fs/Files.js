@@ -242,7 +242,7 @@ export class Files {
     const parentPath = Path.findPathInObject(Path.dirname(path), this.dirs);
     if (!parentPath && required) {
       throw new Error(
-        'Missing parent folder ' + Path.dirname(path) + ' for ' + path
+        'Missing parent folder ' + Path.dirname(path) + ' for ' + path,
       );
     }
     return parentPath;

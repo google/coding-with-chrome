@@ -57,7 +57,7 @@ export class PreviewService {
     this.events.listen(self, EventType.FETCH, this.fetch);
     this.registered = true;
     console.log(
-      `${this.prefix} Registered Service Worker with cache ${PREVIEW_SERVICE_WORKER_CACHE_NAME} ...`
+      `${this.prefix} Registered Service Worker with cache ${PREVIEW_SERVICE_WORKER_CACHE_NAME} ...`,
     );
   }
 
@@ -92,7 +92,7 @@ export class PreviewService {
             cache.put(event.request, response.clone());
             return response;
           });
-        })
+        }),
       );
     } else if (event.request.method === 'GET') {
       // Status URLs for easier testing.
@@ -112,7 +112,7 @@ export class PreviewService {
           } else {
             return new Response('Not found');
           }
-        })
+        }),
       );
     }
   }
@@ -127,7 +127,7 @@ export class PreviewService {
     return PreviewService.saveFile(
       filename,
       content,
-      'text/html; charset=utf-8'
+      'text/html; charset=utf-8',
     );
   }
 
@@ -161,7 +161,7 @@ export class PreviewService {
   static async saveFile(
     filename,
     content,
-    contentType = 'text/plain; charset=utf-8'
+    contentType = 'text/plain; charset=utf-8',
   ) {
     // Normalize filename to preview path.
     if (!filename.startsWith(APP_BASE_PATH + 'preview/')) {

@@ -40,7 +40,7 @@ Blocks['phaser_audio_add_bgm'] = {
       .appendField(i18next.t('BLOCKS_PHASER_AUDIO_ADD_BGM'))
       .appendField(
         new Blockly.FieldTextInput('bgm', BlocksHelper.validateText),
-        'audio'
+        'audio',
       )
       .appendField(BlocksTemplate.audio())
       .appendField(i18next.t('WITH_VOLUME'))
@@ -51,7 +51,7 @@ Blocks['phaser_audio_add_bgm'] = {
           ['no loop', 'false'],
           ['loop', 'true'],
         ]),
-        'loop'
+        'loop',
       );
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
@@ -73,7 +73,7 @@ javascriptGenerator.forBlock['phaser_audio_add_bgm'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   return (
     'if (typeof ' +
@@ -108,7 +108,7 @@ Blocks['phaser_audio_add'] = {
       .appendField(i18next.t('AS_AUDIO'))
       .appendField(
         new Blockly.FieldTextInput('audio', BlocksHelper.validateText),
-        'audio'
+        'audio',
       )
       .appendField(BlocksTemplate.audio())
       .appendField(i18next.t('WITH_VOLUME'))
@@ -119,7 +119,7 @@ Blocks['phaser_audio_add'] = {
           ['no loop', 'false'],
           ['loop', 'true'],
         ]),
-        'loop'
+        'loop',
       );
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
@@ -141,7 +141,7 @@ javascriptGenerator.forBlock['phaser_audio_add'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   return `
   ${variable} = this.sound.add('${textAudio}', {
@@ -174,7 +174,7 @@ javascriptGenerator.forBlock['phaser_audio_play'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   return variable + '.play();\n';
 };
@@ -204,7 +204,7 @@ javascriptGenerator.forBlock['phaser_audio_pause'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   return variable + '.pause();\n';
 };
@@ -234,7 +234,7 @@ javascriptGenerator.forBlock['phaser_audio_resume'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   return variable + '.resume();\n';
 };
@@ -264,7 +264,7 @@ javascriptGenerator.forBlock['phaser_audio_stop'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   return variable + '.stop();\n';
 };

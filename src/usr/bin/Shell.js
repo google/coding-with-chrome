@@ -264,7 +264,7 @@ export class Shell extends App {
       path = path.replace(this.env.HOME, '~');
     }
     this.write(
-      `\x1B[1;32m${this.env.USER}@${hostname}\x1B[0m:\x1B[1;34m${path}\x1B[0m$ `
+      `\x1B[1;32m${this.env.USER}@${hostname}\x1B[0m:\x1B[1;34m${path}\x1B[0m$ `,
     );
     if (data) {
       this.write(data);

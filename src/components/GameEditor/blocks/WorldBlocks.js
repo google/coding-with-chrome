@@ -86,12 +86,12 @@ javascriptGenerator.forBlock['phaser_world_wrap'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const value_value = javascriptGenerator.valueToCode(
     block,
     'value',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   return (
     'this.physics.world.wrap(' + variable + ', ' + (value_value || 0) + ');\n'
@@ -112,7 +112,7 @@ Blocks['phaser_world_attributes'] = {
           [i18next.t('BLOCKS_WIDTH'), 'width'],
           [i18next.t('BLOCKS_HEIGHT'), 'height'],
         ]),
-        'attribute'
+        'attribute',
       );
     this.setOutput(true, null);
     this.setColour(345);
@@ -172,7 +172,7 @@ Blocks['phaser_world_arcade_physics'] = {
           [i18next.t('GRAVITY_Y'), 'gravity.y'],
           [i18next.t('PAUSED'), 'isPaused'],
         ]),
-        'property'
+        'property',
       );
     this.appendValueInput('value')
       .setCheck('Number')
@@ -196,7 +196,7 @@ javascriptGenerator.forBlock['phaser_world_arcade_physics'] = function (block) {
   const value_value = javascriptGenerator.valueToCode(
     block,
     'value',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   return (
     'this.physics.world.' + dropdown_property + ' = ' + value_value + ';\n'
@@ -219,7 +219,7 @@ Blocks['phaser_world_sort_direction'] = {
           [i18next.t('TOP_TO_BOTTOM'), '3'],
           [i18next.t('BOTTOM_TO_TOP'), '4'],
         ]),
-        'property'
+        'property',
       );
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');

@@ -56,7 +56,7 @@ javascriptGenerator.forBlock['phaser_time_event'] = function (block) {
   const value_time = javascriptGenerator.valueToCode(
     block,
     'time',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const statements_func = javascriptGenerator.statementToCode(block, 'func');
   return (
@@ -97,7 +97,7 @@ javascriptGenerator.forBlock['phaser_time_loop_event'] = function (block) {
   const value_time = javascriptGenerator.valueToCode(
     block,
     'time',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const statements_func = javascriptGenerator.statementToCode(block, 'func');
   return `

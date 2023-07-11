@@ -36,8 +36,8 @@ export function getDynamicAudioFilesToolbox(files) {
         file.name,
         file.filename,
         file.url,
-        file.urlData
-      )
+        file.urlData,
+      ),
     );
   });
   return getDynamicAudioFileBlocks;
@@ -55,8 +55,8 @@ export function getDynamicImageFilesToolbox(files) {
         file.name,
         file.filename,
         file.url,
-        file.urlData
-      )
+        file.urlData,
+      ),
     );
   });
   return getDynamicImageFileBlocks;

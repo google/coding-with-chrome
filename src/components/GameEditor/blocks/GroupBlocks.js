@@ -40,7 +40,7 @@ Blocks['phaser_group_add'] = {
       .appendField(i18next.t('AS_GROUP'))
       .appendField(
         new Blockly.FieldTextInput('group_name', BlocksHelper.validateText),
-        'name'
+        'name',
       );
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
@@ -60,7 +60,7 @@ javascriptGenerator.forBlock['phaser_group_add'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   return variable + " = this.add.group(undefined, '" + text_name + "');\n";
 };
@@ -89,7 +89,7 @@ javascriptGenerator.forBlock['phaser_group_count_living'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const code = variable + '.getLength()';
   return [code, javascriptGenerator.ORDER_NONE];

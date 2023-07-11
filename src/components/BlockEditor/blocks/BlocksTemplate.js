@@ -35,7 +35,7 @@ export class BlocksTemplate {
       APP_BASE_PATH + 'assets/icons/circle_20pt.png',
       15,
       17,
-      '▼'
+      '▼',
     );
   };
 
@@ -47,7 +47,7 @@ export class BlocksTemplate {
       APP_BASE_PATH + 'assets/icons/circle_20pt_top.png',
       15,
       17,
-      '▼'
+      '▼',
     );
   };
 
@@ -59,7 +59,7 @@ export class BlocksTemplate {
       APP_BASE_PATH + 'assets/icons/add_circle_20pt.png',
       18,
       18,
-      '▼'
+      '▼',
     );
   };
 
@@ -71,7 +71,7 @@ export class BlocksTemplate {
       APP_BASE_PATH + 'assets/icons/collide_20pt.png',
       18,
       18,
-      '▼'
+      '▼',
     );
   };
 
@@ -83,7 +83,7 @@ export class BlocksTemplate {
       APP_BASE_PATH + 'assets/icons/event_20pt.png',
       18,
       18,
-      '▼'
+      '▼',
     );
   };
 
@@ -95,7 +95,7 @@ export class BlocksTemplate {
       APP_BASE_PATH + 'assets/icons/running_man_20pt.png',
       18,
       18,
-      '▼'
+      '▼',
     );
   };
 
@@ -107,7 +107,7 @@ export class BlocksTemplate {
       APP_BASE_PATH + 'assets/icons/adjust_20pt.png',
       18,
       18,
-      '▼'
+      '▼',
     );
   };
 
@@ -119,7 +119,7 @@ export class BlocksTemplate {
       APP_BASE_PATH + 'assets/icons/image_20pt.png',
       18,
       18,
-      '▼'
+      '▼',
     );
   };
 
@@ -131,7 +131,7 @@ export class BlocksTemplate {
       APP_BASE_PATH + 'assets/icons/mouse_20pt.png',
       18,
       18,
-      '▼'
+      '▼',
     );
   };
 
@@ -143,7 +143,7 @@ export class BlocksTemplate {
       APP_BASE_PATH + 'assets/icons/keyboard_20pt.png',
       18,
       18,
-      '▼'
+      '▼',
     );
   };
 
@@ -155,7 +155,7 @@ export class BlocksTemplate {
       APP_BASE_PATH + 'assets/icons/repeat_20pt.png',
       18,
       18,
-      '▼'
+      '▼',
     );
   };
 
@@ -167,7 +167,7 @@ export class BlocksTemplate {
       APP_BASE_PATH + 'assets/icons/file_download_20pt.png',
       18,
       18,
-      '▼'
+      '▼',
     );
   };
 
@@ -179,7 +179,7 @@ export class BlocksTemplate {
       APP_BASE_PATH + 'assets/icons/storage_20pt.png',
       18,
       18,
-      '▼'
+      '▼',
     );
   };
 
@@ -191,7 +191,7 @@ export class BlocksTemplate {
       APP_BASE_PATH + 'assets/icons/audio_20pt.png',
       18,
       18,
-      '▼'
+      '▼',
     );
   };
 
@@ -203,7 +203,7 @@ export class BlocksTemplate {
       APP_BASE_PATH + 'assets/icons/timer_20pt.png',
       18,
       18,
-      '▼'
+      '▼',
     );
   };
 
@@ -215,7 +215,7 @@ export class BlocksTemplate {
       APP_BASE_PATH + 'assets/icons/timelapse_20pt.png',
       18,
       18,
-      '▼'
+      '▼',
     );
   };
 }

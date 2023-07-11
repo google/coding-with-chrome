@@ -42,7 +42,7 @@ export class BlocksBuilder {
               });
             reader.onerror = reject;
             reader.readAsDataURL(blob);
-          })
+          }),
       );
     });
   }
@@ -59,7 +59,7 @@ export class BlocksBuilder {
     name,
     filename,
     urlData,
-    assetId = ''
+    assetId = '',
   ) {
     if (!workspace) {
       console.warn('Unable to load workspace for image block', name);
@@ -108,7 +108,7 @@ export class BlocksBuilder {
     name,
     filename,
     urlData,
-    assetId = ''
+    assetId = '',
   ) {
     if (!workspace) {
       console.warn('Unable to load workspace for audio block', name);

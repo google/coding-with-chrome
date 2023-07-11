@@ -65,7 +65,7 @@ export class Screenshot extends React.PureComponent {
     }
     console.error(
       `Screenshot Instance error with url ${this.props.url}:`,
-      event
+      event,
     );
     this.setState({ show: false });
   }

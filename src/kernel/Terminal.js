@@ -44,7 +44,7 @@ export class Terminal {
     // Register Process
     this.process = processManager.registerProcess(
       this,
-      kernel ? kernel.process.pid : 1000
+      kernel ? kernel.process.pid : 1000,
     );
 
     /** @type {boolean} */

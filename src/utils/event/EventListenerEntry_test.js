@@ -35,7 +35,7 @@ describe('ListenerEntry', function () {
     target,
     type,
     listener.test,
-    options
+    options,
   );
 
   it('Is valid object type', function () {
@@ -45,17 +45,17 @@ describe('ListenerEntry', function () {
   it('.target by Id', function () {
     document.body.insertAdjacentHTML(
       'afterbegin',
-      '<div id="test-listener-entry"></div>'
+      '<div id="test-listener-entry"></div>',
     );
     const testListenerTarget = new EventListenerEntry(
       'listener-entry',
       type,
       listener.test,
       options,
-      'test-'
+      'test-',
     );
     expect(testListenerTarget.target).toEqual(
-      document.getElementById('test-listener-entry')
+      document.getElementById('test-listener-entry'),
     );
   });
 

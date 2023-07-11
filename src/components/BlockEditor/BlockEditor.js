@@ -137,14 +137,14 @@ export class BlockEditor extends React.PureComponent {
     // Creating databases for saving and loading the workspace.
     this.database = new Database(
       this.props.project.id,
-      this.props.project.type
+      this.props.project.type,
     );
 
     // Adding event listener for window resize, if windowId is set.
     if (this.props.windowId) {
       WindowEventTarget.getTarget().addEventListener(
         'windowResize',
-        this.handleWindowResize.bind(this)
+        this.handleWindowResize.bind(this),
       );
     }
 
@@ -212,7 +212,7 @@ export class BlockEditor extends React.PureComponent {
       const xml = this.getXML();
       Blockly.Xml.clearWorkspaceAndLoadFromXml(
         Blockly.utils.xml.textToDom(xml),
-        this.getBlocklyWorkspace()
+        this.getBlocklyWorkspace(),
       );
     }
   }
@@ -266,7 +266,7 @@ export class BlockEditor extends React.PureComponent {
       code = this.props.template(
         code,
         this.props.project,
-        this.state.blocklyWorkspace
+        this.state.blocklyWorkspace,
       );
     }
     return code;
@@ -297,7 +297,7 @@ export class BlockEditor extends React.PureComponent {
   getPrettyXML() {
     const xmlDom = Blockly.Xml.workspaceToDom(
       this.state.blocklyWorkspace,
-      true
+      true,
     );
     return Blockly.Xml.domToText(xmlDom);
   }
@@ -327,7 +327,7 @@ export class BlockEditor extends React.PureComponent {
         'Unable to load workspace',
         this.getBlocklyWorkspace(),
         'with:',
-        xml
+        xml,
       );
       return;
     }
@@ -337,7 +337,7 @@ export class BlockEditor extends React.PureComponent {
     const parsedXML = this.praseXML(xml, files);
     Blockly.Xml.clearWorkspaceAndLoadFromXml(
       Blockly.utils.xml.textToDom(parsedXML),
-      this.getBlocklyWorkspace()
+      this.getBlocklyWorkspace(),
     );
 
     // Parse assets from workspace, if needed.
@@ -356,7 +356,7 @@ export class BlockEditor extends React.PureComponent {
           PreviewService.addAssetFile(
             this.props.project.id,
             assetId,
-            value.urlData
+            value.urlData,
           );
         });
       }
@@ -367,7 +367,7 @@ export class BlockEditor extends React.PureComponent {
       { hasChanged: hasChanged, hasSaved: true, xml: parsedXML },
       () => {
         this.handleXMLChange(xml, hasChanged);
-      }
+      },
     );
 
     // Clear undo stack.
@@ -427,7 +427,7 @@ export class BlockEditor extends React.PureComponent {
     if (activeTreeRoot == this.lastActiveTreeRoot) {
       activeTreeRoot.classList.toggle(
         'expanded',
-        activeTreeRoot.ariaExpanded === 'true'
+        activeTreeRoot.ariaExpanded === 'true',
       );
       return;
     }
@@ -585,7 +585,7 @@ export class BlockEditor extends React.PureComponent {
   saveWorkspace() {
     // Save workspace to database.
     console.log(
-      `Saving workspace for ${this.props.project} into ${this.database}`
+      `Saving workspace for ${this.props.project} into ${this.database}`,
     );
     this.database.put('name', this.props.project.name);
     this.database.put('description', this.props.project.description);

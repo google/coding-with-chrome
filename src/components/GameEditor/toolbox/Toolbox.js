@@ -85,9 +85,9 @@ export class Toolbox {
                 container: 'icon_perm_media blocklyTreeChild',
               },
               contents: DynamicFilesToolbox.getDynamicImageFilesToolbox(
-                imageFiles
+                imageFiles,
               ).concat(
-                DynamicFilesToolbox.getDynamicAudioFilesToolbox(audioFiles)
+                DynamicFilesToolbox.getDynamicAudioFilesToolbox(audioFiles),
               ),
             },
             {
@@ -118,7 +118,7 @@ export class Toolbox {
                 container: 'icon_audiotrack blocklyTreeChild',
               },
               contents: AudioToolbox.createBlocks.concat(
-                AudioToolbox.defaultBlocks
+                AudioToolbox.defaultBlocks,
               ),
             },
             {
@@ -129,7 +129,7 @@ export class Toolbox {
                 container: 'icon_portrait blocklyTreeChild',
               },
               contents: SpriteToolbox.createBlocks.concat(
-                SpriteToolbox.defaultBlocks
+                SpriteToolbox.defaultBlocks,
               ),
             },
             {
@@ -140,7 +140,7 @@ export class Toolbox {
                 container: 'icon_burst_mode blocklyTreeChild',
               },
               contents: TileSpriteToolbox.createBlocks.concat(
-                TileSpriteToolbox.defaultBlocks
+                TileSpriteToolbox.defaultBlocks,
               ),
             },
             {
@@ -151,7 +151,7 @@ export class Toolbox {
                 container: 'icon_rotate_90_degrees_ccw blocklyTreeChild',
               },
               contents: ArcadePhysicsToolbox.createBlocks.concat(
-                ArcadePhysicsToolbox.defaultBlocks
+                ArcadePhysicsToolbox.defaultBlocks,
               ),
             },
             {
@@ -163,7 +163,7 @@ export class Toolbox {
               },
               contents: TextToolbox.createBlocks.concat(
                 TextToolbox.eventBlocks,
-                TextToolbox.defaultBlocks
+                TextToolbox.defaultBlocks,
               ),
             },
             {
@@ -201,7 +201,7 @@ export class Toolbox {
                 container: 'icon_computer blocklyTreeChild',
               },
               contents: WorldToolbox.createBlocks.concat(
-                WorldToolbox.defaultBlocks
+                WorldToolbox.defaultBlocks,
               ),
             },
           ]),
@@ -252,7 +252,7 @@ export class Toolbox {
                   container: 'icon_rotate_90_degrees_ccw blocklyTreeChild',
                 },
                 contents: ArcadePhysicsToolbox.defaultBlocks.concat(
-                  ArcadePhysicsToolbox.eventBlocks
+                  ArcadePhysicsToolbox.eventBlocks,
                 ),
               },
               {
@@ -263,10 +263,10 @@ export class Toolbox {
                   container: 'icon_format_shapes blocklyTreeChild',
                 },
                 contents: TextToolbox.eventBlocks.concat(
-                  TextToolbox.defaultBlocks
+                  TextToolbox.defaultBlocks,
                 ),
               },
-            ]
+            ],
           ),
         },
         {
@@ -313,7 +313,7 @@ export class Toolbox {
                 container: 'icon_rotate_90_degrees_ccw blocklyTreeChild',
               },
               contents: ArcadePhysicsToolbox.defaultBlocks.concat(
-                ArcadePhysicsToolbox.eventBlocks
+                ArcadePhysicsToolbox.eventBlocks,
               ),
             },
             {
@@ -360,7 +360,7 @@ export class Toolbox {
                 container: 'icon_computer blocklyTreeChild',
               },
               contents: WorldToolbox.updateBlocks.concat(
-                WorldToolbox.defaultBlocks
+                WorldToolbox.defaultBlocks,
               ),
             },
           ]),

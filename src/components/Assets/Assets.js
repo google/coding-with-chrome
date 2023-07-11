@@ -115,9 +115,9 @@ export class Assets extends React.PureComponent {
                 'bytes and compression rate of',
                 Math.round(
                   100 -
-                    (webPBase64Encoding.length / base64Encoding.length) * 100
+                    (webPBase64Encoding.length / base64Encoding.length) * 100,
                 ),
-                '%'
+                '%',
               );
               this.props.onDropFile(file, webPBase64Encoding);
             } else {

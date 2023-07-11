@@ -73,7 +73,7 @@ export class WindowManager extends React.PureComponent {
    */
   static addWindow(infos) {
     const windowId = WindowManager.getWindowId(
-      infos.id || 'unnamed_' + Math.random().toString(36).substring(2, 5)
+      infos.id || 'unnamed_' + Math.random().toString(36).substring(2, 5),
     );
     const existingWindow = WindowManager.getWindowNode(windowId);
     return new Promise((resolve, reject) => {
@@ -81,12 +81,12 @@ export class WindowManager extends React.PureComponent {
         if (existingWindow instanceof HTMLElement) {
           console.warn(
             `Will use existing window with id ${windowId}:`,
-            existingWindow
+            existingWindow,
           );
           resolve(windowId);
         } else {
           reject(
-            new Error(`Existing element for ${windowId} is no HTMLElement!`)
+            new Error(`Existing element for ${windowId} is no HTMLElement!`),
           );
         }
         return;
@@ -113,8 +113,8 @@ export class WindowManager extends React.PureComponent {
           500,
           300,
           WindowManager.lastXPosition,
-          WindowManager.lastYPosition
-        )
+          WindowManager.lastYPosition,
+        ),
       ).then((windowId) => {
         resolve(windowId);
       });
@@ -146,7 +146,7 @@ export class WindowManager extends React.PureComponent {
               reject(new Error(`Unable to find element for ${windowId}!`));
             }
           }, 100);
-        }
+        },
       );
     });
   }
@@ -167,7 +167,7 @@ export class WindowManager extends React.PureComponent {
    */
   static getWindowNode(windowId) {
     return document.querySelector(
-      '#' + WindowManager.getWindowId(windowId) + ' .wb-body'
+      '#' + WindowManager.getWindowId(windowId) + ' .wb-body',
     );
   }
 
@@ -189,7 +189,7 @@ export class WindowManager extends React.PureComponent {
             callback();
           });
         }
-      }
+      },
     );
   }
 
@@ -224,7 +224,7 @@ export class WindowManager extends React.PureComponent {
   handleResize(windowId, width, height) {
     console.debug(`Resize request for ${windowId} with ${width} ${height} ...`);
     WindowEventTarget.getTarget().dispatchEvent(
-      new WindowResizeEvent(windowId)
+      new WindowResizeEvent(windowId),
     );
   }
 

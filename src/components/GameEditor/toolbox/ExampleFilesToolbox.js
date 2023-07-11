@@ -49,8 +49,8 @@ for (const imageData of sampleImageData) {
       PhaserBlocksBuilder.getStaticImageFileBlock(
         data.name,
         imageURL,
-        data.dataURL
-      )
+        data.dataURL,
+      ),
     );
   });
 }

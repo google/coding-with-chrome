@@ -101,7 +101,7 @@ javascriptGenerator.forBlock['phaser_debug_sprite'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
 
   return 'game.debug.spriteInfo(' + variable + ', 32, 32);\n';

@@ -46,7 +46,7 @@ export class CodeEditorSettings {
    * @return {Promise}
    */
   static setShowZebraStripes(
-    showZebraStripes = this.getShowZebraStripesDefault()
+    showZebraStripes = this.getShowZebraStripesDefault(),
   ) {
     return Settings.DATABASE.put(PREFIX + 'showZebraStripes', showZebraStripes);
   }

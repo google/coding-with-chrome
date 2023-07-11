@@ -43,7 +43,7 @@ export class FileSystem {
   constructor(kernel, processManager = StaticProcessManager) {
     this.process = processManager.registerProcess(
       this,
-      kernel ? kernel.process.pid : 1000
+      kernel ? kernel.process.pid : 1000,
     );
 
     this.fileSystem = new FileSystemHandler();

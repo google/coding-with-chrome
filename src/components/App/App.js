@@ -25,7 +25,7 @@ import { HashRouter, Routes, Route } from 'react-router-dom';
 const DesktopApp = lazy(() => import('../Desktop'));
 const GameEditor = lazy(() => import('../GameEditor'));
 const GameEditorSelectScreen = lazy(() =>
-  import('../GameEditor/GameEditorSelectScreen')
+  import('../GameEditor/GameEditorSelectScreen'),
 );
 const SelectScreen = lazy(() => import('../SelectScreen'));
 

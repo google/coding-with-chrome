@@ -65,7 +65,7 @@ export class Database {
       'TestIndexedDBDisabled' in window
     ) {
       return Promise.reject(
-        new Error(`IndexedDB is disabled or not supported by this browser!`)
+        new Error(`IndexedDB is disabled or not supported by this browser!`),
       );
     }
     const formerConfig = this.config_;
@@ -90,7 +90,7 @@ export class Database {
       console.log(
         `Opening database ${this.name_} with ${
           this.version_ || 'auto version'
-        } ...`
+        } ...`,
       );
       const dbRequest = indexedDB.open(this.name_, this.version_);
       dbRequest.onsuccess = (event) => {
@@ -135,7 +135,7 @@ export class Database {
       this.database_.onversionchange = (event) => {
         console.warn(
           `Database ${this.name_} is outdated and will be closed!`,
-          event
+          event,
         );
         this.database_.close();
         reject(new Error('Database is outdated!'));
@@ -144,7 +144,7 @@ export class Database {
       // Check if default object store is available.
       if (this.database_.objectStoreNames.contains(this.defaultObjectStore_)) {
         console.info(
-          `Opened database ${this.name_} with version ${this.version_}.`
+          `Opened database ${this.name_} with version ${this.version_}.`,
         );
         this.upgradeNeeded_ = false;
         return resolve(this.database_);
@@ -153,7 +153,7 @@ export class Database {
       // Create default object store by forcing an upgrade.
       console.warn(
         `Opened database ${this.name_} with version ${this.version_} but ` +
-          `default object store ${this.defaultObjectStore_} is missing!`
+          `default object store ${this.defaultObjectStore_} is missing!`,
       );
       this.version_ = this.database_.version + 1;
       this.database_.close();
@@ -186,7 +186,7 @@ export class Database {
         // @ts-ignore
         const database = event.target.result;
         console.log(
-          `Upgrading database ${this.name_} to version ${database.version}`
+          `Upgrading database ${this.name_} to version ${database.version}`,
         );
         this.knownObjectStores_.forEach((objetStoreName) => {
           if (!database.objectStoreNames.contains(objetStoreName)) {
@@ -210,14 +210,14 @@ export class Database {
     return new Promise((resolve, reject) => {
       if (typeof group != 'undefined' && !this.existObjectStore_(group)) {
         return reject(
-          new Error(`Object store group ${group} does not exists in database!`)
+          new Error(`Object store group ${group} does not exists in database!`),
         );
       }
       this.open().then(() => {
         console.log(
           `[${this.name_}:${
             group || this.defaultObjectStore_
-          }] Executing ${command}(${params})`
+          }] Executing ${command}(${params})`,
         );
         /* jshint -W014 */
         const objectStore = ['get', 'getAll', 'getAllKeys'].includes(command)
@@ -226,15 +226,15 @@ export class Database {
         if (!objectStore) {
           return reject(
             new Error(
-              `Object store ${objectStore} for group ${group} does not exists in database!`
-            )
+              `Object store ${objectStore} for group ${group} does not exists in database!`,
+            ),
           );
         }
         if (typeof objectStore[command] !== 'function') {
           return reject(
             new Error(
-              `Object store ${objectStore} for group ${group} does not support command ${command}!`
-            )
+              `Object store ${objectStore} for group ${group} does not support command ${command}!`,
+            ),
           );
         }
         const request = objectStore[command](...params);
@@ -244,13 +244,13 @@ export class Database {
         request.onerror = (error) => {
           reject(
             new Error(
-              `Failed to execute transaction "${command}" for ${this.name_} with "${params}": ${error.target.error}`
-            )
+              `Failed to execute transaction "${command}" for ${this.name_} with "${params}": ${error.target.error}`,
+            ),
           );
         };
         request.onabort = () => {
           reject(
-            new Error(`Transaction "${command}" for ${this.name_} aborted!`)
+            new Error(`Transaction "${command}" for ${this.name_} aborted!`),
           );
         };
       });

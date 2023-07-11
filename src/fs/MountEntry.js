@@ -203,7 +203,7 @@ export class MountEntry {
     }
     if (!result) {
       throw new Error(
-        `Unable to resolve target path for ${path} within ${this.path}`
+        `Unable to resolve target path for ${path} within ${this.path}`,
       );
     }
     return result;

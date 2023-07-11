@@ -70,7 +70,7 @@ Blocks['phaser_load_image'] = {
       .appendField(i18next.t('BLOCKS_PHASER_LOAD_IMAGE'))
       .appendField(
         new Blockly.FieldTextInput('image', BlocksHelper['validate_text']),
-        'name'
+        'name',
       );
     this.appendValueInput('image').setCheck('Image');
     this.setInputsInline(true);
@@ -92,7 +92,7 @@ javascriptGenerator.forBlock['phaser_load_image'] = function (block) {
   const value_image = javascriptGenerator.valueToCode(
     block,
     'image',
-    javascriptGenerator.ORDER_NONE
+    javascriptGenerator.ORDER_NONE,
   );
   return "this.load.image('" + text_name + "', '" + value_image + "');\n";
 };
@@ -107,7 +107,7 @@ Blocks['phaser_load_audio'] = {
       .appendField(i18next.t('BLOCKS_PHASER_LOAD_AUDIO'))
       .appendField(
         new Blockly.FieldTextInput('sound', BlocksHelper['validate_text']),
-        'name'
+        'name',
       );
     this.appendValueInput('audio').setCheck('Audio');
     this.setInputsInline(true);
@@ -129,7 +129,7 @@ javascriptGenerator.forBlock['phaser_load_audio'] = function (block) {
   const value_audio = javascriptGenerator.valueToCode(
     block,
     'audio',
-    javascriptGenerator.ORDER_NONE
+    javascriptGenerator.ORDER_NONE,
   );
   return "this.load.audio('" + text_name + "', '" + value_audio + "');\n";
 };

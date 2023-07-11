@@ -42,7 +42,7 @@ Blocks['phaser_sprite_add'] = {
         new Blockly.FieldDropdown(() => {
           return BlocksHelper.phaserImage('sprite');
         }),
-        'sprite'
+        'sprite',
       )
       .appendField(BlocksTemplate.image())
       .appendField(i18next.t('WITH_POSITION'));
@@ -67,19 +67,19 @@ javascriptGenerator.forBlock['phaser_sprite_add'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const value_x =
     javascriptGenerator.valueToCode(
       block,
       'x',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || 0;
   const value_y =
     javascriptGenerator.valueToCode(
       block,
       'y',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || 0;
   return `${variable} = this.add.sprite(${value_x}, ${value_y}, '${text_sprite}');`;
 };
@@ -110,7 +110,7 @@ Blocks['phaser_sprite_adjust'] = {
         ['y', 'y'],
         ['z', 'y'],
       ]),
-      'property'
+      'property',
     );
     this.appendValueInput('value')
       .setCheck('Number')
@@ -132,13 +132,13 @@ javascriptGenerator.forBlock['phaser_sprite_adjust'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const dropdown_property = block.getFieldValue('property');
   const value_value = javascriptGenerator.valueToCode(
     block,
     'value',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   switch (dropdown_property) {
     case 'anchor.set':
@@ -183,24 +183,24 @@ Blocks['phaser_sprite_adjust_dimension'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_sprite_adjust_dimension'] = function (
-  block
+  block,
 ) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const value_width =
     javascriptGenerator.valueToCode(
       block,
       'width',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || 50;
   const value_height =
     javascriptGenerator.valueToCode(
       block,
       'height',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || 50;
   return `
     ${variable}.displayWidth = ${value_width};
@@ -214,7 +214,7 @@ javascriptGenerator.forBlock['phaser_sprite_adjust_dimension'] = function (
 Blocks['phaser_sprite_get'] = {
   init: function () {
     this.appendValueInput('variable').appendField(
-      i18next.t('BLOCKS_PHASER_SPRITE_CHANGE')
+      i18next.t('BLOCKS_PHASER_SPRITE_CHANGE'),
     );
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
@@ -222,7 +222,7 @@ Blocks['phaser_sprite_get'] = {
         ['x', 'x'],
         ['y', 'y'],
       ]),
-      'property'
+      'property',
     );
     this.setOutput(true, null);
     this.setColour(230);
@@ -240,7 +240,7 @@ javascriptGenerator.forBlock['phaser_sprite_get'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const dropdown_property = block.getFieldValue('property');
   const code = variable + '.' + dropdown_property;
@@ -274,7 +274,7 @@ javascriptGenerator.forBlock['phaser_sprite_destroy'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   return variable + '.destroy();\n';
 };
@@ -288,7 +288,7 @@ Blocks['phaser_sprite_immovable'] = {
       .appendField(BlocksTemplate.point())
       .appendField(i18next.t('BLOCKS_PHASER_SPRITE_CHANGE'));
     this.appendDummyInput().appendField(
-      i18next.t('AS_IMMOVABLE_BY_OTHER_OBJECTS')
+      i18next.t('AS_IMMOVABLE_BY_OTHER_OBJECTS'),
     );
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
@@ -307,7 +307,7 @@ javascriptGenerator.forBlock['phaser_sprite_immovable'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   return (
     'game.physics.arcade.enable(' +

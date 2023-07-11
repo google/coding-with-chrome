@@ -34,9 +34,9 @@ Blocks['phaser_game'] = {
       .appendField(
         new Blockly.FieldTextInput(
           i18next.t('UNNAMED_GAME'),
-          BlocksHelper.validateText
+          BlocksHelper.validateText,
         ),
-        'name'
+        'name',
       )
       .appendField(i18next.t('BLOCKS_PHASER_WITH_THE_SIZE'))
       .appendField(new Blockly.FieldNumber(400, 0, 5760), 'width')
@@ -92,14 +92,14 @@ Blocks['phaser_game_state'] = {
       .appendField(i18next.t('BLOCKS_PHASER_GAME_STATE'))
       .appendField(
         new Blockly.FieldTextInput('main', BlocksHelper.validateText),
-        'name'
+        'name',
       )
       .appendField(
         new Blockly.FieldDropdown([
           [i18next.t('BLOCKS_PHASER_NO_AUTOSTART'), 'false'],
           [i18next.t('BLOCKS_PHASER_AUTOSTART'), 'true'],
         ]),
-        'autostart'
+        'autostart',
       );
     this.appendStatementInput('state').setCheck(['Preload_']);
     this.setPreviousStatement(true, 'Game_State');
@@ -139,7 +139,7 @@ Blocks['phaser_game_start'] = {
       .appendField(i18next.t('BLOCKS_PHASER_GAME_START'))
       .appendField(
         new Blockly.FieldTextInput('main', BlocksHelper.validateText),
-        'name'
+        'name',
       );
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);

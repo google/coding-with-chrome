@@ -67,7 +67,7 @@ export class TerminalGui extends Terminal {
     }
     this.terminal.open(targetElement);
     this.terminal.writeln(
-      `Hello \x1B[1;3;31m${this.shell.env.USER}\x1B[0m from ${this.tty}`
+      `Hello \x1B[1;3;31m${this.shell.env.USER}\x1B[0m from ${this.tty}`,
     );
     // this.terminal.prompt = this.shell.prompt.bind(this.shell);
     this.terminal.onKey((key) => {

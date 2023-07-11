@@ -92,12 +92,12 @@ class PhaserExtras {
     opt_sprite_top,
     opt_sprite_bottom,
     group,
-    manipulation
+    manipulation,
   ) {
     const spriteSize = PhaserExtras.getSpriteSize(game, sprite, manipulation);
     const spriteSpace = Phaser.Math.RND.integerInRange(
       0,
-      num_blocks - space - 1
+      num_blocks - space - 1,
     );
     for (let i = 0; i < num_blocks; i++) {
       if (i < spriteSpace || i >= spriteSpace + space) {
@@ -113,7 +113,7 @@ class PhaserExtras {
           y + i * spriteSize.height,
           groupSprite,
           group,
-          manipulation
+          manipulation,
         );
       }
     }
@@ -140,7 +140,7 @@ class PhaserExtras {
     opt_sprite,
     group,
     direction,
-    manipulation
+    manipulation,
   ) {
     const spriteSize = PhaserExtras.getSpriteSize(game, sprite, manipulation);
     const numBlocks = Phaser.Math.RND.integerInRange(0, num_blocks);
@@ -155,7 +155,7 @@ class PhaserExtras {
           y + i * spriteSize.height,
           opt_sprite && i === numBlocks ? opt_sprite : sprite,
           group,
-          manipulation
+          manipulation,
         );
       } else {
         PhaserExtras.addGroupSprite(
@@ -164,7 +164,7 @@ class PhaserExtras {
           y - i * spriteSize.height,
           opt_sprite && i === numBlocks ? opt_sprite : sprite,
           group,
-          manipulation
+          manipulation,
         );
       }
     }
@@ -189,7 +189,7 @@ class PhaserExtras {
     y = 0,
     padding = 10,
     group,
-    manipulation
+    manipulation,
   ) {
     let index = 0;
     const spriteSize = PhaserExtras.getSpriteSize(game, sprite, manipulation);
@@ -206,7 +206,7 @@ class PhaserExtras {
             blockY,
             sprite,
             group,
-            manipulation
+            manipulation,
           );
         }
       }
@@ -279,7 +279,7 @@ class PhaserExtras {
       (270 - width) / 2,
       (152 - height) / 2,
       width,
-      height
+      height,
     );
     return preview.toDataURL();
   }
@@ -307,7 +307,7 @@ class PhaserExtras {
           type: 'screenshot',
           value: data,
         },
-        `${window.location.origin}`
+        `${window.location.origin}`,
       );
     }
   }

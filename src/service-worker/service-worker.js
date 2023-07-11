@@ -42,7 +42,7 @@ export class ServiceWorker {
     this.cachePrepared = false;
     this.previewCachePrepared = false;
     console.log(
-      `${this.prefix} Installing Service Workers for ${APP_BASE_PATH} and scope ${this.scopePath}`
+      `${this.prefix} Installing Service Workers for ${APP_BASE_PATH} and scope ${this.scopePath}`,
     );
 
     // Reload protection for cache service worker.
@@ -83,7 +83,7 @@ export class ServiceWorker {
         .then(
           (registration) => {
             console.log(
-              `${this.prefix} Register Cache Service Worker successful with scope: ${registration.scope}`
+              `${this.prefix} Register Cache Service Worker successful with scope: ${registration.scope}`,
             );
             window.setTimeout(() => {
               this.prepareCache();
@@ -92,9 +92,9 @@ export class ServiceWorker {
           (error) => {
             console.error(
               `${this.prefix} Cache Service Worker registration failed: `,
-              error
+              error,
             );
-          }
+          },
         );
 
       /**
@@ -108,7 +108,7 @@ export class ServiceWorker {
           .then(
             (registration) => {
               console.log(
-                `${this.prefix} Register Preview Service Worker successful with scope: ${registration.scope}`
+                `${this.prefix} Register Preview Service Worker successful with scope: ${registration.scope}`,
               );
               window.setTimeout(() => {
                 this.preparePreviewCache();
@@ -118,9 +118,9 @@ export class ServiceWorker {
               console.log(
                 `${this.prefix}
               Preview Service Worker registration failed: `,
-                error
+                error,
               );
-            }
+            },
           );
       });
     } else {
@@ -141,7 +141,7 @@ export class ServiceWorker {
     if ('caches' in window) {
       if (this.assets) {
         console.log(
-          `${this.prefix} Adding ${this.assets.length} assets to local browser cache...`
+          `${this.prefix} Adding ${this.assets.length} assets to local browser cache...`,
         );
         // Add base path to cache assets, if needed.
         if (APP_BASE_PATH !== '/') {
@@ -162,9 +162,9 @@ export class ServiceWorker {
               (error) => {
                 console.error(
                   `${this.prefix} Unable to add asset: ${asset}`,
-                  error
+                  error,
                 );
-              }
+              },
             );
           }
         });

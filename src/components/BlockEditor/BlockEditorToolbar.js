@@ -308,7 +308,7 @@ export class BlockEditorToolbar extends React.PureComponent {
             aria-label="create_variable"
             onClick={() => {
               Blockly.Variables.createVariableButtonHandler(
-                this.props.blocklyWorkspace
+                this.props.blocklyWorkspace,
               );
             }}
           >

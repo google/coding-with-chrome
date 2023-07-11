@@ -70,13 +70,13 @@ export class NewGameProject extends React.PureComponent {
   handleCreateProject() {
     // Create new project based on user input.
     console.log(
-      `Create new project with id ${this.state.projectId}, name ${this.state.projectName}, description ${this.state.projectDescription} and icon ${this.state.projectIcon}`
+      `Create new project with id ${this.state.projectId}, name ${this.state.projectName}, description ${this.state.projectDescription} and icon ${this.state.projectIcon}`,
     );
     const project = new Project(
       this.state.projectId,
       ProjectType.GAME_EDITOR,
       this.state.projectName,
-      this.state.projectDescription
+      this.state.projectDescription,
     );
     if (this.state.projectIcon) {
       project.setIcon(this.state.projectIcon);

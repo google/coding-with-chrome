@@ -67,7 +67,7 @@ Blocks['phaser_generator_physics_arcade_attributes'] = {
           [i18next.t('BLOCKS_WIDTH'), 'width'],
           [i18next.t('BLOCKS_HEIGHT'), 'height'],
         ]),
-        'property'
+        'property',
       );
     this.appendValueInput('value')
       .setCheck('Number')
@@ -90,7 +90,7 @@ javascriptGenerator.forBlock['phaser_generator_physics_arcade_attributes'] =
   function (block) {
     return javascriptGenerator.forBlock['phaser_physics_arcade_sprite_adjust'](
       block,
-      'arcadeSpriteCustom'
+      'arcadeSpriteCustom',
     );
   };
 
@@ -106,7 +106,7 @@ Blocks['phaser_generator_vertical_obstacle'] = {
         new Blockly.FieldDropdown(() => {
           return BlocksHelper.phaserImage('obstacles');
         }),
-        'sprite'
+        'sprite',
       );
     this.appendValueInput('obstacles')
       .setCheck('Number')
@@ -151,43 +151,43 @@ Blocks['phaser_generator_vertical_obstacle'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_generator_vertical_obstacle'] = function (
-  block
+  block,
 ) {
   const text_sprite = block.getFieldValue('sprite');
   const value_obstacles = javascriptGenerator.valueToCode(
     block,
     'obstacles',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const value_spaces = javascriptGenerator.valueToCode(
     block,
     'spaces',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const value_sprite_top = javascriptGenerator.valueToCode(
     block,
     'sprite_top',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const value_sprite_bottom = javascriptGenerator.valueToCode(
     block,
     'sprite_bottom',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const value_group = javascriptGenerator.valueToCode(
     block,
     'group',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const value_x = javascriptGenerator.valueToCode(
     block,
     'x',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const value_y = javascriptGenerator.valueToCode(
     block,
     'y',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
 
@@ -233,13 +233,13 @@ Blocks['phaser_generator_random_vertical_obstacle'] = {
     this.appendDummyInput()
       .appendField(BlocksTemplate.point())
       .appendField(
-        i18next.t('BLOCKS_PHASER_GENERATOR_RANDOM_VERTICAL_OBSTACLE')
+        i18next.t('BLOCKS_PHASER_GENERATOR_RANDOM_VERTICAL_OBSTACLE'),
       )
       .appendField(
         new Blockly.FieldDropdown(() => {
           return BlocksHelper.phaserImage('block');
         }),
-        'sprite'
+        'sprite',
       );
     this.appendValueInput('obstacles')
       .setCheck('Number')
@@ -268,7 +268,7 @@ Blocks['phaser_generator_random_vertical_obstacle'] = {
           [i18next.t('START_FROM_TOP'), 'top'],
           [i18next.t('START_FROM_BOTTOM'), 'bottom'],
         ]),
-        'direction'
+        'direction',
       );
     this.appendStatementInput('CODE').setCheck('GeneratorArcadeAttribute');
     this.setInputsInline(false);
@@ -291,27 +291,27 @@ javascriptGenerator.forBlock['phaser_generator_random_vertical_obstacle'] =
     const value_obstacles = javascriptGenerator.valueToCode(
       block,
       'obstacles',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     );
     const value_sprite_optional = javascriptGenerator.valueToCode(
       block,
       'sprite_optional',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     );
     const value_group = javascriptGenerator.valueToCode(
       block,
       'group',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     );
     const value_x = javascriptGenerator.valueToCode(
       block,
       'x',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     );
     const value_y = javascriptGenerator.valueToCode(
       block,
       'y',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     );
     const dropdown_direction = block.getFieldValue('direction');
     const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
@@ -360,7 +360,7 @@ Blocks['phaser_generator_matrix_block'] = {
         new Blockly.FieldDropdown(() => {
           return BlocksHelper.phaserImage('block');
         }),
-        'sprite'
+        'sprite',
       );
     this.appendValueInput('x')
       .setCheck('Number')
@@ -483,28 +483,28 @@ Blocks['phaser_generator_matrix_block'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_generator_matrix_block'] = function (
-  block
+  block,
 ) {
   const text_sprite = block.getFieldValue('sprite');
   const value_x = javascriptGenerator.valueToCode(
     block,
     'x',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const value_y = javascriptGenerator.valueToCode(
     block,
     'y',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const value_padding = javascriptGenerator.valueToCode(
     block,
     'padding',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const value_group = javascriptGenerator.valueToCode(
     block,
     'group',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
   const data = [];

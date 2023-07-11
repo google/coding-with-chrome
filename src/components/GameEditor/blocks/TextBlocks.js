@@ -66,7 +66,7 @@ Blocks['phaser_text_add'] = {
       .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
       .appendField(
         new Blockly.FieldTextInput('32px', BlocksHelper.validateText),
-        'size'
+        'size',
       )
       .appendField(new Blockly.FieldDropdown(phaserTextFonts), 'font');
     this.setPreviousStatement(true, 'Create');
@@ -90,19 +90,19 @@ javascriptGenerator.forBlock['phaser_text_add'] = function (block) {
     javascriptGenerator.valueToCode(
       block,
       'text',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || '';
   const value_x =
     javascriptGenerator.valueToCode(
       block,
       'x',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || 0;
   const value_y =
     javascriptGenerator.valueToCode(
       block,
       'y',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || 0;
   if (/^\d+$/.test(text_size)) {
     text_size = text_size + 'px';
@@ -143,7 +143,7 @@ Blocks['phaser_dynamic_text_add'] = {
       .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
       .appendField(
         new Blockly.FieldTextInput('16px', BlocksHelper.validateText),
-        'size'
+        'size',
       )
       .appendField(new Blockly.FieldDropdown(phaserTextFonts), 'font');
     this.setPreviousStatement(true, 'Create');
@@ -166,25 +166,25 @@ javascriptGenerator.forBlock['phaser_dynamic_text_add'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const value_text =
     javascriptGenerator.valueToCode(
       block,
       'text',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || '';
   const value_x =
     javascriptGenerator.valueToCode(
       block,
       'x',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || 0;
   const value_y =
     javascriptGenerator.valueToCode(
       block,
       'y',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || 0;
   if (/^\d+$/.test(text_size)) {
     text_size = text_size + 'px';
@@ -217,7 +217,7 @@ Blocks['phaser_dynamic_text_highscore_add'] = {
       .appendField(BlocksTemplate.addCircle())
       .appendField(i18next.t('BLOCKS_DEFINE'));
     this.appendDummyInput().appendField(
-      i18next.t('BLOCKS_PHASER_DYNAMIC_TEXT_ADD_HIGHSCORE')
+      i18next.t('BLOCKS_PHASER_DYNAMIC_TEXT_ADD_HIGHSCORE'),
     );
     this.appendValueInput('score').setCheck('Number');
     this.appendValueInput('x')
@@ -230,7 +230,7 @@ Blocks['phaser_dynamic_text_highscore_add'] = {
       .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
       .appendField(
         new Blockly.FieldTextInput('16px', BlocksHelper.validateText),
-        'size'
+        'size',
       )
       .appendField(
         new Blockly.FieldDropdown([
@@ -250,7 +250,7 @@ Blocks['phaser_dynamic_text_highscore_add'] = {
           ['Wingdings', 'Wingdings'],
           ['sans-serif', 'sans-serif'],
         ]),
-        'font'
+        'font',
       );
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
@@ -266,7 +266,7 @@ Blocks['phaser_dynamic_text_highscore_add'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_dynamic_text_highscore_add'] = function (
-  block
+  block,
 ) {
   const text_color = block.getFieldValue('color');
   const text_font = block.getFieldValue('font');
@@ -274,25 +274,25 @@ javascriptGenerator.forBlock['phaser_dynamic_text_highscore_add'] = function (
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const value_score =
     javascriptGenerator.valueToCode(
       block,
       'score',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || 0;
   const value_x =
     javascriptGenerator.valueToCode(
       block,
       'x',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || 0;
   const value_y =
     javascriptGenerator.valueToCode(
       block,
       'y',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || 0;
   if (/^\d+$/.test(text_size)) {
     text_size = text_size + 'px';
@@ -337,7 +337,7 @@ Blocks['phaser_action_text_add'] = {
       .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
       .appendField(
         new Blockly.FieldTextInput('16px', BlocksHelper.validateText),
-        'size'
+        'size',
       )
       .appendField(
         new Blockly.FieldDropdown([
@@ -357,7 +357,7 @@ Blocks['phaser_action_text_add'] = {
           ['Wingdings', 'Wingdings'],
           ['sans-serif', 'sans-serif'],
         ]),
-        'font'
+        'font',
       );
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
@@ -379,25 +379,25 @@ javascriptGenerator.forBlock['phaser_action_text_add'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const value_text =
     javascriptGenerator.valueToCode(
       block,
       'text',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || '';
   const value_x =
     javascriptGenerator.valueToCode(
       block,
       'x',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || 0;
   const value_y =
     javascriptGenerator.valueToCode(
       block,
       'y',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || 0;
   if (/^\d+$/.test(text_size)) {
     text_size = text_size + 'px';
@@ -443,12 +443,12 @@ javascriptGenerator.forBlock['phaser_text_change'] = function (block) {
   const value_text = javascriptGenerator.valueToCode(
     block,
     'text',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   return variable + '.text = ' + value_text + ';\n';
 };
@@ -475,7 +475,7 @@ javascriptGenerator.forBlock['phaser_text_get'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const code = variable + '.text';
   return [code, javascriptGenerator.ORDER_NONE];
@@ -487,7 +487,7 @@ javascriptGenerator.forBlock['phaser_text_get'] = function (block) {
 Blocks['phaser_text_get_number'] = {
   init: function () {
     this.appendValueInput('variable').appendField(
-      i18next.t('BLOCKS_GET_NUMBER')
+      i18next.t('BLOCKS_GET_NUMBER'),
     );
     this.setOutput(true, null);
     this.setColour(255);
@@ -505,7 +505,7 @@ javascriptGenerator.forBlock['phaser_text_get_number'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const code = 'Number(' + variable + '.text)';
   return [code, javascriptGenerator.ORDER_NONE];
@@ -538,7 +538,7 @@ javascriptGenerator.forBlock['phaser_text_clicked'] = function (block) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const statements_func = javascriptGenerator.statementToCode(block, 'func');
   return `

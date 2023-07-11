@@ -38,7 +38,7 @@ export class BlocksHelper {
     const imageList = [];
     const imageBlocks = Blockly.getMainWorkspace().getBlocksByType(
       'phaser_load_image',
-      true
+      true,
     );
     for (const imageBlock of imageBlocks) {
       if (
@@ -83,7 +83,7 @@ export class BlocksHelper {
     blockSvg,
     blockType = 'phaser_variable_set',
     defaultName = 'found_no_variable',
-    defaultValue = 'default'
+    defaultValue = 'default',
   ) {
     const variableMap = new Map();
     const mainWorkspace = Blockly.getMainWorkspace();
@@ -125,7 +125,7 @@ export class BlocksHelper {
             continue;
           }
           const variableName = this.extractBlockXMLVariableName(
-            flyoutItem.blockxml
+            flyoutItem.blockxml,
           );
           if (variableName) {
             variableMap.set(variableName, variableName);

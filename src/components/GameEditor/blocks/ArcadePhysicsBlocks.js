@@ -42,7 +42,7 @@ Blocks['phaser_physics_arcade_sprite_add'] = {
         new Blockly.FieldDropdown(() => {
           return BlocksHelper.phaserImage('player');
         }),
-        'sprite'
+        'sprite',
       )
       .appendField(BlocksTemplate.image())
       .appendField(i18next.t('WITH_POSITION'));
@@ -63,30 +63,30 @@ Blocks['phaser_physics_arcade_sprite_add'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_physics_arcade_sprite_add'] = function (
-  block
+  block,
 ) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const value_x =
     javascriptGenerator.valueToCode(
       block,
       'x',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || 0;
   const value_y =
     javascriptGenerator.valueToCode(
       block,
       'y',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || 0;
 
   return `
     ${variable} = this.physics.add.sprite(${value_x}, ${value_y}, "${block.getFieldValue(
-    'sprite'
-  )}")
+      'sprite',
+    )}")
       .setOrigin(0)
       .setScrollFactor(0, 0);
   `;
@@ -106,7 +106,7 @@ Blocks['phaser_physics_arcade_sprite_ball_add'] = {
         new Blockly.FieldDropdown(() => {
           return BlocksHelper.phaserImage('ball');
         }),
-        'sprite'
+        'sprite',
       )
       .appendField(BlocksTemplate.image())
       .appendField(i18next.t('WITH_POSITION'));
@@ -132,24 +132,24 @@ javascriptGenerator.forBlock['phaser_physics_arcade_sprite_ball_add'] =
     const variable = javascriptGenerator.valueToCode(
       block,
       'variable',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     );
     const value_x =
       javascriptGenerator.valueToCode(
         block,
         'x',
-        javascriptGenerator.ORDER_ATOMIC
+        javascriptGenerator.ORDER_ATOMIC,
       ) || 0;
     const value_y =
       javascriptGenerator.valueToCode(
         block,
         'y',
-        javascriptGenerator.ORDER_ATOMIC
+        javascriptGenerator.ORDER_ATOMIC,
       ) || 0;
     const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
     return `
     ${variable} = this.physics.add.sprite(${value_x}, ${value_y}, "${block.getFieldValue(
-      'sprite'
+      'sprite',
     )}")
       .setOrigin(0)
       .setScrollFactor(0, 1);
@@ -173,7 +173,7 @@ Blocks['phaser_physics_arcade_sprite_player_add'] = {
         new Blockly.FieldDropdown(() => {
           return BlocksHelper.phaserImage('player');
         }),
-        'sprite'
+        'sprite',
       )
       .appendField(BlocksTemplate.image())
       .appendField(i18next.t('WITH_POSITION'));
@@ -199,24 +199,24 @@ javascriptGenerator.forBlock['phaser_physics_arcade_sprite_player_add'] =
     const variable = javascriptGenerator.valueToCode(
       block,
       'variable',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     );
     const value_x =
       javascriptGenerator.valueToCode(
         block,
         'x',
-        javascriptGenerator.ORDER_ATOMIC
+        javascriptGenerator.ORDER_ATOMIC,
       ) || 0;
     const value_y =
       javascriptGenerator.valueToCode(
         block,
         'y',
-        javascriptGenerator.ORDER_ATOMIC
+        javascriptGenerator.ORDER_ATOMIC,
       ) || 0;
     const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
     return `
     ${variable} = this.physics.add.sprite(${value_x}, ${value_y}, "${block.getFieldValue(
-      'sprite'
+      'sprite',
     )}")
       .setOrigin(0)
       .setScrollFactor(0, 1);
@@ -240,7 +240,7 @@ Blocks['phaser_physics_arcade_sprite_paddle_add'] = {
         new Blockly.FieldDropdown(() => {
           return BlocksHelper.phaserImage('paddle');
         }),
-        'sprite'
+        'sprite',
       )
       .appendField(BlocksTemplate.image())
       .appendField(i18next.t('WITH_POSITION'));
@@ -267,19 +267,19 @@ javascriptGenerator.forBlock['phaser_physics_arcade_sprite_paddle_add'] =
     const variable = javascriptGenerator.valueToCode(
       block,
       'variable',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     );
     const value_x =
       javascriptGenerator.valueToCode(
         block,
         'x',
-        javascriptGenerator.ORDER_ATOMIC
+        javascriptGenerator.ORDER_ATOMIC,
       ) || 0;
     const value_y =
       javascriptGenerator.valueToCode(
         block,
         'y',
-        javascriptGenerator.ORDER_ATOMIC
+        javascriptGenerator.ORDER_ATOMIC,
       ) || 0;
     const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
     return (
@@ -342,7 +342,7 @@ Blocks['phaser_physics_arcade_sprite_adjust'] = {
         ['y', 'y'],
         ['z', 'z'],
       ]),
-      'property'
+      'property',
     );
     this.appendValueInput('value')
       .setCheck('Number')
@@ -363,13 +363,13 @@ Blocks['phaser_physics_arcade_sprite_adjust'] = {
  */
 javascriptGenerator.forBlock['phaser_physics_arcade_sprite_adjust'] = function (
   block,
-  variableName = ''
+  variableName = '',
 ) {
   let variable =
     javascriptGenerator.valueToCode(
       block,
       'variable',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     ) || variableName;
   if (!variableName && !variable.startsWith('this.')) {
     variable = 'this.' + variable;
@@ -378,7 +378,7 @@ javascriptGenerator.forBlock['phaser_physics_arcade_sprite_adjust'] = function (
   const value_value = javascriptGenerator.valueToCode(
     block,
     'value',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   switch (dropdown_property) {
     case 'angle':
@@ -463,7 +463,7 @@ Blocks['phaser_physics_arcade_sprite_adjust_custom'] = {
           ['y', 'y'],
           ['z', 'z'],
         ]),
-        'property'
+        'property',
       );
     this.appendValueInput('value')
       .setCheck('Number')
@@ -486,7 +486,7 @@ javascriptGenerator.forBlock['phaser_physics_arcade_sprite_adjust_custom'] =
   function (block) {
     return javascriptGenerator.forBlock['phaser_physics_arcade_sprite_adjust'](
       block,
-      'arcadeSpriteCustom'
+      'arcadeSpriteCustom',
     );
   };
 
@@ -534,19 +534,19 @@ javascriptGenerator.forBlock['phaser_physics_arcade_sprite_adjust_dimension'] =
       javascriptGenerator.valueToCode(
         block,
         'variable',
-        javascriptGenerator.ORDER_ATOMIC
+        javascriptGenerator.ORDER_ATOMIC,
       ) || variableName;
     const value_width =
       javascriptGenerator.valueToCode(
         block,
         'width',
-        javascriptGenerator.ORDER_ATOMIC
+        javascriptGenerator.ORDER_ATOMIC,
       ) || 50;
     const value_height =
       javascriptGenerator.valueToCode(
         block,
         'height',
-        javascriptGenerator.ORDER_ATOMIC
+        javascriptGenerator.ORDER_ATOMIC,
       ) || 50;
     return (
       variable +
@@ -607,7 +607,7 @@ javascriptGenerator.forBlock['phaser_physics_arcade_sprite_destroy'] =
     const variable = javascriptGenerator.valueToCode(
       block,
       'variable',
-      javascriptGenerator.ORDER_ATOMIC
+      javascriptGenerator.ORDER_ATOMIC,
     );
     return `${variable}.destroy();`;
   };
@@ -636,12 +636,12 @@ Blocks['phaser_physics_arcade_sprite_kill'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_physics_arcade_sprite_kill'] = function (
-  block
+  block,
 ) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   return variable + '.kill();\n';
 };
@@ -668,12 +668,12 @@ Blocks['phaser_physics_arcade_enable'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_physics_arcade_enable'] = function (
-  block
+  block,
 ) {
   const value_variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   return 'this.physics.world.enable(' + value_variable + ');\n';
 };
@@ -703,12 +703,12 @@ Blocks['phaser_physics_arcade_out_of_bounds'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_physics_arcade_out_of_bounds'] = function (
-  block
+  block,
 ) {
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
   return (
@@ -748,17 +748,17 @@ Blocks['phaser_physics_arcade_overlap'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_physics_arcade_overlap'] = function (
-  block
+  block,
 ) {
   const value_object1 = javascriptGenerator.valueToCode(
     block,
     'object1',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const value_object2 = javascriptGenerator.valueToCode(
     block,
     'object2',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
   return (
@@ -779,7 +779,7 @@ Blocks['phaser_physics_arcade_collide'] = {
   init: function () {
     this.appendValueInput('object1').appendField(BlocksTemplate.collide());
     this.appendDummyInput().appendField(
-      i18next.t('BLOCKS_PHASER_COLLIDE_WITH')
+      i18next.t('BLOCKS_PHASER_COLLIDE_WITH'),
     );
     this.appendValueInput('object2');
     this.setPreviousStatement(true, 'Update');
@@ -796,17 +796,17 @@ Blocks['phaser_physics_arcade_collide'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_physics_arcade_collide'] = function (
-  block
+  block,
 ) {
   const object1 = javascriptGenerator.valueToCode(
     block,
     'object1',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   const object2 = javascriptGenerator.valueToCode(
     block,
     'object2',
-    javascriptGenerator.ORDER_ATOMIC
+    javascriptGenerator.ORDER_ATOMIC,
   );
   return `
     this.physics.add.collider(${object1}, ${object2});

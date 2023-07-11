@@ -63,7 +63,7 @@ export class EventHandler {
       type,
       this.scope ? listener.bind(this.scope) : listener,
       { capture: capture, once: once, passive: passive },
-      this.prefix
+      this.prefix,
     );
     if (!eventData.target) {
       console.warn('Unable to find event target: ', src);
@@ -72,7 +72,7 @@ export class EventHandler {
     eventData.target.addEventListener(
       eventData.type,
       eventData.listener,
-      eventData.options
+      eventData.options,
     );
     return this.listener_.push(eventData) - 1;
   }
@@ -95,7 +95,7 @@ export class EventHandler {
     listener,
     capture = false,
     once = true,
-    passive = false
+    passive = false,
   ) {
     return this.listen(src, type, listener, capture, once, passive);
   }

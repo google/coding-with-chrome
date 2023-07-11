@@ -53,7 +53,7 @@ export class CacheService {
     this.events.listen(self, EventType.FETCH, this.fetch);
     this.registered = true;
     console.log(
-      `${this.prefix} Registered Service Worker with cache ${CACHE_SERVICE_WORKER_CACHE_NAME} ...`
+      `${this.prefix} Registered Service Worker with cache ${CACHE_SERVICE_WORKER_CACHE_NAME} ...`,
     );
   }
 
@@ -120,7 +120,7 @@ export class CacheService {
           cache.put(event.request, response.clone());
         }
         return response;
-      })()
+      })(),
     );
   }
 }

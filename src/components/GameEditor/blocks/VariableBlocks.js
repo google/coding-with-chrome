@@ -40,7 +40,7 @@ Blocks['phaser_variable_set'] = {
   init: function () {
     this.appendDummyInput().appendField(
       new Blockly.FieldTextInput('default'),
-      'VAR'
+      'VAR',
     );
     this.setOutput(true, null);
     this.setColour(330);
@@ -78,7 +78,7 @@ Blocks['phaser_variable_get'] = {
       new Blockly.FieldDropdown(() => {
         return BlocksHelper.phaserVariable(this);
       }),
-      'VAR'
+      'VAR',
     );
     this.setOutput(true, null);
     this.setColour(330);
@@ -147,10 +147,10 @@ Blocks['phaser_variable_group_get'] = {
             this,
             'phaser_variable_group_set',
             'default_group',
-            'default_group'
+            'default_group',
           );
         }),
-        'VAR'
+        'VAR',
       );
     this.setOutput(true, null);
     this.setColour(330);

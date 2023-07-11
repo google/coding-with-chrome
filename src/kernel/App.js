@@ -142,7 +142,7 @@ export class App {
   autocomplete(input = '', args = [], options = new Map()) {
     return new Promise((resolve) => {
       this.write(
-        `Autocomplete command ${this.name} with ${args} ${options} ${input}`
+        `Autocomplete command ${this.name} with ${args} ${options} ${input}`,
       );
       resolve({ input, args, options });
     });
