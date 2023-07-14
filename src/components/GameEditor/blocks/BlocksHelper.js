@@ -22,12 +22,37 @@
 
 import Blockly from 'blockly';
 
+import { BlocksBuilder } from '../../BlockEditor/blocks/BlocksBuilder';
+import { PhaserBlocksBuilder } from './PhaserBlocksBuilder';
+
 /**
  * Simple Blocks Helper
  */
 export class BlocksHelper {
   static variableBlockRegExp =
     /<field\s+name\s*=\s*"VAR"\s*>([\s\S]*?)<\/field>/;
+
+  /**
+   * @param {Object} images
+   * @return {!Array}
+   */
+  static phaserImagesToBlock(images) {
+    const blocks = [];
+    for (const imageData of images) {
+      const imageURL = imageData[1];
+      BlocksBuilder.getAsDataURL(imageData[0], imageURL).then((data) => {
+        console.log('Add sample image ' + data.name + ' block.');
+        blocks.push(
+          PhaserBlocksBuilder.getStaticImageFileBlock(
+            data.name,
+            imageURL,
+            data.dataURL,
+          ),
+        );
+      });
+    }
+    return blocks;
+  }
 
   /**
    * @param {string} name

@@ -15,34 +15,34 @@
  */
 
 /**
- * @fileoverview Blocks builder.
+ * @fileoverview DataURL specific conversions and parser.
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
 /**
  * Blocks Builder.
  */
-export class Base64 {
+export class DataURL {
   /**
-   * @param {String} base64String
+   * @param {String} dataURLString
    * @param {boolean} addFilePrefix
    * @return {Promise}
    */
-  static generateIdFromBase64(base64String, addFilePrefix = true) {
+  static generateIdFromDataURL(dataURLString, addFilePrefix = true) {
     return new Promise((resolve, reject) => {
-      const fileType = Base64.getFileTypeFromBase64(base64String);
+      const fileType = DataURL.getFileTypeFromDataURL(dataURLString);
       // Remove prefix from base64 string, if exists.
-      const data = base64String.includes(',')
-        ? base64String.substring(base64String.indexOf(',') + 1)
-        : base64String;
+      const data = dataURLString.includes(',')
+        ? dataURLString.substring(dataURLString.indexOf(',') + 1)
+        : dataURLString;
       try {
         crypto.subtle
           .digest('SHA-256', new TextEncoder().encode(atob(data)))
           .then((hashBuffer) => {
             const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const hashBase64 = btoa(String.fromCharCode(...hashArray));
+            const hashDataURL = btoa(String.fromCharCode(...hashArray));
             resolve(
-              hashBase64
+              hashDataURL
                 .replace(/\+/g, '-')
                 .replace(/\//g, '_')
                 .replace(/=+$/, '') +
@@ -56,15 +56,21 @@ export class Base64 {
   }
 
   /**
-   * @param {String} base64String
+   * @param {String} dataURLString
    * @return {String}
    */
-  static getFileTypeFromBase64(base64String) {
-    let fileType = base64String.split(';')[0].split('/')[1];
+  static getFileTypeFromDataURL(dataURLString) {
+    let fileType = dataURLString.split(';')[0].split('/')[1];
 
     // Replace generic file extension with common one.
     if (fileType) {
-      fileType = fileType.replace('x-m4a', 'm4a');
+      if (fileType.startsWith('x-')) {
+        fileType = fileType.substring(2);
+      }
+      fileType = fileType
+        .replace('mpeg3 ', 'mp3')
+        .replace('mpeg4-generic', 'mp4')
+        .replace('jpeg', 'jpg');
     }
     return fileType || '';
   }

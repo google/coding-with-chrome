@@ -114,6 +114,8 @@ export class ConfirmDialog extends React.PureComponent {
     return (
       <div>
         <Dialog
+          fullWidth={this.props.fullWidth}
+          maxWidth={this.props.maxWidth}
           open={this.state.open}
           onClose={this.handleClose.bind(this)}
           aria-labelledby="alert-dialog-title"
@@ -126,11 +128,19 @@ export class ConfirmDialog extends React.PureComponent {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleCancel.bind(this)} variant="outlined">
-              {this.state.cancelText}
+            <Button
+              onClick={this.handleCancel.bind(this)}
+              variant="outlined"
+              color={this.props.cancelColor}
+            >
+              {this.props.cancelIcon} {this.state.cancelText}
             </Button>
-            <Button onClick={this.handleConfirm.bind(this)} variant="contained">
-              {this.state.confirmText}
+            <Button
+              onClick={this.handleConfirm.bind(this)}
+              variant="contained"
+              color={this.props.confirmColor}
+            >
+              {this.props.confirmIcon} {this.state.confirmText}
             </Button>
           </DialogActions>
         </Dialog>
@@ -140,14 +150,20 @@ export class ConfirmDialog extends React.PureComponent {
 }
 
 ConfirmDialog.propTypes = {
-  open: PropTypes.bool,
+  open: PropTypes.bool.isRequired,
   title: PropTypes.string,
   text: PropTypes.string,
   confirmText: PropTypes.string,
+  confirmIcon: PropTypes.object,
+  confirmColor: PropTypes.string,
   cancelText: PropTypes.string,
+  cancelIcon: PropTypes.object,
+  cancelColor: PropTypes.string,
   onClose: PropTypes.func,
   onConfirm: PropTypes.func,
   onCancel: PropTypes.func,
+  fullWidth: PropTypes.bool,
+  maxWidth: PropTypes.string,
 };
 
 export default ConfirmDialog;

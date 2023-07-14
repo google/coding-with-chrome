@@ -79,7 +79,7 @@ export class Toolbox {
           contents: PreloadToolbox.concat([
             {
               kind: 'category',
-              name: i18next.t('BLOCKS_PHASER_FILES'),
+              name: i18next.t('BLOCKS_PHASER_FILES_CUSTOM'),
               colour: '150',
               cssConfig: {
                 container: 'icon_perm_media blocklyTreeChild',
@@ -92,12 +92,75 @@ export class Toolbox {
             },
             {
               kind: 'category',
-              name: i18next.t('BLOCKS_PHASER_EXAMPLE_FILES'),
+              name: i18next.t('BLOCKS_PHASER_EXAMPLE_FILES_BACKGROUND'),
               colour: '150',
               cssConfig: {
-                container: 'icon_perm_media blocklyTreeChild',
+                container: 'icon_wallpaper blocklyTreeChild',
               },
-              contents: ExampleFilesToolbox.defaultBlocks,
+              contents: ExampleFilesToolbox.backgroundImageBlocks,
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_EXAMPLE_FILES_BALL'),
+              colour: '150',
+              cssConfig: {
+                container: 'icon_sports_soccer blocklyTreeChild',
+              },
+              contents: ExampleFilesToolbox.ballImageBlocks,
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_EXAMPLE_FILES_CEILING'),
+              colour: '150',
+              cssConfig: {
+                container: 'icon_border_top blocklyTreeChild',
+              },
+              contents: ExampleFilesToolbox.ceilingImageBlocks,
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_EXAMPLE_FILES_FLOOR'),
+              colour: '150',
+              cssConfig: {
+                container: 'icon_border_bottom blocklyTreeChild',
+              },
+              contents: ExampleFilesToolbox.floorImageBlocks,
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_EXAMPLE_FILES_OBSTACLE'),
+              colour: '150',
+              cssConfig: {
+                container: 'icon_oil_barrel blocklyTreeChild',
+              },
+              contents: ExampleFilesToolbox.obstacleImageBlocksImageBlocks,
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_EXAMPLE_FILES_PADDLE'),
+              colour: '150',
+              cssConfig: {
+                container: 'icon_sports_cricket blocklyTreeChild',
+              },
+              contents: ExampleFilesToolbox.paddleImageBlocks,
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_EXAMPLE_FILES_PLAYER'),
+              colour: '150',
+              cssConfig: {
+                container: 'icon_boy blocklyTreeChild',
+              },
+              contents: ExampleFilesToolbox.playerImageBlocks,
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_EXAMPLE_FILES_SYMBOL'),
+              colour: '150',
+              cssConfig: {
+                container: 'icon_category blocklyTreeChild',
+              },
+              contents: ExampleFilesToolbox.symbolImageBlocks,
             },
           ]),
         },

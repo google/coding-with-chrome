@@ -45,6 +45,7 @@ export class Project {
     description = '',
     lastModified = new Date().toISOString(),
   ) {
+    this.isArchived = false;
     this.isEmpty = true;
     this.icon = '🎮';
     this.id = id || uuidv4();
@@ -139,6 +140,22 @@ export class Project {
   }
 
   /**
+   * @return {boolean}
+   */
+  getIsArchived() {
+    return this.isArchived;
+  }
+
+  /**
+   * @param {boolean} isArchived
+   * @return {Project}
+   */
+  setIsArchived(isArchived) {
+    this.isArchived = isArchived;
+    return this;
+  }
+
+  /**
    * @return {Promise<Project>}
    */
   save() {
@@ -154,6 +171,7 @@ export class Project {
           lastModified: this.lastModified,
           screenshot: this.screenshot,
           isEmpty: this.isEmpty,
+          isArchived: this.isArchived,
         })
         .then(() => {
           resolve(this);
@@ -174,37 +192,50 @@ export class Project {
         this.lastModified = data.lastModified;
         this.screenshot = data.screenshot;
         this.isEmpty = data.isEmpty;
+        this.isArchived = data.isArchived;
       }
     });
     return this;
   }
 
   /**
+   * @return {Promise<Project>}
+   */
+  archive() {
+    this.isArchived = true;
+    return this.save();
+  }
+
+  /**
    * @param {ProjectType} type
+   * @param {boolean} showArchived
    * @return {Promise}
    */
-  static getProjects(type = ProjectType.NONE) {
+  static getProjects(type = ProjectType.NONE, showArchived = false) {
     return new Promise((resolve) => {
       const projectDatabase = new Database(DATABASE_NAME, type);
       projectDatabase.getAll().then((data) => {
         const projects = [];
         if (data && data.length > 0) {
           data.forEach((projectEntry) => {
-            const project = new Project(
-              projectEntry.id,
-              projectEntry.type,
-              projectEntry.name,
-              projectEntry.description,
-              projectEntry.lastModified,
-            );
-            if (projectEntry.icon) {
-              project.setIcon(projectEntry.icon);
+            if (showArchived || !projectEntry.isArchived) {
+              const project = new Project(
+                projectEntry.id,
+                projectEntry.type,
+                projectEntry.name,
+                projectEntry.description,
+                projectEntry.lastModified,
+              );
+              if (projectEntry.icon) {
+                project.setIcon(projectEntry.icon);
+              }
+              if (projectEntry.screenshot) {
+                project.setScreenshot(projectEntry.screenshot);
+              }
+              project.setIsEmpty(projectEntry.isEmpty);
+              project.setIsArchived(projectEntry.isArchived);
+              projects.push(project);
             }
-            if (projectEntry.screenshot) {
-              project.setScreenshot(projectEntry.screenshot);
-            }
-            project.setIsEmpty = projectEntry.isEmpty;
-            projects.push(project);
           });
         }
         resolve(projects);
@@ -214,15 +245,19 @@ export class Project {
 
   /**
    * @param {ProjectType} type
+   * @param {boolean} includeArchived
    * @return {Promise}
    */
-  static hasProjects(type = ProjectType.NONE) {
+  static hasProjects(type = ProjectType.NONE, includeArchived = false) {
     return new Promise((resolve) => {
       const projectDatabase = new Database(DATABASE_NAME, type);
       projectDatabase.getAll().then((data) => {
         if (data && data.length > 0) {
           data.forEach((projectEntry) => {
-            if (projectEntry.type === type) {
+            if (
+              projectEntry.type === type &&
+              (includeArchived || !projectEntry.isArchived)
+            ) {
               return resolve(true);
             }
           });
@@ -260,7 +295,8 @@ export class Project {
                 if (projectEntry.screenshot) {
                   project.setScreenshot(projectEntry.screenshot);
                 }
-                project.isEmpty = projectEntry.isEmpty;
+                project.setIsEmpty(projectEntry.isEmpty);
+                project.setIsArchived(projectEntry.isArchived);
                 resolve(project);
                 return;
               }

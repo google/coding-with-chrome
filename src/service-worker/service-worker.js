@@ -41,6 +41,7 @@ export class ServiceWorker {
     this.registered = false;
     this.cachePrepared = false;
     this.previewCachePrepared = false;
+    this.cachedFiles = new Set();
     console.log(
       `${this.prefix} Installing Service Workers for ${APP_BASE_PATH} and scope ${this.scopePath}`,
     );
@@ -152,18 +153,24 @@ export class ServiceWorker {
         // Add assets to cache.
         caches.open(CACHE_SERVICE_WORKER_CACHE_NAME).then(async (cache) => {
           for (const asset of this.assets) {
-            if (asset.endsWith('.hot-update.js')) {
+            // Ignore hot-update.js files and already cached files.
+            if (
+              asset.endsWith('.hot-update.js') ||
+              this.cachedFiles.has(asset)
+            ) {
               continue;
             }
             await cache.add(asset).then(
               () => {
                 console.debug(`${this.prefix} Added asset: ${asset}`);
+                this.cachedFiles.add(asset);
               },
               (error) => {
                 console.error(
                   `${this.prefix} Unable to add asset: ${asset}`,
                   error,
                 );
+                this.cachedFiles.delete(asset);
               },
             );
           }

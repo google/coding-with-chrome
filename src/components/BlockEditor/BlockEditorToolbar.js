@@ -30,6 +30,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import CodeIcon from '@mui/icons-material/Code';
 import CreateIcon from '@mui/icons-material/Create';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -217,7 +218,7 @@ export class BlockEditorToolbar extends React.PureComponent {
   }
 
   /**
-   * Handle new Project.
+   * Handle to create new Project.
    */
   handleNewProject() {
     if (
@@ -225,12 +226,12 @@ export class BlockEditorToolbar extends React.PureComponent {
       typeof this.props.onNewProject === 'function'
     ) {
       this.props.onNewProject();
-      this.setState({ showDrawer: false });
     }
+    this.setState({ showNewFileDialog: false, showDrawer: false });
   }
 
   /**
-   * Handle new Project.
+   * Handles to open an existing Project.
    */
   handleOpenProject() {
     if (
@@ -238,8 +239,21 @@ export class BlockEditorToolbar extends React.PureComponent {
       typeof this.props.onOpenProject === 'function'
     ) {
       this.props.onOpenProject();
-      this.setState({ showDrawer: false });
     }
+    this.setState({ showDrawer: false });
+  }
+
+  /**
+   * Handles to delete a open Project.
+   */
+  handleDeleteProject() {
+    if (
+      this.props.onDeleteProject &&
+      typeof this.props.onDeleteProject === 'function'
+    ) {
+      this.props.onDeleteProject();
+    }
+    this.setState({ showDrawer: false });
   }
 
   /**
@@ -409,6 +423,12 @@ export class BlockEditorToolbar extends React.PureComponent {
               </ListItemIcon>
               <ListItemText>{i18next.t('EXPORT_PROJECT')}</ListItemText>
             </MenuItem>
+            <MenuItem onClick={this.handleDeleteProject.bind(this)}>
+              <ListItemIcon>
+                <DeleteIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>{i18next.t('DELETE_PROJECT')}</ListItemText>
+            </MenuItem>
           </MenuList>
           <BottomNavigation
             showLabels
@@ -503,6 +523,9 @@ BlockEditorToolbar.propTypes = {
 
   /** @type {function} */
   onOpenProject: PropTypes.func,
+
+  /** @type {function} */
+  onDeleteProject: PropTypes.func,
 };
 
 export default BlockEditorToolbar;

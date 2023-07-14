@@ -21,7 +21,7 @@
 
 import Blockly, { Blocks, Events } from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
-import { Base64 } from '../../../utils/file/Base64';
+import { DataURL } from '../../../utils/file/DataURL';
 
 /**
  * Dynamic image block for user-selected images.
@@ -41,11 +41,14 @@ Blocks['dynamic_image_file'] = {
       return;
     }
 
-    // Generate ID from base64 data, if not set.
+    // Generate ID from data URL, if not set or if file type is unknown.
     const blockId = this.getField('id').getValue();
     const urlData = this.getField('urlData').getValue();
-    if (!blockId && urlData) {
-      Base64.generateIdFromBase64(urlData).then((id) => {
+    if (
+      urlData &&
+      (!blockId || (blockId && !blockId.includes('.') && urlData.includes('/')))
+    ) {
+      DataURL.generateIdFromDataURL(urlData).then((id) => {
         this.getField('id').setValue(id);
       });
     }
@@ -108,8 +111,11 @@ Blocks['dynamic_audio_file'] = {
     // Generate ID from base64 data, if not set.
     const blockId = this.getField('id').getValue();
     const urlData = this.getField('urlData').getValue();
-    if (!blockId && urlData) {
-      Base64.generateIdFromBase64(urlData).then((id) => {
+    if (
+      urlData &&
+      (!blockId || (blockId && !blockId.includes('.') && urlData.includes('/')))
+    ) {
+      DataURL.generateIdFromDataURL(urlData).then((id) => {
         this.getField('id').setValue(id);
       });
     }

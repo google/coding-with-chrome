@@ -44,7 +44,7 @@ import 'material-icons/iconfont/filled.css';
 import 'material-icons/iconfont/outlined.css';
 import styles from './style.module.css';
 import './style.global.css';
-import { Base64 } from '../../utils/file/Base64';
+import { DataURL } from '../../utils/file/DataURL';
 
 /**
  * Block editor based on Blockly.
@@ -351,7 +351,7 @@ export class BlockEditor extends React.PureComponent {
     }
     if (assets.size > 0) {
       for (const [key, value] of assets.entries()) {
-        Base64.generateIdFromBase64(value.urlData).then((assetId) => {
+        DataURL.generateIdFromDataURL(value.urlData).then((assetId) => {
           console.log('Adding asset: ', key, value, assetId);
           PreviewService.addAssetFile(
             this.props.project.id,
@@ -704,6 +704,7 @@ export class BlockEditor extends React.PureComponent {
               onFullscreen={this.props.onFullscreen}
               onNewProject={this.props.onNewProject}
               onOpenProject={this.props.onOpenProject}
+              onDeleteProject={this.props.onDeleteProject}
             />
           )}
           <Box>
@@ -768,6 +769,9 @@ BlockEditor.propTypes = {
 
   /** @type {function} */
   onOpenProject: PropTypes.func,
+
+  /** @type {function} */
+  onDeleteProject: PropTypes.func,
 
   /** @type {function} */
   parseXML: PropTypes.func,

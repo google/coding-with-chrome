@@ -15,7 +15,7 @@
  */
 
 /**
- * @fileoverview Game Editor Setup Screen.
+ * @fileoverview New Game Project Setup Dialog.
  * @author mbordihn@google.com (Markus Bordihn)
  */
 

@@ -115,7 +115,7 @@ export class SettingScreen extends React.PureComponent {
         )}
         <Dialog
           onClose={this.close.bind(this)}
-          open={this.state.open || this.props.open}
+          open={this.state.open || this.props.open || false}
           fullWidth={true}
         >
           <DialogTitle>Settings</DialogTitle>

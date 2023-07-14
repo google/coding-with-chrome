@@ -43,6 +43,7 @@ import { WorkspaceSvg } from 'react-blockly';
 // Lazy load components, specific components.
 const Assets = lazy(() => import('../Assets'));
 const BlockEditor = lazy(() => import('../BlockEditor'));
+const DeleteGameProject = lazy(() => import('./dialog/DeleteGameProject'));
 const NewGameProject = lazy(() => import('./dialog/NewGameProject'));
 const OpenGameProject = lazy(() => import('./dialog/OpenGameProject'));
 const Preview = lazy(() => import('../Preview'));
@@ -53,7 +54,7 @@ import styles from './style.module.css';
 import './style.global.css';
 import { BlocksBuilder } from '../BlockEditor/blocks/BlocksBuilder';
 import GameEditorSettings from '../Settings/GameEditorSettings';
-import { Base64 } from '../../utils/file/Base64';
+import { DataURL } from '../../utils/file/DataURL';
 
 /**
  *
@@ -123,6 +124,7 @@ export class GameEditor extends React.PureComponent {
       blockEditorFullscreen: false,
       openNewProject: false,
       openExistingProject: false,
+      openDeleteProject: false,
       screenshotUrl: '',
       xml: '',
     };
@@ -199,6 +201,7 @@ export class GameEditor extends React.PureComponent {
           onFullscreen={this.handleBlockEditorFullscreen.bind(this)}
           onNewProject={this.handleNewProject.bind(this)}
           onOpenProject={this.handleOpenProject.bind(this)}
+          onDeleteProject={this.handleDeleteProject.bind(this)}
           autoCollapse={true}
           project={this.state.project}
           windowId={this.props.windowId}
@@ -306,17 +309,24 @@ export class GameEditor extends React.PureComponent {
   }
 
   /**
-   * Handle new Project.
+   * Handle the creation of an new Project.
    */
   handleNewProject() {
     this.setState({ openNewProject: true });
   }
 
   /**
-   * Handle new Project.
+   * Handle the opening of an existing Project.
    */
   handleOpenProject() {
     this.setState({ openExistingProject: true });
+  }
+
+  /**
+   * Handle deletion of an existing Project.
+   */
+  handleDeleteProject() {
+    this.setState({ openDeleteProject: true });
   }
 
   /**
@@ -344,7 +354,7 @@ export class GameEditor extends React.PureComponent {
     }
 
     // Updating preview cache
-    Base64.generateIdFromBase64(urlData).then((assetId) => {
+    DataURL.generateIdFromDataURL(urlData).then((assetId) => {
       PreviewService.addAssetFile(
         this.props.project?.id || this.state.project?.id,
         assetId,
@@ -550,6 +560,16 @@ export class GameEditor extends React.PureComponent {
             open={this.state.openNewProject}
             onClose={() => {
               this.setState({ openNewProject: false });
+            }}
+          />
+        )}
+
+        {this.state.openDeleteProject && (
+          <DeleteGameProject
+            open={this.state.openDeleteProject}
+            project={this.state.project}
+            onClose={() => {
+              this.setState({ openDeleteProject: false });
             }}
           />
         )}

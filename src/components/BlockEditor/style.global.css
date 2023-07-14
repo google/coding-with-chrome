@@ -222,14 +222,17 @@
 .blocklyToolboxContents .icon_add_circle,
 .blocklyToolboxContents .icon_attach_money,
 .blocklyToolboxContents .icon_audiotrack,
+.blocklyToolboxContents .icon_boy,
 .blocklyToolboxContents .icon_brush,
 .blocklyToolboxContents .icon_burst_mode,
 .blocklyToolboxContents .icon_call_split,
+.blocklyToolboxContents .icon_category,
 .blocklyToolboxContents .icon_computer,
 .blocklyToolboxContents .icon_desktop_windows,
 .blocklyToolboxContents .icon_developer_board,
 .blocklyToolboxContents .icon_direction_run,
 .blocklyToolboxContents .icon_directions_car,
+.blocklyToolboxContents .icon_oil_barrel,
 .blocklyToolboxContents .icon_extension,
 .blocklyToolboxContents .icon_file_download,
 .blocklyToolboxContents .icon_folder,
@@ -241,6 +244,8 @@
 .blocklyToolboxContents .icon_insert_photo,
 .blocklyToolboxContents .icon_iso,
 .blocklyToolboxContents .icon_keyboard,
+.blocklyToolboxContents .icon_border_bottom,
+.blocklyToolboxContents .icon_border_top,
 .blocklyToolboxContents .icon_lightbulb_outline,
 .blocklyToolboxContents .icon_list,
 .blocklyToolboxContents .icon_loop,
@@ -254,7 +259,10 @@
 .blocklyToolboxContents .icon_rv_hookup,
 .blocklyToolboxContents .icon_send,
 .blocklyToolboxContents .icon_settings_input_component,
-.blocklyToolboxContents .icon_text_fields {
+.blocklyToolboxContents .icon_sports_soccer,
+.blocklyToolboxContents .icon_sports_cricket,
+.blocklyToolboxContents .icon_text_fields,
+.blocklyToolboxContents .icon_wallpaper {
   position: relative;
 }
 
@@ -262,14 +270,17 @@
 .blocklyToolboxContents .icon_add_circle::before,
 .blocklyToolboxContents .icon_attach_money::before,
 .blocklyToolboxContents .icon_audiotrack::before,
+.blocklyToolboxContents .icon_boy::before,
 .blocklyToolboxContents .icon_brush::before,
 .blocklyToolboxContents .icon_burst_mode::before,
 .blocklyToolboxContents .icon_call_split::before,
+.blocklyToolboxContents .icon_category::before,
 .blocklyToolboxContents .icon_computer::before,
 .blocklyToolboxContents .icon_desktop_windows::before,
 .blocklyToolboxContents .icon_developer_board::before,
 .blocklyToolboxContents .icon_direction_run::before,
 .blocklyToolboxContents .icon_directions_car::before,
+.blocklyToolboxContents .icon_oil_barrel::before,
 .blocklyToolboxContents .icon_extension::before,
 .blocklyToolboxContents .icon_file_download::before,
 .blocklyToolboxContents .icon_folder::before,
@@ -281,6 +292,8 @@
 .blocklyToolboxContents .icon_insert_photo::before,
 .blocklyToolboxContents .icon_iso::before,
 .blocklyToolboxContents .icon_keyboard::before,
+.blocklyToolboxContents .icon_border_bottom::before,
+.blocklyToolboxContents .icon_border_top::before,
 .blocklyToolboxContents .icon_lightbulb_outline::before,
 .blocklyToolboxContents .icon_list::before,
 .blocklyToolboxContents .icon_loop::before,
@@ -294,7 +307,10 @@
 .blocklyToolboxContents .icon_rv_hookup::before,
 .blocklyToolboxContents .icon_send::before,
 .blocklyToolboxContents .icon_settings_input_component::before,
-.blocklyToolboxContents .icon_text_fields::before {
+.blocklyToolboxContents .icon_sports_soccer::before,
+.blocklyToolboxContents .icon_sports_cricket::before,
+.blocklyToolboxContents .icon_text_fields::before,
+.blocklyToolboxContents .icon_wallpaper::before {
   color: rgba(255, 255, 255, 0.9);
   font-family: 'Material Icons';
   font-size: 20px;
@@ -311,12 +327,20 @@
   content: 'attach_money';
 }
 
+.blocklyToolboxContents .icon_boy::before {
+  content: 'boy';
+}
+
 .blocklyToolboxContents .icon_brush::before {
   content: 'brush';
 }
 
 .blocklyToolboxContents .icon_call_split::before {
   content: 'call_split';
+}
+
+.blocklyToolboxContents .icon_category::before {
+  content: 'category';
 }
 
 .blocklyToolboxContents .icon_computer::before {
@@ -375,6 +399,14 @@
   content: 'keyboard';
 }
 
+.blocklyToolboxContents .icon_border_bottom:before {
+  content: 'border_bottom';
+}
+
+.blocklyToolboxContents .icon_border_top::before {
+  content: 'border_top';
+}
+
 .blocklyToolboxContents .icon_lightbulb_outline::before {
   content: 'lightbulb_outline';
 }
@@ -419,6 +451,10 @@
   content: 'settings_input_component';
 }
 
+.blocklyToolboxContents .icon_sports_soccer::before {
+  content: 'sports_soccer';
+}
+
 .blocklyToolboxContents .icon_text_fields::before {
   content: 'text_fields';
 }
@@ -449,4 +485,16 @@
 
 .blocklyToolboxContents .icon_rotate_90_degrees_ccw::before {
   content: 'rotate_90_degrees_ccw';
+}
+
+.blocklyToolboxContents .icon_wallpaper::before {
+  content: 'wallpaper';
+}
+
+.blocklyToolboxContents .icon_oil_barrel::before {
+  content: 'oil_barrel';
+}
+
+.blocklyToolboxContents .icon_sports_cricket::before {
+  content: 'sports_cricket';
 }
