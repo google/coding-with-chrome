@@ -149,7 +149,7 @@ export class Preview extends React.PureComponent {
     if (
       this.contentIframe.current.contentWindow.location.href != 'about:blank'
     ) {
-      console.log('Iframe Content Loaded:', event);
+      console.debug('Iframe Content Loaded:', event);
       this.setState({ loaded: true, loading: false });
     }
   }
@@ -189,7 +189,7 @@ export class Preview extends React.PureComponent {
       delete this.timer.handleReload;
     }
     this.timer.handleReload = window.setTimeout(() => {
-      console.log('Reloading Iframe ...');
+      console.debug('Reloading Iframe ...');
       this.setState({ loaded: false, loading: true });
       this.contentIframe.current.contentWindow.location.reload();
     }, 100);
@@ -202,7 +202,7 @@ export class Preview extends React.PureComponent {
     if (!this.contentIframe) {
       return;
     }
-    console.log('Stopping Iframe ...');
+    console.debug('Stopping Iframe ...');
     this.contentIframe.current.contentWindow.stop();
     this.contentIframe.current.contentWindow.location = 'about:blank';
     this.setState({ loaded: false, loading: false });

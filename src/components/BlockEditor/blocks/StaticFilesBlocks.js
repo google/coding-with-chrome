@@ -22,6 +22,8 @@
 import Blockly, { Blocks } from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
 
+import { APP_ASSETS_BASE_PATH } from '../../../constants/index.js';
+
 /**
  * Static audio block for default embedded audios.
  */
@@ -88,8 +90,14 @@ Blocks['static_image_file'] = {
  * @return {any[]}
  */
 javascriptGenerator.forBlock['static_image_file'] = function (block) {
+  const url = block.getFieldValue('url');
+  const assetURL = url.startsWith(APP_ASSETS_BASE_PATH)
+    ? url
+    : (APP_ASSETS_BASE_PATH + url)
+        .replace('//assets', '/assets')
+        .replace('assets/assets', 'assets');
   return [
-    block.getFieldValue('url') || block.getFieldValue('urlData'),
+    assetURL || block.getFieldValue('urlData'),
     javascriptGenerator.ORDER_NONE,
   ];
 };

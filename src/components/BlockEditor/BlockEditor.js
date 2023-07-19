@@ -205,15 +205,17 @@ export class BlockEditor extends React.PureComponent {
   }
 
   /**
-   * Refresh the block editor workspace
+   * Refresh the block editor workspace, if any.
    */
   refreshWorkspace() {
     if (this.state.blocklyWorkspace) {
       const xml = this.getXML();
-      Blockly.Xml.clearWorkspaceAndLoadFromXml(
-        Blockly.utils.xml.textToDom(xml),
-        this.getBlocklyWorkspace(),
-      );
+      if (xml) {
+        Blockly.Xml.clearWorkspaceAndLoadFromXml(
+          Blockly.utils.xml.textToDom(xml),
+          this.getBlocklyWorkspace(),
+        );
+      }
     }
   }
 

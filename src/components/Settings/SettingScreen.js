@@ -77,10 +77,9 @@ export class SettingScreen extends React.PureComponent {
   }
 
   /**
-   * @param {*} event
+   *
    */
-  handleSave(event) {
-    console.log('Change Event:', event);
+  handleSave() {
     this.close();
   }
 

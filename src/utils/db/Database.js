@@ -87,7 +87,7 @@ export class Database {
       }
 
       // Open database and handle events.
-      console.log(
+      console.debug(
         `Opening database ${this.name_} with ${
           this.version_ || 'auto version'
         } ...`,
@@ -185,7 +185,7 @@ export class Database {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const database = event.target.result;
-        console.log(
+        console.debug(
           `Upgrading database ${this.name_} to version ${database.version}`,
         );
         this.knownObjectStores_.forEach((objetStoreName) => {
@@ -214,7 +214,7 @@ export class Database {
         );
       }
       this.open().then(() => {
-        console.log(
+        console.debug(
           `[${this.name_}:${
             group || this.defaultObjectStore_
           }] Executing ${command}(${params})`,

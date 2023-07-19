@@ -88,7 +88,6 @@ export class OpenGameProject extends React.PureComponent {
    */
   handleOpenProject(event) {
     if (event.currentTarget && event.currentTarget.getAttribute('value')) {
-      console.log(event.currentTarget.getAttribute('value'));
       // Update url with new project id and project name.
       window.location.hash = `#/game_editor/${event.currentTarget.getAttribute(
         'value',
