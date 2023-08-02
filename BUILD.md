@@ -20,7 +20,7 @@ Install Node.js from the official web page at <https://nodejs.org>
 * Optional, if not already installed
   * Install git from the official web page at <https://git-scm.com/>
   * Install Java JRE
-  * Install Google Chrome browser at <https://google.com/chrome>
+  * ~~Install Google Chrome browser at <https://google.com/chrome>~~
 
 ### Mac OS X
 
@@ -29,7 +29,7 @@ Install Node.js from the official web page at <https://nodejs.org>
 * Optional, if not already installed
   * Install git from the official web page at <https://git-scm.com/>
   * Install Java JRE
-  * Install Google Chrome browser at <https://google.com/chrome>
+  * ~~Install Google Chrome browser at <https://google.com/chrome>~~
 
 ### Linux/BSD
 
@@ -38,7 +38,7 @@ Use your package manager to install Node.js, or build from source.
 * Optional, if not already installed
   * Use your package manager to install git, or build from source.
   * Install Open JDK or Java JRE
-  * Install Google Chrome browser at <https://google.com/chrome>
+  * ~~Install Google Chrome browser at <https://google.com/chrome>~~
 
 How to build your own Coding with Chrome App
 ---------------------------------------------
@@ -94,6 +94,6 @@ advantage or disadvantage.
 In general we are offering the following versions:
 
 * [Chrome Application (Chrome OS)](doc/BUILD_CHROME_OS.md)
-* Binary ([Mac](doc/BUILD_MAC_APP.md),
-  [Windows](doc/BUILD_WIN_APP.md) and [Linux](doc/BUILD_LINUX_APP.md))
+* ~~Binary ([Mac](doc/BUILD_MAC_APP.md),
+  [Windows](doc/BUILD_WIN_APP.md) and [Linux](doc/BUILD_LINUX_APP.md))~~
 * [Web (any modern Browser / experimental)](doc/BUILD_WEB.md)
