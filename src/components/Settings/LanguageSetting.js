@@ -46,6 +46,7 @@ export class LanguageSetting extends React.PureComponent {
     this.languages = {
       en: { nativeName: 'English' },
       de: { nativeName: 'Deutsch' },
+      es: { nativeName: 'Español' },
     };
     this.state = {
       open: false,
