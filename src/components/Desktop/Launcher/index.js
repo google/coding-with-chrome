@@ -42,6 +42,7 @@ import { Project } from '../../Project/Project';
 import { ProjectType } from '../../Project/ProjectType';
 
 import WindowManager from '../WindowManager';
+import { WindowEventTarget } from '../WindowManager/Events';
 
 /**
  *
@@ -145,7 +146,7 @@ export class Launcher extends React.PureComponent {
           terminalGui.open(node);
           // Adding additional event listener for close and refresh.
           if (windowId) {
-            WindowManager.windowManagerEventTarget.addEventListener(
+            WindowEventTarget.getTarget().addEventListener(
               'windowClose',
               (/** @type {WindowCloseEvent} */ event) => {
                 if (event.getWindowId() == windowId) {

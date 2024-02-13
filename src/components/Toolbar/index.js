@@ -22,7 +22,7 @@
 import React from 'react';
 
 import Box from '@mui/material/Box';
-import MenuItem from '@mui/base/MenuItem';
+import MenuItem from '@mui/material/MenuItem';
 import styled from 'styled-components';
 import { Button, IconButton } from '@mui/material';
 

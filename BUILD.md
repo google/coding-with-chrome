@@ -56,7 +56,7 @@ Module not found: Error: Can't resolve '...'
 
 Please make sure that you have cloned the repository with the `--recursive` flag.
 
-Otherwise you need to run the following command to get the missing files:
+Otherwise, you need to run the following command to get the missing files:
 
 ```bash
 git submodule update --init --recursive
@@ -76,4 +76,13 @@ To start the app, run the following command:
 
 ```bash
 npm run start:dev
+```
+
+### Playwright for testing
+
+The app use playwright for automated tests. If the installation of the test browsers fails, run the following commands:
+
+```bash
+npm i -D @playwright/test
+npx playwright install
 ```
