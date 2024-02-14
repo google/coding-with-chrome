@@ -26,11 +26,11 @@ jobs:
         with:
           node-version: 20
 
-      - name: Setup Playwright
-        run: npx playwright install
-
       - name: Install dependencies
         run: npm ci
+
+      - name: Setup Playwright
+        run: npx playwright install
 
       - name: Run unit tests
         run: npm run test:units
