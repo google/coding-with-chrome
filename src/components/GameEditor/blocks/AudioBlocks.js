@@ -145,7 +145,7 @@ javascriptGenerator.forBlock['phaser_audio_add'] = function (block) {
   );
   return `
   ${variable} = this.sound.add('${textAudio}', {
-    volume: ${numberVolume}, loop: ${dropdownLoop}
+    volume: ${numberVolume / 100}, loop: ${dropdownLoop}
   });`;
 };
 

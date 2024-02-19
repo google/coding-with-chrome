@@ -675,7 +675,7 @@ javascriptGenerator.forBlock['phaser_physics_arcade_enable'] = function (
     'variable',
     javascriptGenerator.ORDER_ATOMIC,
   );
-  return 'this.physics.world.enable(' + value_variable + ');\n';
+  return `this.physics.world.enable(${value_variable});\n`;
 };
 
 /**
@@ -761,15 +761,9 @@ javascriptGenerator.forBlock['phaser_physics_arcade_overlap'] = function (
     javascriptGenerator.ORDER_ATOMIC,
   );
   const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
-  return (
-    'this.physics.overlap(' +
-    value_object1 +
-    ', ' +
-    value_object2 +
-    ', function(object1, object2) {\n' +
-    statements_code +
-    '}, null, this);\n'
-  );
+  return `this.physics.add.overlap(${value_object1}, ${value_object2}, function(object1, object2, collisionInfo) {
+    ${statements_code}
+  }, null, this);\n`;
 };
 
 /**
@@ -808,7 +802,5 @@ javascriptGenerator.forBlock['phaser_physics_arcade_collide'] = function (
     'object2',
     javascriptGenerator.ORDER_ATOMIC,
   );
-  return `
-    this.physics.add.collider(${object1}, ${object2});
-  `;
+  return `this.physics.add.collider(${object1}, ${object2});\n`;
 };

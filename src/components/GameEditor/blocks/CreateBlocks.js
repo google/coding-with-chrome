@@ -59,6 +59,9 @@ javascriptGenerator.forBlock['phaser_create'] = function (block) {
     // Helper function to simplify blocks.
     this.helper_ = new PhaserHelper(this);
 
+    // Default definition for easier access.
+    this.default_group = this.add.group(undefined, 'default_group');
+
     ${javascriptGenerator.statementToCode(block, 'CODE')}
   }`;
 };

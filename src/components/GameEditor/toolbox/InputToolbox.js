@@ -99,7 +99,37 @@ export const createBlocks = [
 export const eventBlocks = [
   {
     kind: 'block',
-    type: 'phaser_input',
+    blockxml: `
+  <block type="phaser_input_body">
+    <statement name="CODE">
+      <block type="controls_if">
+        <value name="IF0">
+          <block type="phaser_input_keyboard_key_is_pressed">
+            <value name="key">
+              <block type="phaser_variable_get">
+                <field name="VAR">spacebar</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <statement name="DO0">
+          <block type="phaser_physics_arcade_sprite_adjust">
+            <value name="variable">
+              <block type="phaser_variable_get">
+                <field name="VAR">player</field>
+              </block>
+            </value>
+            <field name="property">velocity.y</field>
+            <value name="value">
+              <block type="math_number">
+                <field name="NUM"></field>
+              </block>
+            </value>
+          </block>
+        </statement>
+      </block>
+    </statement>
+  </block>`,
   },
   {
     kind: 'block',
@@ -166,40 +196,6 @@ export const eventBlocks = [
               </block>
             </value>
             <field name="property">velocity.x</field>
-            <value name="value">
-              <block type="math_number">
-                <field name="NUM"></field>
-              </block>
-            </value>
-          </block>
-        </statement>
-      </block>
-    </statement>
-  </block>`,
-  },
-  {
-    kind: 'block',
-    blockxml: `
-  <block type="phaser_input_body">
-    <statement name="CODE">
-      <block type="controls_if">
-        <value name="IF0">
-          <block type="phaser_input_keyboard_key_is_pressed">
-            <value name="key">
-              <block type="phaser_variable_get">
-                <field name="VAR">spacebar</field>
-              </block>
-            </value>
-          </block>
-        </value>
-        <statement name="DO0">
-          <block type="phaser_physics_arcade_sprite_adjust">
-            <value name="variable">
-              <block type="phaser_variable_get">
-                <field name="VAR">player</field>
-              </block>
-            </value>
-            <field name="property">velocity.y</field>
             <value name="value">
               <block type="math_number">
                 <field name="NUM"></field>

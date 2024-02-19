@@ -375,19 +375,19 @@ Blocks['phaser_tile_sprite_crop'] = {
       .appendField(i18next.t('BLOCKS_PHASER_TILE_SPRITE_CROP'));
     this.appendDummyInput()
       .appendField(i18next.t('TOP'))
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField(new Blockly.FieldNumber(0, 0), 'top');
     this.appendDummyInput()
       .appendField(i18next.t('RIGHT'))
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField(new Blockly.FieldNumber(0, 0), 'right');
     this.appendDummyInput()
       .appendField(i18next.t('BOTTOM'))
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField(new Blockly.FieldNumber(0, 0), 'bottom');
     this.appendDummyInput()
       .appendField(i18next.t('LEFT'))
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField(new Blockly.FieldNumber(0, 0), 'left');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');

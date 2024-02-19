@@ -57,6 +57,7 @@ export class Preview extends React.PureComponent {
     this.contentWrapper = createRef();
     this.contentIframe = createRef();
     this.contentLoadTimer = null;
+    this.previewToolbar = createRef();
 
     window.addEventListener('resize', this.resize.bind(this));
   }
@@ -151,6 +152,9 @@ export class Preview extends React.PureComponent {
     ) {
       console.debug('Iframe Content Loaded:', event);
       this.setState({ loaded: true, loading: false });
+      if (this.previewToolbar.current) {
+        this.previewToolbar.current.isLoaded(true);
+      }
     }
   }
 
@@ -162,6 +166,9 @@ export class Preview extends React.PureComponent {
     this.setState({ loaded: false, loading: false });
     if (this.contentLoadTimer) {
       clearTimeout(this.contentLoadTimer);
+    }
+    if (this.previewToolbar.current) {
+      this.previewToolbar.current.isLoaded(false);
     }
   }
 
@@ -206,6 +213,9 @@ export class Preview extends React.PureComponent {
     this.contentIframe.current.contentWindow.stop();
     this.contentIframe.current.contentWindow.location = 'about:blank';
     this.setState({ loaded: false, loading: false });
+    if (this.previewToolbar.current) {
+      this.previewToolbar.current.isLoaded(false);
+    }
   }
 
   /**
@@ -230,6 +240,7 @@ export class Preview extends React.PureComponent {
       <React.StrictMode>
         <Paper elevation={3} square>
           <PreviewToolbar
+            ref={this.previewToolbar}
             preview={this}
             hideURL={this.props.hideURL}
             readOnly={this.props.readOnly}

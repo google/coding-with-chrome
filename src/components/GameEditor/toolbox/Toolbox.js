@@ -277,60 +277,66 @@ export class Toolbox {
             container: 'icon_keyboard blocklyTreeRoot',
           },
           expanded: 'false',
-          contents: InputToolbox.eventBlocks.concat(
-            InputToolbox.defaultBlocks,
-            [
-              {
-                kind: 'category',
-                name: i18next.t('BLOCKS_PHASER_AUDIO'),
-                colour: '245',
-                cssConfig: {
-                  container: 'icon_audiotrack blocklyTreeChild',
-                },
-                contents: AudioToolbox.defaultBlocks,
+          contents: InputToolbox.eventBlocks.concat([
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_INPUT_LOGIC'),
+              colour: '255',
+              cssConfig: {
+                container: 'icon_call_split blocklyTreeChild',
               },
-              {
-                kind: 'category',
-                name: i18next.t('BLOCKS_PHASER_SPRITE'),
-                colour: '225',
-                cssConfig: {
-                  container: 'icon_portrait blocklyTreeChild',
-                },
-                contents: SpriteToolbox.defaultBlocks,
+              contents: InputToolbox.defaultBlocks,
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_AUDIO'),
+              colour: '245',
+              cssConfig: {
+                container: 'icon_audiotrack blocklyTreeChild',
               },
-              {
-                kind: 'category',
-                name: i18next.t('BLOCKS_PHASER_TILE_SPRITE'),
-                colour: '285',
-                cssConfig: {
-                  container: 'icon_burst_mode blocklyTreeChild',
-                },
-                contents: TileSpriteToolbox.defaultBlocks,
+              contents: AudioToolbox.defaultBlocks,
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_SPRITE'),
+              colour: '225',
+              cssConfig: {
+                container: 'icon_portrait blocklyTreeChild',
               },
-              {
-                kind: 'category',
-                name: i18next.t('BLOCKS_PHASER_PHYSICS_SPRITE'),
-                colour: '0',
-                cssConfig: {
-                  container: 'icon_rotate_90_degrees_ccw blocklyTreeChild',
-                },
-                contents: ArcadePhysicsToolbox.defaultBlocks.concat(
-                  ArcadePhysicsToolbox.eventBlocks,
-                ),
+              contents: SpriteToolbox.defaultBlocks,
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_TILE_SPRITE'),
+              colour: '285',
+              cssConfig: {
+                container: 'icon_burst_mode blocklyTreeChild',
               },
-              {
-                kind: 'category',
-                name: i18next.t('BLOCKS_PHASER_TEXT'),
-                colour: '255',
-                cssConfig: {
-                  container: 'icon_format_shapes blocklyTreeChild',
-                },
-                contents: TextToolbox.eventBlocks.concat(
-                  TextToolbox.defaultBlocks,
-                ),
+              contents: TileSpriteToolbox.defaultBlocks,
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_PHYSICS_SPRITE'),
+              colour: '0',
+              cssConfig: {
+                container: 'icon_rotate_90_degrees_ccw blocklyTreeChild',
               },
-            ],
-          ),
+              contents: ArcadePhysicsToolbox.defaultBlocks.concat(
+                ArcadePhysicsToolbox.eventBlocks,
+              ),
+            },
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_TEXT'),
+              colour: '255',
+              cssConfig: {
+                container: 'icon_format_shapes blocklyTreeChild',
+              },
+              contents: TextToolbox.eventBlocks.concat(
+                TextToolbox.defaultBlocks,
+              ),
+            },
+          ]),
         },
         {
           kind: 'category',

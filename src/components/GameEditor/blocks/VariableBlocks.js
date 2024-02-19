@@ -25,12 +25,38 @@ import { javascriptGenerator } from 'blockly/javascript';
 
 import { BlocksHelper } from './BlocksHelper';
 
+import i18next from 'i18next';
+
 const reservedPhaserVariables = [
-  'preload',
+  'add',
+  'anims',
+  'cache',
+  'cameras',
+  'children',
   'create',
-  'update',
-  'render',
+  'data',
+  'default_group',
+  'events',
   'game',
+  'helper_',
+  'input',
+  'lights',
+  'load',
+  'make',
+  'physics',
+  'plugins',
+  'preload',
+  'registry',
+  'render',
+  'renderer',
+  'scale',
+  'scene',
+  'sound',
+  'sys',
+  'textures',
+  'time',
+  'tweens',
+  'update',
 ];
 
 /**
@@ -105,7 +131,7 @@ javascriptGenerator.forBlock['phaser_variable_get'] = function (block) {
 Blocks['phaser_variable_group_set'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField('Group')
+      .appendField(i18next.t('BLOCKS_PHASER_VARIABLE_GROUP'))
       .appendField(new Blockly.FieldTextInput('default'), 'VAR');
     this.setOutput(true, null);
     this.setColour(330);
@@ -140,7 +166,7 @@ javascriptGenerator.forBlock['phaser_variable_group_set'] = function (block) {
 Blocks['phaser_variable_group_get'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField('Group')
+      .appendField(i18next.t('BLOCKS_PHASER_VARIABLE_GROUP'))
       .appendField(
         new Blockly.FieldDropdown(() => {
           return BlocksHelper.phaserVariable(
@@ -165,6 +191,150 @@ Blocks['phaser_variable_group_get'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_variable_group_get'] = function (block) {
+  const variable = block.getFieldValue('VAR').startsWith('this')
+    ? block.getFieldValue('VAR')
+    : 'this.' + block.getFieldValue('VAR');
+  return [variable, javascriptGenerator.ORDER_ATOMIC];
+};
+
+/**
+ * Set dynamic text variable
+ */
+Blocks['phaser_variable_text_set'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField(i18next.t('BLOCKS_PHASER_VARIABLE_TEXT'))
+      .appendField(new Blockly.FieldTextInput('default'), 'VAR');
+    this.setOutput(true, null);
+    this.setColour(330);
+    this.setTooltip('');
+    this.setHelpUrl('');
+    this.setOnChange(() => {
+      const variableName = this.getFieldValue('VAR');
+      if (reservedPhaserVariables.includes(variableName)) {
+        this.setWarningText('Reserved variable name.');
+      } else {
+        this.setWarningText(null);
+      }
+    });
+  },
+};
+
+/**
+ * Set dynamic text variable
+ * @param {Block} block
+ * @return {string}
+ */
+javascriptGenerator.forBlock['phaser_variable_text_set'] = function (block) {
+  const variable = block.getFieldValue('VAR').startsWith('this')
+    ? block.getFieldValue('VAR')
+    : 'this.' + block.getFieldValue('VAR');
+  return [variable, javascriptGenerator.ORDER_ATOMIC];
+};
+
+/**
+ * Get dynamic text variable
+ */
+Blocks['phaser_variable_text_get'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField(i18next.t('BLOCKS_PHASER_VARIABLE_TEXT'))
+      .appendField(
+        new Blockly.FieldDropdown(() => {
+          return BlocksHelper.phaserVariable(
+            this,
+            'phaser_variable_text_set',
+            'default_text',
+            'default_text',
+          );
+        }),
+        'VAR',
+      );
+    this.setOutput(true, null);
+    this.setColour(330);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+/**
+ * Get dynamic text variable
+ * @param {Block} block
+ * @return {string}
+ */
+javascriptGenerator.forBlock['phaser_variable_text_get'] = function (block) {
+  const variable = block.getFieldValue('VAR').startsWith('this')
+    ? block.getFieldValue('VAR')
+    : 'this.' + block.getFieldValue('VAR');
+  return [variable, javascriptGenerator.ORDER_ATOMIC];
+};
+
+/**
+ * Set dynamic sprite variable
+ */
+Blocks['phaser_variable_sprite_set'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField(i18next.t('BLOCKS_PHASER_VARIABLE_SPRITE'))
+      .appendField(new Blockly.FieldTextInput('default'), 'VAR');
+    this.setOutput(true, null);
+    this.setColour(330);
+    this.setTooltip('');
+    this.setHelpUrl('');
+    this.setOnChange(() => {
+      const variableName = this.getFieldValue('VAR');
+      if (reservedPhaserVariables.includes(variableName)) {
+        this.setWarningText('Reserved variable name.');
+      } else {
+        this.setWarningText(null);
+      }
+    });
+  },
+};
+
+/**
+ * Set dynamic sprite variable
+ * @param {Block} block
+ * @return {string}
+ */
+javascriptGenerator.forBlock['phaser_variable_sprite_set'] = function (block) {
+  const variable = block.getFieldValue('VAR').startsWith('this')
+    ? block.getFieldValue('VAR')
+    : 'this.' + block.getFieldValue('VAR');
+  return [variable, javascriptGenerator.ORDER_ATOMIC];
+};
+
+/**
+ * Get dynamic sprite variable
+ */
+Blocks['phaser_variable_sprite_get'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField(i18next.t('BLOCKS_PHASER_VARIABLE_SPRITE'))
+      .appendField(
+        new Blockly.FieldDropdown(() => {
+          return BlocksHelper.phaserVariable(
+            this,
+            'phaser_variable_sprite_set',
+            'default_sprite',
+            'default_sprite',
+          );
+        }),
+        'VAR',
+      );
+    this.setOutput(true, null);
+    this.setColour(330);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+/**
+ * Get dynamic sprite variable
+ * @param {Block} block
+ * @return {string}
+ */
+javascriptGenerator.forBlock['phaser_variable_sprite_get'] = function (block) {
   const variable = block.getFieldValue('VAR').startsWith('this')
     ? block.getFieldValue('VAR')
     : 'this.' + block.getFieldValue('VAR');

@@ -43,7 +43,7 @@ export const createBlocks = [
     <block type="phaser_audio_add">
       <value name="variable">
         <block type="phaser_variable_set">
-          <field name="VAR">sound</field>
+          <field name="VAR">sound_effect</field>
         </block>
       </value>
     </block>
@@ -61,7 +61,7 @@ export const defaultBlocks = [
   <block type="phaser_audio_play">
     <value name="variable">
       <block type="phaser_variable_get">
-        <field name="VAR">sound</field>
+        <field name="VAR">sound_effect</field>
       </block>
     </value>
   </block>`,
@@ -72,7 +72,7 @@ export const defaultBlocks = [
   <block type="phaser_audio_pause">
     <value name="variable">
       <block type="phaser_variable_get">
-        <field name="VAR">sound</field>
+        <field name="VAR">sound_effect</field>
       </block>
     </value>
   </block>`,
@@ -83,7 +83,7 @@ export const defaultBlocks = [
   <block type="phaser_audio_resume">
     <value name="variable">
       <block type="phaser_variable_get">
-        <field name="VAR">sound</field>
+        <field name="VAR">sound_effect</field>
       </block>
     </value>
   </block>`,
@@ -94,7 +94,7 @@ export const defaultBlocks = [
   <block type="phaser_audio_stop">
     <value name="variable">
       <block type="phaser_variable_get">
-        <field name="VAR">sound</field>
+        <field name="VAR">sound_effect</field>
       </block>
     </value>
   </block>`,

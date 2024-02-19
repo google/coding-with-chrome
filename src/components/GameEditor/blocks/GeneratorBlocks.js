@@ -110,30 +110,30 @@ Blocks['phaser_generator_vertical_obstacle'] = {
       );
     this.appendValueInput('obstacles')
       .setCheck('Number')
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField(i18next.t('NUMBER_OF_OBSTACLES'));
     this.appendValueInput('spaces')
       .setCheck('Number')
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField(i18next.t('NUMBER_OF_SPACES'));
     this.appendValueInput('x')
       .setCheck('Number')
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField('x');
     this.appendValueInput('y')
       .setCheck('Number')
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField('y');
     this.appendValueInput('sprite_top')
       .setCheck('String')
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField(i18next.t('SPRITE_TOP'));
     this.appendValueInput('sprite_bottom')
       .setCheck('String')
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField(i18next.t('SPRITE_BOTTOM'));
     this.appendValueInput('group')
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField(i18next.t('BLOCKS_GROUP'));
     this.appendStatementInput('CODE').setCheck('GeneratorArcadeAttribute');
     this.setInputsInline(false);
@@ -243,25 +243,25 @@ Blocks['phaser_generator_random_vertical_obstacle'] = {
       );
     this.appendValueInput('obstacles')
       .setCheck('Number')
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField(i18next.t('NUMBER_OF_OBSTACLES'));
     this.appendValueInput('x')
       .setCheck('Number')
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField('x');
     this.appendValueInput('y')
       .setCheck('Number')
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField('y');
     this.appendValueInput('sprite_optional')
       .setCheck('String')
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField(i18next.t('SPRITE_OPTIONAL'));
     this.appendValueInput('group')
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField(i18next.t('BLOCKS_GROUP'));
     this.appendDummyInput()
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField(i18next.t('DIRECTION'))
       .appendField(
         new Blockly.FieldDropdown([
@@ -364,18 +364,18 @@ Blocks['phaser_generator_matrix_block'] = {
       );
     this.appendValueInput('x')
       .setCheck('Number')
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField('x');
     this.appendValueInput('y')
       .setCheck('Number')
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField('y');
     this.appendValueInput('padding')
       .setCheck('Number')
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField(i18next.t('BLOCKS_PADDING'));
     this.appendValueInput('group')
-      .setAlign(Blockly.ALIGN_RIGHT)
+      .setAlign(Blockly.inputs.Align.RIGHT)
       .appendField(i18next.t('BLOCKS_GROUP'));
     this.appendDummyInput()
       .appendField('  ')
