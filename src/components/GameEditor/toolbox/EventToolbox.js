@@ -15,36 +15,28 @@
  */
 
 /**
- * @fileoverview Render Phaser Toolbox.
+ * @fileoverview Event Phaser Toolbox.
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import '../blocks/DebugBlocks.js';
-import '../blocks/RenderBlocks.js';
+import '../blocks/EventBlocks.js';
 
-export default [
+/**
+ * @type {array}
+ */
+export const createBlocks = [];
+
+/**
+ * @type {array}
+ */
+export const defaultBlocks = [
   {
     kind: 'block',
-    type: 'phaser_render',
-  },
-  {
-    kind: 'block',
-    type: 'phaser_debug_camera',
-  },
-  {
-    kind: 'block',
-    type: 'phaser_debug_pointer',
-  },
-  {
-    kind: 'block',
-    blockxml: `
-  <block type="phaser_debug_sprite">
-    <value name="variable">
-      <block type="phaser_variable_sprite_get">
-        <field name="VAR">sprite</field>
-      </block>
-    </value>
-  </block>
-    `,
+    type: 'phaser_event',
   },
 ];
+
+export default {
+  createBlocks,
+  defaultBlocks,
+};

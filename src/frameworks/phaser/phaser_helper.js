@@ -30,6 +30,30 @@ class PhaserHelper {
    */
   constructor(game) {
     this.game = game;
+    this.sprite = new Set();
+    this.tileSprite = new Set();
+    this.arcadeSprite = new Set();
+  }
+
+  /**
+   * @param {object} sprite
+   */
+  addSprite(sprite) {
+    this.sprite.add(sprite);
+  }
+
+  /**
+   * @param {object} tileSprite
+   */
+  addTileSprite(tileSprite) {
+    this.tileSprite.add(tileSprite);
+  }
+
+  /**
+   * @param {object} arcadeSprite
+   */
+  addArcadeSprite(arcadeSprite) {
+    this.arcadeSprite.add(arcadeSprite);
   }
 
   /**
@@ -51,16 +75,16 @@ class PhaserHelper {
       return;
     }
 
-    // Automatically scroll the background, ceiling, and floor.
-    PhaserHelper.scrollTilePosition(this.game.background);
-    PhaserHelper.scrollTilePosition(this.game.ceiling);
-    PhaserHelper.scrollTilePosition(this.game.floor);
+    // Automatically scroll tile sprites, if any.
+    this.tileSprite.forEach((tileSprite) => {
+      PhaserHelper.scrollTileSprite(tileSprite);
+    });
   }
 
   /**
    * @param {Object} tileObject
    */
-  static scrollTilePosition(tileObject) {
+  static scrollTileSprite(tileObject) {
     if (!tileObject) {
       return;
     }

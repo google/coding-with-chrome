@@ -275,6 +275,14 @@ export class GameEditor extends React.PureComponent {
           this.setState({ screenshotUrl: '', project: this.state.project });
         });
         break;
+      case 'runtime_error':
+        console.log('[GameEditor] Received runtime error...');
+        console.error(event.data.value);
+        break;
+      case 'error':
+        console.log('[GameEditor] Received error...');
+        console.error(event.data.value);
+        break;
     }
   }
 

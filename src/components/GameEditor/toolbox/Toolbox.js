@@ -23,6 +23,7 @@ import ArcadePhysicsToolbox from './ArcadePhysicsToolbox';
 import AudioToolbox from './AudioToolbox';
 import CreateToolbox from './CreateToolbox';
 import DynamicFilesToolbox from './DynamicFilesToolbox';
+import EventToolbox from './EventToolbox';
 import ExampleFilesToolbox from './ExampleFilesToolbox';
 import GameToolbox from './GameToolbox';
 import GeneratorToolbox from './GeneratorToolbox';
@@ -334,6 +335,28 @@ export class Toolbox {
               },
               contents: TextToolbox.eventBlocks.concat(
                 TextToolbox.defaultBlocks,
+              ),
+            },
+          ]),
+        },
+        {
+          kind: 'category',
+          name: i18next.t('BLOCKS_PHASER_EVENT'),
+          colour: '315',
+          cssConfig: {
+            container: 'icon_repeat blocklyTreeRoot',
+          },
+          expanded: 'false',
+          contents: EventToolbox.defaultBlocks.concat([
+            {
+              kind: 'category',
+              name: i18next.t('BLOCKS_PHASER_PHYSICS_SPRITE'),
+              colour: '0',
+              cssConfig: {
+                container: 'icon_rotate_90_degrees_ccw blocklyTreeChild',
+              },
+              contents: ArcadePhysicsToolbox.defaultBlocks.concat(
+                ArcadePhysicsToolbox.eventBlocks,
               ),
             },
           ]),

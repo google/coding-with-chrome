@@ -33,9 +33,11 @@ import i18next from 'i18next';
  */
 Blocks['phaser_tile_sprite_background'] = {
   init: function () {
-    this.appendDummyInput()
+    this.appendValueInput('variable')
       .appendField(BlocksTemplate.addCircle())
-      .appendField(i18next.t('BLOCKS_PHASER_ADD_BACKGROUND_IMAGE'))
+      .appendField(i18next.t('BLOCKS_DEFINE'));
+    this.appendDummyInput()
+      .appendField(i18next.t('AS_BACKGROUND'))
       .appendField(
         new Blockly.FieldDropdown(() => {
           return BlocksHelper.phaserImage('bg_01');
@@ -64,6 +66,11 @@ Blocks['phaser_tile_sprite_background'] = {
 javascriptGenerator.forBlock['phaser_tile_sprite_background'] = function (
   block,
 ) {
+  const variable = javascriptGenerator.valueToCode(
+    block,
+    'variable',
+    javascriptGenerator.ORDER_ATOMIC,
+  );
   const scrollFactorX = javascriptGenerator.valueToCode(
     block,
     'x',
@@ -75,11 +82,12 @@ javascriptGenerator.forBlock['phaser_tile_sprite_background'] = function (
     javascriptGenerator.ORDER_ATOMIC,
   );
   return `
-    this.background = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, "${block.getFieldValue(
+    ${variable} = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, "${block.getFieldValue(
       'sprite',
     )}")
       .setOrigin(0)
       .setScrollFactor(${scrollFactorX}, ${scrollFactorY});
+    this.helper_.addTileSprite(${variable});
   `;
 };
 
@@ -144,6 +152,7 @@ javascriptGenerator.forBlock['phaser_tile_sprite_floor_add'] = function (
       .setScrollFactor(${scrollFactorX}, ${scrollFactorY});
     this.physics.add.existing(${variable}, false);
     ${variable}.body.immovable = true;
+    this.helper_.addTileSprite(${variable});
   `;
 };
 
@@ -209,6 +218,7 @@ javascriptGenerator.forBlock['phaser_tile_sprite_ceiling_add'] = function (
       .setScrollFactor(${scrollFactorX}, ${scrollFactorY});
     this.physics.add.existing(${variable}, false);
     ${variable}.body.immovable = true;
+    this.helper_.addTileSprite(${variable});
   `;
 };
 
@@ -511,7 +521,10 @@ javascriptGenerator.forBlock['phaser_tile_sprite_autoScroll'] = function (
     'y',
     javascriptGenerator.ORDER_ATOMIC,
   );
-  return variable + '.autoScroll(' + value_x + ', ' + value_y + ');\n';
+  return `
+    ${variable}.autoScroll(${value_x}, ${value_y});
+    this.helper_.addTileSprite(${variable});
+  `;
 };
 
 /**

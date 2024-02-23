@@ -184,5 +184,9 @@ Blocks['phaser_game_restart'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_game_restart'] = function () {
-  return 'this.scene.restart();\n';
+  return `
+    this.events.off();
+    this.registry.destroy();
+    this.scene.restart();
+  `;
 };

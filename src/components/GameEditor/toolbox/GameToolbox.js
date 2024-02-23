@@ -36,13 +36,17 @@ export default [
               <block type="phaser_create">
                 <next>
                   <block type="phaser_input">
-                      <next>
-                        <block type="phaser_update">
-                          <next>
-                            <block type="phaser_render" collapsed="true"></block>
-                          </next>
-                        </block>
-                      </next>
+                    <next>
+                      <block type="phaser_event">
+                        <next>
+                          <block type="phaser_update">
+                            <next>
+                              <block type="phaser_render" collapsed="true"></block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
                   </block>
                 </next>
               </block>

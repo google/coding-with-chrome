@@ -41,7 +41,7 @@ Blocks['phaser_create'] = {
       .setAlign(Blockly.ALIGN_CENTRE)
       .setCheck(['Create']);
     this.setPreviousStatement(true, 'Create_');
-    this.setNextStatement(true, ['Update_', 'Input_']);
+    this.setNextStatement(true, ['Update_', 'Input_', 'Event_']);
     this.setColour(30);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -63,6 +63,11 @@ javascriptGenerator.forBlock['phaser_create'] = function (block) {
     this.default_group = this.add.group(undefined, 'default_group');
 
     ${javascriptGenerator.statementToCode(block, 'CODE')}
+
+    // Separate event block for better code structure.
+    if (this.event_) {
+      this.event_(event);
+    }
   }`;
 };
 
