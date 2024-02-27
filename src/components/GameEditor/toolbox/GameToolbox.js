@@ -21,39 +21,48 @@
 
 import '../blocks/GameBlocks.js';
 
-export default [
-  {
-    kind: 'block',
-    blockxml: `
-  <block type="phaser_game">
-    <next>
-      <block type="phaser_game_state">
-        <field name="name">main</field>
-        <field name="autostart">true</field>
-        <statement name="state">
-          <block type="phaser_preload">
+/**
+ * @type {string}
+ */
+export const defaultGameState = `
+  <block type="phaser_game_state">
+    <value name="variable">
+      <block type="phaser_variable_scene_set">
+        <field name="VAR">main</field>
+      </block>
+    </value>
+    <field name="autostart">true</field>
+    <statement name="state">
+      <block type="phaser_preload">
+        <next>
+          <block type="phaser_create">
             <next>
-              <block type="phaser_create">
+              <block type="phaser_input">
                 <next>
-                  <block type="phaser_input">
+                  <block type="phaser_event">
                     <next>
-                      <block type="phaser_event">
-                        <next>
-                          <block type="phaser_update">
-                            <next>
-                              <block type="phaser_render" collapsed="true"></block>
-                            </next>
-                          </block>
-                        </next>
-                      </block>
+                      <block type="phaser_update"></block>
                     </next>
                   </block>
                 </next>
               </block>
             </next>
           </block>
-        </statement>
+        </next>
       </block>
+    </statement>
+  </block>`;
+
+/**
+ * @type {array}
+ */
+export const defaultBlocks = [
+  {
+    kind: 'block',
+    blockxml: `
+  <block type="phaser_game">
+    <next>
+      ${defaultGameState}
     </next>
   </block>`,
   },
@@ -61,7 +70,11 @@ export default [
     kind: 'block',
     blockxml: `
   <block type="phaser_game_state">
-    <field name="name">game_over</field>
+    <value name="variable">
+      <block type="phaser_variable_scene_set">
+        <field name="VAR">game_over</field>
+      </block>
+    </value>
     <field name="autostart">false</field>
     <statement name="state">
       <block type="phaser_preload">
@@ -70,11 +83,7 @@ export default [
             <next>
                <block type="phaser_input">
                   <next>
-                    <block type="phaser_update">
-                      <next>
-                        <block type="phaser_render" collapsed="true"></block>
-                      </next>
-                    </block>
+                    <block type="phaser_update"></block>
                   </next>
               </block>
             </next>
@@ -92,7 +101,22 @@ export default [
     kind: 'block',
     blockxml: `
   <block type="phaser_game_start">
-    <field name="name">game_over</field>
+    <value name="variable">
+      <block type="phaser_variable_scene_get">
+        <field name="VAR">main</field>
+      </block>
+    </value>
+  </block>`,
+  },
+  {
+    kind: 'block',
+    blockxml: `
+  <block type="phaser_game_start">
+    <value name="variable">
+      <block type="phaser_variable_scene_get">
+        <field name="VAR">game_over</field>
+      </block>
+    </value>
   </block>`,
   },
   {
@@ -100,3 +124,8 @@ export default [
     type: 'phaser_game_restart',
   },
 ];
+
+export default {
+  defaultGameState,
+  defaultBlocks,
+};

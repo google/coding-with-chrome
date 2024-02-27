@@ -24,6 +24,7 @@ import Blockly, { Blocks } from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
 
 import { BlocksTemplate } from '../../BlockEditor/blocks/BlocksTemplate';
+import { EventBlocksColor } from './BlocksColor';
 
 import i18next from 'i18next';
 
@@ -33,7 +34,7 @@ import i18next from 'i18next';
 Blocks['phaser_event'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField(BlocksTemplate.addCircle())
+      .appendField(BlocksTemplate.rule())
       .appendField(i18next.t('BLOCKS_PHASER_ON_EVENT'));
     this.appendStatementInput('CODE')
       .appendField(i18next.t('BLOCKS_DO'))
@@ -41,7 +42,7 @@ Blocks['phaser_event'] = {
       .setCheck(['Event']);
     this.setPreviousStatement(true, 'Event_');
     this.setNextStatement(true, ['Update_', 'Render_']);
-    this.setColour(35);
+    this.setColour(EventBlocksColor);
     this.setTooltip('');
     this.setHelpUrl('');
   },

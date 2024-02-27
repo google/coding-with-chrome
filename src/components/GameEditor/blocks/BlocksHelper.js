@@ -69,6 +69,22 @@ export class BlocksHelper {
   static variableBlockRegExp =
     /<field\s+name\s*=\s*"VAR"\s*>([\s\S]*?)<\/field>/;
 
+  static workspaceXML = '';
+
+  /**
+   * @param {string} xml
+   */
+  static setWorkspaceXML(xml) {
+    this.workspaceXML = xml;
+  }
+
+  /**
+   * @return {string}
+   */
+  static getWorkspaceXML() {
+    return this.workspaceXML;
+  }
+
   /**
    * @param {Object} images
    * @return {!Array}
@@ -232,6 +248,18 @@ export class BlocksHelper {
       }
     }
 
+    // Check xml for any missing cross referenced variables, which are not
+    // loaded in sequence like class definitions.
+    if (this.getWorkspaceXML()) {
+      const variables = this.extractBlockXMLVariablesName(
+        this.getWorkspaceXML(),
+        blockType,
+      );
+      for (const variable of variables) {
+        variableMap.set(variable, variable);
+      }
+    }
+
     // Add default variable name and value, if no variable is available.
     if (variableMap.size === 0) {
       variableMap.set(defaultName, defaultValue);
@@ -254,6 +282,32 @@ export class BlocksHelper {
       variableName += variableType;
     }
     return [variableName, javascriptGenerator.ORDER_ATOMIC];
+  }
+
+  /**
+   * @param {Block} block
+   * @return {string}
+   */
+  static getSceneName(block) {
+    let variableName = block.getFieldValue('VAR');
+    if (!variableName.startsWith('Scene')) {
+      variableName = variableName + 'Scene';
+    }
+    return [variableName, javascriptGenerator.ORDER_ATOMIC];
+  }
+
+  /**
+   * @param {Block} block
+   */
+  static checkSceneName(block) {
+    const variableName = block.getFieldValue('VAR') + 'Scene';
+    if (!variableName) {
+      block.setWarningText(i18next.t('WARNING.NO_VARIABLE_DEFINED'));
+    } else if (reservedPhaserVariables.includes(variableName)) {
+      block.setWarningText(i18next.t('WARNING.RESERVED_VARIABLE_NAME'));
+    } else {
+      block.setWarningText(null);
+    }
   }
 
   /**
@@ -286,6 +340,32 @@ export class BlocksHelper {
   }
 
   /**
+   * @param {String} blockXML
+   * @param {String} blockType
+   * @return {Array.<String>}
+   */
+  static extractBlockXMLVariablesName(
+    blockXML,
+    blockType = 'phaser_variable_set',
+  ) {
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(blockXML, 'text/xml');
+    const variableNodes = xmlDoc.getElementsByTagName('block');
+    const variables = [];
+
+    for (const variableNode of variableNodes) {
+      const typeAttribute = variableNode.getAttribute('type');
+      const fieldNode = variableNode.getElementsByTagName('field')[0];
+
+      if (typeAttribute === blockType && fieldNode) {
+        const variableValue = fieldNode.textContent.trim();
+        variables.push(variableValue);
+      }
+    }
+    return variables;
+  }
+
+  /**
    * @param {string} text
    * @return {string}
    */
@@ -299,5 +379,13 @@ export class BlocksHelper {
    */
   static validateNumber(value) {
     return Number(value.replace(/[^\d.-]/g, ''));
+  }
+
+  /**
+   * @param {string} value
+   * @return {string}
+   */
+  static validateVariableName(value) {
+    return value.replace(/^[^a-zA-Z_]+|[^a-zA-Z0-9_]+/g, '') || 'variable';
   }
 }

@@ -19,25 +19,35 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
+// App specific constants
 export const APP_NAME = 'Coding with Chrome';
 export const APP_BASE_PATH =
   location && location.host.endsWith('.github.io')
     ? location.pathname.substring(0, location.pathname.lastIndexOf('/') + 1)
     : '/';
 export const APP_ASSETS_BASE_PATH = APP_BASE_PATH + 'assets/';
+export const APP_SUPPORTED_LANGUAGES = {
+  en: { nativeName: 'English' },
+  de: { nativeName: 'Deutsch' },
+  es: { nativeName: 'Español' },
+};
 export const APP_VERSION = VERSION || 'M.B.?';
-export const PREVIEW_BASE_PATH = location
-  ? location.origin + APP_BASE_PATH
-  : APP_BASE_PATH;
 
+// Cache service worker names
 export const ASSETS_SERVICE_WORKER_CACHE_NAME = 'Assets';
 export const CACHE_SERVICE_WORKER_CACHE_NAME = 'Cache';
 export const PREVIEW_SERVICE_WORKER_CACHE_NAME = 'PreviewCache';
+
+// Preview
+export const PREVIEW_BASE_PATH = location
+  ? location.origin + APP_BASE_PATH
+  : APP_BASE_PATH;
 
 export default {
   APP_ASSETS_BASE_PATH,
   APP_BASE_PATH,
   APP_NAME,
+  APP_SUPPORTED_LANGUAGES,
   APP_VERSION,
   CACHE_SERVICE_WORKER_CACHE_NAME,
   PREVIEW_SERVICE_WORKER_CACHE_NAME,

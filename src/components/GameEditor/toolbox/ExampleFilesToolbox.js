@@ -58,7 +58,20 @@ const paddleImageBlocks = BlocksHelper.phaserImagesToBlock([
 
 // Player images.
 const playerImageBlocks = BlocksHelper.phaserImagesToBlock([
-  ['player', APP_BASE_PATH + 'assets/phaser/samples/player.png'],
+  ['dragon_01', APP_BASE_PATH + 'assets/phaser/samples/player/dragon_01.png'],
+  [
+    'fighter_aircraft_01',
+    APP_BASE_PATH + 'assets/phaser/samples/player/fighter_aircraft_01.png',
+  ],
+  ['robot_01', APP_BASE_PATH + 'assets/phaser/samples/player/robot_01.png'],
+  [
+    'spaceship_01',
+    APP_BASE_PATH + 'assets/phaser/samples/player/spaceship_01.png',
+  ],
+  ['ufo_01', APP_BASE_PATH + 'assets/phaser/samples/player/ufo_01.png'],
+  ['ufo_02', APP_BASE_PATH + 'assets/phaser/samples/player/ufo_02.png'],
+  ['witch_01', APP_BASE_PATH + 'assets/phaser/samples/player/witch_01.png'],
+  ['wizard_01', APP_BASE_PATH + 'assets/phaser/samples/player/wizard_01.png'],
 ]);
 
 // Symbol images.

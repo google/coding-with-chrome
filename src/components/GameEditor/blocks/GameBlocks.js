@@ -19,6 +19,7 @@ import { javascriptGenerator } from 'blockly/javascript';
 
 import { BlocksHelper } from './BlocksHelper';
 import { BlocksTemplate } from '../../BlockEditor/blocks/BlocksTemplate';
+import { GameBlocksColor } from './BlocksColor';
 
 import i18next from 'i18next';
 
@@ -47,7 +48,7 @@ Blocks['phaser_game'] = {
       .appendField('Enable Debug')
       .appendField(new Blockly.FieldCheckbox(false), 'debug');
     this.setNextStatement(true, 'Game_State');
-    this.setColour(75);
+    this.setColour(GameBlocksColor);
     this.setTooltip('');
     this.setHelpUrl('');
   },
@@ -91,24 +92,20 @@ javascriptGenerator.forBlock['phaser_game'] = function (block) {
  */
 Blocks['phaser_game_state'] = {
   init: function () {
-    this.appendDummyInput()
+    this.appendValueInput('variable')
       .appendField(BlocksTemplate.storage())
-      .appendField(i18next.t('BLOCKS_PHASER_GAME_STATE'))
-      .appendField(
-        new Blockly.FieldTextInput('main', BlocksHelper.validateText),
-        'name',
-      )
-      .appendField(
-        new Blockly.FieldDropdown([
-          [i18next.t('BLOCKS_PHASER_NO_AUTOSTART'), 'false'],
-          [i18next.t('BLOCKS_PHASER_AUTOSTART'), 'true'],
-        ]),
-        'autostart',
-      );
+      .appendField(i18next.t('BLOCKS_PHASER_GAME_STATE'));
+    this.appendDummyInput().appendField(
+      new Blockly.FieldDropdown([
+        [i18next.t('BLOCKS_PHASER_NO_AUTOSTART'), 'false'],
+        [i18next.t('BLOCKS_PHASER_AUTOSTART'), 'true'],
+      ]),
+      'autostart',
+    );
     this.appendStatementInput('state').setCheck(['Preload_']);
     this.setPreviousStatement(true, 'Game_State');
     this.setNextStatement(true, 'Game_State');
-    this.setColour(75);
+    this.setColour(GameBlocksColor);
     this.setTooltip('');
     this.setHelpUrl('');
   },
@@ -120,16 +117,20 @@ Blocks['phaser_game_state'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_game_state'] = function (block) {
-  const name = block.getFieldValue('name');
+  const variable = javascriptGenerator.valueToCode(
+    block,
+    'variable',
+    javascriptGenerator.ORDER_ATOMIC,
+  );
   return `
-  class ${name} extends Phaser.Scene {
+  class ${variable} extends Phaser.Scene {
     constructor (config) {
       super(config);
     }
     ${javascriptGenerator.statementToCode(block, 'state')}
   }
-  game.scene.add('${name}', ${name}, ${
-    block.getFieldValue('autostart') == 'true' ? true : false
+  game.scene.add('${variable}', ${variable}, ${
+    block.getFieldValue('autostart') == 'true'
   });`;
 };
 
@@ -138,16 +139,12 @@ javascriptGenerator.forBlock['phaser_game_state'] = function (block) {
  */
 Blocks['phaser_game_start'] = {
   init: function () {
-    this.appendDummyInput()
+    this.appendValueInput('variable')
       .appendField(BlocksTemplate.point())
-      .appendField(i18next.t('BLOCKS_PHASER_GAME_START'))
-      .appendField(
-        new Blockly.FieldTextInput('main', BlocksHelper.validateText),
-        'name',
-      );
+      .appendField(i18next.t('BLOCKS_PHASER_GAME_START'));
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);
-    this.setColour(75);
+    this.setColour(GameBlocksColor);
     this.setTooltip('');
     this.setHelpUrl('');
   },
@@ -159,8 +156,12 @@ Blocks['phaser_game_start'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_game_start'] = function (block) {
-  const text_name = block.getFieldValue('name');
-  return "this.scene.start('" + text_name + "');\n";
+  const variable = javascriptGenerator.valueToCode(
+    block,
+    'variable',
+    javascriptGenerator.ORDER_ATOMIC,
+  );
+  return `this.scene.start('${variable}');\n`;
 };
 
 /**
@@ -173,7 +174,7 @@ Blocks['phaser_game_restart'] = {
       .appendField(i18next.t('BLOCKS_PHASER_GAME_RESTART'));
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);
-    this.setColour(75);
+    this.setColour(GameBlocksColor);
     this.setTooltip('');
     this.setHelpUrl('');
   },

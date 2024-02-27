@@ -28,6 +28,7 @@ import Typography from '@mui/material/Typography';
 import i18next from 'i18next';
 
 import styles from './style.module.css';
+import { APP_SUPPORTED_LANGUAGES } from '../../../constants';
 
 /**
  *
@@ -40,18 +41,16 @@ export class Panel extends React.PureComponent {
     super(props);
     this.state = { drawer: false };
     this.handleDrawerToggle = this.handleDrawerToggle.bind(this);
-    this.languages = {
-      en: { nativeName: 'English' },
-      de: { nativeName: 'Deutsch' },
-      es: { nativeName: 'Español' },
-    };
+    this.languages = APP_SUPPORTED_LANGUAGES;
   }
 
-  /** */
+  /**
+   * Handle drawer toggle.
+   */
   handleDrawerToggle() {
-    this.setState({
-      drawer: !this.state.drawer,
-    });
+    this.setState((prevState) => ({
+      drawer: !prevState.drawer,
+    }));
   }
 
   /**

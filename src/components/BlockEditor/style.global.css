@@ -76,8 +76,7 @@
 }
 
 .blocklyToolboxDiv {
-  background-color: rgba(200, 200, 200, 0.5);
-  background: linear-gradient(
+  background-color: linear-gradient(
     to right,
     rgba(200, 200, 200, 0.5) 0%,
     rgba(200, 200, 200, 0.5) 90%,
@@ -256,6 +255,7 @@
 .blocklyToolboxContents .icon_portrait,
 .blocklyToolboxContents .icon_repeat,
 .blocklyToolboxContents .icon_rotate_90_degrees_ccw,
+.blocklyToolboxContents .icon_rule,
 .blocklyToolboxContents .icon_rv_hookup,
 .blocklyToolboxContents .icon_send,
 .blocklyToolboxContents .icon_settings_input_component,
@@ -304,6 +304,7 @@
 .blocklyToolboxContents .icon_portrait::before,
 .blocklyToolboxContents .icon_repeat::before,
 .blocklyToolboxContents .icon_rotate_90_degrees_ccw::before,
+.blocklyToolboxContents .icon_rule::before,
 .blocklyToolboxContents .icon_rv_hookup::before,
 .blocklyToolboxContents .icon_send::before,
 .blocklyToolboxContents .icon_settings_input_component::before,
@@ -485,6 +486,10 @@
 
 .blocklyToolboxContents .icon_rotate_90_degrees_ccw::before {
   content: 'rotate_90_degrees_ccw';
+}
+
+.blocklyToolboxContents .icon_rule::before {
+  content: 'rule';
 }
 
 .blocklyToolboxContents .icon_wallpaper::before {

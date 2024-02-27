@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import GameToolbox from '../toolbox/GameToolbox.js';
+
 /**
  * @fileoverview Blockly Template for the Phaser Blockly modification.
  * @author mbordihn@google.com (Markus Bordihn)
@@ -34,29 +36,7 @@ class BlocklyTemplate {
     <field name="width">0</field>
     <field name="height">0</field>
     <next>
-      <block type="phaser_game_state">
-        <field name="name">main</field>
-        <field name="autostart">true</field>
-        <statement name="state">
-          <block type="phaser_preload">
-            <next>
-              <block type="phaser_create">
-                <next>
-                  <block type="phaser_input">
-                    <next>
-                      <block type="phaser_update">
-                        <next>
-                          <block type="phaser_render" collapsed="true"/>
-                        </next>
-                      </block>
-                    </next>
-                  </block>
-                </next>
-              </block>
-            </next>
-          </block>
-        </statement>
-      </block>
+      ${GameToolbox.defaultGameState}
     </next>
   </block>
 </xml>`;

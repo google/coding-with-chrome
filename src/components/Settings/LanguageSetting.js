@@ -32,6 +32,7 @@ import Typography from '@mui/material/Typography';
 import i18next from '../App/i18next';
 
 import { Settings } from '../Settings/Settings';
+import { APP_SUPPORTED_LANGUAGES } from '../../constants';
 
 /**
  *
@@ -43,11 +44,7 @@ export class LanguageSetting extends React.PureComponent {
    */
   constructor(props) {
     super(props);
-    this.languages = {
-      en: { nativeName: 'English' },
-      de: { nativeName: 'Deutsch' },
-      es: { nativeName: 'Español' },
-    };
+    this.languages = APP_SUPPORTED_LANGUAGES;
     this.state = {
       open: false,
       language: i18next.language || i18next.resolvedLanguage || 'en',

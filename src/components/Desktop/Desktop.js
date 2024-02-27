@@ -38,13 +38,6 @@ import('./../../kernel/Kernel').then((module) => {
  */
 export class DesktopApp extends React.PureComponent {
   /**
-   * @param {*} props
-   */
-  constructor(props) {
-    super(props);
-  }
-
-  /**
    * @return {Object}
    */
   render() {

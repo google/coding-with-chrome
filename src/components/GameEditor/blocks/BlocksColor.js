@@ -1,4 +1,6 @@
 /**
+ * @fileoverview Blocks Color for Blockly.
+ *
  * @license Copyright 2020 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,36 +17,8 @@
  */
 
 /**
- * @fileoverview Render Phaser Toolbox.
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import '../blocks/DebugBlocks.js';
-import '../blocks/RenderBlocks.js';
-
-export default [
-  {
-    kind: 'block',
-    type: 'phaser_render',
-  },
-  {
-    kind: 'block',
-    type: 'phaser_debug_camera',
-  },
-  {
-    kind: 'block',
-    type: 'phaser_debug_pointer',
-  },
-  {
-    kind: 'block',
-    blockxml: `
-  <block type="phaser_debug_sprite">
-    <value name="variable">
-      <block type="phaser_variable_sprite_get">
-        <field name="VAR">sprite</field>
-      </block>
-    </value>
-  </block>
-    `,
-  },
-];
+export const EventBlocksColor = 350;
+export const GameBlocksColor = 75;

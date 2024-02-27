@@ -218,4 +218,16 @@ export class BlocksTemplate {
       '▼',
     );
   };
+
+  /**
+   * @return {!Blockly.FieldImage}
+   */
+  static rule = function () {
+    return new Blockly.FieldImage(
+      APP_BASE_PATH + 'assets/icons/rule_25pt.png',
+      18,
+      18,
+      '▼',
+    );
+  };
 }

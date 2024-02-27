@@ -24,6 +24,7 @@ import Blockly, { Block, Blocks } from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
 
 import { BlocksHelper } from './BlocksHelper';
+import { GameBlocksColor } from './BlocksColor';
 
 import i18next from 'i18next';
 
@@ -34,7 +35,13 @@ Blocks['phaser_variable_arcade_sprite_set'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(i18next.t('BLOCKS_PHASER_VARIABLE_ARCADE_SPRITE'))
-      .appendField(new Blockly.FieldTextInput('default'), 'VAR');
+      .appendField(
+        new Blockly.FieldTextInput(
+          'default',
+          BlocksHelper.validateVariableName,
+        ),
+        'VAR',
+      );
     this.setOutput(true, null);
     this.setColour(330);
     this.setTooltip('');
@@ -99,7 +106,13 @@ Blocks['phaser_variable_audio_set'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(i18next.t('BLOCKS_PHASER_VARIABLE_AUDIO'))
-      .appendField(new Blockly.FieldTextInput('default'), 'VAR');
+      .appendField(
+        new Blockly.FieldTextInput(
+          'default',
+          BlocksHelper.validateVariableName,
+        ),
+        'VAR',
+      );
     this.setOutput(true, null);
     this.setColour(330);
     this.setTooltip('');
@@ -160,7 +173,13 @@ Blocks['phaser_variable_group_set'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(i18next.t('BLOCKS_PHASER_VARIABLE_GROUP'))
-      .appendField(new Blockly.FieldTextInput('default'), 'VAR');
+      .appendField(
+        new Blockly.FieldTextInput(
+          'default',
+          BlocksHelper.validateVariableName,
+        ),
+        'VAR',
+      );
     this.setOutput(true, null);
     this.setColour(330);
     this.setTooltip('');
@@ -221,7 +240,13 @@ Blocks['phaser_variable_input_set'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(i18next.t('BLOCKS_PHASER_VARIABLE_INPUT'))
-      .appendField(new Blockly.FieldTextInput('default'), 'VAR');
+      .appendField(
+        new Blockly.FieldTextInput(
+          'default',
+          BlocksHelper.validateVariableName,
+        ),
+        'VAR',
+      );
     this.setOutput(true, null);
     this.setColour(330);
     this.setTooltip('');
@@ -282,7 +307,13 @@ Blocks['phaser_variable_sprite_set'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(i18next.t('BLOCKS_PHASER_VARIABLE_SPRITE'))
-      .appendField(new Blockly.FieldTextInput('default'), 'VAR');
+      .appendField(
+        new Blockly.FieldTextInput(
+          'default',
+          BlocksHelper.validateVariableName,
+        ),
+        'VAR',
+      );
     this.setOutput(true, null);
     this.setColour(330);
     this.setTooltip('');
@@ -347,7 +378,13 @@ Blocks['phaser_variable_text_set'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(i18next.t('BLOCKS_PHASER_VARIABLE_TEXT'))
-      .appendField(new Blockly.FieldTextInput('default'), 'VAR');
+      .appendField(
+        new Blockly.FieldTextInput(
+          'default',
+          BlocksHelper.validateVariableName,
+        ),
+        'VAR',
+      );
     this.setOutput(true, null);
     this.setColour(330);
     this.setTooltip('');
@@ -408,7 +445,13 @@ Blocks['phaser_variable_tile_sprite_set'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(i18next.t('BLOCKS_PHASER_VARIABLE_TILE_SPRITE'))
-      .appendField(new Blockly.FieldTextInput('default'), 'VAR');
+      .appendField(
+        new Blockly.FieldTextInput(
+          'default',
+          BlocksHelper.validateVariableName,
+        ),
+        'VAR',
+      );
     this.setOutput(true, null);
     this.setColour(330);
     this.setTooltip('');
@@ -464,6 +507,73 @@ javascriptGenerator.forBlock['phaser_variable_tile_sprite_get'] = function (
   block,
 ) {
   return BlocksHelper.getVariableName(block);
+};
+
+/**
+ * Set dynamic scene variable
+ */
+Blocks['phaser_variable_scene_set'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField(i18next.t('BLOCKS_PHASER_VARIABLE_SCENE'))
+      .appendField(
+        new Blockly.FieldTextInput(
+          'default',
+          BlocksHelper.validateVariableName,
+        ),
+        'VAR',
+      );
+    this.setOutput(true, null);
+    this.setColour(GameBlocksColor);
+    this.setTooltip('');
+    this.setHelpUrl('');
+    this.setOnChange(() => {
+      BlocksHelper.checkSceneName(this);
+    });
+  },
+};
+
+/**
+ * Set dynamic scene variable
+ * @param {Block} block
+ * @return {string}
+ */
+javascriptGenerator.forBlock['phaser_variable_scene_set'] = function (block) {
+  return BlocksHelper.getSceneName(block);
+};
+
+/**
+ * Get dynamic scene variable
+ */
+Blocks['phaser_variable_scene_get'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField(i18next.t('BLOCKS_PHASER_VARIABLE_SCENE'))
+      .appendField(
+        new Blockly.FieldDropdown(() => {
+          return BlocksHelper.phaserVariable(
+            this,
+            'phaser_variable_scene_set',
+            'default_scene',
+            'default_scene',
+          );
+        }),
+        'VAR',
+      );
+    this.setOutput(true, null);
+    this.setColour(GameBlocksColor);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+/**
+ * Get dynamic scene variable
+ * @param {Block} block
+ * @return {string}
+ */
+javascriptGenerator.forBlock['phaser_variable_scene_get'] = function (block) {
+  return BlocksHelper.getSceneName(block);
 };
 
 /**

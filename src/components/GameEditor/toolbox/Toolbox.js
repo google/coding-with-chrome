@@ -30,7 +30,6 @@ import GeneratorToolbox from './GeneratorToolbox';
 import GroupToolbox from './GroupToolbox';
 import InputToolbox from './InputToolbox';
 import PreloadToolbox from './PreloadToolbox';
-import RenderToolbox from './RenderToolbox';
 import SpriteToolbox from './SpriteToolbox';
 import TextToolbox from './TextToolbox';
 import TileSpriteToolbox from './TileSpriteToolbox';
@@ -44,6 +43,8 @@ import DefaultLogicToolbox from '../../BlockEditor/toolbox/LogicToolbox';
 import DefaultLoopToolbox from '../../BlockEditor/toolbox/LoopToolbox';
 import DefaultMathToolbox from '../../BlockEditor/toolbox/MathToolbox';
 import DefaultTextToolbox from '../../BlockEditor/toolbox/TextToolbox';
+
+import { EventBlocksColor } from '../blocks/BlocksColor';
 
 import i18next from 'i18next';
 
@@ -67,7 +68,7 @@ export class Toolbox {
           cssConfig: {
             container: 'icon_direction_run',
           },
-          contents: GameToolbox,
+          contents: GameToolbox.defaultBlocks,
         },
         {
           kind: 'category',
@@ -342,9 +343,9 @@ export class Toolbox {
         {
           kind: 'category',
           name: i18next.t('BLOCKS_PHASER_EVENT'),
-          colour: '315',
+          colour: EventBlocksColor,
           cssConfig: {
-            container: 'icon_repeat blocklyTreeRoot',
+            container: 'icon_rule blocklyTreeRoot',
           },
           expanded: 'false',
           contents: EventToolbox.defaultBlocks.concat([
@@ -364,7 +365,7 @@ export class Toolbox {
         {
           kind: 'category',
           name: i18next.t('BLOCKS_PHASER_UPDATE'),
-          colour: '315',
+          colour: '310',
           cssConfig: {
             container: 'icon_repeat blocklyTreeRoot',
           },
@@ -456,15 +457,6 @@ export class Toolbox {
               ),
             },
           ]),
-        },
-        {
-          kind: 'category',
-          name: i18next.t('BLOCKS_PHASER_RENDERER'),
-          colour: '195',
-          cssConfig: {
-            container: 'icon_computer',
-          },
-          contents: RenderToolbox,
         },
         {
           kind: 'sep',

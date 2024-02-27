@@ -55,6 +55,7 @@ import './style.global.css';
 import { BlocksBuilder } from '../BlockEditor/blocks/BlocksBuilder';
 import GameEditorSettings from '../Settings/GameEditorSettings';
 import { DataURL } from '../../utils/file/DataURL';
+import { BlocksHelper } from './blocks/BlocksHelper';
 
 /**
  *
@@ -272,7 +273,10 @@ export class GameEditor extends React.PureComponent {
         console.log('[GameEditor] Received screenshot...');
         this.state.project.setScreenshot(event.data.value);
         this.state.project.save().then(() => {
-          this.setState({ screenshotUrl: '', project: this.state.project });
+          this.setState((prevState) => ({
+            screenshotUrl: '',
+            project: prevState.project,
+          }));
         });
         break;
       case 'runtime_error':
@@ -442,6 +446,7 @@ export class GameEditor extends React.PureComponent {
    * @return {string}
    */
   handleParseXML(xml) {
+    BlocksHelper.setWorkspaceXML(xml);
     return xml;
   }
 

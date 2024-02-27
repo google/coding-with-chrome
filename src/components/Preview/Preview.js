@@ -294,7 +294,6 @@ export class Preview extends React.PureComponent {
               ref={this.contentIframe}
               src=""
               allow="geolocation; microphone; camera; midi; encrypted-media; xr-spatial-tracking; fullscreen"
-              allowFullScreen
               onLoad={this.handleContentIframeLoad.bind(this)}
               onError={this.handleContentIframeError.bind(this)}
               sandbox="allow-scripts allow-modals allow-forms allow-same-origin allow-top-navigation-by-user-activation allow-downloads"

@@ -104,4 +104,7 @@
     "locales",
     "node_modules"
   ],
+  "[xml]": {
+    "editor.defaultFormatter": "DotJoshJohnson.xml"
+  },
 }
