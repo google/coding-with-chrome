@@ -147,16 +147,18 @@ export class SelectScreen extends React.PureComponent {
           </Grid>
           <Grid item>
             <Alert severity="warning">
-              <AlertTitle>Experimental Version</AlertTitle>
-              This version is experimental and not fully functional. Use at your
-              own risk.
+              <AlertTitle>
+                {i18next.t('SELECT_SCREEN.EXPERIMENTAL.TITLE')}
+              </AlertTitle>
+              {i18next.t('SELECT_SCREEN.EXPERIMENTAL.DESCRIPTION')}
             </Alert>
             {this.state.showUpdate && (
               <Alert severity="info">
-                <AlertTitle>Update available</AlertTitle>
+                <AlertTitle>
+                  {i18next.t('SELECT_SCREEN.UPDATE.TITLE')}
+                </AlertTitle>
                 <Typography>
-                  A new version of Coding with Chrome is available. Please click
-                  the following update button to get the latest version.
+                  {i18next.t('SELECT_SCREEN.UPDATE.DESCRIPTION')}
                 </Typography>
                 <Button
                   variant="contained"
@@ -164,7 +166,7 @@ export class SelectScreen extends React.PureComponent {
                   onClick={this.performUpdate.bind(this)}
                   sx={{ marginTop: '20px' }}
                 >
-                  Update Coding with Chrome
+                  {i18next.t('SELECT_SCREEN.UPDATE.BUTTON')}
                 </Button>
               </Alert>
             )}

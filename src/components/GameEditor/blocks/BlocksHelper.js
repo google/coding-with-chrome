@@ -20,10 +20,47 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-import Blockly from 'blockly';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+import Blockly, { Block } from 'blockly';
+import { javascriptGenerator } from 'blockly/javascript';
 
 import { BlocksBuilder } from '../../BlockEditor/blocks/BlocksBuilder';
 import { PhaserBlocksBuilder } from './PhaserBlocksBuilder';
+
+import i18next from 'i18next';
+
+const reservedPhaserVariables = [
+  'add',
+  'anims',
+  'cache',
+  'cameras',
+  'children',
+  'collision',
+  'create',
+  'data',
+  'default_group',
+  'events',
+  'game',
+  'helper_',
+  'input',
+  'lights',
+  'load',
+  'make',
+  'physics',
+  'plugins',
+  'preload',
+  'registry',
+  'render',
+  'renderer',
+  'scale',
+  'scene',
+  'sound',
+  'sys',
+  'textures',
+  'time',
+  'tweens',
+  'update',
+];
 
 /**
  * Simple Blocks Helper
@@ -99,7 +136,42 @@ export class BlocksHelper {
 
   /**
    * @param {BlockSvg} blockSvg
-   * @param {String} blockType
+   * @param {Array.<String>} blockTypes
+   * @param {String} defaultName
+   * @param {String} defaultValue
+   * @return {!Array}
+   */
+  static phaserVariables(
+    blockSvg,
+    blockTypes = ['phaser_variable_set'],
+    defaultName = 'found_no_variable',
+    defaultValue = 'default',
+  ) {
+    // Get all variables for the given block types.
+    const variableMap = new Map();
+    for (const blockType of blockTypes) {
+      const variables = this.phaserVariable(
+        blockSvg,
+        blockType,
+        defaultName,
+        defaultValue,
+      );
+      for (const variable of variables) {
+        variableMap.set(variable[0], variable[1]);
+      }
+    }
+
+    // Remove default variable name and value, if other variables are available.
+    if (variableMap.size > 1) {
+      variableMap.delete(defaultName);
+    }
+
+    return [].concat([...variableMap.entries()]).sort();
+  }
+
+  /**
+   * @param {BlockSvg} blockSvg
+   * @param {String|Array.<String>} blockType
    * @param {String} defaultName
    * @param {String} defaultValue
    * @return {!Array}
@@ -112,6 +184,7 @@ export class BlocksHelper {
   ) {
     const variableMap = new Map();
     const mainWorkspace = Blockly.getMainWorkspace();
+
     // Get all variables from the workspace.
     const variableBlocks = mainWorkspace.getBlocksByType(blockType);
     for (const variableBlock of variableBlocks) {
@@ -165,6 +238,36 @@ export class BlocksHelper {
     }
 
     return [].concat([...variableMap.entries()]).sort();
+  }
+
+  /**
+   * @param {Block} block
+   * @param {String} variableType
+   * @return {string}
+   */
+  static getVariableName(block, variableType = '') {
+    let variableName = block.getFieldValue('VAR');
+    if (!variableName.startsWith('this')) {
+      variableName = 'this.' + variableName;
+    }
+    if (variableType && !variableName.endsWith(variableType)) {
+      variableName += variableType;
+    }
+    return [variableName, javascriptGenerator.ORDER_ATOMIC];
+  }
+
+  /**
+   * @param {Block} block
+   */
+  static checkVariableName(block) {
+    const variableName = block.getFieldValue('VAR');
+    if (!variableName) {
+      block.setWarningText(i18next.t('WARNING.NO_VARIABLE_DEFINED'));
+    } else if (reservedPhaserVariables.includes(variableName)) {
+      block.setWarningText(i18next.t('WARNING.RESERVED_VARIABLE_NAME'));
+    } else {
+      block.setWarningText(null);
+    }
   }
 
   /**

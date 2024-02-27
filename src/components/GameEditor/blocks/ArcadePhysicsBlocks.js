@@ -347,8 +347,8 @@ Blocks['phaser_physics_arcade_sprite_adjust'] = {
     this.appendValueInput('value')
       .setCheck('Number')
       .appendField(i18next.t('BLOCKS_TO'));
-    this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
-    this.setNextStatement(true, ['Create', 'Update', 'Input']);
+    this.setPreviousStatement(true, ['Create', 'Event', 'Update', 'Input']);
+    this.setNextStatement(true, ['Create', 'Event', 'Update', 'Input']);
     this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -514,8 +514,8 @@ Blocks['phaser_physics_arcade_sprite_adjust_dimension'] = {
     this.appendDummyInput().appendField(i18next.t('WITH_DIMENSION'));
     this.appendValueInput('width').setCheck('Number');
     this.appendValueInput('height').appendField('x').setCheck('Number');
-    this.setPreviousStatement(true, 'Create');
-    this.setNextStatement(true, 'Create');
+    this.setPreviousStatement(true, 'Create', 'Event');
+    this.setNextStatement(true, 'Create', 'Event');
     this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -589,8 +589,8 @@ Blocks['phaser_physics_arcade_sprite_destroy'] = {
       .appendField(i18next.t('BLOCKS_PHASER_PHYSICS_SPRITE_DESTROY'));
     this.appendValueInput('variable');
     this.setInputsInline(true);
-    this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
-    this.setNextStatement(true, ['Create', 'Update', 'Input']);
+    this.setPreviousStatement(true, ['Create', 'Event', 'Update', 'Input']);
+    this.setNextStatement(true, ['Create', 'Event', 'Update', 'Input']);
     this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -622,8 +622,8 @@ Blocks['phaser_physics_arcade_sprite_kill'] = {
       .appendField(i18next.t('BLOCKS_PHASER_PHYSICS_SPRITE_KILL'));
     this.appendValueInput('variable');
     this.setInputsInline(true);
-    this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
-    this.setNextStatement(true, ['Create', 'Update', 'Input']);
+    this.setPreviousStatement(true, ['Create', 'Event', 'Update', 'Input']);
+    this.setNextStatement(true, ['Create', 'Event', 'Update', 'Input']);
     this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -675,7 +675,7 @@ javascriptGenerator.forBlock['phaser_physics_arcade_enable'] = function (
     'variable',
     javascriptGenerator.ORDER_ATOMIC,
   );
-  return 'this.physics.world.enable(' + value_variable + ');\n';
+  return `this.physics.world.enable(${value_variable});\n`;
 };
 
 /**
@@ -689,8 +689,8 @@ Blocks['phaser_physics_arcade_out_of_bounds'] = {
     this.appendValueInput('variable');
     this.appendStatementInput('CODE').appendField(i18next.t('BLOCKS_DO'));
     this.setInputsInline(true);
-    this.setPreviousStatement(true, 'Create');
-    this.setNextStatement(true, 'Create');
+    this.setPreviousStatement(true, ['Create', 'Event']);
+    this.setNextStatement(true, ['Create', 'Event']);
     this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -734,8 +734,8 @@ Blocks['phaser_physics_arcade_overlap'] = {
     this.appendValueInput('object2');
     this.appendStatementInput('CODE').appendField(i18next.t('BLOCKS_DO'));
     this.setInputsInline(true);
-    this.setPreviousStatement(true, 'Update');
-    this.setNextStatement(true, 'Update');
+    this.setPreviousStatement(true, ['Create', 'Event']);
+    this.setNextStatement(true, ['Create', 'Event']);
     this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -761,15 +761,9 @@ javascriptGenerator.forBlock['phaser_physics_arcade_overlap'] = function (
     javascriptGenerator.ORDER_ATOMIC,
   );
   const statements_code = javascriptGenerator.statementToCode(block, 'CODE');
-  return (
-    'this.physics.overlap(' +
-    value_object1 +
-    ', ' +
-    value_object2 +
-    ', function(object1, object2) {\n' +
-    statements_code +
-    '}, null, this);\n'
-  );
+  return `this.physics.add.overlap(${value_object1}, ${value_object2}, function(object1, object2, collisionInfo) {
+    ${statements_code}
+  }, null, this);\n`;
 };
 
 /**
@@ -782,8 +776,8 @@ Blocks['phaser_physics_arcade_collide'] = {
       i18next.t('BLOCKS_PHASER_COLLIDE_WITH'),
     );
     this.appendValueInput('object2');
-    this.setPreviousStatement(true, 'Update');
-    this.setNextStatement(true, 'Update');
+    this.setPreviousStatement(true, ['Create', 'Event']);
+    this.setNextStatement(true, ['Create', 'Event']);
     this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -808,7 +802,5 @@ javascriptGenerator.forBlock['phaser_physics_arcade_collide'] = function (
     'object2',
     javascriptGenerator.ORDER_ATOMIC,
   );
-  return `
-    this.physics.add.collider(${object1}, ${object2});
-  `;
+  return `this.physics.add.collider(${object1}, ${object2});\n`;
 };

@@ -64,7 +64,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_dynamic_text_highscore_add">
     <value name="variable">
-      <block type="phaser_variable_set">
+      <block type="phaser_variable_text_set">
         <field name="VAR">highscore</field>
       </block>
     </value>
@@ -84,7 +84,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_dynamic_text_add">
     <value name="variable">
-      <block type="phaser_variable_set">
+      <block type="phaser_variable_text_set">
         <field name="VAR">text</field>
       </block>
     </value>
@@ -106,7 +106,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_action_text_add">
     <value name="variable">
-      <block type="phaser_variable_set">
+      <block type="phaser_variable_text_set">
         <field name="VAR">start_text</field>
       </block>
     </value>
@@ -123,6 +123,56 @@ export const createBlocks = [
     </value>
   </block>`,
   },
+  {
+    kind: 'block',
+    blockxml: `
+    <block type="phaser_text_add">
+      <field name="color">#ff0000</field>
+      <field name="size">32px</field>
+      <field name="font">Arial Black</field>
+      <value name="text">
+        <block type="text">
+          <field name="TEXT">Game Over</field>
+        </block>
+      </value>
+      <value name="x">
+        <block type="math_arithmetic">
+          <field name="OP">MINUS</field>
+          <value name="A">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+            <block type="phaser_world_attributes">
+              <field name="attribute">centerX</field>
+            </block>
+          </value>
+          <value name="B">
+            <shadow type="math_number">
+              <field name="NUM">85</field>
+            </shadow>
+          </value>
+        </block>
+      </value>
+      <value name="y">
+        <block type="math_arithmetic">
+          <field name="OP">MINUS</field>
+          <value name="A">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+            <block type="phaser_world_attributes">
+              <field name="attribute">centerY</field>
+            </block>
+          </value>
+          <value name="B">
+            <shadow type="math_number">
+              <field name="NUM">32</field>
+            </shadow>
+          </value>
+        </block>
+      </value>
+    </block>`,
+  },
 ];
 
 /**
@@ -134,7 +184,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_text_change">
     <value name="variable">
-      <block type="phaser_variable_get">
+      <block type="phaser_variable_text_get">
         <field name="VAR">text</field>
       </block>
     </value>
@@ -150,7 +200,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_text_change">
     <value name="variable">
-      <block type="phaser_variable_get">
+      <block type="phaser_variable_text_get">
         <field name="VAR">highscore</field>
       </block>
     </value>
@@ -160,7 +210,7 @@ export const defaultBlocks = [
         <value name="A">
           <block type="phaser_text_get_number">
             <value name="variable">
-              <block type="phaser_variable_get">
+              <block type="phaser_variable_text_get">
                 <field name="VAR">highscore</field>
               </block>
             </value>
@@ -180,7 +230,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_text_get">
     <value name="variable">
-      <block type="phaser_variable_get">
+      <block type="phaser_variable_text_get">
         <field name="VAR">text</field>
       </block>
     </value>
@@ -191,7 +241,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_text_get_number">
     <value name="variable">
-      <block type="phaser_variable_get">
+      <block type="phaser_variable_text_get">
         <field name="VAR">highscore</field>
       </block>
     </value>
@@ -208,7 +258,7 @@ export const eventBlocks = [
     blockxml: `
   <block type="phaser_text_clicked">
     <value name="variable">
-      <block type="phaser_variable_get">
+      <block type="phaser_variable_text_get">
         <field name="VAR">start_text</field>
       </block>
     </value>

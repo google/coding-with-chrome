@@ -24,13 +24,16 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
-
-      - name: Setup Playwright
-        run: npx playwright install-deps
+          node-version: 20
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Install Playwright dependencies
+        run: npx playwright install-deps
+
+      - name: Setup Playwright
+        run: npx playwright install
 
       - name: Run unit tests
         run: npm run test:units

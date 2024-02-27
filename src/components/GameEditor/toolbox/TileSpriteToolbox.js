@@ -29,6 +29,11 @@ export const createBlocks = [
     kind: 'block',
     blockxml: `
   <block type="phaser_tile_sprite_background">
+    <value name="variable">
+      <block type="phaser_variable_tile_sprite_set">
+        <field name="VAR">background</field>
+      </block>
+    </value>
     <value name="x">
       <block type="math_number"><field name="NUM">1</field></block>
     </value>
@@ -42,7 +47,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_tile_sprite_floor_add">
     <value name="variable">
-      <block type="phaser_variable_set">
+      <block type="phaser_variable_tile_sprite_set">
         <field name="VAR">floor</field>
       </block>
     </value>
@@ -59,7 +64,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_tile_sprite_ceiling_add">
     <value name="variable">
-      <block type="phaser_variable_set">
+      <block type="phaser_variable_tile_sprite_set">
         <field name="VAR">ceiling</field>
       </block>
     </value>
@@ -76,7 +81,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_tile_sprite_add">
     <value name="variable">
-      <block type="phaser_variable_set">
+      <block type="phaser_variable_tile_sprite_set">
         <field name="VAR">tile_sprite</field>
       </block>
     </value>
@@ -93,7 +98,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_tile_sprite_crop">
     <value name="variable">
-      <block type="phaser_variable_get">
+      <block type="phaser_variable_tile_sprite_get">
         <field name="VAR">blocks</field>
       </block>
     </value>
@@ -110,7 +115,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_tile_sprite_adjust">
     <value name="variable">
-      <block type="phaser_variable_get">
+      <block type="phaser_variable_tile_sprite_get">
         <field name="VAR">sprite</field>
       </block>
     </value>
@@ -124,7 +129,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_tile_sprite_destroy">
     <value name="variable">
-      <block type="phaser_variable_get">
+      <block type="phaser_variable_tile_sprite_get">
         <field name="VAR">sprite</field>
       </block>
     </value>
@@ -135,7 +140,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_tile_sprite_autoScroll">
     <value name="variable">
-      <block type="phaser_variable_get">
+      <block type="phaser_variable_tile_sprite_get">
         <field name="VAR">blocks</field>
       </block>
     </value>
@@ -152,7 +157,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_tile_sprite_immovable">
     <value name="variable">
-      <block type="phaser_variable_get">
+      <block type="phaser_variable_tile_sprite_get">
         <field name="VAR">blocks</field>
       </block>
     </value>

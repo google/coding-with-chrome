@@ -37,11 +37,15 @@ Blocks['phaser_game'] = {
           BlocksHelper.validateText,
         ),
         'name',
-      )
+      );
+    this.appendDummyInput()
+      .appendField(BlocksTemplate.adjust())
       .appendField(i18next.t('BLOCKS_PHASER_WITH_THE_SIZE'))
       .appendField(new Blockly.FieldNumber(400, 0, 5760), 'width')
       .appendField('x')
-      .appendField(new Blockly.FieldNumber(600, 0, 2160), 'height');
+      .appendField(new Blockly.FieldNumber(600, 0, 2160), 'height')
+      .appendField('Enable Debug')
+      .appendField(new Blockly.FieldCheckbox(false), 'debug');
     this.setNextStatement(true, 'Game_State');
     this.setColour(75);
     this.setTooltip('');
@@ -73,7 +77,7 @@ javascriptGenerator.forBlock['phaser_game'] = function (block) {
       physics: {
         default: 'arcade',
         arcade: {
-            debug: false
+            debug: ${block.getFieldValue('debug') == 'TRUE'}
         }
       }
     }
@@ -180,5 +184,9 @@ Blocks['phaser_game_restart'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_game_restart'] = function () {
-  return 'this.scene.restart();\n';
+  return `
+    this.events.off();
+    this.registry.destroy();
+    this.scene.restart();
+  `;
 };

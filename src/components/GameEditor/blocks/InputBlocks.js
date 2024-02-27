@@ -41,7 +41,7 @@ Blocks['phaser_input'] = {
       .setAlign(Blockly.ALIGN_CENTRE)
       .setCheck(['Input']);
     this.setPreviousStatement(true, 'Input_');
-    this.setNextStatement(true, 'Update_');
+    this.setNextStatement(true, ['Event_', 'Update_']);
     this.setColour(135);
     this.setTooltip('');
     this.setHelpUrl('');

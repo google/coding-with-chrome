@@ -48,6 +48,7 @@ export class PreviewToolbar extends React.PureComponent {
     this.state = {
       file: null,
       isFullscreen: false,
+      loaded: false,
       showDrawer: false,
       showEditor: false,
       showNewFileDialog: false,
@@ -89,6 +90,13 @@ export class PreviewToolbar extends React.PureComponent {
   }
 
   /**
+   * @param {boolean} loaded
+   */
+  isLoaded(loaded) {
+    this.setState({ loaded });
+  }
+
+  /**
    * @return {Object}
    */
   render() {
@@ -123,6 +131,7 @@ export class PreviewToolbar extends React.PureComponent {
           {!this.state.loaded && (
             <ToolbarIconButton
               aria-label="run"
+              color="success"
               onClick={() => {
                 this.props.preview.updatePreviewLocation();
               }}
@@ -133,6 +142,7 @@ export class PreviewToolbar extends React.PureComponent {
           {this.state.loaded && (
             <ToolbarIconButton
               aria-label="stop"
+              color="error"
               onClick={() => {
                 this.props.preview.stop();
               }}

@@ -6,6 +6,7 @@
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
   "cSpell.words": [
+    "anims",
     "audiotrack",
     "autorun",
     "autoscroll",
@@ -80,6 +81,7 @@
     "Tahoma",
     "timelapse",
     "ttyv",
+    "tweens",
     "uglifyjs",
     "umount",
     "unlisten",
@@ -90,6 +92,7 @@
     "WASD",
     "winbox",
     "worker",
+    "worldbounds",
     "xlink",
     "yandex"
   ],

@@ -30,7 +30,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_input_keyboard_cursor_keys_add">
     <value name="variable">
-      <block type="phaser_variable_set">
+      <block type="phaser_variable_input_set">
         <field name="VAR">cursor_keys</field>
       </block>
     </value>
@@ -41,7 +41,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_input_keyboard_spacebar_add">
     <value name="variable">
-      <block type="phaser_variable_set">
+      <block type="phaser_variable_input_set">
         <field name="VAR">spacebar</field>
       </block>
     </value>
@@ -52,7 +52,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_input_keyboard_wasd_keys_add">
     <value name="variable">
-      <block type="phaser_variable_set">
+      <block type="phaser_variable_input_set">
         <field name="VAR">wasd_keys</field>
       </block>
     </value>
@@ -63,7 +63,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_input_keyboard_shift_add">
     <value name="variable">
-      <block type="phaser_variable_set">
+      <block type="phaser_variable_input_set">
         <field name="VAR">shift_keys</field>
       </block>
     </value>
@@ -74,7 +74,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_input_keyboard_key_add">
     <value name="variable">
-      <block type="phaser_variable_set">
+      <block type="phaser_variable_input_set">
         <field name="VAR">keyboard_key</field>
       </block>
     </value>
@@ -85,7 +85,7 @@ export const createBlocks = [
     blockxml: `
   <block type="phaser_input_mouse_keys_add">
     <value name="variable">
-      <block type="phaser_variable_set">
+      <block type="phaser_variable_input_set">
         <field name="VAR">mouse_keys</field>
       </block>
     </value>
@@ -99,21 +99,15 @@ export const createBlocks = [
 export const eventBlocks = [
   {
     kind: 'block',
-    type: 'phaser_input',
-  },
-  {
-    kind: 'block',
     blockxml: `
   <block type="phaser_input_body">
     <statement name="CODE">
       <block type="controls_if">
-        <mutation elseif="1" else="1"></mutation>
         <value name="IF0">
-          <block type="phaser_input_keyboard_cursor_is_hold_pressed">
-            <field name="direction">.left</field>
-            <value name="cursors">
-              <block type="phaser_variable_get">
-                <field name="VAR">cursor_keys</field>
+          <block type="phaser_input_keyboard_key_is_pressed">
+            <value name="key">
+              <block type="phaser_variable_input_get">
+                <field name="VAR">spacebar</field>
               </block>
             </value>
           </block>
@@ -121,51 +115,11 @@ export const eventBlocks = [
         <statement name="DO0">
           <block type="phaser_physics_arcade_sprite_adjust">
             <value name="variable">
-              <block type="phaser_variable_get">
-                <field name="VAR">paddle</field>
+              <block type="phaser_variable_arcade_sprite_get">
+                <field name="VAR">player</field>
               </block>
             </value>
-            <field name="property">velocity.x</field>
-            <value name="value">
-              <block type="math_number">
-                <field name="NUM"></field>
-              </block>
-            </value>
-          </block>
-        </statement>
-        <value name="IF1">
-          <block type="phaser_input_keyboard_cursor_is_hold_pressed">
-            <field name="direction">.right</field>
-            <value name="cursors">
-              <block type="phaser_variable_get">
-                <field name="VAR">cursor_keys</field>
-              </block>
-            </value>
-          </block>
-        </value>
-        <statement name="DO1">
-          <block type="phaser_physics_arcade_sprite_adjust">
-            <value name="variable">
-              <block type="phaser_variable_get">
-                <field name="VAR">paddle</field>
-              </block>
-            </value>
-            <field name="property">velocity.x</field>
-            <value name="value">
-              <block type="math_number">
-                <field name="NUM"></field>
-              </block>
-            </value>
-          </block>
-        </statement>
-        <statement name="ELSE">
-          <block type="phaser_physics_arcade_sprite_adjust">
-            <value name="variable">
-              <block type="phaser_variable_get">
-                <field name="VAR">paddle</field>
-              </block>
-            </value>
-            <field name="property">velocity.x</field>
+            <field name="property">velocity.y</field>
             <value name="value">
               <block type="math_number">
                 <field name="NUM"></field>
@@ -183,11 +137,13 @@ export const eventBlocks = [
   <block type="phaser_input_body">
     <statement name="CODE">
       <block type="controls_if">
+        <mutation elseif="1" else="1"></mutation>
         <value name="IF0">
-          <block type="phaser_input_keyboard_key_is_pressed">
-            <value name="key">
-              <block type="phaser_variable_get">
-                <field name="VAR">spacebar</field>
+          <block type="phaser_input_keyboard_cursor_is_hold_pressed">
+            <field name="direction">.left</field>
+            <value name="cursors">
+              <block type="phaser_variable_input_get">
+                <field name="VAR">cursor_keys</field>
               </block>
             </value>
           </block>
@@ -195,11 +151,51 @@ export const eventBlocks = [
         <statement name="DO0">
           <block type="phaser_physics_arcade_sprite_adjust">
             <value name="variable">
-              <block type="phaser_variable_get">
-                <field name="VAR">player</field>
+              <block type="phaser_variable_arcade_sprite_get">
+                <field name="VAR">paddle</field>
               </block>
             </value>
-            <field name="property">velocity.y</field>
+            <field name="property">velocity.x</field>
+            <value name="value">
+              <block type="math_number">
+                <field name="NUM"></field>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <value name="IF1">
+          <block type="phaser_input_keyboard_cursor_is_hold_pressed">
+            <field name="direction">.right</field>
+            <value name="cursors">
+              <block type="phaser_variable_input_get">
+                <field name="VAR">cursor_keys</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <statement name="DO1">
+          <block type="phaser_physics_arcade_sprite_adjust">
+            <value name="variable">
+              <block type="phaser_variable_arcade_sprite_get">
+                <field name="VAR">paddle</field>
+              </block>
+            </value>
+            <field name="property">velocity.x</field>
+            <value name="value">
+              <block type="math_number">
+                <field name="NUM"></field>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <statement name="ELSE">
+          <block type="phaser_physics_arcade_sprite_adjust">
+            <value name="variable">
+              <block type="phaser_variable_arcade_sprite_get">
+                <field name="VAR">paddle</field>
+              </block>
+            </value>
+            <field name="property">velocity.x</field>
             <value name="value">
               <block type="math_number">
                 <field name="NUM"></field>
@@ -222,7 +218,7 @@ export const eventBlocks = [
           <block type="phaser_input_keyboard_code_is_pressed">
             <field name="code">ShiftLeft</field>
             <value name="key">
-              <block type="phaser_variable_get">
+              <block type="phaser_variable_input_get">
                 <field name="VAR">shift_keys</field>
               </block>
             </value>
@@ -231,7 +227,7 @@ export const eventBlocks = [
         <statement name="DO0">
           <block type="phaser_physics_arcade_sprite_adjust">
             <value name="variable">
-              <block type="phaser_variable_get">
+              <block type="phaser_variable_arcade_sprite_get">
                 <field name="VAR">player</field>
               </block>
             </value>
@@ -247,7 +243,7 @@ export const eventBlocks = [
           <block type="phaser_input_keyboard_code_is_pressed">
             <field name="code">ShiftRight</field>
             <value name="key">
-              <block type="phaser_variable_get">
+              <block type="phaser_variable_input_get">
                 <field name="VAR">shift_keys</field>
               </block>
             </value>
@@ -256,7 +252,7 @@ export const eventBlocks = [
         <statement name="DO1">
           <block type="phaser_physics_arcade_sprite_adjust">
             <value name="variable">
-              <block type="phaser_variable_get">
+              <block type="phaser_variable_arcade_sprite_get">
                 <field name="VAR">player2</field>
               </block>
             </value>
@@ -284,7 +280,7 @@ export const defaultBlocks = [
   <block type="phaser_input_keyboard_cursor_is_pressed">
     <field name="direction">up.isDown</field>
     <value name="cursors">
-      <block type="phaser_variable_get">
+      <block type="phaser_variable_input_get">
         <field name="VAR">cursor_keys</field>
       </block>
     </value>
@@ -296,7 +292,7 @@ export const defaultBlocks = [
   <block type="phaser_input_keyboard_cursor_is_hold_pressed">
     <field name="direction">up.isDown</field>
     <value name="cursors">
-      <block type="phaser_variable_get">
+      <block type="phaser_variable_input_get">
         <field name="VAR">cursor_keys</field>
       </block>
     </value>
@@ -307,7 +303,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_input_keyboard_key_is_pressed">
     <value name="key">
-      <block type="phaser_variable_get">
+      <block type="phaser_variable_input_get">
         <field name="VAR">spacebar</field>
       </block>
     </value>
@@ -318,7 +314,7 @@ export const defaultBlocks = [
     blockxml: `
   <block type="phaser_input_keyboard_key_is_hold_pressed">
     <value name="key">
-      <block type="phaser_variable_get">
+      <block type="phaser_variable_input_get">
         <field name="VAR">spacebar</field>
       </block>
     </value>
@@ -330,7 +326,7 @@ export const defaultBlocks = [
   <block type="phaser_input_mouse_key_is_pressed">
     <field name="direction">leftButton.isDown</field>
     <value name="mouse">
-      <block type="phaser_variable_get">
+      <block type="phaser_variable_input_get">
         <field name="VAR">mouse_keys</field>
       </block>
     </value>
@@ -342,7 +338,7 @@ export const defaultBlocks = [
   <block type="phaser_input_mouse_key_is_hold_pressed">
     <field name="direction">leftButton.isDown</field>
     <value name="mouse">
-      <block type="phaser_variable_get">
+      <block type="phaser_variable_input_get">
         <field name="VAR">mouse_keys</field>
       </block>
     </value>
@@ -356,7 +352,7 @@ export const defaultBlocks = [
     <value name="IF0">
       <block type="phaser_input_keyboard_key_is_pressed">
         <value name="key">
-          <block type="phaser_variable_get">
+          <block type="phaser_variable_input_get">
             <field name="VAR">spacebar</field>
           </block>
         </value>
@@ -373,7 +369,7 @@ export const defaultBlocks = [
       <block type="phaser_input_keyboard_cursor_is_hold_pressed">
         <field name="direction">.up</field>
         <value name="cursors">
-          <block type="phaser_variable_get">
+          <block type="phaser_variable_input_get">
             <field name="VAR">cursor_keys</field>
           </block>
         </value>
@@ -383,7 +379,7 @@ export const defaultBlocks = [
       <block type="phaser_input_keyboard_cursor_is_hold_pressed">
         <field name="direction">.down</field>
         <value name="cursors">
-          <block type="phaser_variable_get">
+          <block type="phaser_variable_input_get">
             <field name="VAR">cursor_keys</field>
           </block>
         </value>
@@ -393,7 +389,7 @@ export const defaultBlocks = [
       <block type="phaser_input_keyboard_cursor_is_hold_pressed">
         <field name="direction">.left</field>
         <value name="cursors">
-          <block type="phaser_variable_get">
+          <block type="phaser_variable_input_get">
             <field name="VAR">cursor_keys</field>
           </block>
         </value>
@@ -403,7 +399,7 @@ export const defaultBlocks = [
       <block type="phaser_input_keyboard_cursor_is_hold_pressed">
         <field name="direction">.right</field>
         <value name="cursors">
-          <block type="phaser_variable_get">
+          <block type="phaser_variable_input_get">
             <field name="VAR">cursor_keys</field>
           </block>
         </value>
@@ -420,7 +416,7 @@ export const defaultBlocks = [
       <block type="phaser_input_mouse_key_is_pressed">
         <field name="direction">leftButton.isDown</field>
         <value name="mouse">
-          <block type="phaser_variable_get">
+          <block type="phaser_variable_input_get">
             <field name="VAR">mouse_keys</field>
           </block>
         </value>

@@ -58,14 +58,28 @@ class PhaserExtras {
    */
   static addGroupSprite(game, x, y, sprite_name, group, manipulation) {
     const sprite = game.physics.add.sprite(x, y, sprite_name);
-    if (group) {
-      group.add(sprite);
-    }
-    sprite['checkWorldBounds'] = true;
-    sprite['outOfBoundsKill'] = true;
-    sprite['z'] = 100;
+    sprite.z = 100;
     if (manipulation && typeof manipulation === 'function') {
       manipulation(sprite);
+    }
+
+    if (group) {
+      group.add(sprite);
+
+      // Cleanup group sprites, if we have to many sprites outside of screen.
+      if (group.getLength() > 50) {
+        group.children.each((sprite) => {
+          if (
+            !sprite.active ||
+            sprite.y < 0 ||
+            sprite.y > 2000 ||
+            sprite.x < 0 ||
+            sprite.x > 2000
+          ) {
+            group.remove(sprite, true, true);
+          }
+        });
+      }
     }
   }
 
@@ -109,7 +123,7 @@ class PhaserExtras {
         }
         PhaserExtras.addGroupSprite(
           game,
-          x,
+          x + spriteSize.width,
           y + i * spriteSize.height,
           groupSprite,
           group,
@@ -226,13 +240,13 @@ class PhaserExtras {
     let height = texture?.source?.[0]?.height;
     if (!width || !height || manipulation) {
       const testSprite = game.physics.add.sprite(0, 0, sprite);
-      testSprite['visible'] = false;
+      testSprite.visible = false;
       if (manipulation && typeof manipulation == 'function') {
         manipulation(testSprite);
       }
       width = testSprite.width;
       height = testSprite.height;
-      testSprite['destroy']();
+      testSprite.destroy();
     }
     return {
       width: width,
@@ -311,11 +325,51 @@ class PhaserExtras {
       );
     }
   }
+
+  /**
+   * Sends error to the main window.
+   * @param {Object} error
+   */
+  static sendError(error) {
+    if (error && window.parent) {
+      window.parent.postMessage(
+        {
+          type: 'error',
+          value: error,
+        },
+        `${window.location.origin}`,
+      );
+    }
+  }
+
+  /**
+   * Sends runtime error to the main window.
+   * @param {Object} error
+   */
+  static sendRuntimeError(error) {
+    if (error && window.parent) {
+      window.parent.postMessage(
+        {
+          type: 'runtime_error',
+          value: error,
+        },
+        `${window.location.origin}`,
+      );
+    }
+  }
 }
 
 // Clear any existing fragments when the page is loaded.
 document.addEventListener('DOMContentLoaded', function () {
   new PhaserExtras().clear();
+});
+
+// Capture errors and send them to the main window.
+window.error = function (message, source, lineno, colno, error) {
+  PhaserExtras.sendRuntimeError(error);
+};
+document.addEventListener('error', function (event) {
+  PhaserExtras.sendError(event);
 });
 
 // Send a screenshot after 500ms when the page is loaded.
