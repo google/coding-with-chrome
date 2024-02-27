@@ -43,6 +43,7 @@ export class Panel extends React.PureComponent {
     this.languages = {
       en: { nativeName: 'English' },
       de: { nativeName: 'Deutsch' },
+      es: { nativeName: 'Español' },
     };
   }
 
