@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-iframe.screenshotIframe {
+iframe.screenshotContainer {
   width: 1080px;
   height: 608px;
   border: 0;

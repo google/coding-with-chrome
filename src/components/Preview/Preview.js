@@ -28,7 +28,14 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
 import PropTypes from 'prop-types';
 
-import styles from './style.module.css';
+import {
+  contentIframe,
+  contentIframeHidden,
+  contentIframeWindow,
+  contentLoadingScreen,
+  contentLoadingScreenTitle,
+  contentWrapper,
+} from './style.module.css';
 import PreviewToolbar from './PreviewToolbar';
 
 /**
@@ -246,10 +253,10 @@ export class Preview extends React.PureComponent {
             readOnly={this.props.readOnly}
             onFullscreen={this.props.onFullscreen}
           />
-          <Box className={styles.contentWrapper} ref={this.contentWrapper}>
+          <Box className={contentWrapper} ref={this.contentWrapper}>
             {this.state.loading && (
               <Backdrop
-                className={styles.contentLoadingScreen}
+                className={contentLoadingScreen}
                 sx={{
                   color: '#fff',
                   position: 'absolute',
@@ -259,15 +266,12 @@ export class Preview extends React.PureComponent {
                 transitionDuration={0}
               >
                 <CircularProgress color="inherit" />
-                <span className={styles.contentLoadingScreenTitle}>
-                  Loading ...
-                </span>
+                <span className={contentLoadingScreenTitle}>Loading ...</span>
               </Backdrop>
             )}
             {(this.state.hideContent ||
               (!this.state.location && !this.state.loading)) && (
               <Backdrop
-                className={styles.contentResize}
                 sx={{
                   color: '#fff',
                   position: 'absolute',
@@ -280,17 +284,13 @@ export class Preview extends React.PureComponent {
                 transitionDuration={0}
               >
                 <AspectRatioIcon />
-                <span className={styles.contentLoadingScreenTitle}>
-                  Preview
-                </span>
+                <span className={contentLoadingScreenTitle}>Preview</span>
               </Backdrop>
             )}
             <iframe
               className={`${
-                this.windowId
-                  ? styles.contentIframeWindow
-                  : styles.contentIframe
-              } ${this.state.hideContent ? styles.contentIframeHidden : ''}`}
+                this.windowId ? contentIframeWindow : contentIframe
+              } ${this.state.hideContent ? contentIframeHidden : ''}`}
               ref={this.contentIframe}
               src=""
               allow="geolocation; microphone; camera; midi; encrypted-media; xr-spatial-tracking; fullscreen"

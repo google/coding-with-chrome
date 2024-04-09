@@ -42,7 +42,7 @@ const CodeEditor = lazy(() => import('../CodeEditor/CodeEditor'));
 
 import 'material-icons/iconfont/filled.css';
 import 'material-icons/iconfont/outlined.css';
-import styles from './style.module.css';
+import { fillScreen, fillWindow } from './style.module.css';
 import './style.global.css';
 import { DataURL } from '../../utils/file/DataURL';
 
@@ -711,7 +711,7 @@ export class BlockEditor extends React.PureComponent {
           )}
           <Box>
             <BlocklyWorkspace
-              className={this.props.windowId ? styles.fillWindow : styles.fill}
+              className={this.props.windowId ? fillWindow : fillScreen}
               toolboxConfiguration={this.props.toolbox || this.state.toolbox}
               workspaceConfiguration={this.state.config}
               initialXml={''}

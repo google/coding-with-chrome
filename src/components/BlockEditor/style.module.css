@@ -30,7 +30,7 @@
   height: 0 !important;
 }
 
-.fill {
+.fillScreen {
   height: calc(100vh - 42px);
 }
 

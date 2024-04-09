@@ -21,11 +21,11 @@
   overflow: hidden;
 }
 
-.drag_zone, .drag_zone_active {
+.dragZone, .dragZoneActive {
  border: 2px dashed #aaa;
  height: 100%;
 }
 
-.drag_zone_active {
+.dragZoneActive {
   border: 2px dashed #faa;
 }

@@ -34,7 +34,7 @@ import i18next from 'i18next';
 
 import { Toolbar, ToolbarIconButton } from '../Toolbar';
 
-import styles from './style.module.css';
+import { locationBar, locationBarPrefix } from './style.module.css';
 
 /**
  *
@@ -102,19 +102,19 @@ export class PreviewToolbar extends React.PureComponent {
   render() {
     return (
       <React.StrictMode>
-        <Toolbar className={styles.toolbar}>
+        <Toolbar>
           <ToolbarIconButton aria-label="menu">
             <MenuIcon />
           </ToolbarIconButton>
           {!this.props.hideURL && (
-            <span className={styles.locationBarPrefix}>{this.state.base}</span>
+            <span className={locationBarPrefix}>{this.state.base}</span>
           )}
           {!this.props.hideURL && !this.props.readOnly && (
             <InputBase
               sx={{ paddingTop: '3px', marginLeft: '1px', ml: 1, flex: 1 }}
               size="small"
               placeholder="test123"
-              className={styles.locationBar}
+              className={locationBar}
               onChange={this.handleChangeInput.bind(this)}
               onKeyPress={this.handleKeyPress.bind(this)}
             />

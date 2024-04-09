@@ -22,7 +22,7 @@
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 
-import styles from './style.module.css';
+import { screenshotContainer } from './style.module.css';
 
 /**
  *
@@ -78,7 +78,7 @@ export class Screenshot extends React.PureComponent {
       <React.StrictMode>
         {this.props.url && (
           <iframe
-            className={styles.screenshotIframe}
+            className={screenshotContainer}
             ref={this.screenshotIframe}
             src={this.props.url}
             allow="geolocation; encrypted-media; xr-spatial-tracking;"

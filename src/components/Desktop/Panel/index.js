@@ -27,7 +27,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import i18next from 'i18next';
 
-import styles from './style.module.css';
+import { toolbar, title } from './style.module.css';
 import { APP_SUPPORTED_LANGUAGES } from '../../../constants';
 
 /**
@@ -60,8 +60,8 @@ export class Panel extends React.PureComponent {
     return (
       <React.StrictMode>
         <AppBar position="static">
-          <Toolbar className={styles.toolbar}>
-            <Typography variant="h6" className={styles.title}>
+          <Toolbar className={toolbar}>
+            <Typography variant="h6" className={title}>
               Coding with Chrome
             </Typography>
             {Object.keys(this.languages).map((language) => (

@@ -34,7 +34,7 @@ import Tooltip from '@mui/material/Tooltip';
 import UnfoldLessIcon from '@mui/icons-material/UnfoldLess';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 
-import styles from './style.module.css';
+import { launcher, expandArea } from './style.module.css';
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import { WindowCloseEvent } from '../WindowManager/Events';
@@ -168,9 +168,7 @@ export class Launcher extends React.PureComponent {
       <React.StrictMode>
         <Paper
           elevation={3}
-          className={`${styles.launcher} ${
-            this.state.launcher ? 'show' : 'hide'
-          }`}
+          className={`${launcher} ${this.state.launcher ? 'show' : 'hide'}`}
         >
           <IconButton
             edge="start"
@@ -235,10 +233,7 @@ export class Launcher extends React.PureComponent {
               <TerminalIcon />
             </IconButton>
           </Tooltip>
-          <div
-            className={styles.expandArea}
-            onClick={this.handleLauncherToggle}
-          >
+          <div className={expandArea} onClick={this.handleLauncherToggle}>
             {this.state.launcher ? <UnfoldLessIcon /> : <UnfoldMoreIcon />}
           </div>
         </Paper>

@@ -35,7 +35,7 @@ import i18next from '../App/i18next';
 
 import { Toolbar, ToolbarIconButton } from '../Toolbar';
 
-import styles from './style.module.css';
+import { contentWrapper, dragZone, dragZoneActive } from './style.module.css';
 
 /**
  *
@@ -228,13 +228,9 @@ export class Assets extends React.PureComponent {
               {i18next.t('ASSETS')}
             </Typography>
           </Toolbar>
-          <Box className={styles.contentWrapper}>
+          <Box className={contentWrapper}>
             <Box
-              className={
-                this.state.isDraggingOver
-                  ? styles.drag_zone_active
-                  : styles.drag_zone
-              }
+              className={this.state.isDraggingOver ? dragZoneActive : dragZone}
               onDragEnter={this.handleDragEnter.bind(this)}
               onDragLeave={this.handleDragLeave.bind(this)}
               onDragOver={this.handleDragOver.bind(this)}

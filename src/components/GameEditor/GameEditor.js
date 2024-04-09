@@ -50,7 +50,7 @@ const Preview = lazy(() => import('../Preview'));
 const Screenshot = lazy(() => import('../Screenshot'));
 
 import 'react-mosaic-component/react-mosaic-component.css';
-import styles from './style.module.css';
+import { layout } from './style.module.css';
 import './style.global.css';
 import { BlocksBuilder } from '../BlockEditor/blocks/BlocksBuilder';
 import GameEditorSettings from '../Settings/GameEditorSettings';
@@ -544,7 +544,7 @@ export class GameEditor extends React.PureComponent {
     return (
       <React.StrictMode>
         {this.state.isLoaded && (
-          <Box className={styles.layout}>
+          <Box className={layout}>
             <Mosaic
               renderTile={(id) => this.getLayout()[id]}
               onChange={this.handleMosaicOnChange.bind(this)}

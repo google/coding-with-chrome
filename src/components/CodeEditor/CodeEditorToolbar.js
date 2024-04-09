@@ -60,7 +60,7 @@ import SettingScreen from '../Settings/SettingScreen';
 
 const ConfirmDialog = lazy(() => import('../Dialogs/ConfirmDialog'));
 
-import styles from './style.module.css';
+import {} from './style.module.css';
 
 /**
  *
@@ -359,7 +359,7 @@ export class CodeEditorToolbar extends React.PureComponent {
               </Typography>
             </CardContent>
           </Card>
-          <MenuList sx={{ minWidth: '250px' }} className={styles.drawerMiddle}>
+          <MenuList sx={{ minWidth: '250px' }}>
             {this.props.onNewProject && (
               <MenuItem onClick={this.handleNewProject.bind(this)}>
                 <ListItemIcon>
@@ -396,12 +396,7 @@ export class CodeEditorToolbar extends React.PureComponent {
               <ListItemText>{i18next.t('EXPORT_PROJECT')}</ListItemText>
             </MenuItem>
           </MenuList>
-          <BottomNavigation
-            showLabels
-            color="primary"
-            className={styles.drawerBottom}
-            sx={{ boxShadow: 3 }}
-          >
+          <BottomNavigation showLabels color="primary" sx={{ boxShadow: 3 }}>
             <BottomNavigationAction label="About" icon={<InfoIcon />} />
             <BottomNavigationAction
               label="Settings"

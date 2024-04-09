@@ -26,7 +26,7 @@ import { Launcher } from './Launcher';
 
 const WindowManager = lazy(() => import('./WindowManager'));
 
-import styles from './style.module.css';
+import { desktop } from './style.module.css';
 
 // Load kernel
 import('./../../kernel/Kernel').then((module) => {
@@ -43,7 +43,7 @@ export class DesktopApp extends React.PureComponent {
   render() {
     return (
       <React.StrictMode>
-        <div className={styles.desktop}>
+        <div className={desktop}>
           <Panel />
           <Launcher />
           <WindowManager />

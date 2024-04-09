@@ -64,7 +64,7 @@ import SettingScreen from '../Settings/SettingScreen';
 // Lazy load components
 const ConfirmDialog = lazy(() => import('../Dialogs/ConfirmDialog'));
 
-import styles from './style.module.css';
+import { drawerMiddle, drawerBottom } from './style.module.css';
 
 /**
  *
@@ -387,7 +387,7 @@ export class BlockEditorToolbar extends React.PureComponent {
               </Typography>
             </CardContent>
           </Card>
-          <MenuList sx={{ minWidth: '250px' }} className={styles.drawerMiddle}>
+          <MenuList sx={{ minWidth: '250px' }} className={drawerMiddle}>
             {this.props.onNewProject && (
               <MenuItem onClick={this.handleNewProject.bind(this)}>
                 <ListItemIcon>
@@ -433,7 +433,7 @@ export class BlockEditorToolbar extends React.PureComponent {
           <BottomNavigation
             showLabels
             color="primary"
-            className={styles.drawerBottom}
+            className={drawerBottom}
             sx={{ boxShadow: 3 }}
           >
             <BottomNavigationAction label="About" icon={<InfoIcon />} />

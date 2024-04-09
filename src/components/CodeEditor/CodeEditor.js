@@ -39,7 +39,7 @@ import { LanguageType } from './LanguageType';
 import { PreviewService } from '../../service-worker/preview-service-worker';
 import { WindowEventTarget } from '../Desktop/WindowManager/Events';
 
-import styles from './style.module.css';
+import { infobar } from './style.module.css';
 
 /**
  *
@@ -275,7 +275,7 @@ export class CodeEditor extends React.PureComponent {
               onChange={this.onChange.bind(this)}
             />
           )}
-          <Box className={styles.infobar} ref={this.infobar}>
+          <Box className={infobar} ref={this.infobar}>
             Content Type: {this.state.language}
           </Box>
           <Snackbar

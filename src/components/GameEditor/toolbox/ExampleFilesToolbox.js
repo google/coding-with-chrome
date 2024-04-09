@@ -36,6 +36,7 @@ const floorImageBlocks = BlocksHelper.phaserImagesToBlock([
   ['50px_blue', APP_BASE_PATH + 'assets/phaser/samples/50px_blue.png'],
   ['50px_green', APP_BASE_PATH + 'assets/phaser/samples/50px_green.png'],
   ['50px_red', APP_BASE_PATH + 'assets/phaser/samples/50px_red.png'],
+  ['floor_01', APP_BASE_PATH + 'assets/phaser/samples/floor/floor_01.png'],
 ]);
 
 // Ceiling images.
@@ -49,6 +50,8 @@ const ceilingImageBlocks = BlocksHelper.phaserImagesToBlock([
 const backgroundImageBlocks = BlocksHelper.phaserImagesToBlock([
   ['bg_01', APP_BASE_PATH + 'assets/phaser/samples/bg/bg_01.png'],
   ['bg_02', APP_BASE_PATH + 'assets/phaser/samples/bg/bg_02.png'],
+  ['bg_sky_01', APP_BASE_PATH + 'assets/phaser/samples/bg/bg_sky_01.png'],
+  ['bg_city_01', APP_BASE_PATH + 'assets/phaser/samples/bg/bg_city_01.png'],
 ]);
 
 // Paddle images.
