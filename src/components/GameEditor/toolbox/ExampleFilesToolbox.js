@@ -32,26 +32,29 @@ const ballImageBlocks = BlocksHelper.phaserImagesToBlock([
 ]);
 
 // Floor mages.
+const floorImagePath = APP_BASE_PATH + 'assets/phaser/samples/floor/';
 const floorImageBlocks = BlocksHelper.phaserImagesToBlock([
-  ['50px_blue', APP_BASE_PATH + 'assets/phaser/samples/50px_blue.png'],
-  ['50px_green', APP_BASE_PATH + 'assets/phaser/samples/50px_green.png'],
-  ['50px_red', APP_BASE_PATH + 'assets/phaser/samples/50px_red.png'],
-  ['floor_01', APP_BASE_PATH + 'assets/phaser/samples/floor/floor_01.png'],
+  ['floor_50px_blue', floorImagePath + 'floor_50px_blue.png'],
+  ['floor_50px_green', floorImagePath + 'floor_50px_green.png'],
+  ['floor_50px_red', floorImagePath + 'floor_50px_red.png'],
+  ['floor_01', floorImagePath + 'floor_01.png'],
 ]);
 
 // Ceiling images.
+const ceilingImagePath = APP_BASE_PATH + 'assets/phaser/samples/ceiling/';
 const ceilingImageBlocks = BlocksHelper.phaserImagesToBlock([
-  ['50px_blue', APP_BASE_PATH + 'assets/phaser/samples/50px_blue.png'],
-  ['50px_green', APP_BASE_PATH + 'assets/phaser/samples/50px_green.png'],
-  ['50px_red', APP_BASE_PATH + 'assets/phaser/samples/50px_red.png'],
+  ['ceiling_50px_blue', ceilingImagePath + 'ceiling_50px_blue.png'],
+  ['ceiling_50px_green', ceilingImagePath + 'ceiling_50px_green.png'],
+  ['ceiling_50px_red', ceilingImagePath + 'ceiling_50px_red.png'],
 ]);
 
 // Background images.
+const backgroundImagePath = APP_BASE_PATH + 'assets/phaser/samples/bg/';
 const backgroundImageBlocks = BlocksHelper.phaserImagesToBlock([
-  ['bg_01', APP_BASE_PATH + 'assets/phaser/samples/bg/bg_01.png'],
-  ['bg_02', APP_BASE_PATH + 'assets/phaser/samples/bg/bg_02.png'],
-  ['bg_sky_01', APP_BASE_PATH + 'assets/phaser/samples/bg/bg_sky_01.png'],
-  ['bg_city_01', APP_BASE_PATH + 'assets/phaser/samples/bg/bg_city_01.png'],
+  ['bg_01', backgroundImagePath + 'bg_01.png'],
+  ['bg_02', backgroundImagePath + 'bg_02.png'],
+  ['bg_sky_01', backgroundImagePath + 'bg_sky_01.png'],
+  ['bg_city_01', backgroundImagePath + 'bg_city_01.png'],
 ]);
 
 // Paddle images.
@@ -60,21 +63,16 @@ const paddleImageBlocks = BlocksHelper.phaserImagesToBlock([
 ]);
 
 // Player images.
+const playerImagePath = APP_BASE_PATH + 'assets/phaser/samples/player/';
 const playerImageBlocks = BlocksHelper.phaserImagesToBlock([
-  ['dragon_01', APP_BASE_PATH + 'assets/phaser/samples/player/dragon_01.png'],
-  [
-    'fighter_aircraft_01',
-    APP_BASE_PATH + 'assets/phaser/samples/player/fighter_aircraft_01.png',
-  ],
-  ['robot_01', APP_BASE_PATH + 'assets/phaser/samples/player/robot_01.png'],
-  [
-    'spaceship_01',
-    APP_BASE_PATH + 'assets/phaser/samples/player/spaceship_01.png',
-  ],
-  ['ufo_01', APP_BASE_PATH + 'assets/phaser/samples/player/ufo_01.png'],
-  ['ufo_02', APP_BASE_PATH + 'assets/phaser/samples/player/ufo_02.png'],
-  ['witch_01', APP_BASE_PATH + 'assets/phaser/samples/player/witch_01.png'],
-  ['wizard_01', APP_BASE_PATH + 'assets/phaser/samples/player/wizard_01.png'],
+  ['dragon_01', playerImagePath + 'dragon_01.png'],
+  ['fighter_aircraft_01', playerImagePath + 'fighter_aircraft_01.png'],
+  ['robot_01', playerImagePath + 'robot_01.png'],
+  ['spaceship_01', playerImagePath + 'spaceship_01.png'],
+  ['ufo_01', playerImagePath + 'ufo_01.png'],
+  ['ufo_02', playerImagePath + 'ufo_02.png'],
+  ['witch_01', playerImagePath + 'witch_01.png'],
+  ['wizard_01', playerImagePath + '/wizard_01.png'],
 ]);
 
 // Symbol images.
