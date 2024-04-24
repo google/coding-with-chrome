@@ -485,7 +485,25 @@ export class BlockEditor extends React.PureComponent {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars, require-jsdoc
   handleWorkspaceChange(workspace) {
-    // Not used.
+    // Not implemented yet.
+  }
+
+  /**
+   * @return {boolean}
+   */
+  isSelectedBlockATextInput() {
+    return (
+      typeof Blockly !== 'undefined' &&
+      Blockly.getSelected() &&
+      Blockly.getSelected().inputList &&
+      Blockly.getSelected().inputList[0] &&
+      Blockly.getSelected().inputList[0].fieldRow &&
+      Blockly.getSelected().inputList[0].fieldRow.some(
+        (input) =>
+          input instanceof Blockly.FieldTextInput ||
+          input instanceof Blockly.FieldNumber,
+      )
+    );
   }
 
   /**
@@ -540,9 +558,12 @@ export class BlockEditor extends React.PureComponent {
         isFirstXMLUpdate: false,
       });
     } else {
-      this.timer.handleXMLChange = setTimeout(() => {
-        this.updateCodeAfterXMLChange();
-      }, 200);
+      this.timer.handleXMLChange = setTimeout(
+        () => {
+          this.updateCodeAfterXMLChange();
+        },
+        this.isSelectedBlockATextInput() ? 5000 : 200,
+      );
     }
   }
 

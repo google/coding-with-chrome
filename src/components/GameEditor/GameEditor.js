@@ -89,6 +89,10 @@ export class GameEditor extends React.PureComponent {
       handleXMLChange: null,
     };
 
+    this.changeCache = {
+      code: '',
+    };
+
     // Set trusted origin for postMessage and other communication.
     this.trustedOrigin = `${window.location.origin}`;
 
@@ -414,6 +418,12 @@ export class GameEditor extends React.PureComponent {
       clearTimeout(this.timer.handleXMLChange);
       this.timer.handleXMLChange = null;
     }
+
+    // Skip update if the code is the same as before.
+    if (this.changeCache.code == code) {
+      return;
+    }
+    this.changeCache.code = code;
 
     // Allow updates for the preview directly on the first run / load and use
     // auto-fresh for further refresh / updates.

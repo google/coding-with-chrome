@@ -33,6 +33,7 @@ class PhaserHelper {
     this.sprite = new Set();
     this.tileSprite = new Set();
     this.arcadeSprite = new Set();
+    window.phaserReloadProtection = window.phaserReloadProtection || {};
   }
 
   /**
@@ -54,6 +55,36 @@ class PhaserHelper {
    */
   addArcadeSprite(arcadeSprite) {
     this.arcadeSprite.add(arcadeSprite);
+  }
+
+  /**
+   * @param {string} id
+   * @return {boolean}
+   */
+  checkReloadProtection(id) {
+    if (window.phaserReloadProtection[id] < 5) {
+      window.phaserReloadProtection[id] = window.phaserReloadProtection[id] + 1;
+      return true;
+    } else {
+      console.error('⚠️ Reload protection triggered for', id);
+      console.warn('💡 Please check your code for endless loops!');
+    }
+    return false;
+  }
+
+  /**
+   * @param {string} id
+   */
+  resetReloadProtection(id) {
+    // Reset reload protection.
+    if (
+      window.phaserReloadProtection[id] &&
+      window.phaserReloadProtection[id] > 0
+    ) {
+      window.setTimeout(() => {
+        window.phaserReloadProtection[id] = 0;
+      }, 100);
+    }
   }
 
   /**

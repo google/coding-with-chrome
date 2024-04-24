@@ -161,7 +161,11 @@ javascriptGenerator.forBlock['phaser_game_start'] = function (block) {
     'variable',
     javascriptGenerator.ORDER_ATOMIC,
   );
-  return `this.scene.start('${variable}');\n`;
+  return `
+    if (this.helper_.checkReloadProtection('phaser_game_start')) {
+      this.scene.start('${variable}');
+    }
+  `;
 };
 
 /**
@@ -186,8 +190,10 @@ Blocks['phaser_game_restart'] = {
  */
 javascriptGenerator.forBlock['phaser_game_restart'] = function () {
   return `
-    this.events.off();
-    this.registry.destroy();
-    this.scene.restart();
+    if (this.helper_.checkReloadProtection('phaser_game_restart')) {
+      this.events.off();
+      this.registry.destroy();
+      this.scene.restart();
+    }
   `;
 };

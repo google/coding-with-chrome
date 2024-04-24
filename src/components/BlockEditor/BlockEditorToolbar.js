@@ -332,6 +332,7 @@ export class BlockEditorToolbar extends React.PureComponent {
           {this.props.blockEditor.codeEditor && (
             <ToolbarIconButton
               aria-label="code"
+              disabled={this.props.hasChanged}
               onClick={() => {
                 this.props.blockEditor.showCodeEditor();
               }}

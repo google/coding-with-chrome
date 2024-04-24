@@ -45,6 +45,8 @@ import { Project } from '../Project/Project';
 import { ProjectType } from '../Project/ProjectType';
 
 import LanguageSetting from '../Settings/LanguageSetting';
+import SettingScreen from '../Settings/SettingScreen';
+
 const NewGameProject = lazy(() => import('./dialog/NewGameProject'));
 const OpenGameProject = lazy(() => import('./dialog/OpenGameProject'));
 
@@ -100,6 +102,11 @@ export class GameEditorSelectScreen extends React.PureComponent {
     Project.hasProjects(ProjectType.GAME_EDITOR).then((hasProjects) => {
       this.setState({ hasProjects });
     });
+
+    // Update language
+    i18next.on('languageChanged', () => {
+      this.forceUpdate();
+    });
   }
 
   /**
@@ -153,7 +160,8 @@ export class GameEditorSelectScreen extends React.PureComponent {
             >
               {i18next.t('GAME_EDITOR')}
             </Typography>
-            <LanguageSetting color="inherit" />
+            <SettingScreen color="inherit" showIcon={true} />
+            <LanguageSetting color="inherit" showIcon={true} />
           </Toolbar>
         </AppBar>
 

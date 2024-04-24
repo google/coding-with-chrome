@@ -62,6 +62,10 @@ javascriptGenerator.forBlock['phaser_create'] = function (block) {
     // Default definition for easier access.
     this.default_group = this.add.group(undefined, 'default_group');
 
+    // Reset reload protection.
+    this.helper_.resetReloadProtection('phaser_game_start');
+    this.helper_.resetReloadProtection('phaser_game_restart');
+
     ${javascriptGenerator.statementToCode(block, 'CODE')}
 
     // Separate event block for better code structure.

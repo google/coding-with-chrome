@@ -67,33 +67,24 @@ Blocks['phaser_audio_add_bgm'] = {
  * @return {string}
  */
 javascriptGenerator.forBlock['phaser_audio_add_bgm'] = function (block) {
-  const text_audio = block.getFieldValue('audio');
-  const number_volume = block.getFieldValue('volume');
-  const dropdown_loop = block.getFieldValue('loop');
+  const textAudio = block.getFieldValue('audio');
+  const numberVolume = block.getFieldValue('volume');
+  const dropdownLoop = block.getFieldValue('loop');
   const variable = javascriptGenerator.valueToCode(
     block,
     'variable',
     javascriptGenerator.ORDER_ATOMIC,
   );
-  return (
-    'if (typeof ' +
-    variable +
-    " === 'undefined') {\n" +
-    '  ' +
-    variable +
-    " = game.add.audio('" +
-    text_audio +
-    "', " +
-    number_volume / 100 +
-    ', ' +
-    dropdown_loop +
-    ');\n' +
-    '} else {\n  ' +
-    variable +
-    '.stop();\n}\n' +
-    variable +
-    '.play();\n'
-  );
+  return `
+    try {
+      ${variable} = this.sound.add('${textAudio}', {
+        volume: ${numberVolume / 100}, loop: ${dropdownLoop}
+      });
+      ${variable}.play();
+    } catch (e) {
+      window.alert(e);
+    }
+  `;
 };
 
 /**
@@ -144,9 +135,14 @@ javascriptGenerator.forBlock['phaser_audio_add'] = function (block) {
     javascriptGenerator.ORDER_ATOMIC,
   );
   return `
-  ${variable} = this.sound.add('${textAudio}', {
-    volume: ${numberVolume / 100}, loop: ${dropdownLoop}
-  });`;
+    try {
+      ${variable} = this.sound.add('${textAudio}', {
+        volume: ${numberVolume / 100}, loop: ${dropdownLoop}
+      });
+    } catch (e) {
+      window.alert(e);
+    }
+  `;
 };
 
 /**
