@@ -62,7 +62,10 @@ class PhaserHelper {
    * @return {boolean}
    */
   checkReloadProtection(id) {
-    if (window.phaserReloadProtection[id] < 5) {
+    if (typeof window.phaserReloadProtection[id] === 'undefined') {
+      window.phaserReloadProtection[id] = 0;
+    }
+    if (window.phaserReloadProtection[id] < 30) {
       window.phaserReloadProtection[id] = window.phaserReloadProtection[id] + 1;
       return true;
     } else {
