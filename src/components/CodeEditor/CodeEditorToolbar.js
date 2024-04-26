@@ -199,7 +199,7 @@ export class CodeEditorToolbar extends React.PureComponent {
     });
     const downloadLink = document.createElement('a');
     downloadLink.download = `${this.props.project.name}-${this.props.project.id}.xml`;
-    downloadLink.innerHTML = 'Download File';
+    downloadLink.innerText = 'Download File';
     if (window.webkitURL != null) {
       // Chrome allows the link to be clicked without actually adding it to the DOM.
       downloadLink.href = window.webkitURL.createObjectURL(textAsBlob);
