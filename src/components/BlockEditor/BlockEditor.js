@@ -646,7 +646,7 @@ export class BlockEditor extends React.PureComponent {
     const textAsBlob = new Blob([this.state.xml], { type: 'text/plain' });
     const downloadLink = document.createElement('a');
     downloadLink.download = `${this.props.project.name}-${this.props.project.id}.xml`;
-    downloadLink.innerHTML = 'Download File';
+    downloadLink.innerText = 'Download File';
     if (window.webkitURL != null) {
       // Chrome allows the link to be clicked without actually adding it to the DOM.
       downloadLink.href = window.webkitURL.createObjectURL(textAsBlob);
