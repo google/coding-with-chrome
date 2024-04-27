@@ -82,7 +82,7 @@ javascriptGenerator.forBlock['phaser_audio_add_bgm'] = function (block) {
       });
       ${variable}.play();
     } catch (e) {
-      window.alert(e);
+      console.error(e);
     }
   `;
 };
@@ -140,7 +140,7 @@ javascriptGenerator.forBlock['phaser_audio_add'] = function (block) {
         volume: ${numberVolume / 100}, loop: ${dropdownLoop}
       });
     } catch (e) {
-      window.alert(e);
+      console.error(e);
     }
   `;
 };

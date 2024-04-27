@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
- .contentWrapper {
+.contentWrapper {
   position: relative;
   height: calc(100% - 35px);
   padding: 10px;
   overflow: hidden;
 }
 
-.dragZone, .dragZoneActive {
- border: 2px dashed #aaa;
- height: 100%;
+.dragZone,
+.dragZoneActive {
+  border: 2px dashed #aaa;
+  height: 100%;
 }
 
 .dragZoneActive {
