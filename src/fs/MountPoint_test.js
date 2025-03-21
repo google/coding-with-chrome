@@ -118,10 +118,10 @@ describe('MountPoint', function () {
     mountPoint.mkdir('/test/a');
     mountPoint.mkdir('/test/b');
     mountPoint.mkdir('/test/c');
-    expect(mountPoint.exec('/test/a', 'exist')).toBeTrue;
-    expect(mountPoint.exec('/test/b', 'exist')).toBeTrue;
-    expect(mountPoint.exec('/test/c', 'exist')).toBeTrue;
-    expect(mountPoint.exec('/test/d', 'exist')).toBeFalse;
+    expect(mountPoint.exec('/test/a', 'exist')).toBe(true);
+    expect(mountPoint.exec('/test/b', 'exist')).toBe(true);
+    expect(mountPoint.exec('/test/c', 'exist')).toBe(true);
+    expect(mountPoint.exec('/test/d', 'exist')).toBe(false);
   });
 
   it('.writeFile', function () {
@@ -135,9 +135,9 @@ describe('MountPoint', function () {
     mountPoint.writeFile('/test/a/1', '1');
     mountPoint.writeFile('/test/b/2', '2');
     mountPoint.writeFile('/test/c/3', '3');
-    expect(mountPoint.exec('/test/0', 'exist')).toBeTrue;
-    expect(mountPoint.exec('/test/a/1', 'exist')).toBeTrue;
-    expect(mountPoint.exec('/test/b/2', 'exist')).toBeTrue;
-    expect(mountPoint.exec('/test/c/3', 'exist')).toBeTrue;
+    expect(mountPoint.exec('/test/0', 'exist')).toBe(true);
+    expect(mountPoint.exec('/test/a/1', 'exist')).toBe(true);
+    expect(mountPoint.exec('/test/b/2', 'exist')).toBe(true);
+    expect(mountPoint.exec('/test/c/3', 'exist')).toBe(true);
   });
 });
